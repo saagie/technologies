@@ -1,5 +1,5 @@
 version:
-  label: debian9-stretch
+  label: debian9-stretch-azure
   isAvailable: true
   minimumProductVersion: 1.19.20190313100705-1183.1
   defaultResources:
@@ -19,6 +19,7 @@ version:
     - field: SCHEDULER
       label: Scheduled
       isMandatory: true
+
 techno:
   id: d18bdc90-6314-4718-9bcf-cd70df21273b
   label: Bash
@@ -28,4 +29,4 @@ techno:
   recommendedVersion: debian9-stretch
   docker:
     image: saagie/bash
-    version: debian9-stretch-0.1.0_bash_cloud
+    version: debian9-stretch-azure-0.1.0_bash_cloud
