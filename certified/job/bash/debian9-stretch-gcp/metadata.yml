@@ -30,4 +30,4 @@ techno:
   recommendedVersion: debian9-stretch
   docker:
     image: saagie/bash
-    version: debian9-stretch-gcp-1.2.0_promotion
+    version: debian9-stretch-gcp-0.1.0_bash_cloud
