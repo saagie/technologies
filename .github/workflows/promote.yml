@@ -1,0 +1,89 @@
+name: PROMOTE
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: extract variable
+        id: extract_variable
+        run: echo "::set-output name=pr_number::${{ github.event.pull_request.number }}";echo "::set-output name=repo::${{ github.event.pull_request.number }}"
+      - uses: actions/checkout@v1
+      - name: extract current version
+        id: extract_pr_version
+        run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+      - name: run gradle promote
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          ./gradlew promote
+      - name: Delete PreRelease
+        id: delete_prerelease
+        uses: actions/github-script@0.3.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const result = await github.repos.listReleases(context.repo);
+            result.data
+              .filter(release => release.tag_name == "${{ steps.extract_pr_version.outputs.v }}")
+              .forEach(function(release){
+                  const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
+                  github.repos.deleteRelease(releaseObj)
+                });
+      - name: Delete PreRelease Tag
+        run: |
+          git config --local user.email "github-action@saagie.com"
+          git config --local user.name "GitHub Action Bot"
+          remote_repo="https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
+      - name: Remove buildMeta version
+        run: |
+          ./gradlew incrementBuildMeta -Dversion.buildmeta=
+      - name: extract real version
+        id: extract_version
+        run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.extract_version.outputs.v }}
+          release_name: Release ${{ steps.extract_version.outputs.v }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tmp-zip/certified.zip
+          asset_name: certified.zip
+          asset_content_type: application/zip
+      - name: Upgrade version
+        run: |
+          ./gradlew incrementMinor
+          ./gradlew incrementBuildMeta -Dversion.buildmeta=
+      - name: Commit files
+        run: |
+          git config --local user.email "github-action@saagie.com"
+          git config --local user.name "GitHub Action Bot"
+          git add **/metadata.yml version.properties
+          git commit -m "[BOT] Set new version"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete Branch
+        uses: jessfraz/branch-cleanup-action@master
+        env:
+          NO_BRANCH_DELETED_EXIT_CODE: 0
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
