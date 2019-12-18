@@ -1,0 +1,8 @@
+techno:
+  id: a8a76a2a-f6cc-4271-aeea-445d06aa3396
+  label: Java/Scala
+  available: true
+  icon: java-scala
+  recommendedVersion: 11
+  docker:
+    image: saagie/java-scala
