@@ -1,0 +1,122 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: JAVA_HOME
+      value: "/usr/lib/jvm/java-8-openjdk-amd64"
+    - key: "HADOOP_PREFIX"
+      value: "/usr/lib/hadoop"
+    - key: "HADOOP_COMMON_HOME"
+      value: "/usr/lib/hadoop"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+    - key: "HIVE_HOME"
+      value: "/hive-1.1.0-cdh5.13.3"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents: ["bash ./main_script"]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+
+  - name: "ftp"
+    args: ["-h"]
+    command: "ftp"
+    exitCode: 0
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "apt-get"
+    args: ["--help"]
+    command: "apt-get"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "awk"
+    command: "awk"
+    exitCode: 0
+
+  - name: "telnet"
+    command: "which"
+    args: ["telnet"]
+    expectedOutput: ["/usr/bin/telnet"]
+    exitCode: 0
+
+  - name: "scp"
+    command: "which"
+    args: ["scp"]
+    expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "ping"
+    command: "which"
+    args: ["ping"]
+    expectedOutput: ["/bin/ping"]
+    exitCode: 0
+
+  - name: "wc"
+    command: "wc"
+    args: ["--help"]
+    exitCode: 0
+
+  - name: "grep"
+    args: ["--help"]
+    command: "grep"
+    exitCode: 0
+
+  - name: "sleep"
+    args: ["--help"]
+    command: "sleep"
+    exitCode: 0
+
+  - name: "java"
+    args: ["-version"]
+    command: "java"
+    exitCode: 0
+
+  - name: "beeline"
+    args: ["--help"]
+    command: "beeline"
+    exitCode: 0
+
+  - name: "hadoop"
+    args: ["--help"]
+    command: "hadoop"
+    exitCode: 0
+
+  - name: "ps"
+    args: ["--help"]
+    command: "ps"
+    exitCode: 0
+
+  - name: "awscli"
+    args: ["help"]
+    command: "aws"
+    exitCode: 0
