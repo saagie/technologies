@@ -1,0 +1,9 @@
+techno:
+  id: d18bdc90-6314-4718-9bcf-cd70df21273b
+  label: Bash
+  available: true
+  minimumProductVersion: 1.19.20190313100705-1183.1
+  icon: bash
+  recommendedVersion: debian9-stretch
+  docker:
+    image: saagie/bash
