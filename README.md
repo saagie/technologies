@@ -19,7 +19,7 @@
 [build_promote]: https://github.com/saagie/technologies/actions?query=workflow%3APROMOTE
 [build_modified]: https://github.com/saagie/technologies/actions?query=workflow%3A%22BUILD+ONLY+MODIFIED%22
 
-This repository contains all certified technologies uses in Saagie.
+This repository contains all certified technologies used in Saagie.
 It also contains some experimental technologies before being certified.
 
 ## CONTENTS
@@ -28,18 +28,18 @@ This repository contains all job and application technologies.
  
 ### Job technologies
 
-A job technologie is a technologie that can be launch as a job in Saagie. It has :
+A job technologie can be launch as a job in Saagie. It has :
 - a name
 - an icon
 - some features to create a job
-- one or more versions (each can be active/deprecated/inactive fro the same technologie)
+- one or more versions (each can be active/deprecated/inactive for the same technologie)
 
 See "How to create a new job technologie" for more details
 
 ### Application technologies
 
 
-An application technologie, is a technologie that can be launch in the application panel in Saagie. It has : 
+An application technologie can be launch as an application in Saagie. It has : 
 - a name
 - an icon
 - a description
@@ -59,7 +59,7 @@ All contributions are made with the pull-request system.
 
 You create an issue and a pull-request associated. 
 
-The build is running using a Github Action workflow (build only modified). It build only technologies modified and generate a pre release containing assets. The name of the pre release = current version + name of the branch.
+The build is running using a Github Action workflow (build only modified). It builds only technologies modified and generate a pre release containing assets. The name of the pre release = current version + name of the branch.
 
 When you create a new technologie or a new version for a job, you need to specify some needed files (see current for inspiration).
 
@@ -74,7 +74,7 @@ Inside, each technology is under a folder (here : "java"), then each sub directo
 filename | scope | description
 --- | --- | ---
 techno.yml | technology directory | this file describes the technology (the name, the icon, the availability, the reference to the docker repository)
-version.yml | version directory | this file is describes the version (features used, name of the version, the availability)
+version.yml | version directory | this file describes all informations about the version (features used, name of the version, the availability)
 build.gradle.kts | version directory | build in this repository is made with gradle plugins. So you just need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this version from another in this repository (gradle will do the build using this dependency)
 settings.gradle.kts | version directory | to set a name of the build version (need to be uniq in this repository)
 Dockerfile | version directory | The Dockerfile of the version
