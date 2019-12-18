@@ -1,0 +1,47 @@
+name: BUILD ALL JOBS
+
+on:
+  deployment:
+    branches:
+      - '*'
+      - '!master'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: extract branch
+        id: extract_branch
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: run gradle :buildAllJobs
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          ./gradlew buildAllJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
+      - name: extract version
+        id: extract_version
+        run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.extract_version.outputs.v }}
+          release_name: Release ${{ steps.extract_version.outputs.v }}
+          draft: false
+          prerelease: true
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tmp-zip/certified.zip
+          asset_name: certified.zip
+          asset_content_type: application/zip          
