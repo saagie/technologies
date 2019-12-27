@@ -27,4 +27,4 @@ techno:
   recommendedVersion: 3.4.4
   docker:
     image: saagie/r-image
-    version: 3.4.4-0.5.0_R
+    version: 3.4.4-0.5.0
