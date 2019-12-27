@@ -1,5 +1,5 @@
 version:
-  label: 11
+  label: 3.5.3
   isAvailable: true
   defaultResources:
     cpu: 0.3
@@ -10,21 +10,11 @@ version:
       label: Command line
       isMandatory: true
       comment: Linux shell command to launch the job.
-      defaultValue: java -jar {file} arg1 arg2
+      defaultValue: Rscript {file} arg1 arg2
     - field: ARTIFACT
       label: Package
       isMandatory: false
-      comment: "Compatible upload file : .jar"
+      comment: "Compatible upload file : .r"
     - field: SCHEDULER
       label: Scheduled
       isMandatory: true
-
-techno:
-  id: a8a76a2a-f6cc-4271-aeea-445d06aa3396
-  label: Java/Scala
-  available: true
-  icon: java-scala
-  recommendedVersion: 11
-  docker:
-    image: saagie/java-scala
-    version: 11-0.5.0_R

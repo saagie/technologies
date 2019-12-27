@@ -43,7 +43,7 @@ jobs:
       - name: List all releases
         uses: actions/github-script@0.3.0
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.GITHUB_SECRET}}
           script: |
             const result = await github.repos.listReleases(context.repo);
             result.data

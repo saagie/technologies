@@ -29,4 +29,4 @@ techno:
   recommendedVersion: debian9-stretch
   docker:
     image: saagie/bash
-    version: debian9-stretch-azure-0.1.0
+    version: debian9-stretch-azure-0.5.0_R
