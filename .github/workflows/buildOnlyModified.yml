@@ -35,7 +35,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}     
+          github_token: ${{ secrets.GITHUB_SECRET}}     
           branch: ${{ steps.extract_branch.outputs.branch }}
       - name: extract version
         id: extract_version
@@ -56,7 +56,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
         with:
           tag_name: ${{ steps.extract_version.outputs.v }}
           release_name: Release ${{ steps.extract_version.outputs.v }}
@@ -66,7 +66,7 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/certified.zip
