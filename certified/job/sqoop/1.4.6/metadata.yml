@@ -27,4 +27,4 @@ techno:
   recommendedVersion: 1.4.6
   docker:
     image: saagie/sqoop
-    version: 1.4.6-0.6.0_sqoop
+    version: 1.4.6-0.6.0
