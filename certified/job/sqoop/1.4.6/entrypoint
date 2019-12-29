@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if test -f main_script;
+then ln -s $HIVE_CONF_DIR/hive-site.xml; sh ./main_script;
+else exec "$@"
+fi;
