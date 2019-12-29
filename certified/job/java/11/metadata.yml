@@ -27,4 +27,4 @@ techno:
   recommendedVersion: 11
   docker:
     image: saagie/java-scala
-    version: 11-0.7.0_java_fix
+    version: 11-0.7.0
