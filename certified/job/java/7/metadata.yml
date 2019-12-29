@@ -13,7 +13,7 @@ version:
       defaultValue: java -jar {file} arg1 arg2
     - field: ARTIFACT
       label: Package
-      isMandatory: false
+      isMandatory: true
       comment: "Compatible upload file : .jar"
     - field: SCHEDULER
       label: Scheduled
@@ -27,4 +27,4 @@ techno:
   recommendedVersion: 11
   docker:
     image: saagie/java-scala
-    version: 7-0.5.0
+    version: 7-0.7.0_java_fix
