@@ -13,7 +13,7 @@ version:
       defaultValue: java -jar {file} arg1 arg2
     - field: ARTIFACT
       label: Package
-      isMandatory: false
+      isMandatory: true
       comment: "Compatible upload file : .jar"
     - field: SCHEDULER
       label: Scheduled
