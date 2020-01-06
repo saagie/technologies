@@ -23,7 +23,7 @@ pluginManagement {
 }
 plugins {
     id("com.gradle.enterprise") version "3.0"
-    id("org.kordamp.gradle.settings") version "0.30.4"
+    id("org.kordamp.gradle.settings") version "0.31.2"
 }
 
 
@@ -33,7 +33,7 @@ gradleEnterprise {
         termsOfServiceAgree = "yes"
     }
 }
-rootProject.name = "test_actions"
+rootProject.name = "technologies"
 val allProjects = mutableListOf<String>()
 
 listOf("certified", "experimental").forEach() {
