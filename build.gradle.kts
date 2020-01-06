@@ -25,7 +25,7 @@ val buildDockerTaskName = "buildDockerImage"
 plugins {
     id("net.thauvin.erik.gradle.semver").version("1.0.4")
     id("com.bmuschko.docker-remote-api") version "6.1.1"
-    id("org.kordamp.gradle.project") version "0.30.4"
+    id("org.kordamp.gradle.project") version "0.31.2"
 }
 
 buildscript {
@@ -33,7 +33,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.saagie:technologiesplugin:1.0.16")
+        classpath("com.saagie:technologiesplugin:1.0.17")
     }
 }
 apply<SaagieTechnologiesPackageGradlePlugin>()
