@@ -1,0 +1,19 @@
+id: 90fcd519-8872-4622-b66a-cf54a18fdd9c
+label: Jupyter notebook
+description: a python notebook to easily run code
+isAvailable: true
+icon: jupyter
+git:
+  repository: https://github.com/saagie/jupyter-python-nbk
+  branch_tag: v2-app
+docker:
+  organisation: saagie
+  image: jupyter-python-nbk
+  tag: v2
+ports:
+  - port: 8888
+    name: notebook
+basepath: SAAGIE_BASE_PATH
+rewriteUrl: false
+volumes:
+  - path: /notebooks-dir
