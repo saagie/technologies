@@ -1,0 +1,21 @@
+id: 08bbc798-ed47-459f-a682-998afd6ff01d
+label: Zeppelin
+description: a notebook to easily run code
+isAvailable: true
+icon: zeppelin
+git:
+  repository: https://github.com/saagie/zeppelin-nbk
+  branch_tag: master
+docker:
+  organisation: saagie
+  image: zeppelin-nbk
+  tag: sp1.12.1-mesos1.3.1-spark2.1.0
+ports:
+  - port: 8080
+    name: zeppelin
+    access: external
+    authentication: public
+basepath: ZEPPELIN_SERVER_CONTEXT_PATH
+rewriteUrl: false
+volumes:
+  - path: /notebook
