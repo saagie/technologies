@@ -2,7 +2,7 @@ techno:
   id: 08bbc798-ed47-459f-a682-998afd6ff01d
   label: Zeppelin
   description: a notebook to easily run code
-  isAvailable: true
+  available: true
   icon: zeppelin
   git:
     repository: https://github.com/saagie/zeppelin-nbk

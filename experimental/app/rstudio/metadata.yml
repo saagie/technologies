@@ -2,7 +2,7 @@ techno:
   id: 0563d892-c64a-4de4-a303-91f61a570e64
   label: RStudio
   description: a R notebook to easily run code
-  isAvailable: true
+  available: true
   icon: rstudio
   git:
     repository: https://github.com/saagie/rstudio-docker
