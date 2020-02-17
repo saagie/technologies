@@ -35,23 +35,13 @@ jobs:
           release_name: Release ${{ steps.extract_version.outputs.v }}
           draft: false
           prerelease: true
-      - name: Upload Release certified Asset
-        id: upload-release-asset-certified
+      - name: Upload Release technologies Asset
+        id: upload-release-asset-technologies
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./tmp-zip/certified.zip
-          asset_name: certified.zip
-          asset_content_type: application/zip
-      - name: Upload Release experimental Asset
-        id: upload-release-asset-experimental
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./tmp-zip/experimental.zip
-          asset_name: experimental.zip
+          asset_path: ./tmp-zip/technologies.zip
+          asset_name: technologies.zip
           asset_content_type: application/zip

@@ -1,8 +1,0 @@
-techno:
-  id: df7226be-f11a-4c6f-8e7d-ee5d7964f340
-  label: R
-  isAvailable: true
-  icon: r
-  recommendedVersion: 3.4.4
-  docker:
-    image: saagie/r-image
