@@ -1,29 +1,16 @@
-version: "v1"
 context:
+  id: 7
   label: 7
   available: true
+  recommended: false
   dockerInfo:
     image: saagie/java-scala
-    version: 7-0.7.0
-  recommended: false
-  trustLevel: "official"
-  features:
-    - field: COMMAND_LINE
-      label: "Command line"
-      mandatory: true
-      comment: "Linux shell command to launch the job."
-      defaultValue: java -jar {file} arg1 arg2
-    - field: ARTIFACT
-      label: "Package"
-      mandatory: true
-      comment: "Compatible upload file : .jar"
-    - field: SCHEDULER
-      label: "Scheduled"
-      mandatory: true
+    version: 7-0.10.0_merge_certified_experimental
 
+version: v1
 techno:
-  name: java-scala
+  id: java-scala
   label: Java/Scala
   available: true
+  recommended: 11
   icon: java-scala
-
