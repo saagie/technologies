@@ -28,4 +28,4 @@ techno:
   recommendedVersion: debian9-stretch
   docker:
     image: saagie/bash
-    version: debian9-stretch-aws-0.9.0
+    version: debian9-stretch-aws-0.10.0_merge_certified_experimental
