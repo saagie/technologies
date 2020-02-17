@@ -1,29 +1,28 @@
-version:
+version: "v1"
+context:
   label: 8
-  isAvailable: true
-  defaultResources:
-    cpu: 0.3
-    memory: 512
-    disk: 512
+  available: true
+  dockerInfo:
+    image: saagie/java-scala
+    version: 8-0.7.0
+  recommended: false
+  trustLevel: "official"
   features:
     - field: COMMAND_LINE
-      label: Command line
-      isMandatory: true
-      comment: Linux shell command to launch the job.
+      label: "Command line"
+      mandatory: true
+      comment: "Linux shell command to launch the job."
       defaultValue: java -jar {file} arg1 arg2
     - field: ARTIFACT
-      label: Package
-      isMandatory: true
+      label: "Package"
+      mandatory: true
       comment: "Compatible upload file : .jar"
     - field: SCHEDULER
-      label: Scheduled
-      isMandatory: true
+      label: "Scheduled"
+      mandatory: true
+
 techno:
-  id: a8a76a2a-f6cc-4271-aeea-445d06aa3396
+  name: java-scala
   label: Java/Scala
   available: true
   icon: java-scala
-  recommendedVersion: 11
-  docker:
-    image: saagie/java-scala
-    version: 8-0.10.0_merge_certified_experimental

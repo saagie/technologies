@@ -1,11 +1,10 @@
-version: "v1"
 context:
-  label: 11
+  id: 7
+  label: 7
   available: true
   dockerInfo:
     image: saagie/java-scala
-    version: 11-0.7.0
-  recommended: true
+    version: 7-0.7.0
   trustLevel: "official"
   features:
     - field: COMMAND_LINE
@@ -20,10 +19,3 @@ context:
     - field: SCHEDULER
       label: "Scheduled"
       mandatory: true
-
-techno:
-  name: java-scala
-  label: Java/Scala
-  available: true
-  icon: java-scala
-
