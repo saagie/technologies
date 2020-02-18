@@ -4,7 +4,6 @@ context:
   available: true
   dockerInfo:
     image: saagie/java-scala
-    version: 8-0.7.0
   trustLevel: "official"
   features:
     - field: COMMAND_LINE

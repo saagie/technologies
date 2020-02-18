@@ -1,0 +1,20 @@
+context:
+  id: debian9-stretch-azure
+  label: debian9-stretch-azure
+  available: true
+  dockerInfo:
+    image: saagie/bash
+  trustLevel: "official"
+  features:
+    - field: COMMAND_LINE
+      label: Command line
+      isMandatory: true
+      comment: Linux shell command
+      defaultValue: echo "Saagie Bash"
+    - field: ARTIFACT
+      label: Package
+      isMandatory: false
+      comment: All files are accepted.
+    - field: SCHEDULER
+      label: Scheduled
+      isMandatory: true
