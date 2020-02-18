@@ -5,7 +5,7 @@ context:
   recommended: true
   dockerInfo:
     image: saagie/java-scala
-    version: 11-0.10.0_merge_certified_experimental
+    version: 11-1.10.0_merge_certified_experimental
   trustLevel: official
   features:
   - field: COMMAND_LINE
