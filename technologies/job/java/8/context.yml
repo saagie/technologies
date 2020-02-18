@@ -1,20 +1,20 @@
-context:
-  id: 8
-  label: 8
-  available: true
-  dockerInfo:
-    image: saagie/java-scala
-  trustLevel: "official"
-  features:
-    - field: COMMAND_LINE
-      label: "Command line"
-      mandatory: true
-      comment: "Linux shell command to launch the job."
-      defaultValue: java -jar {file} arg1 arg2
-    - field: ARTIFACT
-      label: "Package"
-      mandatory: true
-      comment: "Compatible upload file : .jar"
-    - field: SCHEDULER
-      label: "Scheduled"
-      mandatory: true
+id: 8
+label: 8
+available: true
+recommended: false
+dockerInfo:
+  image: saagie/java-scala
+trustLevel: "official"
+features:
+  - field: COMMAND_LINE
+    label: "Command line"
+    mandatory: true
+    comment: "Linux shell command to launch the job."
+    defaultValue: java -jar {file} arg1 arg2
+  - field: ARTIFACT
+    label: "Package"
+    mandatory: true
+    comment: "Compatible upload file : .jar"
+  - field: SCHEDULER
+    label: "Scheduled"
+    mandatory: true

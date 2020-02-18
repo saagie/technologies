@@ -1,7 +1,5 @@
 version: "v1"
-techno:
-  id: java-scala
-  label: Java/Scala
-  available: true
-  icon: java-scala
-  recommended: 11
+id: java-scala
+label: Java/Scala
+available: true
+icon: java-scala

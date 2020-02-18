@@ -1,7 +1,5 @@
-version: "v2"
-techno:
-  id: bash
-  label: Bash
-  available: true
-  icon: bash
-  recommended: debian9-stretch
+version: "v1"
+id: bash
+label: Bash
+available: true
+icon: bash

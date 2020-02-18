@@ -1,16 +1,16 @@
+version: v1
 techno:
-  id: 0563d892-c64a-4de4-a303-91f61a570e64
+  id: rstudio
   label: RStudio
-  description: a R notebook to easily run code
+  description: an R notebook to easily run code
   available: true
   icon: rstudio
-  git:
+  gitInfo:
     repository: https://github.com/saagie/rstudio-docker
-    branch_tag: v2-app
-  docker:
-    organisation: saagie
-    image: rstudio
-    tag: v2
+    branch: v2-app
+  dockerInfo:
+    image: saagie/rstudio
+    version: v2
   ports:
     - port: 80
       name: rstudio
@@ -18,3 +18,5 @@ techno:
   rewriteUrl: false
   volumes:
     - path: /home
+      size: 512Mo
+  trustLevel: official

@@ -1,0 +1,5 @@
+version: "v1"
+id: generic
+label: Generic
+available: true
+icon: docker

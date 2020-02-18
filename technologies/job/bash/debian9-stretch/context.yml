@@ -1,20 +1,21 @@
-context:
-  id: debian9-stretch
-  label: debian9-stretch
-  available: true
-  dockerInfo:
-    image: saagie/bash
-  trustLevel: "official"
+id: debian9-stretch
+label: debian9-stretch
+available: true
+recommended: true
+dockerInfo:
+  image: saagie/bash
+trustLevel: "official"
+job:
   features:
     - field: COMMAND_LINE
       label: Command line
-      isMandatory: true
+      mandatory: true
       comment: Linux shell command
       defaultValue: echo "Saagie Bash"
     - field: ARTIFACT
       label: Package
-      isMandatory: false
+      mandatory: false
       comment: All files are accepted.
     - field: SCHEDULER
       label: Scheduled
-      isMandatory: true
+      mandatory: true

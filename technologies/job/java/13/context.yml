@@ -1,10 +1,11 @@
-context:
-  id: 13
-  label: 13
-  available: true
-  dockerInfo:
-    image: saagie/java-scala
-  trustLevel: "experimental"
+id: 13
+label: 13
+available: true
+recommended: false
+dockerInfo:
+  image: saagie/java-scala
+trustLevel: "experimental"
+job:
   features:
     - field: COMMAND_LINE
       label: "Command line"

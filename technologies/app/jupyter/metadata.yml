@@ -1,16 +1,16 @@
+version: v1
 techno:
-  id: 90fcd519-8872-4622-b66a-cf54a18fdd9c
+  id: jupyter
   label: Jupyter notebook
   description: a python notebook to easily run code
   available: true
   icon: jupyter
-  git:
+  gitInfo:
     repository: https://github.com/saagie/jupyter-python-nbk
-    branch_tag: v2-app
-  docker:
-    organisation: saagie
-    image: jupyter-python-nbk
-    tag: v2
+    branch: v2-app
+  dockerInfo:
+    image: saagie/jupyter-python-nbk
+    version: v2
   ports:
     - port: 8888
       name: notebook
@@ -18,3 +18,6 @@ techno:
   rewriteUrl: false
   volumes:
     - path: /notebooks-dir
+      size: 512Mo
+  trustLevel: official
+
