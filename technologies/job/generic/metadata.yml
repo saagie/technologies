@@ -1,0 +1,19 @@
+version: "v1"
+id: generic
+label: Generic
+available: true
+icon: docker
+contexts:
+  - id: docker
+    label: Docker
+    available: true
+    trustLevel: "official"
+    job:
+      features:
+        - field: DOCKER_INFO
+          label: Docker image
+          mandatory: true
+          defaultValue: hello-world
+        - field: SCHEDULER
+          label: Scheduled
+          mandatory: true

@@ -1,0 +1,3 @@
+dockerInfo:
+  image: saagie/bash
+  version: debian9-stretch-aws-1.10.0_merge_certified_experimental
