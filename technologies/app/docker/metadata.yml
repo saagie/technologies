@@ -1,4 +1,5 @@
 version: v1
+type: APP
 techno:
   id: docker-app
   label: Docker image
