@@ -1,23 +1,22 @@
 version: v1
 type: APP
-techno:
-  id: rstudio
-  label: RStudio
-  description: an R notebook to easily run code
-  available: true
-  icon: rstudio
-  gitInfo:
-    repository: https://github.com/saagie/rstudio-docker
-    branch: v2-app
-  dockerInfo:
-    image: saagie/rstudio
-    version: v2
-  ports:
-    - port: 80
-      name: rstudio
-  basepath: SAAGIE_BASE_PATH
-  rewriteUrl: false
-  volumes:
-    - path: /home
-      size: 512Mo
-  trustLevel: stable
+id: rstudio
+label: RStudio
+description: an R notebook to easily run code
+available: true
+icon: rstudio
+gitInfo:
+  repository: https://github.com/saagie/rstudio-docker
+  branch: v2-app
+dockerInfo:
+  image: saagie/rstudio
+  version: v2
+ports:
+  - port: 80
+    name: rstudio
+basePath: SAAGIE_BASE_PATH
+rewriteUrl: false
+volumes:
+  - path: /home
+    size: 512Mo
+trustLevel: stable

@@ -1,9 +1,8 @@
 version: v1
 type: APP
-techno:
-  id: docker-app
-  label: Docker image
-  description: Use any Docker image
-  available: true
-  icon: docker
-  trustLevel: stable
+id: docker-app
+label: Docker image
+description: Use any Docker image
+available: true
+icon: docker
+trustLevel: stable

@@ -57,19 +57,20 @@ contexts:
       image: saagie/java-scala
       version: 8-1.10.0_merge_certified_experimental
     trustLevel: "stable"
-    features:
-      - field: COMMAND_LINE
-        label: "Command line"
-        mandatory: true
-        comment: "Linux shell command to launch the job."
-        defaultValue: java -jar {file} arg1 arg2
-      - field: ARTIFACT
-        label: "Package"
-        mandatory: true
-        comment: "Compatible upload file : .jar"
-      - field: SCHEDULER
-        label: "Scheduled"
-        mandatory: true
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
   - id: 7
     label: 7
     available: true
