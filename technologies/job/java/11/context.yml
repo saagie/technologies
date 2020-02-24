@@ -4,7 +4,7 @@ available: true
 recommended: true
 dockerInfo:
   image: saagie/java-scala
-trustLevel: "official"
+trustLevel: "stable"
 job:
   features:
     - field: COMMAND_LINE

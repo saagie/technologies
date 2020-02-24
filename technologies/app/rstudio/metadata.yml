@@ -20,4 +20,4 @@ techno:
   volumes:
     - path: /home
       size: 512Mo
-  trustLevel: official
+  trustLevel: stable

@@ -6,4 +6,4 @@ techno:
   description: Use any Docker image
   available: true
   icon: docker
-  trustLevel: official
+  trustLevel: stable

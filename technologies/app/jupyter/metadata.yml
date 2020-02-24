@@ -20,5 +20,5 @@ techno:
   volumes:
     - path: /notebooks-dir
       size: 512Mo
-  trustLevel: official
+  trustLevel: stable
 
