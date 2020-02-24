@@ -5,16 +5,17 @@ recommended: false
 dockerInfo:
   image: saagie/java-scala
 trustLevel: "stable"
-features:
-  - field: COMMAND_LINE
-    label: "Command line"
-    mandatory: true
-    comment: "Linux shell command to launch the job."
-    defaultValue: java -jar {file} arg1 arg2
-  - field: ARTIFACT
-    label: "Package"
-    mandatory: true
-    comment: "Compatible upload file : .jar"
-  - field: SCHEDULER
-    label: "Scheduled"
-    mandatory: true
+job:
+  features:
+    - field: COMMAND_LINE
+      label: "Command line"
+      mandatory: true
+      comment: "Linux shell command to launch the job."
+      defaultValue: java -jar {file} arg1 arg2
+    - field: ARTIFACT
+      label: "Package"
+      mandatory: true
+      comment: "Compatible upload file : .jar"
+    - field: SCHEDULER
+      label: "Scheduled"
+      mandatory: true

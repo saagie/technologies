@@ -12,7 +12,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       version: debian9-stretch-aws-1.10.0_merge_certified_experimental
-    trustLevel: "official"
+    trustLevel: "stable"
     job:
       features:
         - field: COMMAND_LINE
@@ -34,7 +34,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       version: debian9-stretch-azure-1.10.0_merge_certified_experimental
-    trustLevel: "official"
+    trustLevel: "stable"
     job:
       features:
         - field: COMMAND_LINE
@@ -56,7 +56,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       version: debian9-stretch-1.10.0_merge_certified_experimental
-    trustLevel: "official"
+    trustLevel: "stable"
     job:
       features:
         - field: COMMAND_LINE
@@ -78,7 +78,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       version: debian9-stretch-gcp-1.10.0_merge_certified_experimental
-    trustLevel: "official"
+    trustLevel: "stable"
     job:
       features:
         - field: COMMAND_LINE

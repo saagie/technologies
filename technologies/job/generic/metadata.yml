@@ -8,7 +8,7 @@ contexts:
   - id: docker
     label: Docker
     available: true
-    trustLevel: "official"
+    trustLevel: "stable"
     job:
       features:
         - field: DOCKER_INFO
