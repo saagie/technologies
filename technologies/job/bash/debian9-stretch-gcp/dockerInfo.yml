@@ -1,3 +1,0 @@
-dockerInfo:
-  image: saagie/bash
-  version: debian9-stretch-gcp-1.11.0_fix-promote
