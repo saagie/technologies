@@ -11,6 +11,7 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/bash
+      version: debian9-stretch-1.11.0_fix-promote
     trustLevel: "stable"
     job:
       features:
@@ -26,12 +27,14 @@ contexts:
         - field: SCHEDULER
           label: Scheduled
           mandatory: true
+          
   - id: debian9-stretch-azure
     label: debian9-stretch-azure
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
+      version: debian9-stretch-azure-1.11.0_fix-promote
     trustLevel: "stable"
     job:
       features:
@@ -53,6 +56,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
+      version: debian9-stretch-aws-1.11.0_fix-promote
     trustLevel: "stable"
     job:
       features:
@@ -74,6 +78,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
+      version: debian9-stretch-gcp-1.11.0_fix-promote
     trustLevel: "stable"
     job:
       features:
