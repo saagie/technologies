@@ -5,35 +5,12 @@ label: Bash
 available: true
 icon: bash
 contexts:
-  - id: debian9-stretch
-    label: debian9-stretch
-    available: true
-    recommended: true
-    dockerInfo:
-      image: saagie/bash
-      version: debian9-stretch-1.10.0_merge_certified_experimental
-    trustLevel: "stable"
-    job:
-      features:
-        - field: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command
-          defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
-          label: Package
-          mandatory: false
-          comment: All files are accepted.
-        - field: SCHEDULER
-          label: Scheduled
-          mandatory: true
-  - id: debian9-stretch-azure
-    label: debian9-stretch-azure
+  - id: debian9-stretch-gcp
+    label: debian9-stretch-gcp
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-azure-1.10.0_merge_certified_experimental
     trustLevel: "stable"
     job:
       features:
@@ -55,7 +32,6 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-aws-1.10.0_merge_certified_experimental
     trustLevel: "stable"
     job:
       features:
@@ -71,13 +47,33 @@ contexts:
         - field: SCHEDULER
           label: Scheduled
           mandatory: true
-  - id: debian9-stretch-gcp
-    label: debian9-stretch-gcp
+  - id: debian9-stretch-azure
+    label: debian9-stretch-azure
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-gcp-1.10.0_merge_certified_experimental
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: echo "Saagie Bash"
+        - field: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - field: SCHEDULER
+          label: Scheduled
+          mandatory: true
+  - id: debian9-stretch
+    label: debian9-stretch
+    available: true
+    recommended: true
+    dockerInfo:
+      image: saagie/bash
     trustLevel: "stable"
     job:
       features:
