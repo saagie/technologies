@@ -1,8 +1,0 @@
-techno:
-  id: 66d79135-7915-49d2-bb26-0fdcbdac80d1
-  label: SQOOP
-  available: true
-  icon: sqoop
-  recommendedVersion: 1.4.6
-  docker:
-    image: saagie/sqoop

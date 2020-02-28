@@ -1,0 +1,95 @@
+version: "v1"
+type: JOB
+id: java-scala
+label: Java/Scala
+available: true
+icon: java-scala
+contexts:
+  - id: 11
+    label: 11
+    available: true
+    recommended: true
+    dockerInfo:
+      image: saagie/java-scala
+      version: 11-1.10.0_merge_certified_experimental
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
+  - id: 13
+    label: 13
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 13-1.10.0_merge_certified_experimental
+    trustLevel: "experimental"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
+  - id: 8
+    label: 8
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 8-1.10.0_merge_certified_experimental
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
+  - id: 7
+    label: 7
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 7-1.10.0_merge_certified_experimental
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true

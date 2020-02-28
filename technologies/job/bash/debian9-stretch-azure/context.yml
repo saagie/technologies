@@ -1,0 +1,21 @@
+id: debian9-stretch-azure
+label: debian9-stretch-azure
+available: true
+recommended: false
+dockerInfo:
+  image: saagie/bash
+trustLevel: "stable"
+job:
+  features:
+    - field: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command
+      defaultValue: echo "Saagie Bash"
+    - field: ARTIFACT
+      label: Package
+      mandatory: false
+      comment: All files are accepted.
+    - field: SCHEDULER
+      label: Scheduled
+      mandatory: true

@@ -1,6 +1,0 @@
-techno:
-  id: af841f0c-96bb-4d46-83c3-973faa358f4c
-  label: Docker image
-  description: Use any Docker image
-  available: true
-  icon: docker

@@ -36,13 +36,12 @@ gradleEnterprise {
 rootProject.name = "technologies"
 val allProjects = mutableListOf<String>()
 
-listOf("certified", "experimental").forEach() {
-    logger.debug("Start scanning project ...")
-    File(rootDir.path + "/" + it).walkTopDown().forEach {
-        when {
-            it.isAGradleModule() -> {
-                allProjects.add(relativePath(it.toPath()))
-            }
+
+logger.debug("Start scanning project ...")
+File(rootDir.path + "/technologies").walkTopDown().forEach {
+    when {
+        it.isAGradleModule() -> {
+            allProjects.add(relativePath(it.toPath()))
         }
     }
 }

@@ -1,0 +1,6 @@
+version: "v1"
+type: JOB
+id: generic
+label: Generic
+available: true
+icon: docker
