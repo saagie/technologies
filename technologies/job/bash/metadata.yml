@@ -33,7 +33,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-azure-1.11.0_fix-promote
+      version: debian9-stretch-azure-1.12.0_fix-promote-2
     trustLevel: "stable"
     job:
       features:
@@ -49,6 +49,7 @@ contexts:
         - field: SCHEDULER
           label: Scheduled
           mandatory: true
+          
   - id: debian9-stretch-aws
     label: debian9-stretch-aws
     available: true
