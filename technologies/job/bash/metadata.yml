@@ -11,7 +11,29 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-1.11.0_fix-promote
+      version: debian9-stretch-1.12.0_fix-promote-2
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: echo "Saagie Bash"
+        - field: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - field: SCHEDULER
+          label: Scheduled
+          mandatory: true
+  - id: debian9-stretch-azure
+    label: debian9-stretch-azure
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/bash
+      version: debian9-stretch-azure-1.12.0_fix-promote-2
     trustLevel: "stable"
     job:
       features:
@@ -28,35 +50,13 @@ contexts:
           label: Scheduled
           mandatory: true
           
-  - id: debian9-stretch-azure
-    label: debian9-stretch-azure
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/bash
-      version: debian9-stretch-azure-1.11.0_fix-promote
-    trustLevel: "stable"
-    job:
-      features:
-        - field: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command
-          defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
-          label: Package
-          mandatory: false
-          comment: All files are accepted.
-        - field: SCHEDULER
-          label: Scheduled
-          mandatory: true
   - id: debian9-stretch-aws
     label: debian9-stretch-aws
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-aws-1.11.0_fix-promote
+      version: debian9-stretch-aws-1.12.0_fix-promote-2
     trustLevel: "stable"
     job:
       features:
@@ -78,7 +78,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-gcp-1.11.0_fix-promote
+      version: debian9-stretch-gcp-1.12.0_fix-promote-2
     trustLevel: "stable"
     job:
       features:
