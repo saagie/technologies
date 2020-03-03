@@ -11,7 +11,7 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-1.13.0_fix-promote-3
+      version: debian9-stretch
     trustLevel: "stable"
     job:
       features:
@@ -33,7 +33,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-azure-1.13.0_fix-promote-3
+      version: debian9-stretch-azure
     trustLevel: "stable"
     job:
       features:
@@ -56,7 +56,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-aws-1.13.0_fix-promote-3
+      version: debian9-stretch-aws
     trustLevel: "stable"
     job:
       features:
@@ -78,7 +78,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-gcp-1.13.0_fix-promote-3
+      version: debian9-stretch-gcp
     trustLevel: "stable"
     job:
       features:
