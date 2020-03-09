@@ -12,85 +12,69 @@
 
 [![Contributors](https://img.shields.io/github/contributors/saagie/technologies?style=for-the-badge&color=blue)][contributors]
 
-[releases]: https://github.com/saagie/technologies/releases
-[contributors]: https://github.com/saagie/technologies/graphs/contributors
-[issues]: https://github.com/saagie/technologies/issues
-[license]: https://github.com/saagie/technologies/blob/master/LICENSE
-[build_promote]: https://github.com/saagie/technologies/actions?query=workflow%3APROMOTE
-[build_modified]: https://github.com/saagie/technologies/actions?query=workflow%3A%22BUILD+ONLY+MODIFIED%22
 
-This repository contains all certified technologies used in Saagie.
-It also contains some experimental technologies before being certified.
+This repository contains all offical technologies shipped by Saagie.
 
 ## CONTENTS
 
 This repository contains all job and application technologies.
+
+This is a recommanded file and CI structure for Saagie SDK Technologies.  
+You can use another structure. See [Saagie Help Center documentation][saagie-help-center] for more information.
+
  
-### Job technologies
-
-A job technologie can be launch as a job in Saagie. It has :
-- a name
-- an icon
-- some features to create a job
-- one or more versions (each can be active/deprecated/inactive for the same technologie)
-
-See "How to create a new job technologie" for more details
-
-### Application technologies
-
-
-An application technologie can be launch as an application in Saagie. It has : 
-- a name
-- an icon
-- a description
-- some default properties to create the application (ports, volumes, ...)
-
-
-See "How to create a new application technologie" for more details 
-
-
 ## CONTRIBUTING
 
 
-All contributions are made with the pull-request system.
-
-### How to create a new job technologie
-
+All contributions are made with the pull-request system.  
 
 You create an issue and a pull-request associated. 
 
-The build is running using a Github Action workflow (build only modified). It builds only technologies modified and generate a pre release containing assets. The name of the pre release = current version + name of the branch.
+The build is running using a Github Action workflow ([build only modified][build_only_modified]). It builds only technologies modified and generates a pre-release containing assets.  
+The name of the pre release = current version + name of the branch.
 
-When you create a new technologie or a new version for a job, you need to specify some needed files (see current for inspiration).
+### How to create or edit a job technology or context
+
+When you create a new technology or a new context for a job, you need to specify some needed files (see current for inspiration).
 
 Tree directories are strict :   
 ![tree_directory](./readme_assets/folder_directory.png)
 
-two main root folders : "certified" and "experimental", then you need to specified if the technology is for a job or an application.
-So you'll have : `certified/job` for a certified job technology.
+We split job and app inside a "technologies" directory (root level).
 
-Inside, each technology is under a folder (here : "java"), then each sub directories represents a version of this technology (here : 7,8 and 11 which was for all versions of java.)
+Inside "job" or "app", each technology is under a folder (here : "java"), then each sub directories represents a context of this technology (here : 7,8,11 and 13 which was for all contexts of java.)
 
-filename | scope | description
---- | --- | ---
-techno.yml | technology directory | this file describes the technology (the name, the icon, the availability, the reference to the docker repository)
-version.yml | version directory | this file describes all informations about the version (features used, name of the version, the availability)
-build.gradle.kts | version directory | build in this repository is made with gradle plugins. So you just need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this version from another in this repository (gradle will do the build using this dependency)
-settings.gradle.kts | version directory | to set a name of the build version (need to be uniq in this repository)
-Dockerfile | version directory | The Dockerfile of the version
-image_test.yml | version directory | Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated image.
-metadata.yml | version directory | This is a generated file, no need to have it, it will be created during the first build. It just a concatenation of the techno.yml and version.yml file with a correct docker image version.
+#### Technology level : 
 
+filename |  description
+--- | ---
+`techno.yml` |  This file describes the technology (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
+`metadata.yml` |  This is a generated file, it will be created during the first build. It's just a concatenation of the `techno.yml` and all `context.yml` files with a correct Docker image tag (from `dockerInfo.yml`).
 
-### How to create a new application technologie
+#### Context level : 
 
+filename |  description
+--- |  ---
+`context.yml` | This file describes all information about the context (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
+`dockerInfo.yml` | This is a generated file containing the Docker repository and tag of the context Docker image.
+`build.gradle.kts` | The build in this repository is made with [gradle plugins][saagie-gradle-plugin]. So you need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this context from another in this repository (Gradle will do the build using this dependency).
+`settings.gradle.kts` | To set a name of the build context (need to be uniq in this repository).
+`Dockerfile` | The Dockerfile of the context
+`image_test.yml` |  Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated Docker image.
 
-Work in progress
+If you don't have a Dockerfile (example : `generic/docker` technology), only the `context.yml` is needed.
+
+### How to create or edit an application technology
+
+For the moment, we just host metadata.yml for each app in this repository (we use external git repositories for Docker images).
+
+The content of the `metadata.yml` file is describe in the [Saagie Help Center documentation - SDK][saagie-help-center].
+
 
 ## Build
 
 
-All was made with Github actions for this repository, but the main work was done by gradle (to be run in every CI).  
+We use a custom [Gradle plugin][saagie-gradle-plugin] to build and ship all Docker images. We use Github actions to call all Gradle tasks (on CI).
 
 ### Local
 
@@ -99,8 +83,19 @@ and it will build all modified images without push it with the "_local" suffix.
 
 ### Github Action
 
-The workflow started at each push on the branch ... and it will generated docker images for modified technologies and generate a pre release in Github containing all assets.
+The workflow starts at each push on the branch ... and it generates Docker images for modified technologies and generate a pre-release in Github containing all generated metadata files in a zip.
 
 ### Promotion
 
-When the pull-request is merged in master, another Github action (running a gradle task) starts. It will retag docker images with branch name into a "production" name and generate a real release (and delete the pre release)
+When the pull-request is merged in master, another Github action (using a Gradle task) starts. It will retag Docker images with branch name into a "production" name and generate a real release (and delete the pre release).
+
+
+[saagie-gradle-plugin]: https://github.com/saagie/technologies-plugin
+[saagie-help-center]: https://saagie.zendesk.com/hc/en-us
+[build_only_modified]: https://github.com/saagie/technologies/blob/master/.github/workflows/buildOnlyModified.yml
+[releases]: https://github.com/saagie/technologies/releases
+[contributors]: https://github.com/saagie/technologies/graphs/contributors
+[issues]: https://github.com/saagie/technologies/issues
+[license]: https://github.com/saagie/technologies/blob/master/LICENSE
+[build_promote]: https://github.com/saagie/technologies/actions?query=workflow%3APROMOTE
+[build_modified]: https://github.com/saagie/technologies/actions?query=workflow%3A%22BUILD+ONLY+MODIFIED%22
