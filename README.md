@@ -13,13 +13,13 @@
 [![Contributors](https://img.shields.io/github/contributors/saagie/technologies?style=for-the-badge&color=blue)][contributors]
 
 
-This repository contains all offical technologies shipped by Saagie.
+This repository contains all official technologies shipped by Saagie.
 
 ## CONTENTS
 
 This repository contains all job and application technologies.
 
-This is a recommanded file and CI structure for Saagie SDK Technologies.  
+This is a recommended files and CI structure for Saagie SDK Technologies.  
 You can use another structure. See [Saagie Help Center documentation][saagie-help-center] for more information.
 
  
@@ -35,7 +35,7 @@ The name of the pre release = current version + name of the branch.
 
 ### How to create or edit a job technology or context
 
-When you create a new technology or a new context for a job, you need to specify some needed files (see current for inspiration).
+When you create a new technology or a new context for a job, you need to specify some mandatory files (see current for inspiration).
 
 Tree directories are strict :   
 ![tree_directory](./readme_assets/folder_directory.png)
@@ -49,20 +49,20 @@ Inside "job" or "app", each technology is under a folder (here : "java"), then e
 filename |  description
 --- | ---
 `techno.yml` |  This file describes the technology (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
-`metadata.yml` |  This is a generated file, it will be created during the first build. It's just a concatenation of the `techno.yml` and all `context.yml` files with a correct Docker image tag (from `dockerInfo.yml`).
+`metadata.yml` |  This is a **generated** file, it will be created during the first build. It's just a concatenation of the `techno.yml` and all `context.yml` files with a correct Docker image tag (from `dockerInfo.yml`). **Don't modify it manually.**
 
 #### Context level : 
 
 filename |  description
 --- |  ---
 `context.yml` | This file describes all information about the context (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
-`dockerInfo.yml` | This is a generated file containing the Docker repository and tag of the context Docker image.
+`dockerInfo.yml` | This is a **generated** file containing the Docker repository and tag of the context Docker image. **Don't modify it manually.**
 `build.gradle.kts` | The build in this repository is made with [gradle plugins][saagie-gradle-plugin]. So you need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this context from another in this repository (Gradle will do the build using this dependency).
 `settings.gradle.kts` | To set a name of the build context (need to be uniq in this repository).
 `Dockerfile` | The Dockerfile of the context
 `image_test.yml` |  Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated Docker image.
 
-If you don't have a Dockerfile (example : `generic/docker` technology), only the `context.yml` is needed.
+If you don't have a Dockerfile (example : `generic/docker` technology), only the `context.yml` is mandatory.
 
 ### How to create or edit an application technology
 
@@ -89,7 +89,11 @@ The workflow starts at each push on the branch ... and it generates Docker image
 
 When the pull-request is merged in master, another Github action (using a Gradle task) starts. It will retag Docker images with branch name into a "production" name and generate a real release (and delete the pre release).
 
+### Sequence Diagram
 
+Here is a more detailed sequence diagram: ![Sequence Diagram][ci-sequence-diagram]
+
+[ci-sequence-diagram]: technologies-CI.png
 [saagie-gradle-plugin]: https://github.com/saagie/technologies-plugin
 [saagie-help-center]: https://saagie.zendesk.com/hc/en-us
 [build_only_modified]: https://github.com/saagie/technologies/blob/master/.github/workflows/buildOnlyModified.yml
