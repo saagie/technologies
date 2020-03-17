@@ -1,3 +1,3 @@
 dockerInfo:
   image: saagie/java-scala
-  version: 8-1.14.0_list_docker_file
+  version: 8-1.14.0
