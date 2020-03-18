@@ -1,7 +1,7 @@
 id: 1.4.6
 label: 1.4.6
 available: true
-recommended: false
+recommended: true
 dockerInfo:
   image: saagie/sqoop
 trustLevel: "stable"
