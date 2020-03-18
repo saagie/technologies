@@ -29,7 +29,7 @@ commandTests:
   - name: "java version"
     command: "java"
     args: ["-version"]
-    expectedError: ['openjdk version "14.0']
+    expectedError: ['openjdk version "14']
 
   - name: "Workdir"
     command: "pwd"
