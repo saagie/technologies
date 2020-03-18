@@ -93,3 +93,25 @@ contexts:
         - field: SCHEDULER
           label: "Scheduled"
           mandatory: true
+  - id: 14
+    label: 14
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 14-1.15.0_add_java14_and_sqoop
+    trustLevel: "experimental"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
