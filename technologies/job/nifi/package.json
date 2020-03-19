@@ -1,0 +1,14 @@
+{
+  "name": "nifi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "saagie-sdk start",
+    "build": "saagie-sdk build",
+    "new:context": "saagie-sdk init"
+  },
+  "dependencies": {
+    "axios": "0.19.2",
+    "@saagie/sdk": "0.2.3"
+  }
+}
