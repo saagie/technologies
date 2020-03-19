@@ -1,0 +1,47 @@
+name: Close issue on Jira
+
+on:
+    issues:
+        types: [closed, deleted]
+
+jobs:
+    jira:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Dump GitHub context
+            env:
+              GITHUB_CONTEXT: ${{ toJson(github) }}
+            run: echo "$GITHUB_CONTEXT"
+
+          - name: Jira Login
+            id: login
+            uses: atlassian/gajira-login@v2.0.0
+            env:
+                JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+                JIRA_USER_EMAIL: ${{ secrets.JIRA_EMAIL }}
+                JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          - name: Extract JIRA number
+            id: extract_jira_number
+            run: echo "::set-output name=jira_number::$(echo ${{ github.event.issue.title }}| sed 's/.*\[\(${{ secrets.JIRA_PROJECT }}-[[:digit:]]\{1,\}\)\].*/\1/')"          
+          
+          - name: Jira Close issue
+            id: close_jira_issue
+            uses: atlassian/gajira-transition@v2.0.0
+            with:
+              issue: ${{ steps.extract_jira_number.outputs.jira_number }}
+              transitionId: "${{ secrets.JIRA_CLOSE_TRANSITIONID }}"
+          
+          - name: Add comment after sync
+            uses: actions/github-script@0.8.0
+            with:
+              github-token: ${{secrets.GITHUB_TOKEN}}
+              script: |
+                github.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: ':wastebasket: JIRA Issue closed : [${{ steps.extract_jira_number.outputs.jira_number }}]'
+                }) 
+          - name: Failed
+            run: "exit 1"     
