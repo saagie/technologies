@@ -43,5 +43,3 @@ jobs:
                   repo: context.repo.repo,
                   body: ':wastebasket: JIRA Issue closed : [${{ steps.extract_jira_number.outputs.jira_number }}]'
                 }) 
-          - name: Failed
-            run: "exit 1"     
