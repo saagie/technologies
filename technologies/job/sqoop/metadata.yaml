@@ -11,7 +11,7 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/sqoop
-      version: 1.4.6-1.17.0_fix_commit
+      version: 1.4.6-1.15.0
     trustLevel: "stable"
     job:
       features:
