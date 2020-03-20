@@ -99,7 +99,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 14-1.17.0_fix_commit
+      version: 14-1.17.0
     trustLevel: "experimental"
     job:
       features:
