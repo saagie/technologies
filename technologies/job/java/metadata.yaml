@@ -99,7 +99,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 14-1.15.0_add_java14_and_sqoop
+      version: 14-1.15.0
     trustLevel: "experimental"
     job:
       features:
