@@ -41,5 +41,5 @@ jobs:
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  body: ':wastebasket: JIRA Issue closed : [${{ steps.create_jira_issue.outputs.issue }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.create_jira_issue.outputs.issue }})'
+                  body: ':wastebasket: JIRA Issue closed : [${{ steps.extract_jira_number.outputs.jira_number }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.extract_jira_number.outputs.jira_number }}
                 }) 
