@@ -96,7 +96,7 @@ jobs:
         run: |
           git config --local user.email "github-action@saagie.com"
           git config --local user.name "GitHub Action Bot"
-          git add **/metadata.yml **/dockerInfo.yml version.properties
+          git add **/metadata.yml **/dockerInfo.yml **/metadata.yaml **/dockerInfo.yaml version.properties
           git commit -m "[BOT] Set new version"
       - name: Push changes
         uses: ad-m/github-push-action@master
