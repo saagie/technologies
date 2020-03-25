@@ -1,29 +1,41 @@
 const axios = require('axios');
 const { Response, JobStatus } = require('@saagie/sdk');
 
-exports.start = async ({ name, formParams }) => {
+/**
+ * Logic to start the external job instance.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data.
+ */
+exports.start = async ({ job, instance }) => {
   try {
 
     await axios.put(
-      `${formParams.endpoint.url}/nifi-api/flow/process-groups/${formParams.processgroups.id}`,
+      `${job.featuresValues.endpoint.url}/nifi-api/flow/process-groups/${job.featuresValues.processgroups.id}`,
        ({
-         "id": formParams.processgroups.id,
+         "id": job.featuresValues.processgroups.id,
          "state":"RUNNING",
          "disconnectedNodeAcknowledged":false
       }),
     );
     return Response.success();
   } catch (error) {
-    return Response.error(`Fail to job "${name}"`, { error, "url": `${formParams.endpoint.url}/nifi-api/process-groups/${formParams.processgroups.id}` });
+    return Response.error(`Fail to job "${job.featuresValues.processgroups.name}"`, { error, "url": `${job.featuresValues.endpoint.url}/nifi-api/process-groups/${formParams.processgroups.id}` });
   }
 };
 
-exports.stop = async ({ name, formParams }) => {
+/**
+ * Logic to stop the external job instance.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.stop = async ({ job, instance }) => {
   try {
     await axios.put(
-      `${formParams.endpoint.url}/nifi-api/flow/process-groups/${formParams.processgroups.id}`,
+      `${job.featuresValues.endpoint.url}/nifi-api/flow/process-groups/${job.featuresValues.processgroups.id}`,
        ({
-         "id": formParams.processgroups.id,
+         "id": job.featuresValues.processgroups.id,
          "state":"STOPPED",
          "disconnectedNodeAcknowledged":false
       }),
@@ -31,39 +43,51 @@ exports.stop = async ({ name, formParams }) => {
 
     return Response.success();
   } catch (error) {
-    return Response.error(`Fail to job "${name}"`, { error, url: `${formParams.endpoint.url}/nifi-api/process-groups/${formParams.processgroups.id}` });
+    return Response.error(`Fail to job "${job.featuresValues.processgroups.name}"`, { error, url: `${job.featuresValues.endpoint.url}/nifi-api/process-groups/${formParams.processgroups.id}` });
   }
 };
 
-exports.getStatus = async ({ formParams }) => {
+/**
+ * Logic to retrieve the external job instance status.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.getStatus = async ({ job, instance }) => {
   try {
     const { data } = await axios.get(
-      `${formParams.endpoint.url}/nifi-api/flow/process-groups/${formParams.processgroups.id}/status`,
+      `${job.featuresValues.endpoint.url}/nifi-api/flow/process-groups/${job.featuresValues.processgroups.id}/status`,
     );
     switch (data.processGroupStatus.aggregateSnapshot.processorStatusSnapshots[0].processorStatusSnapshot.runStatus) {
       case 'Running':
         return Response.success(JobStatus.RUNNING);
       case 'Stopped':
-        return Response.success(JobStatus.STOPPED);
+        return Response.success(JobStatus.SUCCESS);
       default:
         return Response.success(JobStatus.AWAITING);
     }
   } catch (error) {
-    return Response.error(`Failed to get status for job ${formParams.processgroups.id}`, { error });
+    return Response.error(`Failed to get status for job ${job.featuresValues.processgroups.id}`, { error });
   }
 
 };
 
-exports.getLogs = async ({ formParams }) => {
+/**
+ * Logic to retrieve the external job instance status.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.getLogs = async ({ job, instance }) => {
 
   try {
     const { data: logs } = await axios.get(
-      `${formParams.endpoint.url}/nifi-api/flow/bulletin-board?after=299213`,
+      `${job.featuresValues.endpoint.url}/nifi-api/flow/bulletin-board?after=299213`,
     );
 
     return Response.success(logs.bulletinBoard.bulletins);
 
   } catch (error) {
-    return Response.error(`Fail to get logs of job " ${formParams.dataset.id}`, { error });
+    return Response.error(`Fail to get logs of job " ${job.featuresValues.dataset.id}`, { error });
   }
 };

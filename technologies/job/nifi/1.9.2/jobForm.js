@@ -1,10 +1,10 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 
-exports.getProcessGroups = async ({ formParams }) => {
+exports.getProcessGroups = async ({ featuresValues }) => {
   try {
     const { data: processgroups } = await axios.get(
-      `${formParams.endpoint.url}/nifi-api/process-groups/root/`,
+      `${featuresValues.endpoint.url}/nifi-api/process-groups/root/`,
     );
 
     if (!processgroups || !processgroups.status) {
