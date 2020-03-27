@@ -1,0 +1,7 @@
+version: v1
+id: aws-glue
+label: aws-glue
+description: ""
+available: true
+type: JOB
+icon: job

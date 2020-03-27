@@ -1,0 +1,46 @@
+id: job
+label: job
+description: "A job is your business logic required to perform extract, transform and load (ETL) work. Job runs are initiated by triggers which can be scheduled or driven by events."
+recommended: true
+trustLevel: stable
+endpoint:
+  features:
+    - type: TEXT
+      name: aws_access_key_id
+      label: Access Key ID
+      required: true
+    - type: PASSWORD
+      name: aws_secret_access_key
+      label: Secret Access Key
+      required: true
+    - type: TEXT
+      name: region
+      label: Region
+      helper: "AWS region. Example: us-east-1"
+      required: true
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: job
+      label: Job
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getJobs
+      dependsOn:
+        - endpoint
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus

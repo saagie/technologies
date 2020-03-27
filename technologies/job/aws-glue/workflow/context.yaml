@@ -1,0 +1,44 @@
+id: workflow
+label: workflow
+description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
+recommended: false
+trustLevel: stable
+endpoint:
+  features:
+    - type: URL
+      name: url
+      label: Endpoint URL
+      required: true
+      helper: e.g. use http://localhost:4000
+    - type: TEXT
+      name: username
+      label: Username
+    - type: PASSWORD
+      name: password
+      label: Password
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: dataset
+      label: Dataset
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasets
+      dependsOn:
+        - endpoint
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
