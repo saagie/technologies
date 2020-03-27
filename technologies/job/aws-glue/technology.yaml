@@ -1,7 +1,7 @@
 version: v1
 id: aws-glue
 label: aws-glue
-description: ""
+description: "AWS Simple, flexible, and cost-effective ETL. Api Version: 2017-03-31 "
 available: true
 type: JOB
 icon: job

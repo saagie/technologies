@@ -2,7 +2,7 @@ id: crawler
 label: crawler
 description: "A crawler connects to a data store, progresses through a prioritized list of classifiers to determine the schema for your data, and then creates metadata tables in your data catalog."
 recommended: false
-trustLevel: stable
+trustLevel: experimental
 endpoint:
   features:
     - type: URL

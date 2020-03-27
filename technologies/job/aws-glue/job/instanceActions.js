@@ -14,7 +14,7 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue();
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.startJobRun({ JobName: job.featuresValues.job.id }).promise();
 
@@ -36,7 +36,7 @@ exports.stop = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue();
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.batchStopJobRun({ JobName: job.featuresValues.job.id, JobRunIds: [ instance.payload.glueJobId ] }).promise();
 
@@ -59,7 +59,7 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue();
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.getJobRun({ JobName: job.featuresValues.job.id, RunId: instance.payload.glueJobId }).promise();
 

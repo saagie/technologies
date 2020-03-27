@@ -12,7 +12,7 @@ exports.getJobs = async ({ featuresValues }) => {
     AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue();
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.getJobs().promise();
     if (!data || !data.Jobs || !data.Jobs.length) {

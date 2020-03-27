@@ -2,7 +2,7 @@ id: workflow
 label: workflow
 description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
 recommended: false
-trustLevel: stable
+trustLevel: experimental
 endpoint:
   features:
     - type: URL
