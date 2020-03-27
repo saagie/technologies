@@ -1,0 +1,143 @@
+version: v1
+id: aws-glue
+label: aws-glue
+description: ""
+available: true
+type: JOB
+icon: job
+
+contexts:
+  - id: workflow
+    label: workflow
+    description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
+    recommended: false
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use http://localhost:4000
+        - type: TEXT
+          name: username
+          label: Username
+        - type: PASSWORD
+          name: password
+          label: Password
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: dataset
+          label: Dataset
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasets
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+  - id: crawler
+    label: crawler
+    description: "A crawler connects to a data store, progresses through a prioritized list of classifiers to determine the schema for your data, and then creates metadata tables in your data catalog."
+    recommended: false
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use http://localhost:4000
+        - type: TEXT
+          name: username
+          label: Username
+        - type: PASSWORD
+          name: password
+          label: Password
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: dataset
+          label: Dataset
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasets
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+  - id: job
+    label: job
+    description: "A job is your business logic required to perform extract, transform and load (ETL) work. Job runs are initiated by triggers which can be scheduled or driven by events."
+    recommended: true
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: TEXT
+          name: aws_access_key_id
+          label: Access Key ID
+          required: true
+        - type: PASSWORD
+          name: aws_secret_access_key
+          label: Secret Access Key
+          required: true
+        - type: TEXT
+          name: region
+          label: Region
+          helper: "AWS region. Example: us-east-1"
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: job
+          label: Job
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getJobs
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
