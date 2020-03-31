@@ -32,7 +32,7 @@ jobs:
                   ${{ github.event.issue.body }}
                   ----
                   {panel}
-                  _Synchronize from ${{ github.event.issue.html_url }}_
+                  _[Github permalink |${{ github.event.issue.html_url }}]_
                   {panel}
 
           
@@ -60,5 +60,4 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   body: ':+1: JIRA Issue created : [${{ steps.create_jira_issue.outputs.issue }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.create_jira_issue.outputs.issue }})'
-                  
-                })                
+                })
