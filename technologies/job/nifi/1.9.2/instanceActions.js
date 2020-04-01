@@ -62,7 +62,7 @@ exports.getStatus = async ({ job, instance }) => {
       case 'Running':
         return Response.success(JobStatus.RUNNING);
       case 'Stopped':
-        return Response.success(JobStatus.SUCCESS);
+        return Response.success(JobStatus.KILLED);
       default:
         return Response.success(JobStatus.AWAITING);
     }
