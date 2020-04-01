@@ -15,6 +15,7 @@ exports.getJobs = async ({ featuresValues }) => {
     var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.getJobs().promise();
+    
     if (!data || !data.Jobs || !data.Jobs.length) {
       return Response.empty('No jobs availables');
     }
@@ -26,6 +27,7 @@ exports.getJobs = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
+    console.log(error);
     return Response.error("Can't retrieve jobs", { error });
   }
 };

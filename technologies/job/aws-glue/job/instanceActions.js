@@ -16,7 +16,7 @@ exports.start = async ({ job, instance }) => {
 
     var glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
-    const data = await glue.startJobRun({ JobName: job.featuresValues.job.id }).promise();
+    const data = await glue.startJobRun({ JobName: job.featuresValues.job.id }).promise(); // throw error here
 
     return Response.success({ glueJobId: data.JobRunId });
   } catch (error) {
@@ -74,7 +74,7 @@ exports.getStatus = async ({ job, instance }) => {
       case 'SUCCEEDED':
         return Response.success(JobStatus.SUCCEEDED);
       case 'STARTING':
-        return Response.success(JobStatus.REQUESTED);
+        return Response.success(JobStatus.QUEUED);
       case 'FAILED':
         return Response.success(JobStatus.FAILED);
       case 'STOPPING':
