@@ -1,4 +1,4 @@
-const { Response, JobStatus } = require('@saagie/sdk');
+const { Response, JobStatus, Log } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
 /**
@@ -63,6 +63,8 @@ exports.getStatus = async ({ job, instance }) => {
 
     const data = await glue.getJobRun({ JobName: job.featuresValues.job.id, RunId: instance.payload.glueJobId }).promise();
 
+    console.log(data);
+
     switch (data.JobRun.JobRunState) {
       case 'RUNNING':
         return Response.success(JobStatus.RUNNING);
@@ -83,5 +85,32 @@ exports.getStatus = async ({ job, instance }) => {
     }
   } catch (error) {
     return Response.error(`Failed to get status for instance ${instance}`, { error });
+  }
+};
+
+/**
+ * Logic to retrieve the external job instance logs.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.getLogs = async ({ job, instance }) => {
+  try {
+    console.log('GET LOG INSTANCE:', instance);
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+
+    var cwl = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
+
+    var params = {
+      logGroupName: '/aws-glue/jobs/output',
+      logStreamName: instance.payload.glueJobId
+    };
+
+    var logs = await cwl.getLogEvents(params).promise();
+
+    return Response.success(logs.events.map((item) => Log(item.message, 'stdout', new Date(item.timestamp*1000).toISOString())));
+  } catch (error) {
+    return Response.error(`Failed to get log for job ${instance.payload.glueJobId}`, { error });
   }
 };
