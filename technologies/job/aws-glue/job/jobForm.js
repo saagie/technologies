@@ -1,4 +1,3 @@
-const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 

@@ -1,5 +1,5 @@
-const axios = require('axios');
 const { Response, JobStatus } = require('@saagie/sdk');
+const AWS = require('aws-sdk');
 
 /**
  * Logic to start the external job instance.
@@ -9,15 +9,18 @@ const { Response, JobStatus } = require('@saagie/sdk');
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
-    );
+    //console.log('START INSTANCE:', instance);
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+
+    const data = await glue.startCrawler({ Name: job.featuresValues.crawler.id }).promise();
 
     // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    return Response.success();
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Fail to start job', { error });
   }
 };
 
@@ -30,9 +33,12 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+
+    const data = await glue.stopCrawler({ Name: job.featuresValues.crawler.id }).promise();
 
     return Response.success();
   } catch (error) {
@@ -49,19 +55,30 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    switch (data.status) {
-      case 'IN_PROGRESS':
+    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+
+    const data = await glue.getCrawler({ Name: job.featuresValues.crawler.id }).promise();
+
+    switch (data.Crawler.State) {
+      case 'RUNNING':
         return Response.success(JobStatus.RUNNING);
-      case 'STOPPED':
-        return Response.success(JobStatus.KILLED);
-      default:
-        return Response.success(JobStatus.AWAITING);
+      case 'READY':
+        if (data.Crawler.LastCrawl && data.Crawler.LastCrawl.Status)
+        switch(data.Crawler.LastCrawl.Status) {
+          case 'SUCCEEDED':
+            return Response.success(JobStatus.SUCCEEDED);
+          case 'CANCELLED':
+            return Response.success(JobStatus.KILLED);
+          case 'FAILED':
+            return Response.success(JobStatus.FAILED);
+        }
+      case 'STOPPING':
+        return Response.success(JobStatus.KILLING);
     }
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(`Failed to get status for crawler ${job.featuresValues.crawler}`, { error });
   }
 };

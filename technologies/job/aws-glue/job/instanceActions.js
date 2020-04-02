@@ -1,4 +1,3 @@
-const axios = require('axios');
 const { Response, JobStatus } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
@@ -56,6 +55,7 @@ exports.stop = async ({ job, instance }) => {
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
+    console.log('GET STATUS INSTANCE:', instance);
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
