@@ -14,17 +14,19 @@ contexts:
     trustLevel: experimental
     endpoint:
       features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use http://localhost:4000
         - type: TEXT
-          name: username
-          label: Username
+          name: aws_access_key_id
+          label: Access Key ID
+          required: true
         - type: PASSWORD
-          name: password
-          label: Password
+          name: aws_secret_access_key
+          label: Secret Access Key
+          required: true
+        - type: TEXT
+          name: region
+          label: Region
+          helper: "AWS region. Example: us-east-1"
+          required: true
     job:
       features:
         - type: ENDPOINT
@@ -32,12 +34,12 @@ contexts:
           label: Endpoint
           required: true
         - type: SELECT
-          name: dataset
-          label: Dataset
+          name: workflow
+          label: Workflow
           required: true
           options:
             script: ./jobForm.js
-            function: getDatasets
+            function: getWorkflows
           dependsOn:
             - endpoint
     instance:
@@ -45,9 +47,6 @@ contexts:
         onStart:
           script: ./instanceActions.js
           function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
         getStatus:
           script: ./instanceActions.js
           function: getStatus
@@ -58,17 +57,19 @@ contexts:
     trustLevel: experimental
     endpoint:
       features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use http://localhost:4000
         - type: TEXT
-          name: username
-          label: Username
+          name: aws_access_key_id
+          label: Access Key ID
+          required: true
         - type: PASSWORD
-          name: password
-          label: Password
+          name: aws_secret_access_key
+          label: Secret Access Key
+          required: true
+        - type: TEXT
+          name: region
+          label: Region
+          helper: "AWS region. Example: us-east-1"
+          required: true
     job:
       features:
         - type: ENDPOINT
@@ -76,12 +77,12 @@ contexts:
           label: Endpoint
           required: true
         - type: SELECT
-          name: dataset
-          label: Dataset
+          name: crawler
+          label: Crawler
           required: true
           options:
             script: ./jobForm.js
-            function: getDatasets
+            function: getCrawlers
           dependsOn:
             - endpoint
     instance:
