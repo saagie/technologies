@@ -63,9 +63,6 @@ exports.getStatus = async ({ job, instance }) => {
 
     const data = await glue.getJobRun({ JobName: job.featuresValues.job.id, RunId: instance.payload.glueJobId }).promise();
 
-    console.log('STATUS', data.JobRun.JobRunState);
-
-
     switch (data.JobRun.JobRunState) {
       case 'RUNNING':
         return Response.success(JobStatus.RUNNING);
