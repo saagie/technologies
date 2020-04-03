@@ -90,7 +90,7 @@ exports.getLogs = async ({ job, instance }) => {
         const d=new Date();
         const isodate = (new Date(d.getUTCMonth()+ ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear() + ' '+ item.bulletin.timestamp)).toISOString();
         if (item.bulletin.level=='ERROR') {
-         return Log(item.bulletin.message,'stderr',isodate);
+         return Log(item.bulletin.message, Stream.STDERR, isodate);
         } else {
           return Log(item.bulletin.message,'stdout',isodate);
         }
