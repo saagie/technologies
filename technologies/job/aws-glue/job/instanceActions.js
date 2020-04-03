@@ -100,7 +100,7 @@ exports.getLogs = async ({ job, instance }) => {
 
     const logs = await cwl.getLogEvents(params).promise();
 
-    return Response.success(logs.events.map((item) => Log(item.message, 'stdout', new Date(item.timestamp*1000).toISOString())));
+    return Response.success(logs.events.map((item) => Log(item.message, Stream.STDOUT, new Date(item.timestamp*1000).toISOString())));
   } catch (error) {
     console.log(error);
     return Response.error(`Failed to get log for job ${instance.payload.glueJobId}`, { error });
