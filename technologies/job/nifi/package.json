@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "axios": "0.19.2",
-    "@saagie/sdk": "0.3.0"
+    "@saagie/sdk": "0.6.0"
   }
 }
