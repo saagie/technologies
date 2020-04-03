@@ -112,7 +112,7 @@ exports.getLogs = async ({ job, instance }) => {
 
     const logs = await cwl.getLogEvents(params).promise();
 
-    return Response.success(logs.events.filter(item  => item.message.startsWith('['+data.Crawler.LastCrawl.MessagePrefix+']')).map((item) => Log(item.message.replace('['+data.Crawler.LastCrawl.MessagePrefix+'] ',''), 'stdout', new Date(item.timestamp*1000).toISOString())));
+    return Response.success(logs.events.filter(item  => item.message.startsWith(`[${data.Crawler.LastCrawl.MessagePrefix}]`)).map((item) => Log(item.message.replace(`[${data.Crawler.LastCrawl.MessagePrefix}] `, ''), Stream.STDOUT, new Date(item.timestamp*1000).toISOString())));
   } catch (error) {
     console.log(error);
     return Response.error(`Failed to get log for crawler ${data.Crawler.LastCrawl.MessagePrefix}`, { error });
