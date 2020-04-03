@@ -92,7 +92,7 @@ exports.getLogs = async ({ job, instance }) => {
         if (item.bulletin.level=='ERROR') {
          return Log(item.bulletin.message, Stream.STDERR, isodate);
         } else {
-          return Log(item.bulletin.message,'stdout',isodate);
+          return Log(item.bulletin.message, Stream.STDOUT, isodate);
         }
       });
     
