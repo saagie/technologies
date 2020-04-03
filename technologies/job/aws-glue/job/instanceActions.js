@@ -1,4 +1,4 @@
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
 /**
