@@ -5,50 +5,6 @@ label: Java/Scala
 available: true
 icon: java-scala
 contexts:
-  - id: 7
-    label: 7
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/java-scala
-      version: 7-1.14.0
-    trustLevel: "stable"
-    job:
-      features:
-        - field: COMMAND_LINE
-          label: "Command line"
-          mandatory: true
-          comment: "Linux shell command to launch the job."
-          defaultValue: java -jar {file} arg1 arg2
-        - field: ARTIFACT
-          label: "Package"
-          mandatory: true
-          comment: "Compatible upload file : .jar"
-        - field: SCHEDULER
-          label: "Scheduled"
-          mandatory: true
-  - id: 13
-    label: 13
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/java-scala
-      version: 13-1.16.0
-    trustLevel: "experimental"
-    job:
-      features:
-        - field: COMMAND_LINE
-          label: "Command line"
-          mandatory: true
-          comment: "Linux shell command to launch the job."
-          defaultValue: java -jar {file} arg1 arg2
-        - field: ARTIFACT
-          label: "Package"
-          mandatory: true
-          comment: "Compatible upload file : .jar"
-        - field: SCHEDULER
-          label: "Scheduled"
-          mandatory: true
   - id: 8
     label: 8
     available: true
@@ -93,6 +49,28 @@ contexts:
         - field: SCHEDULER
           label: "Scheduled"
           mandatory: true
+  - id: 7
+    label: 7
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 7-1.14.0
+    trustLevel: "stable"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
   - id: 14
     label: 14
     available: true
@@ -100,6 +78,28 @@ contexts:
     dockerInfo:
       image: saagie/java-scala
       version: 14-1.17.0
+    trustLevel: "experimental"
+    job:
+      features:
+        - field: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - field: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - field: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
+  - id: 13
+    label: 13
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 13-1.16.0
     trustLevel: "experimental"
     job:
       features:
