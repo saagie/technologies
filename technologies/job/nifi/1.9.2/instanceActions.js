@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 
 /**
  * Logic to start the external job instance.
