@@ -63,24 +63,17 @@ exports.getStatus = async ({ job, instance }) => {
 
     const data = await glue.getJobRun({ JobName: job.featuresValues.job.id, RunId: instance.payload.glueJobId }).promise();
 
-    switch (data.JobRun.JobRunState) {
-      case 'RUNNING':
-        return Response.success(JobStatus.RUNNING);
-      case 'STOPPED':
-        return Response.success(JobStatus.KILLED);
-      case 'SUCCEEDED':
-        return Response.success(JobStatus.SUCCEEDED);
-      case 'STARTING':
-        return Response.success(JobStatus.QUEUED);
-      case 'FAILED':
-        return Response.success(JobStatus.FAILED);
-      case 'STOPPING':
-        return Response.success(JobStatus.KILLING);
-      case 'TIMEOUT':
-        return Response.success(JobStatus.FAILED);
-      default:
-        return Response.success(JobStatus.AWAITING);
-    }
+	const JOB_STATES = {
+		RUNNING: JobStatus.RUNNING,
+		STOPPED: JobStatus.KILLED,
+		SUCCEEDED: JobStatus.SUCCEEDED,
+		STARTING: JobStatus.QUEUED,
+		FAILED: JobStatus.FAILED,
+		STOPPING: JobStatus.KILLING,
+		TIMEOUT: JobStatus.FAILED,
+	};
+	
+	return Response.success(JOB_STATES[data.JobRun.JobRunState] || JobStatus.AWAITING);
   } catch (error) {
     return Response.error(`Failed to get status for instance ${instance}`, { error });
   }
