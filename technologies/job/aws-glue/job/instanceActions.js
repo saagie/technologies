@@ -13,7 +13,7 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.startJobRun({ JobName: job.featuresValues.job.id }).promise(); // throw error here
 
@@ -35,7 +35,7 @@ exports.stop = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.batchStopJobRun({ JobName: job.featuresValues.job.id, JobRunIds: [ instance.payload.glueJobId ] }).promise();
 
@@ -59,11 +59,9 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.getJobRun({ JobName: job.featuresValues.job.id, RunId: instance.payload.glueJobId }).promise();
-
-    console.log(data);
 
     switch (data.JobRun.JobRunState) {
       case 'RUNNING':
@@ -100,17 +98,18 @@ exports.getLogs = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var cwl = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
+    const cwl = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
 
-    var params = {
+    const params = {
       logGroupName: '/aws-glue/jobs/output',
       logStreamName: instance.payload.glueJobId
     };
 
-    var logs = await cwl.getLogEvents(params).promise();
+    const logs = await cwl.getLogEvents(params).promise();
 
     return Response.success(logs.events.map((item) => Log(item.message, 'stdout', new Date(item.timestamp*1000).toISOString())));
   } catch (error) {
+    console.log(error);
     return Response.error(`Failed to get log for job ${instance.payload.glueJobId}`, { error });
   }
 };

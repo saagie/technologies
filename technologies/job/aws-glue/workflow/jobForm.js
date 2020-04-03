@@ -11,15 +11,13 @@ exports.getWorkflows = async ({ featuresValues }) => {
     AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.listWorkflows().promise();
     
     if (!data || !data.Workflows || !data.Workflows.length) {
       return Response.empty('No jobs availables');
     }
-    
-    console.log(data);
 
     return Response.success(
       data.Workflows.map((value) => ({

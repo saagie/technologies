@@ -13,7 +13,7 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.startWorkflowRun({ Name: job.featuresValues.workflow.id }).promise(); // throw error here
 
@@ -36,7 +36,7 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var glue = new AWS.Glue({apiVersion: '2017-03-31'});
+    const glue = new AWS.Glue({apiVersion: '2017-03-31'});
 
     const data = await glue.getWorkflowRun({ Name: job.featuresValues.workflow.id, RunId: instance.payload.glueWorkflowId }).promise();
 
