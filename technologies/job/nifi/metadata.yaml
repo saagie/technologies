@@ -45,3 +45,6 @@ contexts:
         getStatus:
           script: ./instanceActions.js
           function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
