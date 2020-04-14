@@ -1,0 +1,49 @@
+id: default
+label: Default
+description: ""
+recommended: true
+trustLevel: stable
+endpoint:
+  features:
+    - type: URL
+      name: url
+      label: Endpoint URL
+      required: true
+      helper: e.g. use https://cloud.trifacta.com
+    - type: TEXT
+      name: mail
+      label: Mail address
+      required: true
+    - type: PASSWORD
+      name: password
+      label: Password
+      required: true
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: dataset
+      label: Dataset
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasets
+      dependsOn:
+        - endpoint
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
