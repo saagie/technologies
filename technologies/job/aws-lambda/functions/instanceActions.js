@@ -148,12 +148,37 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output)));
+    const cwl = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
+
+    const paramslogstreams = {
+      logGroupName: `/aws/lambda/${job.featuresValues.functions.label}`,
+    };
+
+    const logstreams = await cwl.describeLogStreams(paramslogstreams).promise();
+
+    var logs=logstreams.logStreams.map(
+      (ls) => 
+      cwl.getLogEvents(
+        {
+          logGroupName: `/aws/lambda/${job.featuresValues.functions.label}`,
+          logStreamName: ls.logStreamName
+        }
+        ).promise().then((data) => {
+          return (
+              data.events
+            )
+          }
+    ));
+    
+    logs=(await Promise.all(logs)).flat();
+
+    return Response.success(logs.map((item) => Log(item.message, Stream.STDOUT, new Date(item.timestamp*1000).toISOString())));
+
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    console.log(error);
+    return Response.error(`Failed to get log for job ${job.featuresValues.functions.id}`, { error });
   }
 };
