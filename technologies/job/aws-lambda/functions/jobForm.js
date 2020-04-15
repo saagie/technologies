@@ -1,4 +1,3 @@
-
 const { Response } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
@@ -14,27 +13,29 @@ exports.getFunctions = async ({ featuresValues }) => {
 
     const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
 
+    // Get all lmabda functions
     const data = await lambda.listFunctions().promise();
 
     if (!data.Functions || !data.Functions.length) {
       return Response.empty('No functions availables');
     }
 
-    var functionsList = data.Functions.map(({ FunctionName, FunctionArn }) => ({
+    const functionsList = data.Functions.map(({ FunctionName, FunctionArn }) => ({
       id: FunctionArn,
       label: FunctionName,
     }));
 
-    console.log(functionsList);
-
+    // And filtered out functions without an event source - Only lambda with Kinesis, SQS and DynamoDB Stream can be enable/disable. 
+    // https://stackoverflow.com/questions/46199256/disable-and-enable-aws-lambda-trigger-programmatically
+    
     const filteredFunctions = functionsList.map(
       ({id, label}) =>
-        lambda.listEventSourceMappings({FunctionName : id }).promise().then(function(data) {
+        lambda.listEventSourceMappings({FunctionName : id }).promise().then((data) => {
           if (data.EventSourceMappings && data.EventSourceMappings.length>0) {
             return ({
               id: id,
               label: label,
-              sourceId: data.EventSourceMappings.map((UUID) => (UUID)),
+              sourceId: data.EventSourceMappings.map((item) => item.UUID),
             })
           } else {
             return ({
@@ -45,8 +46,6 @@ exports.getFunctions = async ({ featuresValues }) => {
     }));
 
     const functions=(await Promise.all(filteredFunctions)).filter(item => (item.sourceId && item.sourceId.length>0));
-    console.log(functions);
-
     return Response.success(functions);
   } catch (error) {
     return Response.error("Can't retrieve functions", { error });
