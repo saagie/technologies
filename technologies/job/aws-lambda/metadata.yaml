@@ -1,7 +1,7 @@
 version: v1
 id: aws-lambda
 label: aws-lambda
-description: "Run code without thinking about servers. Pay only for the compute time you consume. Api Version: 2015-03-31"
+description: "Run code without thinking about servers. Pay only for the compute time you consume. Only lambda with Kinesis, SQS and DynamoDB Stream. Api Version: 2015-03-31"
 available: true
 type: JOB
 icon: job
@@ -9,7 +9,7 @@ icon: job
 contexts:
   - id: functions
     label: functions
-    description: ""
+    description: "Only lambda with Kinesis, SQS and DynamoDB Stream."
     recommended: true
     trustLevel: experimental
     endpoint:
@@ -36,6 +36,7 @@ contexts:
         - type: SELECT
           name: functions
           label: Functions
+          helper: Only lambda with Kinesis, SQS and DynamoDB Stream.
           required: true
           options:
             script: ./jobForm.js
