@@ -1,6 +1,6 @@
 id: functions
 label: functions
-description: ""
+description: "Only lambda with Kinesis, SQS and DynamoDB Stream."
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -27,6 +27,7 @@ job:
     - type: SELECT
       name: functions
       label: Functions
+      helper: Only lambda with Kinesis, SQS and DynamoDB Stream.
       required: true
       options:
         script: ./jobForm.js

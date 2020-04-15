@@ -8,7 +8,6 @@
     "new:context": "saagie-sdk init"
   },
   "dependencies": {
-    "axios": "0.19.2",
     "@saagie/sdk": "0.6.0",
     "aws-sdk": "2.646.0"
   }
