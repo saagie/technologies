@@ -1,6 +1,9 @@
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
+
+const AWS_LAMBDA_OPTIONS = { apiVersion: '2015-03-31' };
+
 /**
  * Logic to start the external job instance.
  * @param {Object} params
@@ -13,18 +16,18 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
     // Start all trigger/eventsource
-    var dataList = job.featuresValues.functions.sourceId.map(
+    const dataList = job.featuresValues.functions.sourceId.map(
     (value) =>
       lambda.updateEventSourceMapping({
         Enabled: true, 
         FunctionName: job.featuresValues.functions.id,
         UUID: value
-      }).promise().then((data) => {return data.State; })
+      }).promise()
     );
-    dataList=await Promise.all(dataList);
+    await Promise.all(dataList);
 
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({});
@@ -46,18 +49,18 @@ exports.stop = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
     // Stop all trigger/eventsource
-    var dataList = job.featuresValues.functions.sourceId.map(
+    const dataList = job.featuresValues.functions.sourceId.map(
       (value) =>
         lambda.updateEventSourceMapping({
           Enabled: false, 
           FunctionName: job.featuresValues.functions.id,
           UUID: value
-        }).promise().then((data) => { return data.State; })
+        }).promise()
     );
-    dataList=await Promise.all(dataList);
+    await Promise.all(dataList);
 
     return Response.success();
   } catch (error) {
@@ -79,9 +82,9 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
-    var statusList = job.featuresValues.functions.sourceId.map(
+    let statusList = job.featuresValues.functions.sourceId.map(
       (value) =>
         lambda.getEventSourceMapping({UUID: value }).promise().then((data) => {
           return ({
@@ -93,46 +96,35 @@ exports.getStatus = async ({ job, instance }) => {
     statusList=await Promise.all(statusList);
 
     // Computing worst case status if a lambda got different triggers/eventsource
-    const xrefStatus=function(status) {
-      switch (status) {
-        case 'Creating':
-          return 30
-        case 'Enabling':
-          return 10
-        case 'Enabled':
-          return 0
-        case 'Disabling':
-          return 40
-        case 'Disabled':
-          return 50
-        case 'Updating':
-          return 20;
-        case 'Deleting':
-          return 60; 
-      }
+    const xrefStatus = {
+        "Creating": 30,
+        "Enabling": 10,
+        "Enabled": 0,
+        "Disabling": 40,
+        "Disabled": 50,
+        "Updating": 20,
+        "Deleting": 60
     }
-    const status=statusList.reduce((consolidated, item) => {
-      if (xrefStatus(item.status) > xrefStatus(consolidated))
+	
+    const status = statusList.reduce((consolidated, item) => {
+      if (xrefStatus[item.status] > xrefStatus[consolidated])
         return item.status;
       else
         return consolidated;
-    },"Enabled");
+    }, "Enabled");
 
     // Existing status : Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting
-    switch (status) {
-      case 'Creating':
-        return Response.success(JobStatus.REQUESTED);
-      case 'Enabling':
-        return Response.success(JobStatus.QUEUED);
-      case 'Enabled':
-        return Response.success(JobStatus.RUNNING);
-      case 'Disabling':
-          return Response.success(JobStatus.KILLING);
-      case 'Disabled':
-        return Response.success(JobStatus.KILLED);
-     default:
-       return Response.success(JobStatus.AWAITING); // Updating or Deleting
-    }
+    const JOB_STATES = {
+      Creating: JobStatus.REQUESTED,
+      Enabling: JobStatus.QUEUED,
+      Enabled: JobStatus.RUNNING,
+      Disabling: JobStatus.KILLING,
+      Disabled: JobStatus.KILLED,
+      Updating: JobStatus.AWAITING,
+      Deleting: JobStatus.AWAITING,
+    };
+    
+    return Response.success(JOB_STATES[status] || JobStatus.AWAITING);
   } catch (error) {
     console.log(error);
     return Response.error(`Failed to get status for functions ${job.featuresValues.functions.id}`, { error });
