@@ -1,4 +1,7 @@
 const axios = require('axios');
+const https = require('https');
+const fs = require('fs');
+const extract = require('extract-zip');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 
 /**
@@ -9,15 +12,42 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
  */
 exports.start = async ({ job, instance }) => {
   try {
+    console.log({ job });
     console.log('START INSTANCE:', instance);
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+
+    const parameters = [];
+
+    if (job.featuresValues.first_parameter_key && job.featuresValues.first_parameter_value) {
+      parameters.push({
+        key: job.featuresValues.first_parameter_key,
+        value: job.featuresValues.first_parameter_value
+      });
+    }
+
+    if (job.featuresValues.second_parameter_key && job.featuresValues.second_parameter_value) {
+      parameters.push({
+        key: job.featuresValues.second_parameter_key,
+        value: job.featuresValues.second_parameter_value
+      });
+    }
+
     const { data } = await axios.post(
       `${job.featuresValues.endpoint.url}/v4/jobGroups`,
       {
         wrangledDataset: {
           id: job.featuresValues.dataset.id,
         },
+        runParameters: {
+          overrides: {
+            data: parameters
+          }
+        }
       },
       {
+        httpsAgent: agent,
         auth: {
           username: job.featuresValues.endpoint.mail,
           password: job.featuresValues.endpoint.password
@@ -28,7 +58,7 @@ exports.start = async ({ job, instance }) => {
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ jobGroupId: data.id });
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Fail to start job', { error });
   }
 };
 
@@ -66,9 +96,14 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
       {
+        httpsAgent: agent,
         auth: {
           username: job.featuresValues.endpoint.mail,
           password: job.featuresValues.endpoint.password
@@ -106,12 +141,54 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+
+    console.log(`${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`);
+    
+    const result = await axios.get(
+      `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
+      {
+        httpsAgent: agent,
+        auth: {
+          username: job.featuresValues.endpoint.mail,
+          password: job.featuresValues.endpoint.password
+        },
+        responseType: 'arraybuffer'
+      }
     );
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output)));
+    const jobLogsFilePath = `/tmp/job-${instance.payload.jobGroupId}-logs.zip`;
+    const jobLogsFolderPath = `/tmp/job-${instance.payload.jobGroupId}-logs`;
+
+    const { data } = result;
+
+    fs.appendFileSync(jobLogsFilePath, data);
+
+    await extract(jobLogsFilePath, { dir: '/tmp' });
+
+    const directories = fs.readdirSync(jobLogsFolderPath, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+      .filter(dirName => Number(dirName));
+
+    console.log({ directories });
+
+    let logs = '';
+
+    directories.forEach((dir) => {
+      const newLogs = fs.readFileSync(`${jobLogsFolderPath}/${dir}/job.log`, 'utf8');
+      logs += '\n' + newLogs;
+    });
+
+    const logsLines = logs.split('\n');
+
+    console.log({ logsLines });
+
+    return Response.success(logsLines.map((line) => Log(line)));
   } catch (error) {
+    console.error({ error });
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
 };

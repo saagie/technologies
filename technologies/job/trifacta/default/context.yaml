@@ -25,14 +25,43 @@ job:
       label: Endpoint
       required: true
     - type: SELECT
+      name: flow
+      label: Flow
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getFlows
+      dependsOn:
+        - endpoint
+    - type: SELECT
       name: dataset
-      label: Dataset
+      label: Wrangled dataset
       required: true
       options:
         script: ./jobForm.js
         function: getDatasets
       dependsOn:
-        - endpoint
+        - flow
+    - type: TEXT
+      name: first_parameter_key
+      label: First parameter key
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: first_parameter_value
+      label: First parameter value
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: second_parameter_key
+      label: Second parameter key
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: second_parameter_value
+      label: Second parameter value
+      dependsOn:
+        - dataset
 instance:
   actions:
     onStart:
