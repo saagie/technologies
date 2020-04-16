@@ -81,7 +81,7 @@ exports.getStatus = async ({ job, instance }) => {
 
     const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
 
-    var statusList = job.featuresValues.functions.sourceId.map(
+    let statusList = job.featuresValues.functions.sourceId.map(
       (value) =>
         lambda.getEventSourceMapping({UUID: value }).promise().then((data) => {
           return ({
