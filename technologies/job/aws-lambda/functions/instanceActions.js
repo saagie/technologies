@@ -1,6 +1,9 @@
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const AWS = require('aws-sdk');
 
+
+const AWS_LAMBDA_OPTIONS = { apiVersion: '2015-03-31' };
+
 /**
  * Logic to start the external job instance.
  * @param {Object} params
@@ -13,18 +16,18 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
     // Start all trigger/eventsource
-    var dataList = job.featuresValues.functions.sourceId.map(
+    const dataList = job.featuresValues.functions.sourceId.map(
     (value) =>
       lambda.updateEventSourceMapping({
         Enabled: true, 
         FunctionName: job.featuresValues.functions.id,
         UUID: value
-      }).promise().then((data) => {return data.State; })
+      }).promise()
     );
-    dataList=await Promise.all(dataList);
+    await Promise.all(dataList);
 
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({});
@@ -46,18 +49,18 @@ exports.stop = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
     // Stop all trigger/eventsource
-    var dataList = job.featuresValues.functions.sourceId.map(
+    const dataList = job.featuresValues.functions.sourceId.map(
       (value) =>
         lambda.updateEventSourceMapping({
           Enabled: false, 
           FunctionName: job.featuresValues.functions.id,
           UUID: value
-        }).promise().then((data) => { return data.State; })
+        }).promise()
     );
-    dataList=await Promise.all(dataList);
+    await Promise.all(dataList);
 
     return Response.success();
   } catch (error) {
@@ -79,7 +82,7 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda(AWS_LAMBDA_OPTIONS);
 
     let statusList = job.featuresValues.functions.sourceId.map(
       (value) =>
