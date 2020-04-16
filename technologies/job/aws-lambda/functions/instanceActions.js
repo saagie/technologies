@@ -119,20 +119,17 @@ exports.getStatus = async ({ job, instance }) => {
     },"Enabled");
 
     // Existing status : Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting
-    switch (status) {
-      case 'Creating':
-        return Response.success(JobStatus.REQUESTED);
-      case 'Enabling':
-        return Response.success(JobStatus.QUEUED);
-      case 'Enabled':
-        return Response.success(JobStatus.RUNNING);
-      case 'Disabling':
-          return Response.success(JobStatus.KILLING);
-      case 'Disabled':
-        return Response.success(JobStatus.KILLED);
-     default:
-       return Response.success(JobStatus.AWAITING); // Updating or Deleting
-    }
+    const JOB_STATES = {
+      Creating: JobStatus.REQUESTED,
+      Enabling: JobStatus.QUEUED,
+      Enabled: JobStatus.RUNNING,
+      Disabling: JobStatus.KILLING,
+      Disabled: JobStatus.KILLED,
+      Updating: JobStatus.AWAITING,
+      Deleting: JobStatus.AWAITING,
+    };
+    
+    return Response.success(JOB_STATES[status] || JobStatus.AWAITING);
   } catch (error) {
     console.log(error);
     return Response.error(`Failed to get status for functions ${job.featuresValues.functions.id}`, { error });
