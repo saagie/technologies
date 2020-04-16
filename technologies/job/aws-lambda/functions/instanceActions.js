@@ -93,30 +93,22 @@ exports.getStatus = async ({ job, instance }) => {
     statusList=await Promise.all(statusList);
 
     // Computing worst case status if a lambda got different triggers/eventsource
-    const xrefStatus=function(status) {
-      switch (status) {
-        case 'Creating':
-          return 30
-        case 'Enabling':
-          return 10
-        case 'Enabled':
-          return 0
-        case 'Disabling':
-          return 40
-        case 'Disabled':
-          return 50
-        case 'Updating':
-          return 20;
-        case 'Deleting':
-          return 60; 
-      }
+    const xrefStatus = {
+        "Creating": 30,
+        "Enabling": 10,
+        "Enabled": 0,
+        "Disabling": 40,
+        "Disabled": 50,
+        "Updating": 20,
+        "Deleting": 60
     }
-    const status=statusList.reduce((consolidated, item) => {
-      if (xrefStatus(item.status) > xrefStatus(consolidated))
+	
+    const status = statusList.reduce((consolidated, item) => {
+      if (xrefStatus[item.status] > xrefStatus[consolidated])
         return item.status;
       else
         return consolidated;
-    },"Enabled");
+    }, "Enabled");
 
     // Existing status : Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting
     const JOB_STATES = {
