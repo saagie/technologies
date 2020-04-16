@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 
 /**
  * Logic to start the external job instance.
@@ -21,7 +21,6 @@ exports.start = async ({ job, instance }) => {
       jobQueue : job.featuresValues.jobQueue.id
       }).promise();
 
-    // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ customId: data.jobId });
   } catch (error) {
     console.log(error);
@@ -38,12 +37,19 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+
+    const batch = new AWS.Batch({apiVersion: '2016-08-10'});
+    
+    const data = await batch.terminateJob({
+      jobId : instance.payload.customId,
+      reason: "Terminating job from Saagie."
+      }).promise();
 
     return Response.success();
   } catch (error) {
+    console.log(error);
     return Response.error('Fail to stop job', { error });
   }
 };
@@ -63,7 +69,7 @@ exports.getStatus = async ({ job, instance }) => {
     const batch = new AWS.Batch({apiVersion: '2016-08-10'});
     
     const data = await batch.describeJobs({jobs: [ instance.payload.customId ]}).promise();
-    
+
     const JOB_STATES = {
       SUBMITTED: JobStatus.REQUESTED,
       PENDING: JobStatus.QUEUED,
@@ -89,12 +95,31 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output)));
+    // Get logstreamName
+    const batch = new AWS.Batch({apiVersion: '2016-08-10'});
+
+    const data = await batch.describeJobs({jobs: [ instance.payload.customId ]}).promise();
+    
+    if (!data || !data.jobs || !data.jobs.length || !data.jobs[0].attempts || !data.jobs[0].attempts.length || !data.jobs[0].attempts[data.jobs[0].attempts.length-1].container || !data.jobs[0].attempts[data.jobs[0].attempts.length-1].container.logStreamName) {
+      return Response.empty('No logs availables');
+    }
+   
+    const logStreamName=data.jobs[0].attempts[data.jobs[0].attempts.length-1].container.logStreamName;
+
+    // Gather logs
+    const cwl = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
+    const params = {
+      logGroupName: '/aws/batch/job',
+      logStreamName: logStreamName
+    };
+    const logs = await cwl.getLogEvents(params).promise();
+
+    return Response.success(logs.events.map((item) => Log(item.message, Stream.STDOUT, new Date(item.timestamp*1000).toISOString())));
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    console.log(error);
+    return Response.error(`Failed to get log for job ${instance.payload.glueJobId}`, { error });
   }
 };
