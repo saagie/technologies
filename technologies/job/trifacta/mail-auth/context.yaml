@@ -1,0 +1,75 @@
+id: mail-auth
+label: Mail auth
+description: ""
+recommended: true
+trustLevel: stable
+endpoint:
+  features:
+    - type: URL
+      name: url
+      label: Endpoint URL
+      required: true
+      helper: e.g. use https://cloud.trifacta.com
+    - type: TEXT
+      name: mail
+      label: Mail address
+      required: true
+    - type: PASSWORD
+      name: password
+      label: Password
+      required: true
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: flow
+      label: Flow
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getFlows
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: dataset
+      label: Wrangled dataset
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasets
+      dependsOn:
+        - flow
+    - type: TEXT
+      name: first_parameter_key
+      label: First parameter key
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: first_parameter_value
+      label: First parameter value
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: second_parameter_key
+      label: Second parameter key
+      dependsOn:
+        - dataset
+    - type: TEXT
+      name: second_parameter_value
+      label: Second parameter value
+      dependsOn:
+        - dataset
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs

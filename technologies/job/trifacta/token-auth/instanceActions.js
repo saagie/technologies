@@ -2,6 +2,7 @@ const axios = require('axios');
 const https = require('https');
 const fs = require('fs');
 const extract = require('extract-zip');
+const rimraf = require('rimraf');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 
 /**
@@ -48,9 +49,8 @@ exports.start = async ({ job, instance }) => {
       },
       {
         httpsAgent: agent,
-        auth: {
-          username: job.featuresValues.endpoint.mail,
-          password: job.featuresValues.endpoint.password
+        headers: {
+          'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
       }
     );
@@ -59,31 +59,6 @@ exports.start = async ({ job, instance }) => {
     return Response.success({ jobGroupId: data.id });
   } catch (error) {
     return Response.error('Fail to start job', { error });
-  }
-};
-
-/**
- * Logic to stop the external job instance.
- * @param {Object} params
- * @param {Object} params.job - Contains job data including featuresValues.
- * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
- */
-exports.stop = async ({ job, instance }) => {
-  try {
-    console.log('STOP INSTANCE:', instance);
-    await axios.delete(
-      `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}`,
-      {
-        auth: {
-          username: job.featuresValues.endpoint.mail,
-          password: job.featuresValues.endpoint.password
-        }
-      }
-    );
-
-    return Response.success();
-  } catch (error) {
-    return Response.error('Fail to stop job', { error });
   }
 };
 
@@ -104,9 +79,8 @@ exports.getStatus = async ({ job, instance }) => {
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
       {
         httpsAgent: agent,
-        auth: {
-          username: job.featuresValues.endpoint.mail,
-          password: job.featuresValues.endpoint.password
+        headers: {
+          'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
       }
     );
@@ -145,15 +119,12 @@ exports.getLogs = async ({ job, instance }) => {
       rejectUnauthorized: false
     });
 
-    console.log(`${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`);
-    
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
       {
         httpsAgent: agent,
-        auth: {
-          username: job.featuresValues.endpoint.mail,
-          password: job.featuresValues.endpoint.password
+        headers: {
+          'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         },
         responseType: 'arraybuffer'
       }
@@ -164,7 +135,15 @@ exports.getLogs = async ({ job, instance }) => {
 
     const { data } = result;
 
+    if (fs.existsSync(jobLogsFilePath)) {
+      fs.unlinkSync(jobLogsFilePath);
+    }
+
     fs.appendFileSync(jobLogsFilePath, data);
+
+    if (fs.existsSync(jobLogsFolderPath)) {
+      rimraf.sync(jobLogsFolderPath);
+    }
 
     await extract(jobLogsFilePath, { dir: '/tmp' });
 
@@ -173,22 +152,17 @@ exports.getLogs = async ({ job, instance }) => {
       .map(dirent => dirent.name)
       .filter(dirName => Number(dirName));
 
-    console.log({ directories });
-
     let logs = '';
 
     directories.forEach((dir) => {
       const newLogs = fs.readFileSync(`${jobLogsFolderPath}/${dir}/job.log`, 'utf8');
-      logs += '\n' + newLogs;
+      logs += newLogs;
     });
 
     const logsLines = logs.split('\n');
 
-    console.log({ logsLines });
-
     return Response.success(logsLines.map((line) => Log(line)));
   } catch (error) {
-    console.error({ error });
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
 };

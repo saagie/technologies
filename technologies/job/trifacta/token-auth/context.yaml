@@ -1,5 +1,5 @@
-id: default
-label: Default
+id: token-auth
+label: Token auth
 description: ""
 recommended: true
 trustLevel: stable
@@ -11,12 +11,8 @@ endpoint:
       required: true
       helper: e.g. use https://cloud.trifacta.com
     - type: TEXT
-      name: mail
-      label: Mail address
-      required: true
-    - type: PASSWORD
-      name: password
-      label: Password
+      name: access_token
+      label: Access token
       required: true
 job:
   features:
@@ -67,9 +63,6 @@ instance:
     onStart:
       script: ./instanceActions.js
       function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
     getStatus:
       script: ./instanceActions.js
       function: getStatus
