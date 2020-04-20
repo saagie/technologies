@@ -3,20 +3,15 @@ const https = require('https');
 const { Response } = require('@saagie/sdk');
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to get user flows in Trifacta
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
 exports.getFlows = async ({ featuresValues }) => {
   try {
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
       {
-        httpsAgent: agent,
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }
@@ -45,21 +40,15 @@ exports.getFlows = async ({ featuresValues }) => {
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to get datasets in selected flow
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
 exports.getDatasets = async ({ featuresValues }) => {
-  console.log({ featuresValues });
   try {
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/wrangledDatasets`,
       {
-        httpsAgent: agent,
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }

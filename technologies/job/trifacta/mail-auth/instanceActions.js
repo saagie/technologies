@@ -13,12 +13,7 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log({ job });
     console.log('START INSTANCE:', instance);
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-
     const parameters = [];
 
     if (job.featuresValues.first_parameter_key && job.featuresValues.first_parameter_value) {
@@ -48,7 +43,6 @@ exports.start = async ({ job, instance }) => {
         }
       },
       {
-        httpsAgent: agent,
         auth: {
           username: job.featuresValues.endpoint.mail,
           password: job.featuresValues.endpoint.password
@@ -72,14 +66,10 @@ exports.start = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
 
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
       {
-        httpsAgent: agent,
         auth: {
           username: job.featuresValues.endpoint.mail,
           password: job.featuresValues.endpoint.password
@@ -117,14 +107,10 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
 
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
       {
-        httpsAgent: agent,
         auth: {
           username: job.featuresValues.endpoint.mail,
           password: job.featuresValues.endpoint.password
@@ -164,7 +150,11 @@ exports.getLogs = async ({ job, instance }) => {
 
     const logsLines = logs.split('\n');
 
-    return Response.success(logsLines.map((line) => Log(line)));
+    return Response.success(logsLines.map((line) => {
+      const logDate = line.substring(0, 23);
+      const logContent = line.substring(24);
+      return Log(logContent, null, logDate);
+    }));
   } catch (error) {
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
