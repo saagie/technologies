@@ -1,5 +1,5 @@
 const axios = require('axios');
-const https = require('https');
+// const https = require('https'); UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
 const { Response } = require('@saagie/sdk');
 
 /**
@@ -9,9 +9,18 @@ const { Response } = require('@saagie/sdk');
  */
 exports.getFlows = async ({ featuresValues }) => {
   try {
+    /*
+    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    */
+
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
       {
+        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
         auth: {
           username: featuresValues.endpoint.mail,
           password: featuresValues.endpoint.password
@@ -47,9 +56,18 @@ exports.getFlows = async ({ featuresValues }) => {
  */
 exports.getDatasets = async ({ featuresValues }) => {
   try {
+    /*
+    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    */
+
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/wrangledDatasets`,
       {
+        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
         auth: {
           username: featuresValues.endpoint.mail,
           password: featuresValues.endpoint.password

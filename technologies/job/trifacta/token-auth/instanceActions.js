@@ -1,5 +1,5 @@
 const axios = require('axios');
-const https = require('https');
+// const https = require('https'); UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
 const fs = require('fs');
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
@@ -14,6 +14,14 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
+
+    /*
+    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    */
 
     const parameters = [];
 
@@ -44,6 +52,7 @@ exports.start = async ({ job, instance }) => {
         }
       },
       {
+        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
@@ -67,9 +76,18 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
 
+    /*
+    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    */
+
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
       {
+        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
@@ -107,9 +125,18 @@ exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
 
+    /*
+    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    */
+
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
       {
+        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         },
