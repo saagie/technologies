@@ -1,5 +1,5 @@
-id: mail-auth
-label: Mail auth
+id: login-auth
+label: Login auth
 description: "Trifacta user authentication by credentials"
 recommended: true
 trustLevel: stable
@@ -11,13 +11,23 @@ endpoint:
       required: true
       helper: e.g. use https://cloud.trifacta.com
     - type: TEXT
-      name: mail
-      label: Mail address
+      name: email
+      label: Email address
       required: true
     - type: PASSWORD
       name: password
       label: Password
       required: true
+    - type: SELECT
+      name: ignoreSslIssues
+      label: SSL issues
+      required: false
+      helper: (Don't ignore it by default)
+      options:
+      - id: true
+        label: Ignore SSL issues
+      - id: false
+        label: Don't ignore SSL issues
 job:
   features:
     - type: ENDPOINT

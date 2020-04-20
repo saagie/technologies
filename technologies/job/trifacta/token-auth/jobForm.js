@@ -1,6 +1,10 @@
 const axios = require('axios');
-// const https = require('https'); UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+const https = require('https');
 const { Response } = require('@saagie/sdk');
+
+const agent = new https.Agent({  
+  rejectUnauthorized: false
+});
 
 /**
  * Function to get user flows in Trifacta
@@ -9,18 +13,10 @@ const { Response } = require('@saagie/sdk');
  */
 exports.getFlows = async ({ featuresValues }) => {
   try {
-    /*
-    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
-
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-    */
-
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
       {
-        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }
@@ -55,18 +51,10 @@ exports.getFlows = async ({ featuresValues }) => {
  */
 exports.getDatasets = async ({ featuresValues }) => {
   try {
-    /*
-    UNCOMMENT THIS IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
-
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-    */
-
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/wrangledDatasets`,
       {
-        // httpsAgent: agent, UNCOMMENT IF YOU GOT AN ERROR ON HTTPS CERTIFICATE IN LOCAL
+        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }

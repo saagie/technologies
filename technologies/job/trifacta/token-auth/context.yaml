@@ -14,6 +14,16 @@ endpoint:
       name: access_token
       label: Access token
       required: true
+    - type: SELECT
+      name: ignoreSslIssues
+      label: SSL issues
+      required: false
+      helper: (Don't ignore it by default)
+      options:
+      - id: true
+        label: Ignore SSL issues
+      - id: false
+        label: Don't ignore SSL issues
 job:
   features:
     - type: ENDPOINT
