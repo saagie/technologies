@@ -9,7 +9,7 @@ icon: job
 contexts:
   - id: mail-auth
     label: Mail auth
-    description: ""
+    description: "Trifacta user authentication by credentials"
     recommended: true
     trustLevel: stable
     endpoint:
@@ -84,7 +84,7 @@ contexts:
           function: getLogs
   - id: token-auth
     label: Token auth
-    description: ""
+    description: "Trifacta user authentication by access token"
     recommended: true
     trustLevel: stable
     endpoint:
