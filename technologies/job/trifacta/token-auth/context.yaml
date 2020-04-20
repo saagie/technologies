@@ -1,6 +1,6 @@
 id: token-auth
 label: Token auth
-description: ""
+description: "Trifacta user authentication by access token"
 recommended: true
 trustLevel: stable
 endpoint:

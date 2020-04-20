@@ -1,6 +1,6 @@
 id: mail-auth
 label: Mail auth
-description: ""
+description: "Trifacta user authentication by credentials"
 recommended: true
 trustLevel: stable
 endpoint:
