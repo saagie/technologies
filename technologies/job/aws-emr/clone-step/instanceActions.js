@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const PAKO = require('pako')
+const { Response, JobStatus, Log , Stream} = require('@saagie/sdk');
 
 /**
  * Logic to start the external job instance.
@@ -134,15 +135,10 @@ exports.getLogs = async ({ job, instance }) => {
     }).promise();
 
     const s3uri = `${data.Cluster.LogUri}${job.featuresValues.clusters.id}/steps/${instance.payload.customId}/`;
-    console.log(s3uri);
 
     const urisplitted = s3uri.split('/');
     const bucket = urisplitted[2];
     const key = s3uri.substring(7+bucket.length);
-
-    console.log(bucket);
-    console.log(key);
-
     const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
     const directory=await s3.listObjectsV2({
@@ -150,9 +146,23 @@ exports.getLogs = async ({ job, instance }) => {
       Prefix: key,
      }).promise();
 
-     console.log(directory.Contents.map((item) => {return item.Key}));
-
-    //return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    const objects=directory.Contents.map((item) =>
+    s3.getObject(
+      {
+        Bucket: bucket,
+        Key: item.Key
+      }
+      ).promise().then((data) => {
+          return {
+            date: data.LastModified,
+            messages: String.fromCharCode.apply(null, new Uint16Array(PAKO.inflate(data.Body))).split(/\r\n|\r|\n/g)
+          }
+        }
+        )
+    );
+    const logs=(await Promise.all(objects));
+    const flattenlogs=(logs.map((item) => { return item.messages.map((i) => { return { date: item.date,message: i} } )} )).flat();
+    return Response.success(flattenlogs.map((item) => Log(item.message, Stream.STDOUT, item.date)));
   } catch (error) {
     console.log(error);
     return Response.error(`Failed to get log for step`, { error });
