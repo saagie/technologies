@@ -11,7 +11,7 @@ exports.getClusters = async ({ featuresValues }) => {
     AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: featuresValues.endpoint.region});
 
-    var emr = new AWS.EMR({apiVersion: '2009-03-31'});
+    const emr = new AWS.EMR({apiVersion: '2009-03-31'});
 
     const data = await emr.listClusters().promise();
     
@@ -41,7 +41,7 @@ exports.getSteps = async ({ featuresValues }) => {
     AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: featuresValues.endpoint.region});
 
-    var emr = new AWS.EMR({apiVersion: '2009-03-31'});
+    const emr = new AWS.EMR({apiVersion: '2009-03-31'});
 
     const data = await emr.listSteps({ ClusterId: featuresValues.clusters.id }).promise();
     

@@ -13,7 +13,7 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
     
-    var emr = new AWS.EMR({apiVersion: '2009-03-31'});
+    const emr = new AWS.EMR({apiVersion: '2009-03-31'});
 
     const data = await emr.describeStep( params = {
       ClusterId: job.featuresValues.clusters.id, 
@@ -63,9 +63,15 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+    
+    const emr = new AWS.EMR({apiVersion: '2009-03-31'});
+
+    await emr.cancelSteps( params = {
+      ClusterId: job.featuresValues.clusters.id, 
+      StepIds: [ instance.payload.customId ]
+    }).promise();
 
     return Response.success();
   } catch (error) {
@@ -91,8 +97,6 @@ exports.getStatus = async ({ job, instance }) => {
       ClusterId: job.featuresValues.clusters.id, 
       StepId: instance.payload.customId
     }).promise();
-
-    console.log(data.Step.Status.State);
     
     const JOB_STATES = {
       PENDING: JobStatus.QUEUED,
@@ -101,8 +105,9 @@ exports.getStatus = async ({ job, instance }) => {
       COMPLETED: JobStatus.SUCCEEDED,
       CANCELLED: JobStatus.KILLED,
       FAILED: JobStatus.FAILED,
-      INTERRUPTED: JobStatus.FAILED,
+      INTERRUPTED: JobStatus.FAILED
     };
+
     return Response.success(JOB_STATES[data.Step.Status.State]);
   } catch (error) {
     console.log(error);
@@ -119,12 +124,37 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    );
+    AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: job.featuresValues.endpoint.region});
+    
+    const emr = new AWS.EMR({apiVersion: '2009-03-31'});
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    const data = await emr.describeCluster( params = {
+      ClusterId: job.featuresValues.clusters.id
+    }).promise();
+
+    const s3uri = `${data.Cluster.LogUri}${job.featuresValues.clusters.id}/steps/${instance.payload.customId}/`;
+    console.log(s3uri);
+
+    const urisplitted = s3uri.split('/');
+    const bucket = urisplitted[2];
+    const key = s3uri.substring(7+bucket.length);
+
+    console.log(bucket);
+    console.log(key);
+
+    const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+    const directory=await s3.listObjectsV2({
+      Bucket: bucket, 
+      Prefix: key,
+     }).promise();
+
+     console.log(directory.Contents.map((item) => {return item.Key}));
+
+    //return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    console.log(error);
+    return Response.error(`Failed to get log for step`, { error });
   }
 };
