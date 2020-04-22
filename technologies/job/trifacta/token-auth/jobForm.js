@@ -6,6 +6,8 @@ const agent = new https.Agent({
   rejectUnauthorized: false
 });
 
+const SSL_ISSUES_CODE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE';
+
 /**
  * Function to get user flows in Trifacta
  * @param {Object} entity - Contains entity data including featuresValues.
@@ -16,7 +18,7 @@ exports.getFlows = async ({ featuresValues }) => {
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
       {
-        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
+        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }
@@ -40,7 +42,28 @@ exports.getFlows = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
-    return Response.error("Can't retrieve flows", { error });
+    console.log(error.response.data);
+    if (error && error.code === SSL_ISSUES_CODE) {
+      return Response.error('Can\'t retrieve flows from Trifacta : SSL error, you can disable SSL issues in Endpoint form', { error: new Error(error.code) });
+    }
+
+    if (error && error.response) {
+      if (
+        error.response.status === 401
+        || (
+          error.response.status === 400
+          && error.response.data
+          && error.response.data.exception
+          && error.response.data.exception.name === 'InvalidAccessTokenException'
+        )
+      ) {
+        return Response.error('Can\'t retrieve flows from Trifacta : Token error, please check your access token in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
+      return Response.error(`Can't retrieve flows from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error('Error while parsing flows data from Trifacta response', { error });
   }
 };
 
@@ -54,7 +77,7 @@ exports.getDatasets = async ({ featuresValues }) => {
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/wrangledDatasets`,
       {
-        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
+        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
         headers: {
           'Authorization': `Bearer ${featuresValues.endpoint.access_token}`
         }
@@ -84,6 +107,10 @@ exports.getDatasets = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
-    return Response.error("Can't retrieve datasets", { error });
+    if (error && error.response) {
+      return Response.error(`Can't retrieve wrangled datasets from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error('Error while parsing wrangled datasets data from Trifacta response', { error });
   }
 };

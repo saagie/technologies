@@ -9,6 +9,28 @@ const agent = new https.Agent({
   rejectUnauthorized: false
 });
 
+const getExistingOutputObjectForJob = async (job) => {
+  try {
+    const { data: result } = await axios.get(
+      `${job.featuresValues.endpoint.url}/v4/outputObjects`,
+      {
+        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
+        headers: {
+          'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
+        }
+      }
+    );
+
+    const { data } = result;
+
+    const existingOutputObject = data.find((outputObject) => outputObject.flowNode.id === job.featuresValues.dataset.id);
+
+    return existingOutputObject;
+  } catch (error) {
+    return null;
+  }
+}
+
 /**
  * Logic to start the external job instance.
  * @param {Object} params
@@ -35,6 +57,66 @@ exports.start = async ({ job, instance }) => {
       });
     }
 
+    let writeSettingsArray = [];
+
+    try {
+      if (job.featuresValues.writeSettings) {
+        writeSettingsArray = JSON.parse(job.featuresValues.writeSettings);
+      }
+    } catch (error) {
+      return Response.error('Error while parsing write settings', { error });
+    }
+
+    const overridesObj = {
+      execution: job.featuresValues.execution && job.featuresValues.execution.id,
+      profiler: job.featuresValues.profiler && job.featuresValues.profiler.id,
+      isAdhoc: true,
+    };
+
+    if (writeSettingsArray && writeSettingsArray.length > 0) {
+      overridesObj.writeSettings = writeSettingsArray;
+    }
+
+    if (job.featuresValues.writeSettingsSave && job.featuresValues.writeSettingsSave.id) {
+      console.log('SAVING WRITE SETTINGS INTO OUTPUT OBJECT');
+      // SAVE write settings into output object
+
+      const existingOutputObjectForJob = await getExistingOutputObjectForJob(job);
+
+      // Check if there is existing output object for selected wrangled dataset
+
+      if (existingOutputObjectForJob && existingOutputObjectForJob.id) {
+        console.log('UPDATING EXISTING OUTPUT OBJECT');
+        await axios.put(
+          `${job.featuresValues.endpoint.url}/v4/outputObjects/${existingOutputObjectForJob.id}`,
+          overridesObj,
+          {
+            httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
+            headers: {
+              'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
+            }
+          }
+        );
+      } else {
+        console.log('CREATE NEW OUTPUT OBJECT');
+        await axios.post(
+          `${job.featuresValues.endpoint.url}/v4/outputObjects`,
+          {
+            ...overridesObj,
+            flowNode: {
+              id: job.featuresValues.dataset.id
+            }
+          },
+          {
+            httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
+            headers: {
+              'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
+            }
+          }
+        );
+      }
+    }
+
     const { data } = await axios.post(
       `${job.featuresValues.endpoint.url}/v4/jobGroups`,
       {
@@ -45,10 +127,11 @@ exports.start = async ({ job, instance }) => {
           overrides: {
             data: parameters
           }
-        }
+        },
+        overrides: !job.featuresValues.writeSettingsSave || !job.featuresValues.writeSettingsSave.id ? overridesObj : {},
       },
       {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
+        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
@@ -58,7 +141,24 @@ exports.start = async ({ job, instance }) => {
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ jobGroupId: data.id });
   } catch (error) {
-    return Response.error('Fail to start job', { error });
+    if (error && error.response) {
+      if (
+        error.response.status === 400
+        && error.response.data
+        && error.response.data.exception
+        && error.response.data.exception.name === 'ValidationFailed'
+      ) {
+        return Response.error('Failed to start job from Trifacta : if it\'s the first time that a job is run for the selected wrangled dataset, please complete job execution, profiler and write settings fields', { error: new Error(`${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
+      }
+
+      if (error.response.data && error.response.data.exception) {
+        return Response.error(`Failed to start job from Trifacta : ${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`, { error: new Error(`${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
+      }
+
+      return Response.error(`Failed to start job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error('Failed to obtain job result from Trifacta', { error });
   }
 };
 
@@ -75,7 +175,7 @@ exports.getStatus = async ({ job, instance }) => {
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
       {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
+        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         }
@@ -99,7 +199,11 @@ exports.getStatus = async ({ job, instance }) => {
         return Response.success(JobStatus.AWAITING);
     }
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
+    if (error && error.response) {
+      return Response.error(`Failed to get status for job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(`Failed to get status for job on dataset ${job.featuresValues.dataset.id}`, { error });
   }
 };
 
@@ -116,7 +220,7 @@ exports.getLogs = async ({ job, instance }) => {
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
       {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : {},
+        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
         headers: {
           'Authorization': `Bearer ${job.featuresValues.endpoint.access_token}`
         },
@@ -161,6 +265,10 @@ exports.getLogs = async ({ job, instance }) => {
       return Log(logContent, null, logDate);
     }));
   } catch (error) {
+    if (error && error.response) {
+      return Response.error(`Failed to get logs for job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
 };
