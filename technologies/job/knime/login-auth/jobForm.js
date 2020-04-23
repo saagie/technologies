@@ -36,15 +36,17 @@ const getWorkflowsRecursive = (currentWorflowGroup) => {
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
-exports.getWorflowGroups = async ({ featuresValues }) => {
+exports.getWorkflowGroups = async ({ featuresValues }) => {
   try {
-    /* const { data: datasets } = await axios.get(
-      `${featuresValues.endpoint.url}/api/demo/datasets`,
-    ); */
-
-    const data = fs.readFileSync('/tmp/test.json', 'utf8');
-
-    const repository = JSON.parse(data);
+    const { data: repository } = await axios.get(
+      `${featuresValues.endpoint.url}/rest/v4/repository/?deep=true`,
+      {
+        auth: {
+          username: featuresValues.endpoint.username,
+          password: featuresValues.endpoint.password
+        }
+      }
+    );
 
     const workflowGroups = getWorkflowGroupsRecursive(repository);
 
@@ -71,6 +73,35 @@ exports.getWorkflows = async ({ featuresValues }) => {
     return Response.success(workflows.map((workflow) => ({
       id: workflow.path,
       label: workflow.path
+    })));
+  } catch (error) {
+    console.log({ error });
+    return Response.error("Can't retrieve datasets", { error });
+  }
+};
+
+/**
+ * Example of function to retrieve select options from an external endpoint.
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getJobs = async ({ featuresValues }) => {
+  try {
+    const { data: workflowJobs } = await axios.get(
+      `${featuresValues.endpoint.url}/rest/v4/repository${featuresValues.workflow.id}:jobs`,
+      {
+        auth: {
+          username: featuresValues.endpoint.username,
+          password: featuresValues.endpoint.password
+        }
+      }
+    );
+
+    const { jobs } = workflowJobs;
+
+    return Response.success(jobs.map((job) => ({
+      id: job.id,
+      label: job.name
     })));
   } catch (error) {
     console.log({ error });
