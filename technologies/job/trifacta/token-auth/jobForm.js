@@ -15,7 +15,7 @@ const SSL_ISSUES_CODE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE';
  */
 exports.getFlows = async ({ featuresValues }) => {
   try {
-    const { data: result } = await axios.get(
+    const result = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
       {
         httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
@@ -29,7 +29,13 @@ exports.getFlows = async ({ featuresValues }) => {
       return Response.empty('No response from Trifacta');
     }
 
-    const { data: flows } = result;
+    const { data: dataResult } = result;
+
+    if (!dataResult) {
+      return Response.empty('No response from Trifacta');
+    }
+
+    const { data: flows } = dataResult;
 
     if (!flows || !flows.length) {
       return Response.empty('No datasets availables');
@@ -42,28 +48,32 @@ exports.getFlows = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
-    console.log(error.response.data);
     if (error && error.code === SSL_ISSUES_CODE) {
       return Response.error('Can\'t retrieve flows from Trifacta : SSL error, you can disable SSL issues in Endpoint form', { error: new Error(error.code) });
     }
 
     if (error && error.response) {
+      if (error.response.status === 401) {
+        return Response.error('Can\'t retrieve flows from Trifacta : Login error, please check your credentials in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
+      if (error.response.status === 404) {
+        return Response.error('Can\'t retrieve flows from Trifacta : Resource not found, please check your endpoint URL in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
       if (
-        error.response.status === 401
-        || (
-          error.response.status === 400
-          && error.response.data
-          && error.response.data.exception
-          && error.response.data.exception.name === 'InvalidAccessTokenException'
-        )
+        error.response.status === 400
+        && error.response.data
+        && error.response.data.exception
+        && error.response.data.exception.name === 'InvalidAccessTokenException'
       ) {
-        return Response.error('Can\'t retrieve flows from Trifacta : Token error, please check your access token in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+        return Response.error(`Can\'t retrieve flows from Trifacta : ${error.response.data.exception.message} - ${error.response.data.exception.details}`, { error: new Error(`${error.response.data.exception.message} - ${error.response.data.exception.details}`) });
       }
 
       return Response.error(`Can't retrieve flows from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error('Error while parsing flows data from Trifacta response', { error });
+    return Response.error('Can\'t retrieve flows from Trifacta', { error });
   }
 };
 
