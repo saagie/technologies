@@ -1,0 +1,7 @@
+version: v1
+id: knime
+label: Knime
+description: ""
+available: true
+type: JOB
+icon: job

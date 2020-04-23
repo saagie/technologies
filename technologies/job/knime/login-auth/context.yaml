@@ -1,0 +1,56 @@
+id: login-auth
+label: Login auth
+description: ""
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: URL
+      name: url
+      label: Endpoint URL
+      required: true
+      helper: e.g. use http://localhost:4000 (may be another port if run with --port)
+    - type: TEXT
+      name: email
+      label: Email address
+    - type: PASSWORD
+      name: password
+      label: Password
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: workflowGroup
+      label: Workflow Group
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getWorflowGroups
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: workflow
+      label: Workflow
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getWorkflows
+      dependsOn:
+        - workflowGroup
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
