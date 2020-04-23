@@ -61,6 +61,49 @@ contexts:
             function: getDatasets
           dependsOn:
             - flow
+        - type: SELECT
+          name: execution
+          label: Job execution
+          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
+          options:
+          - id: photon
+            label: photon - running environment on Trifacta node
+          - id: spark
+            label: spark - Spark on integrated cluster, with the following exceptions
+          - id: emrSpark
+            label: emrSpark - Spark on AWS EMR
+          - id: databricksSpark
+            label: databricksSpark - Spark on Azure Databricks
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: profiler
+          label: Profiler
+          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+          options:
+          - id: true
+            label: Enabled (true)
+          - id: false
+            label: Disabled (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: writeSettings
+          label: Write settings (JSON)
+          helper: (required, if first time running the job) These settings define the publishing options for the job.
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: writeSettingsSave
+          label: Save write settings
+          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+          options:
+          - id: true
+            label: Save inserted write settings into output object (true)
+          - id: false
+            label: Only overwrite current job write settings (false)
+          dependsOn:
+            - dataset
         - type: TEXT
           name: first_parameter_key
           label: First parameter key
@@ -142,6 +185,49 @@ contexts:
             function: getDatasets
           dependsOn:
             - flow
+        - type: SELECT
+          name: execution
+          label: Job execution
+          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
+          options:
+          - id: photon
+            label: photon - running environment on Trifacta node
+          - id: spark
+            label: spark - Spark on integrated cluster, with the following exceptions
+          - id: emrSpark
+            label: emrSpark - Spark on AWS EMR
+          - id: databricksSpark
+            label: databricksSpark - Spark on Azure Databricks
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: profiler
+          label: Profiler
+          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+          options:
+          - id: true
+            label: Enabled (true)
+          - id: false
+            label: Disabled (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: writeSettings
+          label: Write settings (JSON)
+          helper: (required, if first time running the job) These settings define the publishing options for the job.
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: writeSettingsSave
+          label: Save write settings
+          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+          options:
+          - id: true
+            label: Save inserted write settings into output object (true)
+          - id: false
+            label: Only overwrite current job write settings (false)
+          dependsOn:
+            - dataset
         - type: TEXT
           name: first_parameter_key
           label: First parameter key
