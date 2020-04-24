@@ -1,12 +1,7 @@
 const axios = require('axios');
-const https = require('https');
 const { Response } = require('@saagie/sdk');
-
-const agent = new https.Agent({  
-  rejectUnauthorized: false
-});
-
-const SSL_ISSUES_CODE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE';
+const { getRequestConfigFromEndpointForm } = require('./utils');
+const { ERRORS_MESSAGES, SSL_ISSUES_CODE } = require('../errors');
 
 /**
  * Function to get user flows in Trifacta
@@ -17,29 +12,23 @@ exports.getFlows = async ({ featuresValues }) => {
   try {
     const result = await axios.get(
       `${featuresValues.endpoint.url}/v4/flows`,
-      {
-        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: featuresValues.endpoint.email,
-          password: featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(featuresValues.endpoint)
     );
 
     if (!result) {
-      return Response.empty('No response from Trifacta');
+      return Response.empty(ERRORS_MESSAGES.NO_RESPONSE_FROM_TRIFACTA);
     }
 
     const { data: dataResult } = result;
 
     if (!dataResult) {
-      return Response.empty('No response from Trifacta');
+      return Response.empty(ERRORS_MESSAGES.NO_RESPONSE_FROM_TRIFACTA);
     }
 
     const { data: flows } = dataResult;
 
     if (!flows || !flows.length) {
-      return Response.empty('No datasets availables');
+      return Response.empty(ERRORS_MESSAGES.NO_FLOWS);
     }
 
     return Response.success(
@@ -50,22 +39,22 @@ exports.getFlows = async ({ featuresValues }) => {
     );
   } catch (error) {
     if (error && error.code === SSL_ISSUES_CODE) {
-      return Response.error('Can\'t retrieve flows from Trifacta : SSL error, you can disable SSL issues in Endpoint form', { error: new Error(error.code) });
+      return Response.error(ERRORS_MESSAGES.SSL_ERROR, { error: new Error(error.code) });
     }
 
     if (error && error.response) {
       if (error.response.status === 401) {
-        return Response.error('Can\'t retrieve flows from Trifacta : Login error, please check your credentials in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+        return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
       }
 
       if (error.response.status === 404) {
-        return Response.error('Can\'t retrieve flows from Trifacta : Resource not found, please check your endpoint URL in Endpoint form', { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+        return Response.error(ERRORS_MESSAGES.RESOURCE_NOT_FOUND_ERROR, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
       }
 
-      return Response.error(`Can't retrieve flows from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      return Response.error(`${ERRORS_MESSAGES.FLOWS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error('Can\'t retrieve flows from Trifacta', { error });
+    return Response.error(ERRORS_MESSAGES.FLOWS_ERROR, { error });
   }
 };
 
@@ -78,29 +67,23 @@ exports.getDatasets = async ({ featuresValues }) => {
   try {
     const { data: result } = await axios.get(
       `${featuresValues.endpoint.url}/v4/wrangledDatasets`,
-      {
-        httpsAgent: featuresValues.endpoint.ignoreSslIssues && featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: featuresValues.endpoint.email,
-          password: featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(featuresValues.endpoint)
     );
 
     if (!result) {
-      return Response.empty('No response from Trifacta');
+      return Response.empty(ERRORS_MESSAGES.NO_RESPONSE_FROM_TRIFACTA);
     }
 
     const { data: datasets } = result;
 
     if (!datasets || !datasets.length) {
-      return Response.empty('No datasets availables');
+      return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
     }
 
     const datasetsInSelectedFlow = datasets.filter((dataset) => dataset.flow.id === featuresValues.flow.id);
 
     if (!datasets || !datasets.length) {
-      return Response.empty('No datasets availables for this flow');
+      return Response.empty(ERRORS_MESSAGES.NO_DATASETS_FOR_SELECTED_FLOW);
     }
 
     return Response.success(
@@ -111,9 +94,9 @@ exports.getDatasets = async ({ featuresValues }) => {
     );
   } catch (error) {
     if (error && error.response) {
-      return Response.error(`Can't retrieve wrangled datasets from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      return Response.error(`${ERRORS_MESSAGES.DATASETS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error('Error while parsing wrangled datasets data from Trifacta response', { error });
+    return Response.error(ERRORS_MESSAGES.DATASETS_ERROR, { error });
   }
 };

@@ -1,25 +1,17 @@
 const axios = require('axios');
-const https = require('https');
 const fs = require('fs');
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
-
-const agent = new https.Agent({  
-  rejectUnauthorized: false
-});
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
+const { STATUS } = require('../status');
+const { getRequestConfigFromEndpointForm } = require('./utils');
+const { ERRORS_MESSAGES, VALIDATION_FIELD } = require('../errors');
 
 const getExistingOutputObjectForJob = async (job) => {
   try {
     const { data: result } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/outputObjects`,
-      {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: job.featuresValues.endpoint.email,
-          password: job.featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
 
     const { data } = result;
@@ -65,7 +57,7 @@ exports.start = async ({ job, instance }) => {
         writeSettingsArray = JSON.parse(job.featuresValues.writeSettings);
       }
     } catch (error) {
-      return Response.error('Error while parsing write settings', { error });
+      return Response.error(ERRORS_MESSAGES.PARSING_WRITE_SETTINGS_ERROR, { error });
     }
 
     const overridesObj = {
@@ -74,15 +66,15 @@ exports.start = async ({ job, instance }) => {
       isAdhoc: true,
     };
 
-    if (writeSettingsArray && writeSettingsArray.length > 0) {
-      overridesObj.writeSettings = writeSettingsArray;
-    }
-
     if (job.featuresValues.writeSettingsSave && job.featuresValues.writeSettingsSave.id) {
       console.log('SAVING WRITE SETTINGS INTO OUTPUT OBJECT');
       // SAVE write settings into output object
 
       const existingOutputObjectForJob = await getExistingOutputObjectForJob(job);
+
+      if (writeSettingsArray && writeSettingsArray.length > 0) {
+        overridesObj.writeSettings = writeSettingsArray;
+      }
 
       // Check if there is existing output object for selected wrangled dataset
 
@@ -91,13 +83,7 @@ exports.start = async ({ job, instance }) => {
         await axios.put(
           `${job.featuresValues.endpoint.url}/v4/outputObjects/${existingOutputObjectForJob.id}`,
           overridesObj,
-          {
-            httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-            auth: {
-              username: job.featuresValues.endpoint.email,
-              password: job.featuresValues.endpoint.password
-            }
-          }
+          getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
         );
       } else {
         console.log('CREATE NEW OUTPUT OBJECT');
@@ -109,15 +95,11 @@ exports.start = async ({ job, instance }) => {
               id: job.featuresValues.dataset.id
             }
           },
-          {
-            httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-            auth: {
-              username: job.featuresValues.endpoint.email,
-              password: job.featuresValues.endpoint.password
-            }
-          }
+          getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
         );
       }
+    } else if (writeSettingsArray && writeSettingsArray.length > 0) {
+      overridesObj.writesettings = writeSettingsArray;
     }
 
     const { data } = await axios.post(
@@ -133,13 +115,7 @@ exports.start = async ({ job, instance }) => {
         },
         overrides: !job.featuresValues.writeSettingsSave || !job.featuresValues.writeSettingsSave.id ? overridesObj : {},
       },
-      {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: job.featuresValues.endpoint.email,
-          password: job.featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
 
     // You can return any payload you want to get in the stop and getStatus functions.
@@ -150,19 +126,19 @@ exports.start = async ({ job, instance }) => {
         error.response.status === 400
         && error.response.data
         && error.response.data.exception
-        && error.response.data.exception.name === 'ValidationFailed'
+        && error.response.data.exception.name === VALIDATION_FIELD
       ) {
-        return Response.error('Failed to start job from Trifacta : if it\'s the first time that a job is run for the selected wrangled dataset, please complete job execution, profiler and write settings fields', { error: new Error(`${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
+        return Response.error(ERRORS_MESSAGES.MISSING_RUN_ENV_ERROR, { error: new Error(`${ERRORS_MESSAGES.MISSING_RUN_ENV_FULL_ERROR} : ${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
       }
 
       if (error.response.data && error.response.data.exception) {
-        return Response.error(`Failed to start job from Trifacta : ${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`, { error: new Error(`${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
+        return Response.error(`${ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR} : ${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`, { error: new Error(`${error.response.data.exception.name} - ${error.response.data.exception.message} : ${error.response.data.exception.details}`) });
       }
 
-      return Response.error(`Failed to start job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error('Failed to obtain job result from Trifacta', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR, { error });
   }
 };
 
@@ -178,37 +154,17 @@ exports.getStatus = async ({ job, instance }) => {
 
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
-      {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: job.featuresValues.endpoint.email,
-          password: job.featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
 
-    switch (data) {
-      case 'Created':
-        return Response.success(JobStatus.QUEUED);
-      case 'Pending':
-        return Response.success(JobStatus.QUEUED);
-      case 'InProgress':
-        return Response.success(JobStatus.RUNNING);
-      case 'Complete':
-        return Response.success(JobStatus.SUCCEEDED);
-      case 'Canceled':
-        return Response.success(JobStatus.KILLED);
-      case 'Failed':
-        return Response.success(JobStatus.FAILED);
-      default:
-        return Response.success(JobStatus.AWAITING);
-    }
+    return Response.success(STATUS[data] || JobStatus.AWAITING);
+
   } catch (error) {
     if (error && error.response) {
-      return Response.error(`Failed to get status for job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error(`Failed to get status for job on dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${job.featuresValues.dataset.id}`, { error });
   }
 };
 
@@ -225,11 +181,7 @@ exports.getLogs = async ({ job, instance }) => {
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
       {
-        httpsAgent: job.featuresValues.endpoint.ignoreSslIssues && job.featuresValues.endpoint.ignoreSslIssues.id ? agent : null,
-        auth: {
-          username: job.featuresValues.endpoint.email,
-          password: job.featuresValues.endpoint.password
-        },
+        ...getRequestConfigFromEndpointForm(job.featuresValues.endpoint),
         responseType: 'arraybuffer'
       }
     );
@@ -268,13 +220,13 @@ exports.getLogs = async ({ job, instance }) => {
     return Response.success(logsLines.map((line) => {
       const logDate = line.substring(0, 23);
       const logContent = line.substring(24);
-      return Log(logContent, null, logDate);
+      return Log(logContent, Stream.STDOUT, logDate);
     }));
   } catch (error) {
     if (error && error.response) {
-      return Response.error(`Failed to get logs for job from Trifacta : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }
 
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR} ${job.featuresValues.dataset.id}`, { error });
   }
 };
