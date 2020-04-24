@@ -3,7 +3,7 @@ const fs = require('fs');
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
-const { STATUS } = require('../status');
+const { JOB_STATES } = require('../job-states');
 const { getRequestConfigFromEndpointForm } = require('./utils');
 const { ERRORS_MESSAGES, VALIDATION_FIELD } = require('../errors');
 
@@ -157,7 +157,7 @@ exports.getStatus = async ({ job, instance }) => {
       getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
 
-    return Response.success(STATUS[data] || JobStatus.AWAITING);
+    return Response.success(JOB_STATES[data] || JobStatus.AWAITING);
 
   } catch (error) {
     if (error && error.response) {

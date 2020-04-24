@@ -1,6 +1,6 @@
 const { JobStatus } = require('@saagie/sdk');
 
-export const STATUS = {
+export const JOB_STATES = {
   'Created': JobStatus.QUEUED,
   'Pending': JobStatus.QUEUED,
   'InProgress': JobStatus.RUNNING,
