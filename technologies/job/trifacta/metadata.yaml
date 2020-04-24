@@ -1,14 +1,14 @@
 version: v1
 id: trifacta
 label: Trifacta
-description: ""
+description: "Trifacta API Version : +6.4.2"
 available: true
 type: JOB
 icon: job
 
 contexts:
   - id: login-auth
-    label: Login auth
+    label: Login auth (+v6.4.2)
     description: "Trifacta user authentication by credentials"
     recommended: true
     trustLevel: stable
@@ -136,7 +136,7 @@ contexts:
           script: ./instanceActions.js
           function: getLogs
   - id: token-auth
-    label: Token auth
+    label: Token auth (+v6.4.2)
     description: "Trifacta user authentication by access token"
     recommended: true
     trustLevel: stable
