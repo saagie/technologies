@@ -1,0 +1,71 @@
+version: v1
+id: knime
+label: Knime
+description: ""
+available: true
+type: JOB
+icon: job
+
+contexts:
+  - id: login-auth
+    label: Login auth
+    description: ""
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use http://knimer-server.com/knime (may be another port if run with --port)
+        - type: TEXT
+          name: username
+          label: Username
+        - type: PASSWORD
+          name: password
+          label: Password
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: workflowGroup
+          label: Workflow Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkflowGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: workflow
+          label: Workflow
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkflows
+          dependsOn:
+            - workflowGroup
+        - type: SELECT
+          name: job
+          label: Job
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getJobs
+          dependsOn:
+            - workflow
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
