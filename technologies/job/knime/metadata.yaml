@@ -8,7 +8,7 @@ icon: job
 
 contexts:
   - id: login-auth
-    label: Login auth
+    label: Login auth (REST API v4)
     description: ""
     recommended: true
     trustLevel: experimental
