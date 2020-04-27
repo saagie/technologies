@@ -1,6 +1,7 @@
 const axios = require('axios');
-const fs = require('fs');
 const { Response } = require('@saagie/sdk');
+const { getRequestConfigFromEndpointForm } = require('./utils');
+const { ERRORS_MESSAGES } = require('../errors');
 
 const getWorkflowGroupsRecursive = (currentWorflowGroup) => {
   let subchildrenWorflowGroups = [];
@@ -38,17 +39,26 @@ const getWorkflowsRecursive = (currentWorflowGroup) => {
  */
 exports.getWorkflowGroups = async ({ featuresValues }) => {
   try {
-    const { data: repository } = await axios.get(
+    const response = await axios.get(
       `${featuresValues.endpoint.url}/rest/v4/repository/?deep=true`,
-      {
-        auth: {
-          username: featuresValues.endpoint.username,
-          password: featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(featuresValues.endpoint)
     );
 
+    if (!response) {
+      return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME) });
+    }
+
+    const { data: repository } =  response;
+
+    if (!repository) {
+      return Response.empty(ERRORS_MESSAGES.NO_WORKFLOW_GROUPS);
+    }
+
     const workflowGroups = getWorkflowGroupsRecursive(repository);
+
+    if (!workflowGroups || workflowGroups.length === 0) {
+      return Response.empty(ERRORS_MESSAGES.NO_WORKFLOW_GROUPS);
+    }
 
     return Response.success(workflowGroups.map((workflowGroup) => ({
       id: workflowGroup.path,
@@ -56,8 +66,19 @@ exports.getWorkflowGroups = async ({ featuresValues }) => {
       label: workflowGroup.path
     })));
   } catch (error) {
-    console.log({ error });
-    return Response.error("Can't retrieve datasets", { error });
+    if (error && error.response) {
+      if (error.response.status === 401) {
+        return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
+      if (error.response.status === 404) {
+        return Response.error(ERRORS_MESSAGES.RESOURCE_NOT_FOUND_ERROR, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
+      return Response.error(`${ERRORS_MESSAGES.WORKFLOW_GROUPS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(ERRORS_MESSAGES.WORKFLOW_GROUPS_ERROR, { error });
   }
 };
 
@@ -70,13 +91,16 @@ exports.getWorkflows = async ({ featuresValues }) => {
   try {
     const workflows = getWorkflowsRecursive(featuresValues.workflowGroup.data);
 
+    if (!workflows || workflows.length === 0) {
+      return Response.empty(ERRORS_MESSAGES.NO_WORKFLOWS);
+    }
+
     return Response.success(workflows.map((workflow) => ({
       id: workflow.path,
       label: workflow.path
     })));
   } catch (error) {
-    console.log({ error });
-    return Response.error("Can't retrieve datasets", { error });
+    return Response.error(ERRORS_MESSAGES.WORKFLOWS, { error });
   }
 };
 
@@ -87,24 +111,46 @@ exports.getWorkflows = async ({ featuresValues }) => {
  */
 exports.getJobs = async ({ featuresValues }) => {
   try {
-    const { data: workflowJobs } = await axios.get(
+    const response = await axios.get(
       `${featuresValues.endpoint.url}/rest/v4/repository${featuresValues.workflow.id}:jobs`,
-      {
-        auth: {
-          username: featuresValues.endpoint.username,
-          password: featuresValues.endpoint.password
-        }
-      }
+      getRequestConfigFromEndpointForm(featuresValues.endpoint)
     );
+
+    const runNewJobOption = {
+      id: 'run-new-job',
+      label: 'Run new job for selected workflow'
+    };
+
+    if (!response) {
+      return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME) });
+    }
+
+    const { data: workflowJobs } = response;
+
+    if (!workflowJobs) {
+      return Response.success([runNewJobOption]);
+    }
 
     const { jobs } = workflowJobs;
 
-    return Response.success(jobs.map((job) => ({
-      id: job.id,
-      label: job.name
-    })));
+    if (!jobs) {
+      return Response.success([runNewJobOption]);
+    }
+
+    return Response.success(
+      [
+        ...jobs.map((job) => ({
+          id: job.id,
+          label: job.name
+        })),
+        runNewJobOption
+      ]
+    );
   } catch (error) {
-    console.log({ error });
-    return Response.error("Can't retrieve datasets", { error });
+    if (error && error.response) {
+      return Response.error(`${ERRORS_MESSAGES.WORKFLOW_JOBS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(ERRORS_MESSAGES.WORKFLOW_JOBS_ERROR, { error });
   }
 };

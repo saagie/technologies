@@ -9,7 +9,7 @@ endpoint:
       name: url
       label: Endpoint URL
       required: true
-      helper: e.g. use http://knimer-server.com/knime (may be another port if run with --port)
+      helper: e.g. use http://knimer-server.com/knime
     - type: TEXT
       name: username
       label: Username
@@ -34,6 +34,7 @@ job:
     - type: SELECT
       name: workflow
       label: Workflow
+      helper: The workflow is the collection of nodes, setup to perform your data analysis task
       required: true
       options:
         script: ./jobForm.js
@@ -43,6 +44,7 @@ job:
     - type: SELECT
       name: job
       label: Job
+      helper: On the KNIME Server, a Job is created whenever a workflow is executed
       required: true
       options:
         script: ./jobForm.js

@@ -4,6 +4,9 @@ const fs = require('fs');
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
 const dayjs =  require('dayjs');
+const { JOB_STATES } = require('../job-states');
+const { getRequestConfigFromEndpointForm } = require('./utils');
+const { ERRORS_MESSAGES } = require('../errors');
 
 const getLogsForAJob = (logsLines, lineIndex, jobIdString) => {
   let currentLineIndex = lineIndex;
@@ -52,23 +55,43 @@ const getLogsForAJob = (logsLines, lineIndex, jobIdString) => {
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
-    const result = await axios.post(
-      `${job.featuresValues.endpoint.url}/rest/v4/jobs/${job.featuresValues.job.id}`,
-      {},
-      {
-        auth: {
-          username: job.featuresValues.endpoint.username,
-          password: job.featuresValues.endpoint.password
-        }
+
+    let jobId = job.featuresValues.job.id;
+
+    if (job.featuresValues.job.id === 'run-new-job') {
+      const resultJobCreation = await axios.post(
+        `${job.featuresValues.endpoint.url}/rest/v4/repository${job.featuresValues.workflow.id}:jobs`,
+        {},
+        getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
+      );
+
+      if (resultJobCreation && resultJobCreation.data && resultJobCreation.data.id) {
+        jobId = resultJobCreation.data.id;
+      } else {
+        return Response.error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR) });
       }
+    }
+
+    const result = await axios.post(
+      `${job.featuresValues.endpoint.url}/rest/v4/jobs/${jobId}`,
+      {},
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
+
+    if (!result) {
+      return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME) });
+    }
 
     const { data } = result;
 
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success(data);
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    if (error && error.response) {
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR, { error });
   }
 };
 
@@ -83,29 +106,27 @@ exports.getStatus = async ({ job, instance }) => {
     console.log('GET STATUS INSTANCE:', instance);
 
     const result = await axios.get(
-      `${job.featuresValues.endpoint.url}/rest/v4/jobs/${job.featuresValues.job.id}`,
-      {
-        auth: {
-          username: job.featuresValues.endpoint.username,
-          password: job.featuresValues.endpoint.password
-        }
-      }
+      `${job.featuresValues.endpoint.url}/rest/v4/jobs/${(instance && instance.payload && instance.payload.id) || job.featuresValues.job.id}`,
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
     );
+
+    if (!result) {
+      return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME) });
+    }
 
     const { data } = result;
 
-    switch (data.state) {
-      case 'EXECUTING':
-        return Response.success(JobStatus.RUNNING);
-      case 'CONFIGURED_QUEUED':
-        return Response.success(JobStatus.QUEUED);
-        case 'EXECUTED':
-          return Response.success(JobStatus.SUCCEEDED);
-      default:
-        return Response.success(JobStatus.AWAITING);
+    if (!data || !data.state) {
+      return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR) });
     }
+
+    return Response.success(JOB_STATES[data.state] || JobStatus.AWAITING);
   } catch (error) {
-    return Response.error('Failed to get status', { error });
+    if (error && error.response) {
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR, { error });
   }
 };
 
@@ -121,18 +142,23 @@ exports.getLogs = async ({ job, instance }) => {
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/rest/v4/admin/logs`,
       {
-        auth: {
-          username: job.featuresValues.endpoint.username,
-          password: job.featuresValues.endpoint.password
-        },
+        ...getRequestConfigFromEndpointForm(job.featuresValues.endpoint),
         responseType: 'arraybuffer'
       }
     );
+
+    if (!result) {
+      return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_KNIME) });
+    }
 
     const jobLogsFilePath = '/tmp/knime-logs.zip';
     const jobLogsFolderPath = '/tmp/knime-logs';
 
     const { data } = result;
+
+    if (!data) {
+      return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR) });
+    }
 
     if (fs.existsSync(jobLogsFilePath)) {
       fs.unlinkSync(jobLogsFilePath);
@@ -150,9 +176,7 @@ exports.getLogs = async ({ job, instance }) => {
       .filter(dirent => dirent.isDirectory())
       .map(dirent => dirent.name);
 
-    const jobIdString = `: ${job.featuresValues.job.id} :`;
-
-    console.log({ jobIdString });
+    const jobIdString = `: ${(instance && instance.payload && instance.payload.id) || job.featuresValues.job.id} :`;
 
     let jobLogs = [];
 
@@ -172,7 +196,14 @@ exports.getLogs = async ({ job, instance }) => {
 
     return Response.success(jobLogs.map((jobLogLine) => Log(jobLogLine, Stream.STDOUT, null)));
   } catch (error) {
-    console.log({ error });
-    return Response.error('Failed to get logs', { error });
+    if (error && error.response) {
+      if (error.response.status === 403) {
+        return Response.error(ERRORS_MESSAGES.LOGS_FORBIDDEN_ERROR, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+      }
+
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error });
   }
 };

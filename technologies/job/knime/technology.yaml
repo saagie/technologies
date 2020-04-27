@@ -1,7 +1,7 @@
 version: v1
 id: knime
 label: Knime
-description: ""
+description: "Knime Server REST API v4"
 available: true
 type: JOB
 icon: job
