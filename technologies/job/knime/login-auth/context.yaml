@@ -9,7 +9,7 @@ endpoint:
       name: url
       label: Endpoint URL
       required: true
-      helper: e.g. use http://localhost:4000 (may be another port if run with --port)
+      helper: e.g. use http://knimer-server.com/knime (may be another port if run with --port)
     - type: TEXT
       name: username
       label: Username
