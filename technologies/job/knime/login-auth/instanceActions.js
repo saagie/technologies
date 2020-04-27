@@ -194,7 +194,13 @@ exports.getLogs = async ({ job, instance }) => {
       }
     });
 
-    return Response.success(jobLogs.map((jobLogLine) => Log(jobLogLine, Stream.STDOUT, null)));
+    return Response.success(jobLogs.map(
+      (jobLogLine) => {
+        const maybeDate = jobLogLine.substring(0, 19);
+        const isAValidDate = dayjs(maybeDate).isValid();
+        return Log(jobLogLine, Stream.STDOUT, isAValidDate && maybeDate);
+      }
+    ));
   } catch (error) {
     if (error && error.response) {
       if (error.response.status === 403) {
