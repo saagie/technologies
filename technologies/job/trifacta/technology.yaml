@@ -1,0 +1,7 @@
+version: v1
+id: trifacta
+label: Trifacta
+description: "Trifacta API Version : +6.4.2"
+available: true
+type: JOB
+icon: job

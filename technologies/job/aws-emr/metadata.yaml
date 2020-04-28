@@ -1,0 +1,73 @@
+version: v1
+id: aws-emr
+label: aws-emr
+description: "Easily run and scale Apache Spark, Hadoop, HBase, Presto, Hive, and other big data frameworks"
+available: true
+type: JOB
+icon: job
+
+contexts:
+  - id: clone-step
+    label: clone-step
+    description: "Clone an existing EMR Step."
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: aws_access_key_id
+          label: Access Key ID
+          required: true
+        - type: PASSWORD
+          name: aws_secret_access_key
+          label: Secret Access Key
+          required: true
+        - type: TEXT
+          name: region
+          label: Region
+          helper: "AWS region. Example: us-east-1"
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: clusters
+          label: Clusters
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getClusters
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: steps
+          label: Step to clone
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getSteps
+          dependsOn:
+            - clusters
+        - type: TEXT
+          name: name
+          label: New Name
+          required: true
+          dependsOn:
+            - steps
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
