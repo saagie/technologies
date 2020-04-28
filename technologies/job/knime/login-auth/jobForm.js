@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
-const { getRequestConfigFromEndpointForm } = require('./utils');
+const { getRequestConfigFromEndpointForm, RUN_NEW_JOB } = require('./utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
 const getWorkflowGroupsRecursive = (currentWorflowGroup) => {
@@ -117,7 +117,7 @@ exports.getJobs = async ({ featuresValues }) => {
     );
 
     const runNewJobOption = {
-      id: 'run-new-job',
+      id: RUN_NEW_JOB,
       label: 'Run new job for selected workflow'
     };
 

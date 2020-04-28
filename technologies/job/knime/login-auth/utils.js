@@ -6,3 +6,5 @@ export const getRequestConfigFromEndpointForm = (endpointForm) => (
     }
   }
 );
+
+export const RUN_NEW_JOB = 'run-new-job';

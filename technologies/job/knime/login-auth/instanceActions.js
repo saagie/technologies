@@ -5,7 +5,7 @@ const extract = require('extract-zip');
 const rimraf = require('rimraf');
 const dayjs =  require('dayjs');
 const { JOB_STATES } = require('../job-states');
-const { getRequestConfigFromEndpointForm } = require('./utils');
+const { getRequestConfigFromEndpointForm, RUN_NEW_JOB } = require('./utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
 const getLogsForAJob = (logsLines, lineIndex, jobIdString) => {
@@ -58,7 +58,7 @@ exports.start = async ({ job, instance }) => {
 
     let jobId = job.featuresValues.job.id;
 
-    if (job.featuresValues.job.id === 'run-new-job') {
+    if (job.featuresValues.job.id === RUN_NEW_JOB) {
       const resultJobCreation = await axios.post(
         `${job.featuresValues.endpoint.url}/rest/v4/repository${job.featuresValues.workflow.id}:jobs`,
         {},
@@ -198,7 +198,7 @@ exports.getLogs = async ({ job, instance }) => {
       (jobLogLine) => {
         const maybeDate = jobLogLine.substring(0, 19);
         const isAValidDate = dayjs(maybeDate).isValid();
-        return Log(jobLogLine, Stream.STDOUT, isAValidDate && maybeDate);
+        return Log(jobLogLine, Stream.STDOUT, isAValidDate ? maybeDate : undefined);
       }
     ));
   } catch (error) {
