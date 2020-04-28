@@ -3,7 +3,7 @@ id: knime
 label: Knime
 description: "Knime Server REST API v4"
 available: true
-type: JOB
+type: EXTERNAL_JOB
 icon: job
 
 contexts:
