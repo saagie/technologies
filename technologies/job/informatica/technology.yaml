@@ -1,0 +1,7 @@
+version: v1
+id: informatica
+label: Informatica
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
