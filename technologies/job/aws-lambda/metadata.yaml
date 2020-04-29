@@ -3,7 +3,7 @@ id: aws-lambda
 label: aws-lambda
 description: "Run code without thinking about servers. Pay only for the compute time you consume. Only lambda with Kinesis, SQS and DynamoDB Stream. Api Version: 2015-03-31"
 available: true
-type: JOB
+type: EXTERNAL_JOB
 icon: job
 
 contexts:
