@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 const { ERRORS_MESSAGES } = require('../errors');
+const { JOB_EXECUTION_STATES, JOB_STATES } = require('../job-states');
 const { loginUser, getV2RequestHeadersFromEndpointForm, getErrorMessage } = require('./utils');
 
 /**
@@ -101,18 +102,7 @@ exports.getStatus = async ({ job, instance }) => {
       const activityMonitorForJob = activityMonitors.find((activityMonitor) => activityMonitor.runId === instance.payload.runId);
 
       if (activityMonitorForJob) {
-        switch (activityMonitorForJob.executionState) {
-          case 'RUNNING':
-            return Response.success(JobStatus.RUNNING);
-          case 'INITIALIZED':
-            return Response.success(JobStatus.QUEUED);
-          case 'STOPPING':
-            return Response.success(JobStatus.KILLING);
-          case 'FAILED':
-            return Response.success(JobStatus.FAILED);
-          default:
-            return Response.success(JobStatus.AWAITING);
-        }
+        return Response.success(JOB_EXECUTION_STATES[activityMonitorForJob.executionState] || JobStatus.AWAITING);
       }
 
       const resultActivityLog = await axios.get(
@@ -128,16 +118,7 @@ exports.getStatus = async ({ job, instance }) => {
 
       const activityLogForJob = activityLogs[0];
 
-      switch (activityLogForJob.state) {
-        case 1:
-          return Response.success(JobStatus.SUCCEEDED);
-        case 2:
-          return Response.success(JobStatus.FAILED);
-        case 3:
-          return Response.success(JobStatus.FAILED);
-        default:
-          return Response.success(JobStatus.AWAITING);
-      }
+      return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
     }
 
     return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
