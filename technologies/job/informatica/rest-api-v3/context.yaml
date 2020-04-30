@@ -1,6 +1,6 @@
 id: rest-api-v3
-label: REST API V3
-description: "Informatica Cloud Platform REST API V3"
+label: Data Integration V3
+description: "Informatica Cloud Platform Data Integration V3"
 recommended: true
 trustLevel: experimental
 endpoint:

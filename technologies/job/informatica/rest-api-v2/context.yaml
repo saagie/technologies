@@ -1,6 +1,6 @@
 id: rest-api-v2
-label: REST API V2
-description: "Informatica Cloud Platform REST API V2"
+label: Data Integration V2
+description: "Informatica Cloud Platform Data Integration V2"
 recommended: true
 trustLevel: experimental
 endpoint:
