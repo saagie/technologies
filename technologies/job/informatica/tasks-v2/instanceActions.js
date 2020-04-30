@@ -4,7 +4,6 @@ const { ERRORS_MESSAGES } = require('../errors');
 const { JOB_EXECUTION_STATES, JOB_STATES } = require('../job-states');
 const { loginUser, getV2RequestHeadersFromEndpointForm, getErrorMessage } = require('./utils');
 
-
 /**
  * Logic to start the external job instance.
  * @param {Object} params
@@ -21,8 +20,8 @@ exports.start = async ({ job, instance }) => {
         `${userData.serverUrl}/api/v2/job`,
         {
           '@type': 'job',
-          taskFederatedId: job.featuresValues.task.id,
-          taskType: job.featuresValues.task.type
+          taskId: job.featuresValues.task.id,
+          taskType: job.featuresValues.taskType.id
         },
         getV2RequestHeadersFromEndpointForm(userData)
       );
@@ -58,8 +57,8 @@ exports.stop = async ({ job, instance }) => {
         `${userData.serverUrl}/api/v2/job/stop`,
         {
           '@type': 'job',
-          taskFederatedId: job.featuresValues.task.id,
-          taskType: job.featuresValues.task.type
+          taskId: job.featuresValues.task.id,
+          taskType: job.featuresValues.taskType.id
         },
         getV2RequestHeadersFromEndpointForm(userData)
       );
@@ -117,9 +116,13 @@ exports.getStatus = async ({ job, instance }) => {
 
       const { data: activityLogs } = resultActivityLog;
 
-      const activityLogForJob = activityLogs[0];
+      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === job.featuresValues.task.id);
 
-      return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
+      if (activityLogForJob) {
+        return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
+      } else {
+        return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR) });
+      }
     }
 
     return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
@@ -155,22 +158,26 @@ exports.getLogs = async ({ job, instance }) => {
         return Response.success();
       }
 
-      const activityLogForJob = activityLogs[0];
+      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === job.featuresValues.task.id);
 
-      const resultSessionLog = await axios.get(
-        `${userData.serverUrl}/api/v2/activity/activityLog/${activityLogForJob.id}/sessionLog`,
-        getV2RequestHeadersFromEndpointForm(userData)
-      );
-
-      if (!resultSessionLog || !resultSessionLog.data) {
-        return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
+      if (activityLogForJob) {
+        const resultSessionLog = await axios.get(
+          `${userData.serverUrl}/api/v2/activity/activityLog/${activityLogForJob.id}/sessionLog`,
+          getV2RequestHeadersFromEndpointForm(userData)
+        );
+  
+        if (!resultSessionLog || !resultSessionLog.data) {
+          return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
+        }
+  
+        const { data: sessionLog } = resultSessionLog;
+  
+        const sessionLogLines = sessionLog.split('\n');
+  
+        return Response.success(sessionLogLines.map((line) => Log(line, null, null)));
       }
 
-      const { data: sessionLog } = resultSessionLog;
-
-      const sessionLogLines = sessionLog.split('\n');
-
-      return Response.success(sessionLogLines.map((line) => Log(line, null, null)));
+      return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR) });
     }
 
     return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });

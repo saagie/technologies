@@ -1,6 +1,6 @@
-id: rest-api-v2
-label: Data Integration V2
-description: "Informatica Cloud Platform Data Integration V2"
+id: workflows-v2
+label: Data Integration with workflows V2
+description: "Informatica Cloud Platform Data Integration with workflows V2"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -23,31 +23,23 @@ job:
       label: Endpoint
       required: true
     - type: SELECT
-      name: taskType
-      label: Task type
+      name: workflow
+      label: Workflow
       required: true
       options:
-        - id: DMASK
-          label: DMASK. Masking task.
-        - id: DRS
-          label: DRS. Replication task.
-        - id: DSS
-          label : DSS. Synchronization task.
-        - id: MTT
-          label : MTT. Mapping task.
-        - id: PCS
-          label : PCS. PowerCenter task.
+        script: ./jobForm.js
+        function: getWorkflows
       dependsOn:
         - endpoint
     - type: SELECT
       name: task
-      label: Task
+      label: Specific task
       required: true
       options:
         script: ./jobForm.js
         function: getTasks
       dependsOn:
-        - taskType
+        - workflow
 instance:
   actions:
     onStart:

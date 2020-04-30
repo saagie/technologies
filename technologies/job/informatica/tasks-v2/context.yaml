@@ -1,6 +1,6 @@
-id: rest-api-v3
-label: Data Integration V3
-description: "Informatica Cloud Platform Data Integration V3"
+id: tasks-v2
+label: Data Integration V2
+description: "Informatica Cloud Platform Data Integration V2"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -23,24 +23,6 @@ job:
       label: Endpoint
       required: true
     - type: SELECT
-      name: project
-      label: Project
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getProjects
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: folder
-      label: Folder
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getFolders
-      dependsOn:
-        - project
-    - type: SELECT
       name: taskType
       label: Task type
       required: true
@@ -56,7 +38,7 @@ job:
         - id: PCS
           label : PCS. PowerCenter task.
       dependsOn:
-        - folder
+        - endpoint
     - type: SELECT
       name: task
       label: Task
