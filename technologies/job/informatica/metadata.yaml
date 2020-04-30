@@ -8,8 +8,8 @@ icon: job
 
 contexts:
   - id: rest-api-v3
-    label: REST API V3
-    description: "Informatica Cloud Platform REST API V3"
+    label: Data Integration V3
+    description: "Informatica Cloud Platform Data Integration V3"
     recommended: true
     trustLevel: experimental
     endpoint:
@@ -90,8 +90,8 @@ contexts:
           script: ./instanceActions.js
           function: getLogs
   - id: rest-api-v2
-    label: REST API V2
-    description: "Informatica Cloud Platform REST API V2"
+    label: Data Integration V2
+    description: "Informatica Cloud Platform Data Integration V2"
     recommended: true
     trustLevel: experimental
     endpoint:
