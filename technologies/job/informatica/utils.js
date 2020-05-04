@@ -61,8 +61,13 @@ export const readLogs = async (userData, activityLogForJob) => {
     return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
   }
 
-  const jobLogsFilePath = `/tmp/activity-${activityLogForJob.id}-logs.zip`;
-  const jobLogsFolderPath = `/tmp/activity-${activityLogForJob.id}-logs`;
+  const informaticaFolderPath = '/tmp/informatica';
+  const jobLogsFilePath = `${informaticaFolderPath}/activity-${activityLogForJob.id}-logs.zip`;
+  const jobLogsFolderPath = `${informaticaFolderPath}/activity-${activityLogForJob.id}-logs`;
+
+  if (!fs.existsSync(informaticaFolderPath)) {
+    fs.mkdirSync(informaticaFolderPath);
+  }
 
   if (fs.existsSync(jobLogsFilePath)) {
     fs.unlinkSync(jobLogsFilePath);
