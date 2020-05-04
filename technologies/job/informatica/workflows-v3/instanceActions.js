@@ -7,6 +7,7 @@ const {
   getV2RequestHeadersFromEndpointForm,
   getErrorMessage,
   readLogs,
+  WORKFLOW_TYPE,
 } = require('../utils');
 
 /**
@@ -25,8 +26,8 @@ exports.start = async ({ job, instance }) => {
         `${userData.serverUrl}/api/v2/job`,
         {
           '@type': 'job',
-          taskFederatedId: job.featuresValues.task.id,
-          taskType: job.featuresValues.task.type
+          taskFederatedId: job.featuresValues.workflow.id,
+          taskType: WORKFLOW_TYPE
         },
         getV2RequestHeadersFromEndpointForm(userData)
       );
@@ -62,8 +63,8 @@ exports.stop = async ({ job, instance }) => {
         `${userData.serverUrl}/api/v2/job/stop`,
         {
           '@type': 'job',
-          taskFederatedId: job.featuresValues.task.id,
-          taskType: job.featuresValues.task.type
+          taskFederatedId: job.featuresValues.workflow.id,
+          taskType: WORKFLOW_TYPE
         },
         getV2RequestHeadersFromEndpointForm(userData)
       );

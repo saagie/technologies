@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const { ERRORS_MESSAGES } = require('../errors');
-const { loginUser, getV2RequestHeadersFromEndpointForm, getErrorMessage } = require('./utils');
+const { loginUser, getV2RequestHeadersFromEndpointForm, getErrorMessage } = require('../utils');
 
 /**
  * Example of function to retrieve select options from an external endpoint.

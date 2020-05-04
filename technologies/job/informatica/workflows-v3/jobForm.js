@@ -1,7 +1,12 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const { ERRORS_MESSAGES } = require('../errors');
-const { loginUser, getV3RequestHeadersFromEndpointForm, getErrorMessage } = require('../utils');
+const {
+  loginUser,
+  getV3RequestHeadersFromEndpointForm,
+  getV2RequestHeadersFromEndpointForm,
+  getErrorMessage,
+} = require('../utils');
 
 /**
  * Example of function to retrieve select options from an external endpoint.
@@ -113,13 +118,13 @@ exports.getFolders = async ({ featuresValues }) => {
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
-exports.getTasks = async ({ featuresValues }) => {
+exports.getWorkflows = async ({ featuresValues }) => {
   try {
     const userData = await loginUser(featuresValues);
 
     if (userData && userData.icSessionId && userData.serverUrl) {
       const result = await axios.get(
-        `${userData.serverUrl}/public/core/v3/objects?q=type=='${featuresValues.taskType.id}' and location=='${featuresValues.folder.path}'`,
+        `${userData.serverUrl}/public/core/v3/objects?q=type=='WORKFLOW' and location=='${featuresValues.folder.path}'`,
         getV3RequestHeadersFromEndpointForm(userData)
       );
 
@@ -129,16 +134,15 @@ exports.getTasks = async ({ featuresValues }) => {
 
       const { data } = result;
 
-      const { objects: tasks } = data;
+      const { objects: workflows } = data;
 
-      if (!tasks || !tasks.length) {
-        return Response.empty(ERRORS_MESSAGES.NO_TASKS);
+      if (!workflows || !workflows.length) {
+        return Response.empty(ERRORS_MESSAGES.NO_WORKFLOWS);
       }
   
       return Response.success(
-        tasks.map(({ path, id, type }) => ({
+        workflows.map(({ path, id }) => ({
           id,
-          type,
           path,
           label: path,
         }))
@@ -147,6 +151,6 @@ exports.getTasks = async ({ featuresValues }) => {
 
     return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.TASKS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.WORKFLOWS_ERROR);
   }
 };

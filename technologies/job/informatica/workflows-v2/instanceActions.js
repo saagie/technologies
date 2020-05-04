@@ -1,13 +1,14 @@
 const axios = require('axios');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus } = require('@saagie/sdk');
 const { ERRORS_MESSAGES } = require('../errors');
 const { JOB_EXECUTION_STATES, JOB_STATES } = require('../job-states');
 const {
   loginUser,
   getV2RequestHeadersFromEndpointForm,
   getErrorMessage,
+  readLogs,
   WORKFLOW_TYPE
-} = require('./utils');
+} = require('../utils');
 
 /**
  * Logic to start the external job instance.
@@ -166,28 +167,14 @@ exports.getLogs = async ({ job, instance }) => {
       const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === ((job.featuresValues.task && job.featuresValues.task.id) || (job.featuresValues.workflow && job.featuresValues.workflow.id)));
 
       if (activityLogForJob) {
-        const resultSessionLog = await axios.get(
-          `${userData.serverUrl}/api/v2/activity/activityLog/${activityLogForJob.id}/sessionLog`,
-          getV2RequestHeadersFromEndpointForm(userData)
-        );
-  
-        if (!resultSessionLog || !resultSessionLog.data) {
-          return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
-        }
-  
-        const { data: sessionLog } = resultSessionLog;
-  
-        const sessionLogLines = sessionLog.split('\n');
-  
-        return Response.success(sessionLogLines.map((line) => Log(line, null, null)));
+        return readLogs(userData, activityLogForJob);
       }
 
-      return Response.empty(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR) });
+      return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR) });
     }
 
     return Response.success();
   } catch (error) {
-    console.log({ error });
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR);
   }
 };
