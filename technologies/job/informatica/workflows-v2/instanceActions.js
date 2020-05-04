@@ -122,7 +122,7 @@ exports.getStatus = async ({ job, instance }) => {
 
       const { data: activityLogs } = resultActivityLog;
 
-      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === ((job.featuresValues.task && job.featuresValues.task.id) || (job.featuresValues.workflow && job.featuresValues.workflow.id)));
+      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === instance.payload.taskId);
 
       if (activityLogForJob) {
         return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
@@ -164,7 +164,7 @@ exports.getLogs = async ({ job, instance }) => {
         return Response.success();
       }
 
-      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === ((job.featuresValues.task && job.featuresValues.task.id) || (job.featuresValues.workflow && job.featuresValues.workflow.id)));
+      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === instance.payload.taskId);
 
       if (activityLogForJob) {
         return readLogs(userData, activityLogForJob);
