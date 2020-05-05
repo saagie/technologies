@@ -1,7 +1,7 @@
 version: v1
-id: informatica
-label: Informatica
-description: "Informatica Cloud Platform"
+id: informatica-cloud
+label: Informatica Cloud Platform
+description: "Informatica Cloud Platform - Data Integration"
 available: true
 type: EXTERNAL_JOB
 icon: job
