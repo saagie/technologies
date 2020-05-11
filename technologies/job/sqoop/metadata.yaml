@@ -11,19 +11,19 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/sqoop
-      version: 1.4.6-1.17.0
+      version: 1.4.6-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
-        - field: COMMAND_LINE
+        - type: COMMAND_LINE
           label: "Command line"
           mandatory: true
           comment: "sqoop"
           defaultValue: "driver=xxx \nhost=\"x.x.x.x\"\nport=xxx \nusername=\"xxx\" \npassword=\"xxxx\" \ndatabase=\"xxxx\" \ntable=\"xxxx\" \nhdfsdest=hdfs:///tmp/sqoop_import \n\nsqoop import --connect jdbc:$driver://$host:$port/$database --username $username --password $password --as-textfile -m 1 --target-dir $hdfsdest --table \"$table\""
-        - field: ARTIFACT
+        - type: ARTIFACT
           label: "Package"
           mandatory: false
           comment: "Any file necessary for the process, can be a zip file containing shell script, jar files, data etc."
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: "Scheduled"
           mandatory: true

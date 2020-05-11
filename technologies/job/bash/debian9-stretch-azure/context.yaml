@@ -7,16 +7,16 @@ dockerInfo:
 trustLevel: "stable"
 job:
   features:
-    - field: COMMAND_LINE
+    - type: COMMAND_LINE
       label: Command line
       mandatory: true
       comment: Linux shell command
       defaultValue: echo "Saagie Bash"
-    - field: ARTIFACT
+    - type: ARTIFACT
       label: Package
       mandatory: false
       comment: All files are accepted.
-    - field: SCHEDULER
+    - type: SCHEDULER
       label: Scheduled
       mandatory: true
       

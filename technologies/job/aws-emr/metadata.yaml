@@ -3,7 +3,7 @@ id: aws-emr
 label: aws-emr
 description: "Easily run and scale Apache Spark, Hadoop, HBase, Presto, Hive, and other big data frameworks"
 available: true
-type: JOB
+type: EXTERNAL_JOB
 icon: job
 
 contexts:
