@@ -69,6 +69,12 @@ config {
                 email = "pierre@saagie.com"
                 roles = listOf("author", "developer")
             }
+            person {
+                id = "yann"
+                name = "Yann Petit"
+                email = "yann.petit@saagie.com"
+                roles = listOf("author", "developer")
+            }
         }
     }
 }
