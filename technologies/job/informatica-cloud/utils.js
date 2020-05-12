@@ -1,8 +1,6 @@
 const axios = require('axios');
-const fs = require('fs');
-const extract = require('extract-zip');
-const rimraf = require('rimraf');
 const { Response, Log, Stream } = require('@saagie/sdk');
+const AdmZip = require('adm-zip');
 const { ERRORS_MESSAGES } = require('./errors');
 
 export const WORKFLOW_TYPE = 'WORKFLOW';
@@ -61,48 +59,28 @@ export const readLogs = async (userData, activityLogForJob) => {
     return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
   }
 
-  const informaticaFolderPath = '/tmp/informatica';
-  const jobLogsFilePath = `${informaticaFolderPath}/activity-${activityLogForJob.id}-logs.zip`;
-  const jobLogsFolderPath = `${informaticaFolderPath}/activity-${activityLogForJob.id}-logs`;
-
-  if (!fs.existsSync(informaticaFolderPath)) {
-    fs.mkdirSync(informaticaFolderPath);
-  }
-
-  if (fs.existsSync(jobLogsFilePath)) {
-    fs.unlinkSync(jobLogsFilePath);
-  }
-
-  if (fs.existsSync(jobLogsFolderPath)) {
-    rimraf.sync(jobLogsFolderPath);
-  }
-
   const { data: sessionLog } = resultSessionLog;
 
-  fs.appendFileSync(jobLogsFilePath, sessionLog);
+  const zipBuffer = Buffer.from(sessionLog);
+
+  let zip = null;
+  let zipEntries = [];
 
   try {
-    await extract(jobLogsFilePath, { dir: jobLogsFolderPath });
+    zip = new AdmZip(zipBuffer);
+    zipEntries = zip.getEntries();
   } catch (e) {
     // If logs are not in a zip file, we do the request an other time to read logs directly from request data
     return readLogsInData(userData, activityLogForJob);
   }
 
-  const directories = fs.readdirSync(jobLogsFolderPath, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-
   let logs = '';
 
-  directories.forEach((dir) => {
-    const files = fs.readdirSync(`${jobLogsFolderPath}/${dir}`, { withFileTypes: true })
-      .filter(file => !file.isDirectory())
-      .map(file => file.name);
-
-    files.forEach((file) => {
-      const newLogs = fs.readFileSync(`${jobLogsFolderPath}/${dir}/${file}`, 'utf8');
-      logs += newLogs;
-    });
+  zipEntries.forEach((entry) => {
+    const entryData = entry.getData();
+    if (entryData && entryData.length > 0) {
+      logs += entryData.toString('utf8');
+    }
   });
 
   const logsLines = logs.split('\n');

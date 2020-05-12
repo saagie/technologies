@@ -27,9 +27,7 @@ exports.getProjects = async ({ featuresValues }) => {
         return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
       }
 
-      const { data } = result;
-
-      const { objects: projects } = data;
+      const { data: { objects: projects } } = result;
 
       if (!projects || !projects.length) {
         return Response.empty(ERRORS_MESSAGES.NO_PROJECTS);
@@ -87,9 +85,7 @@ exports.getFolders = async ({ featuresValues }) => {
         return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
       }
 
-      const { data } = result;
-
-      const { objects: folders } = data;
+      const { data: { objects: folders } } = result;
 
       if (!folders || !folders.length) {
         return Response.success([projectMainFolder]);
@@ -132,9 +128,7 @@ exports.getWorkflows = async ({ featuresValues }) => {
         return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
       }
 
-      const { data } = result;
-
-      const { objects: workflows } = data;
+      const { data: { objects: workflows } } = result;
 
       if (!workflows || !workflows.length) {
         return Response.empty(ERRORS_MESSAGES.NO_WORKFLOWS);

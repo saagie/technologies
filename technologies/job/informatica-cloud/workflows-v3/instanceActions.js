@@ -36,9 +36,7 @@ exports.start = async ({ job, instance }) => {
         return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
       }
 
-      const { data } = result;
-
-      return Response.success(data);
+      return Response.success(result.data);
     }
 
     return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
