@@ -11,20 +11,20 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-aws-1.14.0
+      version: debian9-stretch-aws-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
-        - field: COMMAND_LINE
+        - type: COMMAND_LINE
           label: Command line
           mandatory: true
           comment: Linux shell command
           defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
+        - type: ARTIFACT
           label: Package
           mandatory: false
           comment: All files are accepted.
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: Scheduled
           mandatory: true
   - id: debian9-stretch
@@ -33,20 +33,20 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-1.14.0
+      version: debian9-stretch-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
-        - field: COMMAND_LINE
+        - type: COMMAND_LINE
           label: Command line
           mandatory: true
           comment: Linux shell command
           defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
+        - type: ARTIFACT
           label: Package
           mandatory: false
           comment: All files are accepted.
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: Scheduled
           mandatory: true
   - id: debian9-stretch-azure
@@ -55,20 +55,20 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-azure-1.14.0
+      version: debian9-stretch-azure-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
-        - field: COMMAND_LINE
+        - type: COMMAND_LINE
           label: Command line
           mandatory: true
           comment: Linux shell command
           defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
+        - type: ARTIFACT
           label: Package
           mandatory: false
           comment: All files are accepted.
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: Scheduled
           mandatory: true
           
@@ -78,19 +78,19 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-gcp-1.14.0
+      version: debian9-stretch-gcp-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
-        - field: COMMAND_LINE
+        - type: COMMAND_LINE
           label: Command line
           mandatory: true
           comment: Linux shell command
           defaultValue: echo "Saagie Bash"
-        - field: ARTIFACT
+        - type: ARTIFACT
           label: Package
           mandatory: false
           comment: All files are accepted.
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: Scheduled
           mandatory: true
