@@ -1,3 +1,0 @@
-dockerInfo:
-  image: saagie/java-scala
-  version: 11-1.24.0_rename_feature
