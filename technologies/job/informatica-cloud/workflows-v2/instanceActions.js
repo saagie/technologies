@@ -91,47 +91,51 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
-    const userData = await loginUser(job.featuresValues);
+    if (instance && instance.payload) {
+      const userData = await loginUser(job.featuresValues);
 
-    if (userData && userData.icSessionId && userData.serverUrl) {
-      const resultActivityMonitor = await axios.get(
-        `${userData.serverUrl}/api/v2/activity/activityMonitor?details=true`,
-        getV2RequestHeadersFromEndpointForm(userData)
-      );
+      if (userData && userData.icSessionId && userData.serverUrl) {
+        const resultActivityMonitor = await axios.get(
+          `${userData.serverUrl}/api/v2/activity/activityMonitor?details=true`,
+          getV2RequestHeadersFromEndpointForm(userData)
+        );
 
-      if (!resultActivityMonitor || !resultActivityMonitor.data) {
-        return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
+        if (!resultActivityMonitor || !resultActivityMonitor.data) {
+          return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
+        }
+
+        const { data: activityMonitors } = resultActivityMonitor;
+
+        const activityMonitorForJob = activityMonitors.find((activityMonitor) => activityMonitor.runId === instance.payload.runId);
+
+        if (activityMonitorForJob) {
+          return Response.success(JOB_EXECUTION_STATES[activityMonitorForJob.executionState] || JobStatus.AWAITING);
+        }
+
+        const resultActivityLog = await axios.get(
+          `${userData.serverUrl}/api/v2/activity/activityLog?runId=${instance.payload.runId}`,
+          getV2RequestHeadersFromEndpointForm(userData)
+        );
+
+        if (!resultActivityLog || !resultActivityLog.data || !resultActivityLog.data.length) {
+          return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
+        }
+
+        const { data: activityLogs } = resultActivityLog;
+
+        const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === instance.payload.taskId);
+
+        if (activityLogForJob) {
+          return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
+        } else {
+          return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR) });
+        }
       }
 
-      const { data: activityMonitors } = resultActivityMonitor;
+      return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
 
-      const activityMonitorForJob = activityMonitors.find((activityMonitor) => activityMonitor.runId === instance.payload.runId);
-
-      if (activityMonitorForJob) {
-        return Response.success(JOB_EXECUTION_STATES[activityMonitorForJob.executionState] || JobStatus.AWAITING);
-      }
-
-      const resultActivityLog = await axios.get(
-        `${userData.serverUrl}/api/v2/activity/activityLog?runId=${instance.payload.runId}`,
-        getV2RequestHeadersFromEndpointForm(userData)
-      );
-
-      if (!resultActivityLog || !resultActivityLog.data || !resultActivityLog.data.length) {
-        return Response.error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA, { error: new Error(ERRORS_MESSAGES.NO_RESPONSE_FROM_INFORMATICA) });
-      }
-
-      const { data: activityLogs } = resultActivityLog;
-
-      const activityLogForJob = activityLogs.find((activityLog) => activityLog.objectId === instance.payload.taskId);
-
-      if (activityLogForJob) {
-        return Response.success(JOB_STATES[activityLogForJob.state] || JobStatus.AWAITING);
-      } else {
-        return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error: new Error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR) });
-      }
     }
-
-    return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error: new Error(ERRORS_MESSAGES.LOGIN_ERROR) });
+    return Response.success(JobStatus.FAILED);
   } catch (error) {
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR);
   }
