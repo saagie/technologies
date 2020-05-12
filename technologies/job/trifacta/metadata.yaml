@@ -7,9 +7,9 @@ type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: login-auth
-    label: Login auth (+v6.4.2)
-    description: "Trifacta user authentication by credentials"
+  - id: token-auth
+    label: Token auth (+v6.4.2)
+    description: "Trifacta user authentication by access token"
     recommended: true
     trustLevel: stable
     endpoint:
@@ -20,12 +20,8 @@ contexts:
           required: true
           helper: e.g. use https://cloud.trifacta.com
         - type: TEXT
-          name: email
-          label: Email address
-          required: true
-        - type: PASSWORD
-          name: password
-          label: Password
+          name: access_token
+          label: Access token
           required: true
         - type: SELECT
           name: ignoreSslIssues
@@ -135,9 +131,9 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
-  - id: token-auth
-    label: Token auth (+v6.4.2)
-    description: "Trifacta user authentication by access token"
+  - id: login-auth
+    label: Login auth (+v6.4.2)
+    description: "Trifacta user authentication by credentials"
     recommended: true
     trustLevel: stable
     endpoint:
@@ -148,8 +144,12 @@ contexts:
           required: true
           helper: e.g. use https://cloud.trifacta.com
         - type: TEXT
-          name: access_token
-          label: Access token
+          name: email
+          label: Email address
+          required: true
+        - type: PASSWORD
+          name: password
+          label: Password
           required: true
         - type: SELECT
           name: ignoreSslIssues
