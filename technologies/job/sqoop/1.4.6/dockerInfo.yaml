@@ -1,0 +1,3 @@
+dockerInfo:
+  image: saagie/sqoop
+  version: 1.4.6-1.25.0_44_add-sqoop
