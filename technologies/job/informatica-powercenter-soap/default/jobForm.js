@@ -1,9 +1,8 @@
-const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const soap = require('soap');
 const parser = require('fast-xml-parser');
 
-const { getSessionId, getWSDLUrl } = require('./utils');
+const { getSessionId, getMetadataWSDLUrl } = require('./utils');
 
 /**
  * Example of function to retrieve select options from an external endpoint.
@@ -12,7 +11,7 @@ const { getSessionId, getWSDLUrl } = require('./utils');
  */
 exports.getRepositories = async ({ featuresValues }) => {
   try {
-    const url = getWSDLUrl(featuresValues);
+    const url = getMetadataWSDLUrl(featuresValues);
 
     console.log({ url });
 
@@ -46,7 +45,7 @@ exports.getRepositories = async ({ featuresValues }) => {
  */
 exports.getFolders = async ({ featuresValues }) => {
   try {
-    const url = getWSDLUrl(featuresValues);
+    const url = getMetadataWSDLUrl(featuresValues);
 
     const client = await soap.createClientAsync(url);
 
@@ -87,7 +86,7 @@ exports.getFolders = async ({ featuresValues }) => {
  */
 exports.getWorkflows = async ({ featuresValues }) => {
   try {
-    const url = getWSDLUrl(featuresValues);
+    const url = getMetadataWSDLUrl(featuresValues);
 
     const client = await soap.createClientAsync(url);
 
@@ -109,8 +108,6 @@ exports.getWorkflows = async ({ featuresValues }) => {
       const resBody = resObj['soapenv:Envelope']['soapenv:Body'];
       const resBodyValues = Object.values(resBody);
 
-      console.log(resBodyValues[0].WorkflowInfo);
-
       return Response.success(
         resBodyValues.map(({ WorkflowInfo }) => ({
           label: WorkflowInfo.Name,
@@ -121,7 +118,47 @@ exports.getWorkflows = async ({ featuresValues }) => {
     return Response.empty("No workflows");
     
   } catch (error) {
-    console.log({ error });
     return Response.error("Can't retrieve workflows", { error });
+  }
+};
+
+/**
+ * Example of function to retrieve select options from an external endpoint.
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getServices = async ({ featuresValues }) => {
+  try {
+    const url = getMetadataWSDLUrl(featuresValues);
+
+    const client = await soap.createClientAsync(url);
+
+    const sessionId = await getSessionId(featuresValues);
+
+    client.addSoapHeader({
+      'ns0:Context': {
+        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
+        SessionId: sessionId
+      }
+    });
+
+    const res = await client.getAllDIServersAsync();
+
+    if (res && res.length > 0 && res[1]) {
+      const resObj = parser.parse(res[1]);
+      const resBody = resObj['soapenv:Envelope']['soapenv:Body'];
+      const resBodyValues = Object.values(resBody);
+
+      return Response.success(
+        resBodyValues.map(({ DIServerInfo }) => ({
+          label: DIServerInfo.Name,
+        })),
+      );
+    }
+
+    return Response.empty("No integration services");
+    
+  } catch (error) {
+    return Response.error("Can't retrieve inegration services", { error });
   }
 };

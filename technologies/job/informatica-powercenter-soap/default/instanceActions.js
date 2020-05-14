@@ -1,5 +1,10 @@
 const axios = require('axios');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
+const soap = require('soap');
+const parser = require('fast-xml-parser');
+
+const { JOB_STATES } = require('../job-states');
+const { getSessionId, getDataIntegrationWSDLUrl } = require('./utils');
 
 /**
  * Logic to start the external job instance.
@@ -10,14 +15,31 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
-    );
+    const url = getDataIntegrationWSDLUrl(job.featuresValues);
 
-    // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    const client = await soap.createClientAsync(url);
+
+    const sessionId = await getSessionId(job.featuresValues);
+
+    client.addSoapHeader({
+      'ns0:Context': {
+        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
+        SessionId: sessionId
+      }
+    });
+
+    await client.startWorkflowAsync({
+      DIServiceInfo: {
+        ServiceName: job.featuresValues.service.label,
+      },
+      FolderName: job.featuresValues.folder.label,
+      WorkflowName: job.featuresValues.workflow.label,
+      RequestMode: job.featuresValues.requestMode.id,
+    });
+
+    return Response.success();
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Fail to start job', { error });
   }
 };
 
@@ -30,9 +52,27 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
-    );
+    const url = getDataIntegrationWSDLUrl(job.featuresValues);
+
+    const client = await soap.createClientAsync(url);
+
+    const sessionId = await getSessionId(job.featuresValues);
+
+    client.addSoapHeader({
+      'ns0:Context': {
+        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
+        SessionId: sessionId
+      }
+    });
+
+    await client.stopWorkflowAsync({
+      DIServiceInfo: {
+        ServiceName: job.featuresValues.service.label,
+      },
+      FolderName: job.featuresValues.folder.label,
+      WorkflowName: job.featuresValues.workflow.label,
+      RequestMode: job.featuresValues.requestMode.id,
+    });
 
     return Response.success();
   } catch (error) {
@@ -49,20 +89,38 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}`,
-    );
+    const url = getDataIntegrationWSDLUrl(job.featuresValues);
 
-    switch (data.status) {
-      case 'IN_PROGRESS':
-        return Response.success(JobStatus.RUNNING);
-      case 'STOPPED':
-        return Response.success(JobStatus.KILLED);
-      default:
-        return Response.success(JobStatus.AWAITING);
+    const client = await soap.createClientAsync(url);
+
+    const sessionId = await getSessionId(job.featuresValues);
+
+    client.addSoapHeader({
+      'ns0:Context': {
+        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
+        SessionId: sessionId
+      }
+    });
+
+    const res = await client.getWorkflowDetailsAsync({
+      DIServiceInfo: {
+        ServiceName: job.featuresValues.service.label,
+      },
+      FolderName: job.featuresValues.folder.label,
+      WorkflowName: job.featuresValues.workflow.label,
+      RequestMode: job.featuresValues.requestMode.id,
+    });
+
+    if (res && res.length > 0 && res[1]) {
+      const resObj = parser.parse(res[1]);
+      const resBody = resObj['soapenv:Envelope']['soapenv:Body']['ns1:GetWorkflowDetailsReturn'];
+
+      return Response.success(JOB_STATES[resBody.WorkflowRunStatus] || JobStatus.AWAITING);
     }
+
+    return Response.empty();
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error('Failed to get status for workflow', { error });
   }
 };
 
@@ -75,12 +133,42 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    );
+    const url = getDataIntegrationWSDLUrl(job.featuresValues);
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    const client = await soap.createClientAsync(url);
+
+    const sessionId = await getSessionId(job.featuresValues);
+
+    client.addSoapHeader({
+      'ns0:Context': {
+        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
+        SessionId: sessionId
+      }
+    });
+
+    const res = await client.getWorkflowLogAsync({
+      DIServiceInfo: {
+        ServiceName: job.featuresValues.service.label,
+      },
+      FolderName: job.featuresValues.folder.label,
+      WorkflowName: job.featuresValues.workflow.label,
+      Timeout: 5000,
+    });
+
+    if (res && res.length > 0 && res[1]) {
+      const resObj = parser.parse(res[1]);
+      const resLogs = resObj['soapenv:Envelope']['soapenv:Body']['ns1:GetWorkflowLogReturn'];
+
+      if (resLogs) {
+        const logs = resLogs.Buffer;
+        const logsLines = logs.split('\n');
+
+        return Response.success(logsLines.map((logLine) => Log(logLine, Stream.STDOUT, null)));
+      }
+    }
+
+    return Response.empty();
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error('Failed to get log for workflow', { error });
   }
 };

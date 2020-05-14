@@ -1,11 +1,13 @@
 const soap = require('soap');
 const parser = require('fast-xml-parser');
 
-export const getWSDLUrl = (featuresValues) => `${featuresValues.endpoint.url}/services/BatchServices/Metadata?WSDL`;
+export const getMetadataWSDLUrl = (featuresValues) => `${featuresValues.endpoint.url}/services/BatchServices/Metadata?WSDL`;
+
+export const getDataIntegrationWSDLUrl = (featuresValues) => `${featuresValues.endpoint.url}/services/BatchServices/DataIntegration?WSDL`;
 
 export const getSessionId = async (featuresValues) => {
   console.log({ featuresValues });
-  const url = getWSDLUrl(featuresValues);
+  const url = getMetadataWSDLUrl(featuresValues);
 
   const client = await soap.createClientAsync(url);
 
