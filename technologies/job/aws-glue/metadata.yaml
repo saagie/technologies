@@ -56,49 +56,6 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
-  - id: workflow
-    label: workflow
-    description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
-    recommended: false
-    trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: aws_access_key_id
-          label: Access Key ID
-          required: true
-        - type: PASSWORD
-          name: aws_secret_access_key
-          label: Secret Access Key
-          required: true
-        - type: TEXT
-          name: region
-          label: Region
-          helper: "AWS region. Example: us-east-1"
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: workflow
-          label: Workflow
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getWorkflows
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
   - id: job
     label: job
     description: "A job is your business logic required to perform extract, transform and load (ETL) work. Job runs are initiated by triggers which can be scheduled or driven by events."
@@ -148,3 +105,46 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
+  - id: workflow
+    label: workflow
+    description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
+    recommended: false
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: aws_access_key_id
+          label: Access Key ID
+          required: true
+        - type: PASSWORD
+          name: aws_secret_access_key
+          label: Secret Access Key
+          required: true
+        - type: TEXT
+          name: region
+          label: Region
+          helper: "AWS region. Example: us-east-1"
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: workflow
+          label: Workflow
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkflows
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus

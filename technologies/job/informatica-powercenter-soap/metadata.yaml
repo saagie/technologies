@@ -64,6 +64,26 @@ contexts:
             function: getWorkflows
           dependsOn:
             - folder
+        - type: SELECT
+          name: service
+          label: Integration service
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getServices
+          dependsOn:
+            - folder
+        - type: SELECT
+          name: requestMode
+          label: Request mode
+          required: true
+          options:
+            - id: NORMAL
+              label: NORMAL
+            - id: RECOVERY
+              label: RECOVERY
+          dependsOn:
+            - folder
     instance:
       actions:
         onStart:
