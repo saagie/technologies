@@ -1,10 +1,13 @@
-const axios = require('axios');
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
-const soap = require('soap');
-const parser = require('fast-xml-parser');
 
 const { JOB_STATES } = require('../job-states');
-const { getSessionId, getDataIntegrationWSDLUrl } = require('./utils');
+const {
+  getDataIntegrationClientAuthenticated,
+  getResponseBodyFromSOAPRequest,
+} = require('./utils');
+const { ERRORS_MESSAGES } = require('../errors');
+
+const DEFAULT_TIMEOUT = 5000;
 
 /**
  * Logic to start the external job instance.
@@ -15,31 +18,29 @@ const { getSessionId, getDataIntegrationWSDLUrl } = require('./utils');
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
-    const url = getDataIntegrationWSDLUrl(job.featuresValues);
+    const client = await getDataIntegrationClientAuthenticated(job.featuresValues);
 
-    const client = await soap.createClientAsync(url);
-
-    const sessionId = await getSessionId(job.featuresValues);
-
-    client.addSoapHeader({
-      'ns0:Context': {
-        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
-        SessionId: sessionId
-      }
-    });
-
-    await client.startWorkflowAsync({
+    const workflowInformations = {
       DIServiceInfo: {
         ServiceName: job.featuresValues.service.label,
       },
       FolderName: job.featuresValues.folder.label,
       WorkflowName: job.featuresValues.workflow.label,
       RequestMode: job.featuresValues.requestMode.id,
-    });
+    };
+
+    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
+      await client.startTaskAsync({
+        ...workflowInformations,
+        TaskInstancePath: job.featuresValues.task.label,
+      });
+    } else {
+      await client.startWorkflowAsync(workflowInformations);
+    }
 
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to start job', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR, { error });
   }
 };
 
@@ -52,31 +53,29 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    const url = getDataIntegrationWSDLUrl(job.featuresValues);
+    const client = await getDataIntegrationClientAuthenticated(job.featuresValues);
 
-    const client = await soap.createClientAsync(url);
-
-    const sessionId = await getSessionId(job.featuresValues);
-
-    client.addSoapHeader({
-      'ns0:Context': {
-        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
-        SessionId: sessionId
-      }
-    });
-
-    await client.stopWorkflowAsync({
+    const workflowInformations = {
       DIServiceInfo: {
         ServiceName: job.featuresValues.service.label,
       },
       FolderName: job.featuresValues.folder.label,
       WorkflowName: job.featuresValues.workflow.label,
       RequestMode: job.featuresValues.requestMode.id,
-    });
+    };
+
+    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
+      await client.stopTaskAsync({
+        ...workflowInformations,
+        TaskInstancePath: job.featuresValues.task.label,
+      });
+    } else {
+      await client.stopWorkflowAsync(workflowInformations);
+    }
 
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to stop job', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_STOP_JOB_ERROR, { error });
   }
 };
 
@@ -89,38 +88,39 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
-    const url = getDataIntegrationWSDLUrl(job.featuresValues);
+    const client = await getDataIntegrationClientAuthenticated(job.featuresValues);
 
-    const client = await soap.createClientAsync(url);
-
-    const sessionId = await getSessionId(job.featuresValues);
-
-    client.addSoapHeader({
-      'ns0:Context': {
-        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
-        SessionId: sessionId
-      }
-    });
-
-    const res = await client.getWorkflowDetailsAsync({
+    const workflowInformations = {
       DIServiceInfo: {
         ServiceName: job.featuresValues.service.label,
       },
       FolderName: job.featuresValues.folder.label,
       WorkflowName: job.featuresValues.workflow.label,
-      RequestMode: job.featuresValues.requestMode.id,
-    });
+    };
 
-    if (res && res.length > 0 && res[1]) {
-      const resObj = parser.parse(res[1]);
-      const resBody = resObj['soapenv:Envelope']['soapenv:Body']['ns1:GetWorkflowDetailsReturn'];
+    let res = null;
 
-      return Response.success(JOB_STATES[resBody.WorkflowRunStatus] || JobStatus.AWAITING);
+    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
+      res = await client.getTaskDetailsAsync({
+        ...workflowInformations,
+        TaskInstancePath: job.featuresValues.task.label,
+      });
+    } else {
+      res = await client.getWorkflowDetailsAsync(workflowInformations);
+    }
+
+    const resBody = getResponseBodyFromSOAPRequest(res);
+
+    if (resBody && resBody.length > 0 && resBody[0]) {
+      return Response.success(
+        JOB_STATES[resBody[0].TaskRunStatus || resBody[0].WorkflowRunStatus]
+        || JobStatus.AWAITING
+      );
     }
 
     return Response.empty();
   } catch (error) {
-    return Response.error('Failed to get status for workflow', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR, { error });
   }
 };
 
@@ -133,42 +133,42 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const url = getDataIntegrationWSDLUrl(job.featuresValues);
+    const client = await getDataIntegrationClientAuthenticated(job.featuresValues);
 
-    const client = await soap.createClientAsync(url);
-
-    const sessionId = await getSessionId(job.featuresValues);
-
-    client.addSoapHeader({
-      'ns0:Context': {
-        attributes: { 'xmlns:ns0': 'http://www.informatica.com/wsh' },
-        SessionId: sessionId
-      }
-    });
-
-    const res = await client.getWorkflowLogAsync({
+    const workflowInformations = {
       DIServiceInfo: {
         ServiceName: job.featuresValues.service.label,
       },
       FolderName: job.featuresValues.folder.label,
       WorkflowName: job.featuresValues.workflow.label,
-      Timeout: 5000,
-    });
+    };
 
-    if (res && res.length > 0 && res[1]) {
-      const resObj = parser.parse(res[1]);
-      const resLogs = resObj['soapenv:Envelope']['soapenv:Body']['ns1:GetWorkflowLogReturn'];
+    let res = null;
 
-      if (resLogs) {
-        const logs = resLogs.Buffer;
-        const logsLines = logs.split('\n');
+    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
+      res = await client.getSessionLogAsync({
+        ...workflowInformations,
+        TaskInstancePath: job.featuresValues.task.label,
+        Timeout: DEFAULT_TIMEOUT,
+      });
+    } else {
+      res = await client.getWorkflowLogAsync({
+        ...workflowInformations,
+        Timeout: DEFAULT_TIMEOUT,
+      });
+    }
 
-        return Response.success(logsLines.map((logLine) => Log(logLine, Stream.STDOUT, null)));
-      }
+    const resBody = getResponseBodyFromSOAPRequest(res);
+
+    if (resBody && resBody.length > 0 && resBody[0]) {
+      const logs = resBody[0].Buffer;
+      const logsLines = logs.split('\n');
+
+      return Response.success(logsLines.map((logLine) => Log(logLine, Stream.STDOUT, null)));
     }
 
     return Response.empty();
   } catch (error) {
-    return Response.error('Failed to get log for workflow', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR, { error });
   }
 };
