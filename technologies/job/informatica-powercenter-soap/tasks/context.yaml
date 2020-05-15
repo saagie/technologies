@@ -1,6 +1,6 @@
-id: default
-label: Default
-description: ""
+id: tasks
+label: Tasks
+description: "Tasks context"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -68,24 +68,25 @@ job:
       name: requestMode
       label: Request mode
       required: true
+      helper: Indicates the recovery strategy for the session task
       options:
         - id: NORMAL
-          label: NORMAL
+          label: NORMAL - Restarts a session without recovery
         - id: RECOVERY
-          label: RECOVERY
+          label: RECOVERY - Recovers a session
       dependsOn:
         - workflow
     - type: TEXT
       name: depth
       label: Depth for searching specific tasks
-      required: false
+      required: true
       helper: The number of levels within the workflow task hierarchy from which to get information on task instances. Must be a positive integer.
       dependsOn:
         - workflow
     - type: SELECT
       name: task
       label: Specific task
-      required: false
+      required: true
       options:
         script: ./jobForm.js
         function: getTasks

@@ -4,7 +4,7 @@ const {
   getMetadataClient,
   getMetadataClientAuthenticated,
   getResponseBodyFromSOAPRequest,
-} = require('./utils');
+} = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
 /**

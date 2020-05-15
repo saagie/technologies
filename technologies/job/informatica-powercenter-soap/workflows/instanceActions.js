@@ -4,7 +4,7 @@ const { JOB_STATES } = require('../job-states');
 const {
   getDataIntegrationClientAuthenticated,
   getResponseBodyFromSOAPRequest,
-} = require('./utils');
+} = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
 const DEFAULT_TIMEOUT = 5000;
@@ -29,14 +29,7 @@ exports.start = async ({ job, instance }) => {
       RequestMode: job.featuresValues.requestMode.id,
     };
 
-    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
-      await client.startTaskAsync({
-        ...workflowInformations,
-        TaskInstancePath: job.featuresValues.task.label,
-      });
-    } else {
-      await client.startWorkflowAsync(workflowInformations);
-    }
+    await client.startWorkflowAsync(workflowInformations);
 
     return Response.success();
   } catch (error) {
@@ -64,14 +57,7 @@ exports.stop = async ({ job, instance }) => {
       RequestMode: job.featuresValues.requestMode.id,
     };
 
-    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
-      await client.stopTaskAsync({
-        ...workflowInformations,
-        TaskInstancePath: job.featuresValues.task.label,
-      });
-    } else {
-      await client.stopWorkflowAsync(workflowInformations);
-    }
+    await client.stopWorkflowAsync(workflowInformations);
 
     return Response.success();
   } catch (error) {
@@ -98,16 +84,7 @@ exports.getStatus = async ({ job, instance }) => {
       WorkflowName: job.featuresValues.workflow.label,
     };
 
-    let res = null;
-
-    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
-      res = await client.getTaskDetailsAsync({
-        ...workflowInformations,
-        TaskInstancePath: job.featuresValues.task.label,
-      });
-    } else {
-      res = await client.getWorkflowDetailsAsync(workflowInformations);
-    }
+    const res = await client.getWorkflowDetailsAsync(workflowInformations);
 
     const resBody = getResponseBodyFromSOAPRequest(res);
 
@@ -135,28 +112,14 @@ exports.getLogs = async ({ job, instance }) => {
     console.log('GET LOG INSTANCE:', instance);
     const client = await getDataIntegrationClientAuthenticated(job.featuresValues);
 
-    const workflowInformations = {
+    const res = await client.getWorkflowLogAsync({
       DIServiceInfo: {
         ServiceName: job.featuresValues.service.label,
       },
       FolderName: job.featuresValues.folder.label,
       WorkflowName: job.featuresValues.workflow.label,
-    };
-
-    let res = null;
-
-    if (job.featuresValues && job.featuresValues.task && job.featuresValues.task.label) {
-      res = await client.getSessionLogAsync({
-        ...workflowInformations,
-        TaskInstancePath: job.featuresValues.task.label,
-        Timeout: DEFAULT_TIMEOUT,
-      });
-    } else {
-      res = await client.getWorkflowLogAsync({
-        ...workflowInformations,
-        Timeout: DEFAULT_TIMEOUT,
-      });
-    }
+      Timeout: DEFAULT_TIMEOUT,
+    });
 
     const resBody = getResponseBodyFromSOAPRequest(res);
 
