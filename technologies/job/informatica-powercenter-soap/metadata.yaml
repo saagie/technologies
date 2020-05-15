@@ -72,7 +72,7 @@ contexts:
             script: ./jobForm.js
             function: getServices
           dependsOn:
-            - folder
+            - workflow
         - type: SELECT
           name: requestMode
           label: Request mode
@@ -83,7 +83,23 @@ contexts:
             - id: RECOVERY
               label: RECOVERY
           dependsOn:
-            - folder
+            - workflow
+        - type: TEXT
+          name: depth
+          label: Depth for searching specific tasks
+          required: false
+          helper: The number of levels within the workflow task hierarchy from which to get information on task instances. Must be a positive integer.
+          dependsOn:
+            - workflow
+        - type: SELECT
+          name: task
+          label: Specific task
+          required: false
+          options:
+            script: ./jobForm.js
+            function: getTasks
+          dependsOn:
+            - depth
     instance:
       actions:
         onStart:
