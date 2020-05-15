@@ -8,7 +8,7 @@ const {
 const { ERRORS_MESSAGES } = require('../errors');
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to list all repositories on the designated endpoint
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -35,7 +35,7 @@ exports.getRepositories = async ({ featuresValues }) => {
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to list all folders on the designated endpoint for the user
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -62,7 +62,7 @@ exports.getFolders = async ({ featuresValues }) => {
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to list all workflows on the designated endpoint inside the selected folder for the user
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -92,7 +92,7 @@ exports.getWorkflows = async ({ featuresValues }) => {
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to list all integration services on the designated endpoint for the user
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -120,7 +120,7 @@ exports.getServices = async ({ featuresValues }) => {
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to list all tasks on the designated endpoint inside the selected folder and selected workflow for the user
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
