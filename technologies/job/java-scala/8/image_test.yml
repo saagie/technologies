@@ -5,7 +5,7 @@ metadataTest:
     - key: LANG
       value: "C.UTF-8"
     - key: JAVA_HOME
-      value: "/docker-java-home/jre"
+      value: "/usr/local/openjdk-8"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
 
@@ -65,12 +65,12 @@ commandTests:
   - name: "java installation"
     command: "which"
     args: ["java"]
-    expectedOutput: ["/usr/bin/java"]
+    expectedOutput: ["/usr/local/openjdk-8/bin/java"]
 
   - name: "java version"
     command: "java"
     args: ["-version"]
-    expectedError: ['java version "1.7']
+    expectedError: ['openjdk version "1.8']
 
   - name: "krb5-user installation"
     command: "kinit"

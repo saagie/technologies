@@ -1,4 +1,4 @@
-FROM openjdk:7-jre-slim-jessie
+FROM openjdk:8-jre-slim-buster
 
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
