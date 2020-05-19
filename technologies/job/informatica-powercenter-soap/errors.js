@@ -4,7 +4,7 @@ export const ERRORS_MESSAGES = {
   NO_FOLDERS: 'No folders availables',
   NO_INTEGRATION_SERVICES: 'No integration services',
   NO_TASKS: 'No tasks found inside the workflow',
-  REPOSITORIES_ERROR: 'Can\'t retrieve workflow groups',
+  REPOSITORIES_ERROR: 'Can\'t retrieve repositories',
   WORKFLOWS_ERROR: 'Can\'t retrieve workflows',
   FOLDERS_ERROR: 'Can\'t retrieve folders',
   INTEGRATION_SERVICES_ERROR: 'Can\'t retrieve integration services',
