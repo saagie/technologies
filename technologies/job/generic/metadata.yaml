@@ -11,11 +11,11 @@ contexts:
     trustLevel: "stable"
     job:
       features:
-        - field: DOCKER_INFO
+        - type: DOCKER_INFO
           label: Docker image
           mandatory: true
           defaultValue: hello-world
-        - field: SCHEDULER
+        - type: SCHEDULER
           label: Scheduled
           mandatory: true
     

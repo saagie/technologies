@@ -3,5 +3,5 @@ id: trifacta
 label: Trifacta
 description: "Trifacta API Version : +6.4.2"
 available: true
-type: JOB
+type: EXTERNAL_JOB
 icon: job
