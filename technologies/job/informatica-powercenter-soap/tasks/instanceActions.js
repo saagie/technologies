@@ -125,7 +125,7 @@ exports.getLogs = async ({ job, instance }) => {
       const logs = resBody[0].Buffer;
       const logsLines = logs.split('\n');
 
-      return Response.success(logsLines.map((logLine) => Log(logLine, Stream.STDOUT, null)));
+      return Response.success(logsLines.map((logLine) => Log(logLine)));
     }
 
     return Response.empty();
