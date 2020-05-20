@@ -1,7 +1,7 @@
 const { JobStatus } = require('@saagie/sdk');
 
 export const JOB_STATES = {
-  ABORTED: JobStatus.KILED,
+  ABORTED: JobStatus.KILLED,
   ABORTING: JobStatus.KILLING,
   FAILED: JobStatus.FAILED,
   PREPARING_TO_RUN: JobStatus.QUEUED,
