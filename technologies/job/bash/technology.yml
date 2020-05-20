@@ -1,0 +1,6 @@
+version: "v1"
+type: JOB
+id: bash
+label: Bash
+available: true
+icon: bash

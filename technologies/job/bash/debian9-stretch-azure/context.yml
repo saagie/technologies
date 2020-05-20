@@ -1,0 +1,21 @@
+id: debian9-stretch
+label: debian9-stretch
+available: true
+recommended: false
+dockerInfo:
+  image: saagie/bash
+trustLevel: "stable"
+job:
+  features:
+    - type: COMMAND_LINE
+      label: "Command line"
+      mandatory: true
+      comment: "Linux shell command"
+      defaultValue: "# Pre-requisite: you must have created a user in Azure with the right subscriptions\n# You can then use ENV Variables to save your AZ_LOGIN and AZ_PASSWD\n# (don't forget to check the password box for security reasons)\n\naz login -u $AZ_LOGIN -p $AZ_PASSWD\n\n# For other ways to log into azure please refer to azure documentation.\n# After that you can type your azure commands as usual e.g. :\n\naz vm list"
+    - type: ARTIFACT
+      label: "Package"
+      mandatory: false
+      comment: "All files are accepted. For example your cert file for authentication."
+    - type: SCHEDULER
+      label: "Scheduled"
+      mandatory: true
