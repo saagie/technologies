@@ -1,6 +1,6 @@
-id: default
-label: Default
-description: ""
+id: datasets
+label: Datasets v7.0
+description: "Datasets v7.0"
 recommended: true
 trustLevel: experimental
 endpoint:

@@ -1,7 +1,7 @@
 version: v1
 id: dataiku
-label: Dataiku
-description: ""
+label: Dataiku DSS
+description: "Dataiku API Version 7.0"
 available: true
 type: EXTERNAL_JOB
 icon: job

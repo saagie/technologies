@@ -1,5 +1,7 @@
 const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { JOB_STATES } = require('../job-states');
+const { getAuthHeaders } = require('../utils');
 
 /**
  * Logic to start the external job instance.
@@ -11,20 +13,9 @@ exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
     const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/public/api/projects/${job.featuresValues.project.id}/jobs/`,
-      {
-        outputs: [
-          {
-            projectKey: job.featuresValues.project.id,
-            id: job.featuresValues.dataset.id
-          }
-        ]
-      },
-      {
-        auth: {
-          username: job.featuresValues.endpoint.apiKey,
-        }
-      }
+      `${job.featuresValues.endpoint.url}/public/api/projects/${job.featuresValues.project.id}/scenarios/${job.featuresValues.scenario.id}/run/`,
+      {},
+      getAuthHeaders(job.featuresValues)
     );
 
     // You can return any payload you want to get in the stop and getStatus functions.
@@ -46,11 +37,7 @@ exports.stop = async ({ job, instance }) => {
     await axios.post(
       `${job.featuresValues.endpoint.url}/public/api/projects/${job.featuresValues.project.id}/jobs/${instance.payload.jobId}/abort/`,
       {},
-      {
-        auth: {
-          username: job.featuresValues.endpoint.apiKey,
-        }
-      }
+      getAuthHeaders(job.featuresValues)
     );
     return Response.success();
   } catch (error) {
@@ -68,17 +55,11 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
     const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}`,
+      `${job.featuresValues.endpoint.url}/public/api/projects/${job.featuresValues.project.id}/jobs/${instance.payload.jobId}/`,
+      getAuthHeaders(job.featuresValues)
     );
 
-    switch (data.status) {
-      case 'IN_PROGRESS':
-        return Response.success(JobStatus.RUNNING);
-      case 'STOPPED':
-        return Response.success(JobStatus.KILLED);
-      default:
-        return Response.success(JobStatus.AWAITING);
-    }
+    return Response.success(JOB_STATES[data.baseStatus.state] || JobStatus.AWAITING);
   } catch (error) {
     return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
   }
@@ -95,11 +76,7 @@ exports.getLogs = async ({ job, instance }) => {
     console.log('GET LOG INSTANCE:', instance);
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/public/api/projects/${job.featuresValues.project.id}/jobs/${instance.payload.jobId}/log/`,
-      {
-        auth: {
-          username: job.featuresValues.endpoint.apiKey,
-        }
-      }
+      getAuthHeaders(job.featuresValues)
     );
 
     const logsLines = data.split('\n');
