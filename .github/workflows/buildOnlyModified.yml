@@ -2,7 +2,7 @@ name: BUILD ONLY MODIFIED
 
 on:
   pull_request:
-    types: [assigned, opened, synchronize, reopened]
+    types: [assigned, opened, reopened]
   push:
     branches:
       - '*'
