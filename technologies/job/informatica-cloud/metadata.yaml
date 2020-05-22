@@ -7,6 +7,70 @@ type: EXTERNAL_JOB
 icon: job
 
 contexts:
+  - id: tasks-v2
+    label: Data Integration V2
+    description: "Informatica Cloud Platform Data Integration V2"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://dm-em.informaticacloud.com
+        - type: TEXT
+          name: username
+          label: Username
+        - type: PASSWORD
+          name: password
+          label: Password
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: taskType
+          label: Task type
+          required: true
+          options:
+            - id: DMASK
+              label: DMASK. Masking task.
+            - id: DRS
+              label: DRS. Replication task.
+            - id: DSS
+              label : DSS. Synchronization task.
+            - id: MTT
+              label : MTT. Mapping task.
+            - id: PCS
+              label : PCS. PowerCenter task.
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: task
+          label: Task
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getTasks
+          dependsOn:
+            - taskType
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
   - id: workflows-v3
     label: Data Integration with workflows V3
     description: "Informatica Cloud Platform Data Integration with workflows V3"
@@ -72,9 +136,9 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
-  - id: tasks-v2
-    label: Data Integration V2
-    description: "Informatica Cloud Platform Data Integration V2"
+  - id: workflows-v2
+    label: Data Integration with workflows V2
+    description: "Informatica Cloud Platform Data Integration with workflows V2"
     recommended: true
     trustLevel: experimental
     endpoint:
@@ -97,31 +161,23 @@ contexts:
           label: Endpoint
           required: true
         - type: SELECT
-          name: taskType
-          label: Task type
+          name: workflow
+          label: Workflow
           required: true
           options:
-            - id: DMASK
-              label: DMASK. Masking task.
-            - id: DRS
-              label: DRS. Replication task.
-            - id: DSS
-              label : DSS. Synchronization task.
-            - id: MTT
-              label : MTT. Mapping task.
-            - id: PCS
-              label : PCS. PowerCenter task.
+            script: ./jobForm.js
+            function: getWorkflows
           dependsOn:
             - endpoint
         - type: SELECT
           name: task
-          label: Task
+          label: Specific task
           required: true
           options:
             script: ./jobForm.js
             function: getTasks
           dependsOn:
-            - taskType
+            - workflow
     instance:
       actions:
         onStart:
@@ -204,62 +260,6 @@ contexts:
             function: getTasks
           dependsOn:
             - taskType
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
-  - id: workflows-v2
-    label: Data Integration with workflows V2
-    description: "Informatica Cloud Platform Data Integration with workflows V2"
-    recommended: true
-    trustLevel: experimental
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://dm-em.informaticacloud.com
-        - type: TEXT
-          name: username
-          label: Username
-        - type: PASSWORD
-          name: password
-          label: Password
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: workflow
-          label: Workflow
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getWorkflows
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: task
-          label: Specific task
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getTasks
-          dependsOn:
-            - workflow
     instance:
       actions:
         onStart:
