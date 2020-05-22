@@ -2,6 +2,7 @@ const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 const { JOB_STATES } = require('../job-states');
 const { getAuthHeaders } = require('../utils');
+const { ERRORS_MESSAGES } = require('../errors');
 
 /**
  * Logic to start the external job instance.
@@ -28,7 +29,7 @@ exports.start = async ({ job, instance }) => {
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ jobId: data.id });
   } catch (error) {
-    return Response.error('Failed to start job', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR, { error });
   }
 };
 
@@ -48,7 +49,7 @@ exports.stop = async ({ job, instance }) => {
     );
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to stop job', { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_STOP_JOB_ERROR, { error });
   }
 };
 
@@ -68,7 +69,7 @@ exports.getStatus = async ({ job, instance }) => {
 
     return Response.success(JOB_STATES[data.baseStatus.state] || JobStatus.AWAITING);
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_JOB_STATUS_ERROR, { error });
   }
 };
 
@@ -90,6 +91,6 @@ exports.getLogs = async ({ job, instance }) => {
 
     return Response.success(logsLines.map((logLine) => Log(logLine)));
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(ERRORS_MESSAGES.FAILED_TO_GET_JOB_LOGS_ERROR, { error });
   }
 };

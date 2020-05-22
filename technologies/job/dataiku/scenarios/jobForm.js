@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const { getAuthHeaders } = require('../utils');
+const { ERRORS_MESSAGES, hasLoginError } = require('../errors');
 
 /**
  * Example of function to retrieve select options from an external endpoint.
@@ -15,7 +16,7 @@ exports.getProjects = async ({ featuresValues }) => {
     );
 
     if (!projects || !projects.length) {
-      return Response.empty('No projects availables');
+      return Response.empty(ERRORS_MESSAGES.NO_PROJECTS);
     }
 
     return Response.success(
@@ -25,7 +26,10 @@ exports.getProjects = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
-    return Response.error("Can't retrieve projects", { error });
+    if (hasLoginError(error)) {
+      return Response.error(ERRORS_MESSAGES.LOGIN_ERROR, { error });
+    }
+    return Response.error(ERRORS_MESSAGES.PROJECTS_ERROR, { error });
   }
 };
 
@@ -42,7 +46,7 @@ exports.getScenarios = async ({ featuresValues }) => {
     );
 
     if (!datasets || !datasets.length) {
-      return Response.empty('No scenarios availables');
+      return Response.empty(ERRORS_MESSAGES.NO_SCENARIOS);
     }
 
     return Response.success(
@@ -52,6 +56,6 @@ exports.getScenarios = async ({ featuresValues }) => {
       })),
     );
   } catch (error) {
-    return Response.error("Can't retrieve scenarios", { error });
+    return Response.error(ERRORS_MESSAGES.SCENARIOS_ERROR, { error });
   }
 };
