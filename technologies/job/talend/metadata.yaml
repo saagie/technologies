@@ -11,6 +11,7 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/talend
+      version: Use_Java_8-1.26.0_talend
     trustLevel: "stable"
     job:
       features:
