@@ -6,7 +6,7 @@ available: true
 icon: bash
 contexts:
   - id: debian9-stretch-aws
-    label: debian9-stretch-aes
+    label: debian9-stretch-aws
     available: true
     recommended: false
     dockerInfo:
@@ -27,30 +27,8 @@ contexts:
         - type: SCHEDULER
           label: "Scheduled"
           mandatory: true
-  - id: debian9-stretch
-    label: debian9-stretch
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/bash
-      version: debian9-stretch-gcp-1.26.0_bash
-    trustLevel: "stable"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: "Command line"
-          mandatory: true
-          comment: "Linux shell command"
-          defaultValue: "# To configure GCloud authentication you should use a service account\n# and can either upload the configuration file (using artefact)\n# and issue the authentication command :\n\ngcloud auth activate-service-account --key-file={file}\n\n# Or you can set the followinf ENV Variable GOOGLE_APPLICATION_CREDENTIALS\n# to reference the path to the configuration file (uploaded artefact subfolder for example)\n# For other ways to log into gcloud please refer to gcloud documentation."
-        - type: ARTIFACT
-          label: "Package"
-          mandatory: false
-          comment: "All files are accepted. For example your key file for authentication."
-        - type: SCHEDULER
-          label: "Scheduled"
-          mandatory: true
-  - id: debian9-stretch
-    label: debian9-stretch
+  - id: debian9-stretch-azure
+    label: debian9-stretch-azure
     available: true
     recommended: false
     dockerInfo:
@@ -90,6 +68,28 @@ contexts:
           label: "Package"
           mandatory: false
           comment: "All files are accepted."
+        - type: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
+  - id: debian9-stretch-gcp
+    label: debian9-stretch-gcp
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/bash
+      version: debian9-stretch-gcp-1.26.0_bash
+    trustLevel: "stable"
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command"
+          defaultValue: "# To configure GCloud authentication you should use a service account\n# and can either upload the configuration file (using artefact)\n# and issue the authentication command :\n\ngcloud auth activate-service-account --key-file={file}\n\n# Or you can set the followinf ENV Variable GOOGLE_APPLICATION_CREDENTIALS\n# to reference the path to the configuration file (uploaded artefact subfolder for example)\n# For other ways to log into gcloud please refer to gcloud documentation."
+        - type: ARTIFACT
+          label: "Package"
+          mandatory: false
+          comment: "All files are accepted. For example your key file for authentication."
         - type: SCHEDULER
           label: "Scheduled"
           mandatory: true
