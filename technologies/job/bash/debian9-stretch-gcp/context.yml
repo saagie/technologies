@@ -1,5 +1,5 @@
-id: debian9-stretch
-label: debian9-stretch
+id: debian9-stretch-gcp
+label: debian9-stretch-gcp
 available: true
 recommended: false
 dockerInfo:

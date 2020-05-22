@@ -1,5 +1,5 @@
 id: debian9-stretch-aws
-label: debian9-stretch-aes
+label: debian9-stretch-aws
 available: true
 recommended: false
 dockerInfo:

@@ -1,5 +1,5 @@
-id: debian9-stretch
-label: debian9-stretch
+id: debian9-stretch-azure
+label: debian9-stretch-azure
 available: true
 recommended: false
 dockerInfo:
