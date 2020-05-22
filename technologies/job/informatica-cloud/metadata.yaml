@@ -71,6 +71,88 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
+  - id: tasks-v3
+    label: Data Integration V3
+    description: "Informatica Cloud Platform Data Integration V3"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://dm-em.informaticacloud.com
+        - type: TEXT
+          name: username
+          label: Username
+        - type: PASSWORD
+          name: password
+          label: Password
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: project
+          label: Project
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getProjects
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: folder
+          label: Folder
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getFolders
+          dependsOn:
+            - project
+        - type: SELECT
+          name: taskType
+          label: Task type
+          required: true
+          options:
+            - id: DMASK
+              label: DMASK. Masking task.
+            - id: DRS
+              label: DRS. Replication task.
+            - id: DSS
+              label : DSS. Synchronization task.
+            - id: MTT
+              label : MTT. Mapping task.
+            - id: PCS
+              label : PCS. PowerCenter task.
+          dependsOn:
+            - folder
+        - type: SELECT
+          name: task
+          label: Task
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getTasks
+          dependsOn:
+            - taskType
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
   - id: workflows-v3
     label: Data Integration with workflows V3
     description: "Informatica Cloud Platform Data Integration with workflows V3"
@@ -178,88 +260,6 @@ contexts:
             function: getTasks
           dependsOn:
             - workflow
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
-  - id: tasks-v3
-    label: Data Integration V3
-    description: "Informatica Cloud Platform Data Integration V3"
-    recommended: true
-    trustLevel: experimental
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://dm-em.informaticacloud.com
-        - type: TEXT
-          name: username
-          label: Username
-        - type: PASSWORD
-          name: password
-          label: Password
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: folder
-          label: Folder
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getFolders
-          dependsOn:
-            - project
-        - type: SELECT
-          name: taskType
-          label: Task type
-          required: true
-          options:
-            - id: DMASK
-              label: DMASK. Masking task.
-            - id: DRS
-              label: DRS. Replication task.
-            - id: DSS
-              label : DSS. Synchronization task.
-            - id: MTT
-              label : MTT. Mapping task.
-            - id: PCS
-              label : PCS. PowerCenter task.
-          dependsOn:
-            - folder
-        - type: SELECT
-          name: task
-          label: Task
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getTasks
-          dependsOn:
-            - taskType
     instance:
       actions:
         onStart:
