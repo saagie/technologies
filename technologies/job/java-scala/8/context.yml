@@ -4,18 +4,18 @@ available: true
 recommended: true
 dockerInfo:
   image: saagie/java-scala
-trustLevel: "stable"
+trustLevel: stable
 job:
   features:
     - type: COMMAND_LINE
-      label: "Command line"
+      label: Command line
       mandatory: true
-      comment: "Linux shell command to launch the job."
-      defaultValue: "java -jar {file} arg1 arg2"
+      comment: Linux shell command to launch the job.
+      defaultValue: java -jar {file} arg1 arg2
     - type: ARTIFACT
-      label: "Package"
+      label: Package
       mandatory: true
       comment: "Compatible upload file : .jar"
     - type: SCHEDULER
-      label: "Scheduled"
+      label: Scheduled
       mandatory: true
