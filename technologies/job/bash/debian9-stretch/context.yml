@@ -4,18 +4,18 @@ available: true
 recommended: true
 dockerInfo:
   image: saagie/bash
-trustLevel: "stable"
+trustLevel: stable
 job:
   features:
     - type: COMMAND_LINE
-      label: "Command line"
+      label: Command line
       mandatory: true
-      comment: "Linux shell command"
-      defaultValue: "echo \"Saagie Bash\""
+      comment: Linux shell command
+      defaultValue: echo "Saagie Bash"
     - type: ARTIFACT
-      label: "Package"
+      label: Package
       mandatory: false
-      comment: "All files are accepted."
+      comment: All files are accepted.
     - type: SCHEDULER
-      label: "Scheduled"
+      label: Scheduled
       mandatory: true
