@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client git && \
+      ftp wget curl unzip telnet openssh-client git procps krb5-user && \
     rm -rf /var/lib/apt/lists/*;
 # LIGHT DEPENDENCIES END
 
@@ -33,16 +33,6 @@ RUN wget --no-verbose http://archive.cloudera.com/cdh5/cdh/5/hive-1.1.0-cdh5.13.
 ENV HIVE_HOME=/hive-1.1.0-cdh5.13.3
 ENV PATH=$PATH:$HIVE_HOME/bin
 # INSTALL JAVA & BEELINE END
-
-# INSTALL PROCPS (ps) START
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      procps && \
-    rm -rf /var/lib/apt/lists/*;
-# INSTALL PROCPS (ps) END
-
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      krb5-user && \
-    rm -rf /var/lib/apt/lists/*;
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
