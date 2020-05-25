@@ -27,6 +27,28 @@ contexts:
         - type: SCHEDULER
           label: "Scheduled"
           mandatory: true
+  - id: 8
+    label: 8
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/java-scala
+      version: 8-1.24.0_rename_feature
+    trustLevel: "stable"
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: "Command line"
+          mandatory: true
+          comment: "Linux shell command to launch the job."
+          defaultValue: java -jar {file} arg1 arg2
+        - type: ARTIFACT
+          label: "Package"
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - type: SCHEDULER
+          label: "Scheduled"
+          mandatory: true
   - id: 13
     label: 13
     available: true
@@ -79,28 +101,6 @@ contexts:
       image: saagie/java-scala
       version: 14-1.24.0_rename_feature
     trustLevel: "experimental"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: "Command line"
-          mandatory: true
-          comment: "Linux shell command to launch the job."
-          defaultValue: java -jar {file} arg1 arg2
-        - type: ARTIFACT
-          label: "Package"
-          mandatory: true
-          comment: "Compatible upload file : .jar"
-        - type: SCHEDULER
-          label: "Scheduled"
-          mandatory: true
-  - id: 8
-    label: 8
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/java-scala
-      version: 8-1.24.0_rename_feature
-    trustLevel: "stable"
     job:
       features:
         - type: COMMAND_LINE

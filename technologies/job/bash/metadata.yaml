@@ -5,13 +5,36 @@ label: Bash
 available: true
 icon: bash
 contexts:
-  - id: debian9-stretch-aws
-    label: debian9-stretch-aws
+  - id: debian9-stretch-azure
+    label: debian9-stretch-azure
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-aws-1.24.0_rename_feature
+      version: debian9-stretch-azure-1.24.0_rename_feature
+    trustLevel: "stable"
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: echo "Saagie Bash"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+          
+  - id: debian9-stretch-gcp
+    label: debian9-stretch-gcp
+    available: true
+    recommended: false
+    dockerInfo:
+      image: saagie/bash
+      version: debian9-stretch-gcp-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
@@ -49,13 +72,13 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
-  - id: debian9-stretch-gcp
-    label: debian9-stretch-gcp
+  - id: debian9-stretch-aws
+    label: debian9-stretch-aws
     available: true
     recommended: false
     dockerInfo:
       image: saagie/bash
-      version: debian9-stretch-gcp-1.24.0_rename_feature
+      version: debian9-stretch-aws-1.24.0_rename_feature
     trustLevel: "stable"
     job:
       features:
@@ -71,26 +94,3 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
-  - id: debian9-stretch-azure
-    label: debian9-stretch-azure
-    available: true
-    recommended: false
-    dockerInfo:
-      image: saagie/bash
-      version: debian9-stretch-azure-1.24.0_rename_feature
-    trustLevel: "stable"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command
-          defaultValue: echo "Saagie Bash"
-        - type: ARTIFACT
-          label: Package
-          mandatory: false
-          comment: All files are accepted.
-        - type: SCHEDULER
-          label: Scheduled
-          mandatory: true
-          
