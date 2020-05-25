@@ -72,14 +72,6 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
-#UPDATE SECURITY PACKAGE BEGIN
-RUN apt-get update -qq && \
-    apt-get upgrade -yqq --no-install-recommends && \
-    apt-get autoremove -yqq && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*;
-#UPDATE SECURITY PACKAGE END
-
 COPY lib/*.jar /$SQOOP_NAME/lib/
 
 # Move scripts and frequently changing directive to the end of the build
