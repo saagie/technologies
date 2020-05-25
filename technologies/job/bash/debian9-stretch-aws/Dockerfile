@@ -8,8 +8,11 @@ RUN apt-get update -qq \
       apt-utils python3-setuptools python3-pip groff \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && pip3 install wheel \
-    && pip3 install awscli --upgrade --user
+    && pip3 --no-cache-dir install wheel \
+    && pip3 --no-cache-dir install awscli --upgrade --user
+    && rm -rf /root/.cachex \
+    && rm -rf /boot/.cache/pip \
+    && rm -rf ~/.cache/pip
 ENV AWSCLI_HOME=/root/.local
 ENV PATH=$PATH:$AWSCLI_HOME/bin
 # INSTALL AWS CLI via pip3 END
