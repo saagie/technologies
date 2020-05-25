@@ -1,6 +1,6 @@
 version: "v1"
 type: JOB
 id: java-scala
-label: Java / Scala
+label: Java/Scala
 available: true
 icon: java-scala
