@@ -14,14 +14,6 @@ ENV AWSCLI_HOME=/root/.local
 ENV PATH=$PATH:$AWSCLI_HOME/bin
 # INSTALL AWS CLI via pip3 END
 
-#UPDATE SECURITY PACKAGE BEGIN
-RUN apt-get update -qq && \
-    apt-get upgrade -yqq --no-install-recommends && \
-    apt-get autoremove -yqq && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*;
-#UPDATE SECURITY PACKAGE END
-
 WORKDIR /sandbox
 
 ENTRYPOINT  ["bash","/entrypoint"]

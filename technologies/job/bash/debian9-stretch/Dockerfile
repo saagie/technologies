@@ -36,14 +36,6 @@ ENV PATH=$PATH:$HIVE_HOME/bin
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
-#UPDATE SECURITY PACKAGE BEGIN
-RUN apt-get update -qq && \
-    apt-get upgrade -yqq --no-install-recommends && \
-    apt-get autoremove -yqq && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*;
-#UPDATE SECURITY PACKAGE END
-
 # Move scripts and frequently changing directive to the end of the build
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
