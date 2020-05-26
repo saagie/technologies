@@ -116,6 +116,11 @@ commandTests:
     command: "ps"
     exitCode: 0
 
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+
   - name: "awscli"
     args: ["help"]
     command: "aws"
