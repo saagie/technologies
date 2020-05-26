@@ -9,7 +9,7 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && pip3 --no-cache-dir install wheel \
-    && pip3 --no-cache-dir install awscli --upgrade --user
+    && pip3 --no-cache-dir install awscli --upgrade --user \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip
