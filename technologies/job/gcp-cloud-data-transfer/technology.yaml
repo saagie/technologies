@@ -1,0 +1,7 @@
+version: v1
+id: gcp-cloud-data-transfer
+label: gcp-cloud-data-transfer
+description: "GCP Cloud Data Transfer"
+available: true
+type: JOB
+icon: job
