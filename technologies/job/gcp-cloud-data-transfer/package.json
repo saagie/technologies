@@ -1,0 +1,17 @@
+{
+  "name": "gcp-cloud-data-transfer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "saagie-sdk start",
+    "build": "saagie-sdk build",
+    "new:context": "saagie-sdk init"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^4.7.0",
+    "@saagie/sdk": "0.9.2",
+    "axios": "0.19.2",
+    "googleapis": "^49.0.0",
+    "moment": "^2.24.0"
+  }
+}
