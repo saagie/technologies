@@ -1,0 +1,79 @@
+version: v1
+id: gcp-cloud-data-transfer
+label: gcp-cloud-data-transfer
+description: "GCP Cloud Data Transfer"
+available: true
+type: JOB
+icon: job
+
+contexts:
+  - id: gcp-cloud-data-transfer-json-key
+    label: gcp-cloud-data-transfer-json-key
+    description: "Using a JSON key"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: jsonKey
+          label: JSON key
+          required: true
+          helper: "Full JSON document"
+        - type: TEXT
+          name: sourceBucket
+          label: Source GCS Bucket
+          required: true
+          helper: "Path to the source GCS bucket (without gs://...)"
+        - type: TEXT
+          name: destinationBucket
+          label: Destination GCS Bucket
+          required: true
+          helper: "Path to the destination GCS bucket (without gs://...)"
+        - type: TEXT
+          name: transferDate
+          label: First transfer date
+          required: true
+          helper: "The date of the first transfer in the format YYYY/MM/DD"
+        - type: TEXT
+          name: transferTime
+          label: First transfer time
+          required: true
+          helper: "The time of the first transfer in the format HH:MM"
+        - type: TEXT
+          name: description
+          label: Job description
+          required: true
+          helper: "Description for the job (optional)"
+    
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+        - type: SELECT
+          name: action
+          label: Action
+          required: true
+          options:
+            - id: transfer
+              label: Create transfer job
+            - id: other2
+              label: Other2
+            - id: other3
+              label: Other3
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
