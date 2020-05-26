@@ -11,7 +11,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 7-1.28.0_java-scala
+      version: 7-1.28.0
     trustLevel: stable
     job:
       features:
@@ -33,7 +33,7 @@ contexts:
     recommended: true
     dockerInfo:
       image: saagie/java-scala
-      version: 8-1.28.0_java-scala
+      version: 8-1.28.0
     trustLevel: stable
     job:
       features:
@@ -55,7 +55,7 @@ contexts:
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 11-1.28.0_java-scala
+      version: 11-1.28.0
     trustLevel: stable
     job:
       features:
