@@ -15,8 +15,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
-import com.saagie.technologies.SaagieTechnologiesGradlePlugin
-
-apply<DockerRemoteApiPlugin>()
-apply<SaagieTechnologiesGradlePlugin>()
+rootProject.name = "java-11"
