@@ -48,27 +48,27 @@ Inside "job" or "app", each technology is under a folder (here : "java"), then e
 
 filename |  description
 --- | ---
-`techno.yml` |  This file describes the technology (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
-`metadata.yml` |  This is a **generated** file, it will be created during the first build. It's just a concatenation of the `techno.yml` and all `context.yml` files with a correct Docker image tag (from `dockerInfo.yml`). **Don't modify it manually.**
+`technology.yaml` |  This file describes the technology (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
+`metadata.yaml` |  This is a **generated** file, it will be created during the first build. It's just a concatenation of the `technology.yaml` and all `context.yaml` files with a correct Docker image tag (from `dockerInfo.yaml`).
 
 #### Context level : 
 
 filename |  description
 --- |  ---
-`context.yml` | This file describes all information about the context (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
-`dockerInfo.yml` | This is a **generated** file containing the Docker repository and tag of the context Docker image. **Don't modify it manually.**
-`build.gradle.kts` | The build in this repository is made with [gradle plugins][saagie-gradle-plugin]. So you need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this context from another in this repository (Gradle will do the build using this dependency).
+`context.yaml` | This file describes all information about the context (see [Saagie Help Center documentation - SDK][saagie-help-center] for details).
+`dockerInfo.yaml` | This is a **generated** file containing the Docker repository and tag of the context Docker image.
+`build.gradle.kts` | The build in this repository is made with [gradle plugins][saagie-gradle-plugin]. So you need to apply theses plugins (just need a Dockerfile and a image_test.yaml). You can also declare dependencies between build if you need to build this context from another in this repository (Gradle will do the build using this dependency).
 `settings.gradle.kts` | To set a name of the build context (need to be uniq in this repository).
 `Dockerfile` | The Dockerfile of the context
-`image_test.yml` |  Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated Docker image.
+`image_test.yaml` |  Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated Docker image.
 
-If you don't have a Dockerfile (example : `generic/docker` technology), only the `context.yml` is mandatory.
+If you don't have a Dockerfile (example : `generic/docker` technology), only the `context.yaml` is mandatory.
 
 ### How to create or edit an application technology
 
-For the moment, we just host metadata.yml for each app in this repository (we use external git repositories for Docker images).
+For the moment, we just host metadata.yaml for each app in this repository (we use external git repositories for Docker images).
 
-The content of the `metadata.yml` file is describe in the [Saagie Help Center documentation - SDK][saagie-help-center].
+The content of the `metadata.yaml` file is describe in the [Saagie Help Center documentation - SDK][saagie-help-center].
 
 
 ## Build
