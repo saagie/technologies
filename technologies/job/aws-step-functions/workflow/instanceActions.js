@@ -13,7 +13,7 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
+    const stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
     
     const data = await stepfunctions.startExecution({
       stateMachineArn :  job.featuresValues.stateMachine.id ,
