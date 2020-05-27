@@ -99,8 +99,8 @@ exports.getLogs = async ({ job, instance }) => {
     var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
 
     const data = await stepfunctions.describeStateMachineForExecution({executionArn: instance.payload.executionId }).promise();
-    if (!data || !data.loggingConfiguration.destinations.length ) {
-      return Response.empty('No logs availables');
+    if (!data || !data.loggingConfiguration || !data.loggingConfiguration.destinations || !data.loggingConfiguration.destinations.length ) {
+      return Response.empty('No logs available');
     }
     // Gather logs
     
