@@ -3,9 +3,9 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
 const util = require('util')
 const moment = require('moment');
 const { google } = require('googleapis');
-const { JWT } = require('google-auth-library');
+const { Storage } = require('@google-cloud/storage');
 
-// Instantiate a storage client
+// Instantiate a storagetransfer client
 const storagetransfer = google.storagetransfer('v1');
 
 /**
@@ -153,8 +153,8 @@ const createTransferJob = (options, Response) => {
   // -----------------------
   // ------ DEBUG ----------
   // -----------------------
-  console.log('Entering createTransferJob');
   console.log('-------------------------------------------------------------------------')
+  console.log('Entering createTransferJob');
   console.log('Content of options:');
   console.log(util.inspect(options, false, null, true /* enable colors */))
   console.log('-------------------------------------------------------------------------')
@@ -166,17 +166,26 @@ const createTransferJob = (options, Response) => {
   const transferTime = moment(options.time, 'HH:mm');
 
   const keys = JSON.parse(options.jsonKey);
-  console.log('After parsing JSON keys');
 
-  const authClient = new JWT({
+  authClient = new google.auth.JWT({
     email: keys.client_email,
     key: keys.private_key,
-    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
   });
-  console.log('After JWT');
 
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Content of authClient:');
+  console.log(util.inspect(authClient, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  // Prepare the information needed to create a Transfer Job between GCS buckets
   const transferJob = {
-    // projectId: process.env.GCLOUD_PROJECT,
     projectId: options.projectID,
     status: 'ENABLED',
     transferSpec: {
@@ -200,8 +209,8 @@ const createTransferJob = (options, Response) => {
   // -----------------------
   // ------ DEBUG ----------
   // -----------------------
-  console.log('After transferJob');
   console.log('-------------------------------------------------------------------------')
+  console.log('Content of transferJob:');
   console.log(util.inspect(transferJob, false, null, true /* enable colors */))
   console.log('-------------------------------------------------------------------------')
   // -----------------------
@@ -216,9 +225,57 @@ const createTransferJob = (options, Response) => {
   // ------ DEBUG ----------
   // -----------------------
   console.log('Before storagetransfer.transferJobs.create');
+
+  // Get Bucket Metadata
+  async function getMetadata() {
+    storageOptions = {
+      projectId: keys.project_id,
+      credentials: {
+        client_email: keys.client_email,
+        private_key: keys.private_key
+      }
+    };
+
+    // Create a client
+    const storage = new Storage(storageOptions);
+
+    // Gets the metadata for the bucket
+    const [metadata] = await storage.bucket(options.srcBucket).getMetadata();
+    console.log('------------------------')
+    console.log('-- BUCKET INFORMATION --')
+    console.log('------------------------')
+    console.log(util.inspect(metadata, false, null, true /* enable colors */))
+    console.log('----------------------------')
+    console.log('-- END BUCKET INFORMATION --')
+    console.log('----------------------------')
+  }
+  getMetadata().catch(console.error);
   // -----------------------
   // ------ DEBUG ----------
   // -----------------------
+
+
+  async function getServiceAccount() {
+    const request = {
+      // Required. The ID of the Google Cloud Platform Console project that the
+      // Google service account is associated with.
+      // This is the service account used to schedule the transfer job and it MUST has access
+      // to the GCS buckets.
+      projectId: keys.project_id,
+      auth: authClient,
+    };
+    const response = await storagetransfer.googleServiceAccounts.get(request);
+    console.log('---------------------')
+    console.log('-- SERVICE ACCOUNT --')
+    console.log('---------------------')
+    console.log('Make sure the following service account has access to the GCS Bucket(s)')
+    console.log(response.data.accountEmail);
+    console.log('-------------------------')
+    console.log('-- END SERVICE ACCOUNT --')
+    console.log('-------------------------')
+  }
+  getServiceAccount().catch(console.error);
+
 
   storagetransfer.transferJobs.create(
     {
@@ -239,26 +296,16 @@ const createTransferJob = (options, Response) => {
       // -----------------------
 
       if (err) {
+        console.log("---------------");
         console.log("---- Error ----");
+        console.log("---------------");
         console.log(err);
-        // console.log(util.inspect(Response, false, null, true /* enable colors */))
-        // return Response.error("Error: ", { err });
         return Response.error('Error:', { err });
       }
 
       const transferJob = response.data;
       console.log('Created transfer job: %s', transferJob.name);
       return Response.success('Created transfer job: %s', transferJob.name);
-      // return callback(null, transferJob);
     }
   );
-
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
-  console.log('After storagetransfer.transferJobs.create');
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
-
 };
