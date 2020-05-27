@@ -1,0 +1,30 @@
+version: "v1"
+type: JOB
+id: talend
+label: Talend
+available: true
+icon: talend
+mainClass: __TALEND_SH_FILENAME__
+contexts:
+  - id: Use_Java_8
+    label: Use_Java_8
+    available: true
+    recommended: true
+    dockerInfo:
+      image: saagie/talend
+      version: Use_Java_8-1.30.0_talend
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: sh {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
