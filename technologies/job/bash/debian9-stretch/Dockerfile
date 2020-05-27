@@ -1,16 +1,18 @@
 FROM debian:stretch
 
-COPY entrypoint /entrypoint
-RUN chmod 755 /entrypoint
+ENV DEBIAN_FRONTEND noninteractive
 
 # LIGHT DEPENDENCIES START
-RUN apt-get update
-RUN apt-get install -y ftp wget curl unzip telnet openssh-client
+RUN apt update -qq && apt install -yqq --no-install-recommends \
+      ftp wget curl unzip telnet openssh-client git procps krb5-user && \
+    rm -rf /var/lib/apt/lists/*;
 # LIGHT DEPENDENCIES END
 
 # INSTALL JAVA & BEELINE START
 # INSTALL JDK8
-RUN apt-get install -y openjdk-8-jdk
+RUN apt update -qq && apt install -yqq --no-install-recommends \
+      openjdk-8-jdk && \
+    rm -rf /var/lib/apt/lists/*;
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
@@ -32,14 +34,11 @@ ENV HIVE_HOME=/hive-1.1.0-cdh5.13.3
 ENV PATH=$PATH:$HIVE_HOME/bin
 # INSTALL JAVA & BEELINE END
 
-# INSTALL PROCPS (ps) START
-RUN apt-get install -y procps
-# INSTALL PROCPS (ps) END
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
-
-#UPDATE SECURITY PACKAGE BEGIN
-RUN apt-get update && apt-get upgrade -y
-#UPDATE SECURITY PACKAGE END
+# Move scripts and frequently changing directive to the end of the build
+COPY entrypoint /entrypoint
+RUN chmod 755 /entrypoint
 
 WORKDIR /sandbox
 

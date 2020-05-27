@@ -4,7 +4,7 @@ available: true
 recommended: true
 dockerInfo:
   image: saagie/bash
-trustLevel: "stable"
+trustLevel: stable
 job:
   features:
     - type: COMMAND_LINE

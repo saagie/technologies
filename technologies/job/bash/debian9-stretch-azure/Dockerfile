@@ -16,10 +16,6 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 # INSTALL Azure CLI END
 
-#UPDATE SECURITY PACKAGE BEGIN
-RUN apt-get update && apt-get upgrade -y
-#UPDATE SECURITY PACKAGE END
-
 WORKDIR /sandbox
 
 ENTRYPOINT  ["bash","/entrypoint"]

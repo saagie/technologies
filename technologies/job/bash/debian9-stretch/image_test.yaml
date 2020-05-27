@@ -18,6 +18,10 @@ fileExistenceTests:
     path: "/entrypoint"
     shouldExist: true
     permissions: "-rwxr-xr-x"
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
 
 fileContentTests:
   - name: "entrypoint"
@@ -115,3 +119,9 @@ commandTests:
     args: ["--help"]
     command: "ps"
     exitCode: 0
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+
