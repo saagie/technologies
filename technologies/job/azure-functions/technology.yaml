@@ -1,0 +1,7 @@
+version: v1
+id: azure-functions
+label: Azure Functions
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
