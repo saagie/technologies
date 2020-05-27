@@ -40,7 +40,7 @@ exports.stop = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
+    const stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
     
     await stepfunctions.stopExecution({
       executionArn : instance.payload.executionId,
@@ -66,7 +66,7 @@ exports.getStatus = async ({ job, instance }) => {
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
-    var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
+    const stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
     
     const data = await stepfunctions.describeExecution({executionArn:instance.payload.executionId }).promise();
     const JOB_STATES = {
@@ -96,7 +96,7 @@ exports.getLogs = async ({ job, instance }) => {
     AWS.config.update({region: job.featuresValues.endpoint.region});
 
     // Get logstreamName
-    var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
+    const stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
 
     const data = await stepfunctions.describeStateMachineForExecution({executionArn: instance.payload.executionId }).promise();
     if (!data || !data.loggingConfiguration || !data.loggingConfiguration.destinations || !data.loggingConfiguration.destinations.length ) {

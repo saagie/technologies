@@ -11,7 +11,7 @@ exports.getStateMachines = async ({ featuresValues }) => {
     AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: featuresValues.endpoint.region});
 
-    var stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
+    const stepfunctions = new AWS.StepFunctions({apiVersion: '2016-11-23'});
 
     const data = await stepfunctions.listStateMachines().promise();
     
