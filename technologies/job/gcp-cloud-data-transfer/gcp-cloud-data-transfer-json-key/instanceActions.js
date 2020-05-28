@@ -38,7 +38,9 @@ exports.start = async ({ job, instance }) => {
       console.log(job.featuresValues.action);
     }
 
-    if (job.featuresValues === undefined || job.featuresValues.endpoint === undefined || job.featuresValues.endpoint.jsonKey === undefined) {
+    if (job.featuresValues === undefined
+      || job.featuresValues.endpoint === undefined
+      || job.featuresValues.endpoint.jsonKey === undefined) {
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
@@ -48,14 +50,12 @@ exports.start = async ({ job, instance }) => {
       // -----------------------
       return Response.error('You must provide a JSON key');
     }
-    const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     if (job.featuresValues.action) {
       if (job.featuresValues.action.id == 'create') {
         console.log('Creating new job...');
         createTransferJob(
           {
-            projectID: gcpKey.project_id,
             srcBucket: job.featuresValues.endpoint.sourceBucket,
             destBucket: job.featuresValues.endpoint.destinationBucket,
             time: job.featuresValues.endpoint.transferTime,
@@ -68,6 +68,15 @@ exports.start = async ({ job, instance }) => {
       } else if (job.featuresValues.action.id == 'disable') {
         console.log('Action selected:');
         console.log(job.featuresValues.action.id);
+        console.log('Disabling job: %s', job.featuresValues.jobList.id);
+        updateTransferJob(
+          {
+            jobName: job.featuresValues.jobList.id,
+            jsonKey: job.featuresValues.endpoint.jsonKey,
+            newStatus: 'DISABLED',
+          },
+          Response
+        );
       } else if (job.featuresValues.action.id == 'delete') {
         console.log('Action selected:');
         console.log(job.featuresValues.action.id);
@@ -145,13 +154,12 @@ exports.getLogs = async ({ job, instance }) => {
  * Review the transfer operations associated with a transfer job.
  *
  * @param {object} options Configuration options.
- * @param {string} options.projectID The ID of the project.
  * @param {string} options.srcBucket The name of the source bucket.
  * @param {string} options.destBucket The name of the destination bucket.
  * @param {string} options.date The date of the first transfer in the format YYYY/MM/DD.
  * @param {string} options.time The time of the first transfer in the format HH:MM.
  * @param {string} [options.description] Optional. Description for the new transfer job.
- * @param {function} callback The callback function.
+ * @param {string} options.jsonKey The JSON key to use for authentication
  */
 const createTransferJob = (options, Response) => {
   // -----------------------
@@ -190,7 +198,7 @@ const createTransferJob = (options, Response) => {
 
   // Prepare the information needed to create a Transfer Job between GCS buckets
   const transferJob = {
-    projectId: options.projectID,
+    projectId: keys.project_id,
     status: 'ENABLED',
     transferSpec: {
       gcsDataSource: { bucketName: options.srcBucket, },
@@ -280,7 +288,6 @@ const createTransferJob = (options, Response) => {
   }
   getServiceAccount().catch(console.error);
 
-
   storagetransfer.transferJobs.create(
     {
       auth: authClient,
@@ -310,6 +317,90 @@ const createTransferJob = (options, Response) => {
       const transferJob = response.data;
       console.log('Created transfer job: %s', transferJob.name);
       return Response.success('Created transfer job: %s', transferJob.name);
+    }
+  );
+}
+
+const updateTransferJob = (options, Response) => {
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Entering updateTransferJob');
+  console.log('Content of options:');
+  console.log(util.inspect(options, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  const keys = JSON.parse(options.jsonKey);
+
+  authClient = new google.auth.JWT({
+    email: keys.client_email,
+    key: keys.private_key,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  });
+
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Content of authClient:');
+  console.log(util.inspect(authClient, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  const request = {
+    // Required. The name of job to update.
+    jobName: options.jobName,
+    projectId: keys.project_id,
+    resource: {
+      transferJob: {
+        status: options.newStatus
+      },
+      updateTransferJobFieldMask: "status"
+    },
+    auth: authClient,
+  };
+
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('Content of request:');
+  console.log(util.inspect(request, false, null, true /* enable colors */))
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  storagetransfer.transferJobs.patch(
+    request,
+    (err, response) => {
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      console.log('Inside storagetransfer.transferJobs.patch');
+      if (Response === undefined)
+        console.log('Response is undefined');
+      else
+        console.log('Response is ok')
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+
+      if (err) {
+        console.log("---------------");
+        console.log("---- Error ----");
+        console.log("---------------");
+        console.log(err);
+        return Response.error('Error:', { err });
+      }
+
+      const transferJob = response.data;
+      console.log('Updated transfer job: %s', transferJob.name);
+      return Response.success('Updated transfer job: %s', transferJob.name);
     }
   );
 };
