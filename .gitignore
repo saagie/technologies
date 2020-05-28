@@ -5,3 +5,8 @@
 # Ignore Gradle build output directory
 build
 tmp-zip
+
+# Ignore Node.js technologies build and cache directories
+node_modules/
+.cache/
+.bundle/

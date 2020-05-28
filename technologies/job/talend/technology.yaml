@@ -1,0 +1,7 @@
+version: "v1"
+type: JOB
+id: talend
+label: Talend
+available: true
+icon: talend
+mainClass: __TALEND_SH_FILENAME__

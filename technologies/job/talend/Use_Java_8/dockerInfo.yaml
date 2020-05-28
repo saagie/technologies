@@ -1,0 +1,3 @@
+dockerInfo:
+  image: saagie/talend
+  version: Use_Java_8-1.30.0
