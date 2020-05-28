@@ -50,6 +50,7 @@ contexts:
         - type: ENDPOINT
           name: endpoint
           label: Endpoint
+    
         - type: SELECT
           name: action
           label: Action
@@ -57,12 +58,23 @@ contexts:
           options:
             - id: transfer
               label: Create transfer job
-            - id: other2
-              label: Other2
-            - id: other3
-              label: Other3
+            - id: disable
+              label: Disable a job
+            - id: delete
+              label: Delete a job
           dependsOn:
             - endpoint
+    
+        - type: SELECT
+          name: jobList
+          label: Job List
+          required: false
+          options:
+            script: ./jobForm.js
+            function: getJobList
+          dependsOn:
+            - endpoint
+      
     instance:
       actions:
         onStart:
