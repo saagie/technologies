@@ -1,0 +1,50 @@
+id: mycontext
+label: MyContext
+description: ""
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: URL
+      name: url
+      label: End point URL
+      required: true
+      helper: "eg: https://dataflow.googleapis.com"
+    - type: PASSWORD
+      name: GCP TOKEN
+      label: GCP Token
+      required: true
+    - type: TEXT
+      name: region
+      label: Region
+      helper: "GCP region example: europe-west2"
+      required: false
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: dataset
+      label: Dataset
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasets
+      dependsOn:
+        - endpoint
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
