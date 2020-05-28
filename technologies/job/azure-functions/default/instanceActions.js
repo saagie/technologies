@@ -1,5 +1,9 @@
 const axios = require('axios');
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
+const {
+  getHeadersWithAccessTokenForManagementResource,
+  getHeadersWithAccessTokenForInsightsResource
+} = require('../utils');
 
 /**
  * Logic to start the external job instance.
@@ -10,14 +14,22 @@ const { Response, JobStatus, Log } = require('@saagie/sdk');
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
+
+    const functionKeysDataRes = await axios.post(
+      `https://management.azure.com${job.featuresValues.function.id}/listkeys?api-version=2019-08-01`,
+      {},
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
     );
 
-    // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    if (functionKeysDataRes && functionKeysDataRes.data && functionKeysDataRes.data.default) {
+      const triggeredFunctionRes = await axios.get(
+        `${job.featuresValues.function.triggerUrl}?code=${functionKeysDataRes.data.default}&name=Test`
+      );
+
+      console.log({ triggeredFunctionRes });
+    }
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Failed to start function', { error });
   }
 };
 
@@ -75,11 +87,46 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
+    const requestsDataRes = await axios.get(
+      `https://api.applicationinsights.io/v1/apps/${job.featuresValues.endpoint.insightsAppId}/events/requests`,
+      await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
     );
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    if (
+      requestsDataRes
+      && requestsDataRes.data
+      && requestsDataRes.data.value
+      && requestsDataRes.data.value.length > 0
+    ) {
+      const allRequests = requestsDataRes.data.value;
+
+      const requestsForFunction = allRequests.filter((req) => 
+        req.request.name === job.featuresValues.function.functionName
+        && req.request.url === job.featuresValues.function.triggerUrl
+      );
+
+      if (requestsForFunction && requestsForFunction.length > 0) {
+        const logsDataRes = await axios.get(
+          `https://api.applicationinsights.io/v1/apps/${job.featuresValues.endpoint.insightsAppId}/events/traces`,
+          await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
+        );
+    
+        if (
+          logsDataRes
+          && logsDataRes.data
+          && logsDataRes.data.value
+          && logsDataRes.data.value.length > 0
+        ) {
+          const allLogs = logsDataRes.data.value;
+
+          const functionLogs = allLogs.filter((log) => log.operation && log.operation.parentId === requestsForFunction[0].request.id);
+    
+          return Response.success(functionLogs.map(({ timestamp, trace, customDimensions }) => Log(`[${customDimensions && customDimensions.LogLevel}] ${trace.message}`, Stream.STDOUT, timestamp)));
+        }
+      }
+    }
+
+    return Response.success([]);
   } catch (error) {
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
