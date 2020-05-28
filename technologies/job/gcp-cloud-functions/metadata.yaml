@@ -1,0 +1,56 @@
+version: v1
+id: gcp-cloud-functions
+label: gcp-cloud-functions
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: project
+    label: project
+    description: ""
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: jsonKey
+          label: JSON key
+          required: true
+          helper: "Full JSON document"
+        - type: SELECT
+          name: location
+          label: Location
+          required: true
+          options:
+            script: ./endpointForm.js
+            function: getLocations
+          dependsOn:
+            - jsonKey
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: function
+          label: Cloud Function
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getFunctions
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
