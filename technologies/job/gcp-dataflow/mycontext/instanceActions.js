@@ -1,5 +1,8 @@
 const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
+const util = require('util')
+const moment = require('moment');
+const { google } = require('googleapis');
 
 /**
  * Logic to start the external job instance.
@@ -84,3 +87,37 @@ exports.getLogs = async ({ job, instance }) => {
     return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
   }
 };
+
+
+const createDataFlowJob = (options, Response) => {
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Entering createDataFlowJob');
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  const keys = JSON.parse(options.jsonKey);
+
+  var authClient = new google.auth.JWT({
+    email: keys.client_email,
+    key: keys.private_key,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  });
+
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Content of authClient:');
+  console.log(util.inspect(authClient, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+
+}
