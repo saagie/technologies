@@ -32,46 +32,50 @@ exports.start = async ({ job, instance }) => {
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
-      return Response.success('You need to pick an action');
+      return Response.error('You need to pick an action');
+    } else {
+      console.log('Action selected:');
+      console.log(job.featuresValues.action);
     }
 
     if (job.featuresValues === undefined || job.featuresValues.endpoint === undefined || job.featuresValues.endpoint.jsonKey === undefined) {
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
-      console.log('You need to provide a JSON key');
+      console.log('You must provide a JSON key');
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
-      return Response.success('You need to provide a JSON key');
+      return Response.error('You must provide a JSON key');
     }
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
-    // -----------------------
-    // ------ DEBUG ----------
-    // -----------------------
-    console.log('-------------------------------------------------------------------------')
-    console.log('START job:', util.inspect(job, false, null, true /* enable colors */))
-    console.log('job.featuresValues.endpoint.sourceBucket: %s', job.featuresValues.endpoint.sourceBucket);
-    console.log('-------------------------------------------------------------------------')
-    // -----------------------
-    // ------ DEBUG ----------
-    // -----------------------
-
-    createTransferJob(
-      {
-        projectID: gcpKey.project_id,
-        srcBucket: job.featuresValues.endpoint.sourceBucket,
-        destBucket: job.featuresValues.endpoint.destinationBucket,
-        time: job.featuresValues.endpoint.transferTime,
-        date: job.featuresValues.endpoint.transferDate,
-        description: job.featuresValues.endpoint.description,
-        jsonKey: job.featuresValues.endpoint.jsonKey,
-      },
-      Response
-    );
-    // You can return any payload you want to get in the stop and getStatus functions.
-    // return Response.success({ customId: job.featuresValues.action.id });
+    if (job.featuresValues.action) {
+      if (job.featuresValues.action.id == 'create') {
+        console.log('Creating new job...');
+        createTransferJob(
+          {
+            projectID: gcpKey.project_id,
+            srcBucket: job.featuresValues.endpoint.sourceBucket,
+            destBucket: job.featuresValues.endpoint.destinationBucket,
+            time: job.featuresValues.endpoint.transferTime,
+            date: job.featuresValues.endpoint.transferDate,
+            description: job.featuresValues.endpoint.description,
+            jsonKey: job.featuresValues.endpoint.jsonKey,
+          },
+          Response
+        );
+      } else if (job.featuresValues.action.id == 'disable') {
+        console.log('Action selected:');
+        console.log(job.featuresValues.action.id);
+      } else if (job.featuresValues.action.id == 'delete') {
+        console.log('Action selected:');
+        console.log(job.featuresValues.action.id);
+      }
+      // You can return any payload you want to get in the stop and getStatus functions.
+      // return Response.success({ customId: job.featuresValues.action.id });
+      return Response.success("Selected action: ", job.featuresValues.action.id);
+    }
   } catch (error) {
     console.log(error);
     return Response.error('Failed to start job');

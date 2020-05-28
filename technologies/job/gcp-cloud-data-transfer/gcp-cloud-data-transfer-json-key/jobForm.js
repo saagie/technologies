@@ -2,6 +2,9 @@ const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const { JWT } = require('google-auth-library');
 
+const { google } = require('googleapis');
+const { Storage } = require('@google-cloud/storage');
+
 /**
  * Example of function to retrieve select options from an external endpoint.
  * @param {Object} entity - Contains entity data including featuresValues.
@@ -53,3 +56,55 @@ exports.connect = async ({ featuresValues }) => {
     }
   }
 }
+
+exports.getJobList = async ({ featuresValues }) => {
+  try {
+    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
+
+    authClient = new google.auth.JWT({
+      email: gcpKey.client_email,
+      key: gcpKey.private_key,
+      scopes: ['https://www.googleapis.com/auth/cloud-platform']
+    });
+
+    filter = { project_id: gcpKey.project_id };
+    filterString = JSON.stringify(filter);
+
+    const request = {
+      auth: authClient,
+      filter: filterString
+    };
+
+    // Instantiate a storagetransfer client
+    const storagetransfer = google.storagetransfer('v1');
+
+    var array = [];
+    let response;
+    do {
+      if (response && response.nextPageToken) {
+        request.pageToken = response.nextPageToken;
+      }
+      response = (await storagetransfer.transferJobs.list(request)).data;
+      const transferJobsPage = response.transferJobs;
+
+      console.log('transferJobsPage:');
+      console.log(transferJobsPage);
+
+      if (transferJobsPage) {
+        if (array.length == 0) // It's currently empty
+          array = transferJobsPage.map((job) => ({ id: job.name, label: job.description }));
+        else
+         array.concat(transferJobsPage.map((job) => ({ id: job.name, label: job.description })));
+      }
+    } while (response.nextPageToken);
+
+    if (array.length == 0) {
+      return Response.empty('No job found');
+    } else {
+      return Response.success(array);
+    }
+  } catch (error) {
+    console.log(error);
+    return Response.error("Can't retrieve job list", { error });
+  }
+};
