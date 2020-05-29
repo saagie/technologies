@@ -1,0 +1,7 @@
+version: v1
+id: azure-functions
+label: Azure Functions
+description: "Azure App Service REST API"
+available: true
+type: EXTERNAL_JOB
+icon: job
