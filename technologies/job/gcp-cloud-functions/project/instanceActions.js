@@ -1,7 +1,8 @@
-const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
-const { google } = require("googleapis");
+const { google } = require('googleapis');
 const cloudfunctions = google.cloudfunctions('v1');
+const logging = google.logging('v2');
+const { getConnexion } = require('./utils');
 
 
 /**
@@ -12,15 +13,10 @@ const cloudfunctions = google.cloudfunctions('v1');
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
-    );
-
     // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    return Response.success({ customId: "" });
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Fail to start job', { error });
   }
 };
 
@@ -30,15 +26,11 @@ exports.start = async ({ job, instance }) => {
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
-exports.getStatus = async ({ job, instance }) => {
+exports.getStatus = async ({ job }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
-    authClient = new google.auth.JWT({
-      email: gcpKey.client_email,
-      key: gcpKey.private_key,
-      scopes: ['https://www.googleapis.com/auth/cloud-platform']
-    });
+    authClient = getConnexion(gcpKey);
 
     console.log(`Retrieve status for ${job.featuresValues.function.id}`)
     const { data } = await cloudfunctions.projects.locations.functions.get({
@@ -69,13 +61,21 @@ exports.getStatus = async ({ job, instance }) => {
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    );
+    const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    authClient = getConnexion(gcpKey);
+
+    const { data: { entries }} = await logging.entries.list({
+      requestBody: {
+        filter: `resource.type=cloud_function resource.labels.function_name=${job.featuresValues.function.label} resource.labels.region=${job.featuresValues.endpoint.location.id} log_name=projects/saagie-internal-testing/logs/cloudfunctions.googleapis.com%2Fcloud-functions`,
+        orderBy: "timestamp desc",
+        resourceNames: ["projects/saagie-internal-testing"]
+      }, 
+      auth: authClient
+    });
+    console.log(entries)
+    return Response.success(entries.reverse().map(({timestamp, textPayload}) => Log(textPayload, "", timestamp)));  
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error(`Failed to get log for ${job.featuresValues.function.name}}`, { error });
   }
 };
