@@ -67,7 +67,7 @@ exports.getStatus = async ({ job, instance }) => {
     );
 
     if (data && data.properties) {
-      return Response.success(data.properties.isDisabled ? JobStatus.KILLED : JobStatus.SUCCEEDED);
+      return Response.success(data.properties.isDisabled ? JobStatus.KILLED : JobStatus.RUNNING);
     }
 
     return Response.success(JobStatus.AWAITING);
