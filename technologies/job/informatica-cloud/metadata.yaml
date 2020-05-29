@@ -18,7 +18,7 @@ contexts:
           name: url
           label: Endpoint URL
           required: true
-          helper: e.g. use test.com
+          helper: e.g. use https://dm-em.informaticacloud.com
         - type: TEXT
           name: username
           label: Username
