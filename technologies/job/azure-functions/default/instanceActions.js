@@ -2,8 +2,11 @@ const axios = require('axios');
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const {
   getHeadersWithAccessTokenForManagementResource,
-  getHeadersWithAccessTokenForInsightsResource
+  getHeadersWithAccessTokenForInsightsResource,
+  checkDataFromAzureResponse,
+  getErrorMessage,
 } = require('../utils');
+const { ERRORS_MESSAGES } = require('../errors');
 
 /**
  * Logic to start the external job instance.
@@ -15,21 +18,15 @@ exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
 
-    const functionKeysDataRes = await axios.post(
-      `https://management.azure.com${job.featuresValues.function.id}/listkeys?api-version=2019-08-01`,
-      {},
-      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
+    await axios.put(
+      `https://management.azure.com${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
+      { properties: 'enabled' },
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
 
-    if (functionKeysDataRes && functionKeysDataRes.data && functionKeysDataRes.data.default) {
-      const triggeredFunctionRes = await axios.get(
-        `${job.featuresValues.function.triggerUrl}?code=${functionKeysDataRes.data.default}&name=Test`
-      );
-
-      console.log({ triggeredFunctionRes });
-    }
+    return Response.success();
   } catch (error) {
-    return Response.error('Failed to start function', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_ENABLE_ERROR);
   }
 };
 
@@ -42,13 +39,16 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
-    await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
+
+    await axios.put(
+      `https://management.azure.com${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
+      { properties: 'disabled' },
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
 
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to stop job', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_DISABLE_ERROR);
   }
 };
 
@@ -62,19 +62,17 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
     const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}`,
+      `https://management.azure.com${job.featuresValues.function.id}?api-version=2019-08-01`,
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
 
-    switch (data.status) {
-      case 'IN_PROGRESS':
-        return Response.success(JobStatus.RUNNING);
-      case 'STOPPED':
-        return Response.success(JobStatus.KILLED);
-      default:
-        return Response.success(JobStatus.AWAITING);
+    if (data && data.properties) {
+      return Response.success(data.properties.isDisabled ? JobStatus.KILLED : JobStatus.SUCCEEDED);
     }
+
+    return Response.success(JobStatus.AWAITING);
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.dataset.id}`, { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR);
   }
 };
 
@@ -92,18 +90,10 @@ exports.getLogs = async ({ job, instance }) => {
       await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
     );
 
-    if (
-      requestsDataRes
-      && requestsDataRes.data
-      && requestsDataRes.data.value
-      && requestsDataRes.data.value.length > 0
-    ) {
+    if (checkDataFromAzureResponse(requestsDataRes)) {
       const allRequests = requestsDataRes.data.value;
 
-      const requestsForFunction = allRequests.filter((req) => 
-        req.request.name === job.featuresValues.function.functionName
-        && req.request.url === job.featuresValues.function.triggerUrl
-      );
+      const requestsForFunction = allRequests.filter((req) => req.request.name === job.featuresValues.function.functionName);
 
       if (requestsForFunction && requestsForFunction.length > 0) {
         const logsDataRes = await axios.get(
@@ -111,15 +101,12 @@ exports.getLogs = async ({ job, instance }) => {
           await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
         );
     
-        if (
-          logsDataRes
-          && logsDataRes.data
-          && logsDataRes.data.value
-          && logsDataRes.data.value.length > 0
-        ) {
+        if (checkDataFromAzureResponse(logsDataRes)) {
           const allLogs = logsDataRes.data.value;
 
-          const functionLogs = allLogs.filter((log) => log.operation && log.operation.parentId === requestsForFunction[0].request.id);
+          const functionLogs = allLogs.filter((log) => (
+            requestsForFunction.some((req) => req.request.id === (log.operation && log.operation.parentId))
+          ));
     
           return Response.success(functionLogs.map(({ timestamp, trace, customDimensions }) => Log(`[${customDimensions && customDimensions.LogLevel}] ${trace.message}`, Stream.STDOUT, timestamp)));
         }
@@ -128,6 +115,6 @@ exports.getLogs = async ({ job, instance }) => {
 
     return Response.success([]);
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR);
   }
 };

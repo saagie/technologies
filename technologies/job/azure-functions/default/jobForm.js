@@ -1,9 +1,14 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
-const { getHeadersWithAccessTokenForManagementResource } = require('../utils');
+const {
+  getHeadersWithAccessTokenForManagementResource,
+  checkDataFromAzureResponse,
+  getErrorMessage,
+} = require('../utils');
+const { ERRORS_MESSAGES } = require('../errors');
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to retrieve resource groups linked to Azure credentials
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -11,83 +16,69 @@ exports.getResourceGroups = async ({ featuresValues }) => {
   try {
     const { subscriptionId } = featuresValues.endpoint;
 
-    const resourceGroupsDataRes = await axios.get(
+    const res = await axios.get(
       `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups?api-version=2019-10-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
-    if (
-      resourceGroupsDataRes
-      && resourceGroupsDataRes.data
-      && resourceGroupsDataRes.data.value
-      && resourceGroupsDataRes.data.value.length > 0
-    ) {
-      return Response.success(resourceGroupsDataRes.data.value.map(({ id, name }) => ({
+    if (checkDataFromAzureResponse(res)) {
+      return Response.success(res.data.value.map(({ id, name }) => ({
         id,
         label: name
       })));
     }
 
-    return Response.success([]);
+    return Response.empty(ERRORS_MESSAGES.NO_RESOURCE_GROUPS);
   } catch (error) {
-    return Response.error("Can't retrieve resource groups", { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.RESOURCE_GROUPS_ERROR);
   }
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to retrieve function apps linked to selected resource group
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
 exports.getFunctionApps = async ({ featuresValues }) => {
   try {
-    const webAppsDataRes = await axios.get(
+    const res = await axios.get(
       `https://management.azure.com${featuresValues.resourceGroup.id}/providers/Microsoft.Web/sites?api-version=2019-08-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
-    if (
-      webAppsDataRes
-      && webAppsDataRes.data
-      && webAppsDataRes.data.value
-      && webAppsDataRes.data.value.length > 0
-    ) {
-      const functionApps = webAppsDataRes.data.value.filter(
+    if (checkDataFromAzureResponse(res)) {
+      const functionApps = res.data.value.filter(
         (webApp) => webApp.kind === 'functionapp'
       );
 
-      return Response.success(functionApps.map(({ id, name }) => ({
-        id,
-        label: name
-      })));
+      if (functionApps.length > 0) {
+        return Response.success(functionApps.map(({ id, name }) => ({
+          id,
+          label: name
+        })));
+      }
     }
 
-    return Response.success([]);
+    return Response.empty(ERRORS_MESSAGES.NO_FUNCTION_APPS);
   } catch (error) {
-    console.log({ error });
-    return Response.error("Can't retrieve function apps", { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FUNCTION_APPS_ERROR);
   }
 };
 
 /**
- * Example of function to retrieve select options from an external endpoint.
+ * Function to retrieve functions linked to selected function app
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
 exports.getFunctions = async ({ featuresValues }) => {
   try {
-    const functionsDataRes = await axios.get(
+    const res = await axios.get(
       `https://management.azure.com${featuresValues.functionApp.id}/functions?api-version=2019-08-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
-    if (
-      functionsDataRes
-      && functionsDataRes.data
-      && functionsDataRes.data.value
-      && functionsDataRes.data.value.length > 0
-    ) {
-      return Response.success(functionsDataRes.data.value.map(({ id, name, properties }) => ({
+    if (checkDataFromAzureResponse(res)) {
+      return Response.success(res.data.value.map(({ id, name, properties }) => ({
         id,
         label: name,
         functionName: properties.name,
@@ -95,9 +86,8 @@ exports.getFunctions = async ({ featuresValues }) => {
       })));
     }
 
-    return Response.success([]);
+    return Response.empty(ERRORS_MESSAGES.NO_FUNCTIONS);
   } catch (error) {
-    console.log({ error });
-    return Response.error("Can't retrieve function apps", { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FUNCTIONS_ERROR);
   }
 };
