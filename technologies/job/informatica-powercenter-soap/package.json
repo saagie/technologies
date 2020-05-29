@@ -1,0 +1,16 @@
+{
+  "name": "informatica-powercenter-soap",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "saagie-sdk start",
+    "build": "saagie-sdk build",
+    "new:context": "saagie-sdk init"
+  },
+  "dependencies": {
+    "@saagie/sdk": "0.10.0",
+    "axios": "0.19.2",
+    "fast-xml-parser": "^3.16.0",
+    "soap": "^0.31.0"
+  }
+}

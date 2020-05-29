@@ -1,6 +1,8 @@
 name: BUILD ONLY MODIFIED
 
 on:
+  pull_request:
+    types: [assigned, opened, reopened]
   push:
     branches:
       - '*'
@@ -30,7 +32,8 @@ jobs:
         run: |
           git config --local user.email "github-action@saagie.com"
           git config --local user.name "GitHub Action Bot"
-          git add **/dockerInfo.yaml **/metadata.yaml **/dockerInfo.yml **/metadata.yml version.properties
+          git status
+          git add .
           git commit -m "[BOT] Set version for this branch"
       - name: Push changes
         uses: ad-m/github-push-action@master

@@ -1,0 +1,16 @@
+export const ERRORS_MESSAGES = {
+  NO_REPOSITORIES: 'No repositories availables',
+  NO_WORKFLOWS: 'No workflows availables',
+  NO_FOLDERS: 'No folders availables',
+  NO_INTEGRATION_SERVICES: 'No integration services',
+  NO_TASKS: 'No tasks found inside the workflow',
+  REPOSITORIES_ERROR: 'Can\'t retrieve repositories',
+  WORKFLOWS_ERROR: 'Can\'t retrieve workflows',
+  FOLDERS_ERROR: 'Can\'t retrieve folders',
+  INTEGRATION_SERVICES_ERROR: 'Can\'t retrieve integration services',
+  TASKS_ERROR: 'Can\'t retrieve tasks',
+  FAILED_TO_RUN_JOB_ERROR: 'Failed to run job from Powercenter server',
+  FAILED_TO_STOP_JOB_ERROR: 'Failed to stop job from Powercenter server',
+  FAILED_TO_GET_STATUS_ERROR: 'Failed to get status for job from Powercenter server',
+  FAILED_TO_GET_LOGS_ERROR: 'Failed to get logs for job from Powercenter server',
+};

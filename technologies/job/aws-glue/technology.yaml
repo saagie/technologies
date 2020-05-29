@@ -3,5 +3,5 @@ id: aws-glue
 label: aws-glue
 description: "AWS Simple, flexible, and cost-effective ETL. Api Version: 2017-03-31 "
 available: true
-type: JOB
+type: EXTERNAL_JOB
 icon: job

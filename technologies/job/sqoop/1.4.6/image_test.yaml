@@ -138,3 +138,4 @@ commandTests:
     command: "kinit"
     expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
     exitCode: 1
+

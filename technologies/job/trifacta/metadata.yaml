@@ -1,0 +1,261 @@
+version: v1
+id: trifacta
+label: Trifacta
+description: "Trifacta API Version : +6.4.2"
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: token-auth
+    label: Token auth (+v6.4.2)
+    description: "Trifacta user authentication by access token"
+    recommended: true
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://cloud.trifacta.com
+        - type: TEXT
+          name: access_token
+          label: Access token
+          required: true
+        - type: SELECT
+          name: ignoreSslIssues
+          label: SSL issues
+          required: false
+          helper: (Don't ignore it by default)
+          options:
+          - id: true
+            label: Ignore SSL issues
+          - id: false
+            label: Don't ignore SSL issues
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: flow
+          label: Flow
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getFlows
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: dataset
+          label: Wrangled dataset
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasets
+          dependsOn:
+            - flow
+        - type: SELECT
+          name: execution
+          label: Job execution
+          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
+          options:
+          - id: photon
+            label: photon - running environment on Trifacta node
+          - id: spark
+            label: spark - Spark on integrated cluster, with the following exceptions
+          - id: emrSpark
+            label: emrSpark - Spark on AWS EMR
+          - id: databricksSpark
+            label: databricksSpark - Spark on Azure Databricks
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: profiler
+          label: Profiler
+          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+          options:
+          - id: true
+            label: Enabled (true)
+          - id: false
+            label: Disabled (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: writeSettings
+          label: Write settings (JSON)
+          helper: (required, if first time running the job) These settings define the publishing options for the job.
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: writeSettingsSave
+          label: Save write settings
+          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+          options:
+          - id: true
+            label: Save inserted write settings into output object (true)
+          - id: false
+            label: Only overwrite current job write settings (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: first_parameter_key
+          label: First parameter key
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: first_parameter_value
+          label: First parameter value
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: second_parameter_key
+          label: Second parameter key
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: second_parameter_value
+          label: Second parameter value
+          dependsOn:
+            - dataset
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
+  - id: login-auth
+    label: Login auth (+v6.4.2)
+    description: "Trifacta user authentication by credentials"
+    recommended: true
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://cloud.trifacta.com
+        - type: TEXT
+          name: email
+          label: Email address
+          required: true
+        - type: PASSWORD
+          name: password
+          label: Password
+          required: true
+        - type: SELECT
+          name: ignoreSslIssues
+          label: SSL issues
+          required: false
+          helper: (Don't ignore it by default)
+          options:
+          - id: true
+            label: Ignore SSL issues
+          - id: false
+            label: Don't ignore SSL issues
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: flow
+          label: Flow
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getFlows
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: dataset
+          label: Wrangled dataset
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasets
+          dependsOn:
+            - flow
+        - type: SELECT
+          name: execution
+          label: Job execution
+          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
+          options:
+          - id: photon
+            label: photon - running environment on Trifacta node
+          - id: spark
+            label: spark - Spark on integrated cluster, with the following exceptions
+          - id: emrSpark
+            label: emrSpark - Spark on AWS EMR
+          - id: databricksSpark
+            label: databricksSpark - Spark on Azure Databricks
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: profiler
+          label: Profiler
+          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+          options:
+          - id: true
+            label: Enabled (true)
+          - id: false
+            label: Disabled (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: writeSettings
+          label: Write settings (JSON)
+          helper: (required, if first time running the job) These settings define the publishing options for the job.
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: writeSettingsSave
+          label: Save write settings
+          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+          options:
+          - id: true
+            label: Save inserted write settings into output object (true)
+          - id: false
+            label: Only overwrite current job write settings (false)
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: first_parameter_key
+          label: First parameter key
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: first_parameter_value
+          label: First parameter value
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: second_parameter_key
+          label: Second parameter key
+          dependsOn:
+            - dataset
+        - type: TEXT
+          name: second_parameter_value
+          label: Second parameter value
+          dependsOn:
+            - dataset
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs

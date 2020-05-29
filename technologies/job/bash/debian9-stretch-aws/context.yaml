@@ -4,18 +4,18 @@ available: true
 recommended: false
 dockerInfo:
   image: saagie/bash
-trustLevel: "stable"
+trustLevel: stable
 job:
   features:
-    - field: COMMAND_LINE
+    - type: COMMAND_LINE
       label: Command line
       mandatory: true
       comment: Linux shell command
-      defaultValue: echo "Saagie Bash"
-    - field: ARTIFACT
+      defaultValue: "# To configure AWS credential don't forget to set:\n# \tAWS_ACCESS_KEY_ID\n# \tAWS_SECRET_ACCESS_KEY\n# For other ways to log into aws please refer to aws documentation.\n# If done right you can issue your AWS commands as usual e.g. :\n\naws s3 ls"
+    - type: ARTIFACT
       label: Package
       mandatory: false
       comment: All files are accepted.
-    - field: SCHEDULER
+    - type: SCHEDULER
       label: Scheduled
       mandatory: true

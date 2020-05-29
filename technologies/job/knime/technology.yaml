@@ -1,0 +1,7 @@
+version: v1
+id: knime
+label: Knime
+description: "Knime Server REST API v4"
+available: true
+type: EXTERNAL_JOB
+icon: job

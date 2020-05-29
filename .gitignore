@@ -1,9 +1,13 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 .idea
-.cache
 .DS_Store
-node_modules
+.DS_Store/
 # Ignore Gradle build output directory
 build
 tmp-zip
+
+# Ignore Node.js technologies build and cache directories
+node_modules/
+.cache/
+.bundle/

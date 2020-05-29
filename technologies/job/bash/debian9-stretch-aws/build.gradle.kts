@@ -29,7 +29,7 @@ val metadata = readContextMetadata(projectDir)
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     dependsOn(":debian9-stretch:buildDockerImage")
     this.buildArgs.put(
-        "base_img",
-        "${metadata.dockerInfo?.image}:debian9-stretch-${this.project.getVersionForDocker()}"
+            "base_img",
+            "${metadata.dockerInfo?.image}:debian9-stretch-${this.project.getVersionForDocker()}"
     )
 }
