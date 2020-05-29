@@ -13,8 +13,6 @@ exports.getTrainingJobs = async ({ featuresValues }) => {
     const sagemaker = new AWS.SageMaker();
     const data = await sagemaker.listTrainingJobs().promise();
 
-    // console.log(data);
-    
     if (!data || !data.TrainingJobSummaries || !data.TrainingJobSummaries.length) {
       return Response.empty('No Jobs Available to clone.');
     }
@@ -28,5 +26,45 @@ exports.getTrainingJobs = async ({ featuresValues }) => {
   } catch (error) {
     console.log(error)
     return Response.error("Can't retrieve Training Jobs", { error });
+  }
+};
+
+
+exports.getJobInput = async ({ featuresValues }) => {
+  try {
+    AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: featuresValues.endpoint.region});
+    const sagemaker = new AWS.SageMaker();
+
+    const data = await sagemaker.describeTrainingJob( params = {
+          TrainingJobName: featuresValues.trainingjobs.label
+        }).promise();
+
+    console.log(data.InputDataConfig);
+    return Response.success(data.InputDataConfig.DataSource.S3DataSource.S3Uri);
+
+
+  } catch (error) {
+    console.log(error)
+    return Response.error("Can't retrieve Training Job Input", { error });
+  }
+};
+
+
+exports.getJobOutput = async ({ featuresValues }) => {
+  try {
+    AWS.config.update({credentials: { accessKeyId : featuresValues.endpoint.aws_access_key_id, secretAccessKey:  featuresValues.endpoint.aws_secret_access_key}});
+    AWS.config.update({region: featuresValues.endpoint.region});
+    const sagemaker = new AWS.SageMaker();
+
+    const data = await sagemaker.describeTrainingJob( params = {
+          TrainingJobName: featuresValues.trainingjobs.label
+        }).promise();
+
+    return Response.success(data.OutputDataConfig.S3OutputPath);
+
+  } catch (error) {
+    console.log(error)
+    return Response.error("Can't retrieve Training Job Input", { error });
   }
 };

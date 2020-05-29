@@ -24,8 +24,6 @@ exports.start = async ({ job, instance }) => {
           return Response.error('Training Job Output S3 location is required.', new Error("Validation Error"));
     }
 
-
-
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
     
