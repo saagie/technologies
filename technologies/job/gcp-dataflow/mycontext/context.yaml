@@ -9,7 +9,7 @@ endpoint:
       name: url
       label: End point URL
       required: true
-      helper: "eg: https://dataflow.googleapis.com"
+      helper: "eg https://dataflow.googleapis.com"
     - type: PASSWORD
       name: GCP TOKEN
       label: GCP Token
@@ -19,21 +19,22 @@ endpoint:
       label: Region
       helper: "GCP region example: europe-west2"
       required: false
+
 job:
   features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
+    - type: TEXT
+      name: project_id
+      label: "Project ID"
       required: true
-    - type: SELECT
-      name: dataset
-      label: Dataset
+    - type: TEXT
+      name: job_id
+      label: "Job ID"
       required: true
-      options:
-        script: ./jobForm.js
-        function: getDatasets
-      dependsOn:
-        - endpoint
+    - type: TEXT
+      name: jsonKey
+      label: "GCP jsonKey"
+      required: true
+      
 instance:
   actions:
     onStart:

@@ -1,26 +1,33 @@
 const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 const util = require('util')
-const moment = require('moment');
 const { google } = require('googleapis');
 
 /**
  * Logic to start the external job instance.
  * @param {Object} params
- * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.job - Contains job data including featuresValues.²
  * @param {Object} params.instance - Contains instance data.
  */
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
+    /*const { data } = await axios.post(
       `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
-    );
+    );*/
+
+    console.log('START INSTANCE:', job.featuresValues.project_id);
+    console.log('START INSTANCE:', job.featuresValues.job_id);
+    
+    const authClient = googleAuth(job.featuresValues.jsonKey) 
+
+    console.log('START INSTANCE:', authClient.scopes);
 
     // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    return Response.success(); //{ customId: data.id }
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    console.log(error);
+    return Response.error('Fail to start job', {error}); //, { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` }
   }
 };
 
@@ -89,35 +96,17 @@ exports.getLogs = async ({ job, instance }) => {
 };
 
 
-const createDataFlowJob = (options, Response) => {
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
-  console.log('-------------------------------------------------------------------------')
-  console.log('Entering createDataFlowJob');
-  console.log('-------------------------------------------------------------------------')
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
+const googleAuth = (jsonKey) => {
+  
+  const keys = JSON.parse(jsonKey);
+    
+  console.log('START INSTANCE:', keys.client_email);
 
-  const keys = JSON.parse(options.jsonKey);
-
-  var authClient = new google.auth.JWT({
+  const authClient = new google.auth.JWT({
     email: keys.client_email,
     key: keys.private_key,
     scopes: ['https://www.googleapis.com/auth/cloud-platform']
   });
 
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
-  console.log('-------------------------------------------------------------------------')
-  console.log('Content of authClient:');
-  console.log(util.inspect(authClient, false, null, true /* enable colors */))
-  console.log('-------------------------------------------------------------------------')
-  // -----------------------
-  // ------ DEBUG ----------
-  // -----------------------
-
-
+return authClient
 }
