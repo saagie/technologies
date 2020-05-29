@@ -1,14 +1,14 @@
 version: v1
 id: azure-functions
 label: Azure Functions
-description: ""
+description: "Azure App Service REST API"
 available: true
 type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: default
-    label: Default
+  - id: client-id-auth
+    label: Client ID auth
     description: ""
     recommended: true
     trustLevel: experimental
@@ -67,12 +67,6 @@ contexts:
             function: getFunctions
           dependsOn:
             - functionApp
-        - type: TEXT
-          name: customParams
-          label: Custom params (JSON)
-          required: false
-          dependsOn:
-            - function
     instance:
       actions:
         onStart:
