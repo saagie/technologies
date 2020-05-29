@@ -4,6 +4,13 @@ const axios = require('axios');
 const qs = require('querystring');
 const { Response } = require('@saagie/sdk');
 
+export const AZURE_MANAGEMENT_API_URL = 'https://management.azure.com';
+const AZURE_INSIGHTS_API_URL = 'https://api.applicationinsights.io';
+
+export const getAzureInsightsAppEventsUrl = (endpoint) => (
+  `${AZURE_INSIGHTS_API_URL}/v1/apps/${endpoint.insightsAppId}/events`
+);
+
 export const getHeadersWithAccessTokenForManagementResource = async (endpoint) => {
   const {
     clientId,

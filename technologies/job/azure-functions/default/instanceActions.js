@@ -5,6 +5,8 @@ const {
   getHeadersWithAccessTokenForInsightsResource,
   checkDataFromAzureResponse,
   getErrorMessage,
+  getAzureInsightsAppEventsUrl,
+  AZURE_MANAGEMENT_API_URL
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
@@ -19,7 +21,7 @@ exports.start = async ({ job, instance }) => {
     console.log('START INSTANCE:', instance);
 
     await axios.put(
-      `https://management.azure.com${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
+      `${AZURE_MANAGEMENT_API_URL}${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
       { properties: 'enabled' },
       await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
@@ -41,7 +43,7 @@ exports.stop = async ({ job, instance }) => {
     console.log('STOP INSTANCE:', instance);
 
     await axios.put(
-      `https://management.azure.com${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
+      `${AZURE_MANAGEMENT_API_URL}${job.featuresValues.function.id}/properties/state?api-version=2018-11-01`,
       { properties: 'disabled' },
       await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
@@ -62,7 +64,7 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
     const { data } = await axios.get(
-      `https://management.azure.com${job.featuresValues.function.id}?api-version=2019-08-01`,
+      `${AZURE_MANAGEMENT_API_URL}${job.featuresValues.function.id}?api-version=2019-08-01`,
       await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint),
     );
 
@@ -86,7 +88,7 @@ exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
     const requestsDataRes = await axios.get(
-      `https://api.applicationinsights.io/v1/apps/${job.featuresValues.endpoint.insightsAppId}/events/requests`,
+      `${getAzureInsightsAppEventsUrl(job.featuresValues.endpoint)}/requests`,
       await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
     );
 
@@ -97,7 +99,7 @@ exports.getLogs = async ({ job, instance }) => {
 
       if (requestsForFunction && requestsForFunction.length > 0) {
         const logsDataRes = await axios.get(
-          `https://api.applicationinsights.io/v1/apps/${job.featuresValues.endpoint.insightsAppId}/events/traces`,
+          `${getAzureInsightsAppEventsUrl(job.featuresValues.endpoint)}/traces`,
           await getHeadersWithAccessTokenForInsightsResource(job.featuresValues.endpoint)
         );
     

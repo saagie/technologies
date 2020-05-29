@@ -4,6 +4,7 @@ const {
   getHeadersWithAccessTokenForManagementResource,
   checkDataFromAzureResponse,
   getErrorMessage,
+  AZURE_MANAGEMENT_API_URL,
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
 
@@ -17,7 +18,7 @@ exports.getResourceGroups = async ({ featuresValues }) => {
     const { subscriptionId } = featuresValues.endpoint;
 
     const res = await axios.get(
-      `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups?api-version=2019-10-01`,
+      `${AZURE_MANAGEMENT_API_URL}/subscriptions/${subscriptionId}/resourcegroups?api-version=2019-10-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
@@ -42,7 +43,7 @@ exports.getResourceGroups = async ({ featuresValues }) => {
 exports.getFunctionApps = async ({ featuresValues }) => {
   try {
     const res = await axios.get(
-      `https://management.azure.com${featuresValues.resourceGroup.id}/providers/Microsoft.Web/sites?api-version=2019-08-01`,
+      `${AZURE_MANAGEMENT_API_URL}${featuresValues.resourceGroup.id}/providers/Microsoft.Web/sites?api-version=2019-08-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
@@ -73,7 +74,7 @@ exports.getFunctionApps = async ({ featuresValues }) => {
 exports.getFunctions = async ({ featuresValues }) => {
   try {
     const res = await axios.get(
-      `https://management.azure.com${featuresValues.functionApp.id}/functions?api-version=2019-08-01`,
+      `${AZURE_MANAGEMENT_API_URL}${featuresValues.functionApp.id}/functions?api-version=2019-08-01`,
       await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
     );
 
