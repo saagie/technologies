@@ -46,26 +46,26 @@ contexts:
           name: trainingjobname
           label: New Training Job Name
           required: true
-          helper: "Job Name: Specify the Name for the New training Job to be created using Template attributes."
+          helper: "Specify the Name for the New training Job to be created using Template attributes."
           dependsOn:
             - trainingjobs
         - type: TEXT
           name: trainingjobinput
           label: Job Input S3 Location
           required: true
-          helper: "S3 Location containing Data used to train the model. "
+          helper: "S3 Location containing input data to train the model. "
           dependsOn:
-            - trainingjobname
+            - trainingjobs
         - type: TEXT
           name: trainingjoboutput
           label: Job Output S3 Location
           required: true
           helper: "S3 Location to store the output of the training job. "
+          value:
+            script: ./jobForm.js
+            function: getJobOutput
           dependsOn:
-            - trainingjobinput
-    
-    
-    
+            - trainingjobs
     
     instance:
       actions:
