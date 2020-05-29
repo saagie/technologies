@@ -26,7 +26,6 @@ exports.start = async ({ job, instance }) => {
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ jobGroupId: data.id });
   } catch (error) {
-    console.log(error.response.data)
     if (error && error.response) {
       if (
         error.response.status === 400
@@ -66,7 +65,6 @@ exports.getStatus = async ({ job, instance }) => {
     return Response.success(JOB_STATES[data.status] || JobStatus.AWAITING);
 
   } catch (error) {
-    console.log(error.data.response)
     if (error && error.response) {
       return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
     }

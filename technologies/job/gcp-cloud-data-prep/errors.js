@@ -7,4 +7,3 @@ export const ERRORS_MESSAGES = {
   }
   
   export const VALIDATION_FIELD = 'ValidationFailed';
-  export const SSL_ISSUES_CODE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE';
