@@ -41,7 +41,7 @@ exports.getJobInput = async ({ featuresValues }) => {
         }).promise();
 
     console.log(data.InputDataConfig);
-    return Response.success(data.InputDataConfig.DataSource.S3DataSource.S3Uri);
+    return Response.success(data.InputDataConfig[0].DataSource.S3DataSource.S3Uri);
 
 
   } catch (error) {
