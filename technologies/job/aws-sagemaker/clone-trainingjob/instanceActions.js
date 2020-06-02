@@ -166,7 +166,7 @@ exports.getLogs = async ({ job, instance }) => {
 
     const cloudwatchlogs = new AWS.CloudWatchLogs({apiVersion: '2014-03-28'});
 
-    const logs = await cloudwatchlogs.filterLogEvents(params = {
+    const logs = await cloudwatchlogs.filterLogEvents({
                                                   logGroupName: '/aws/sagemaker/TrainingJobs', /* required */
                                                   logStreamNamePrefix: job.featuresValues.trainingjobname, /* required */
                                                 }).promise();
