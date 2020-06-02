@@ -75,7 +75,7 @@ exports.start = async ({ job, instance }) => {
     Tags: data.Tags
     }
 
-    const clone=await sagemaker.createTrainingJob( params = jparams ).promise();
+    const clone=await sagemaker.createTrainingJob(jparams).promise();
 
     console.log(clone);
 
