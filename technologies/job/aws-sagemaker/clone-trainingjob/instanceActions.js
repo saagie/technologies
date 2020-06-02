@@ -101,7 +101,7 @@ exports.stop = async ({ job, instance }) => {
     
     const sagemaker = new AWS.SageMaker({apiVersion: '2017-07-24'});
 
-    await sagemaker.stopTrainingJob(params =  {
+    await sagemaker.stopTrainingJob({
       TrainingJobName: job.featuresValues.trainingjobname
     }).promise();
 
