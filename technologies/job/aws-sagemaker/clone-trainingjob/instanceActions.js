@@ -37,7 +37,7 @@ exports.start = async ({ job, instance }) => {
     console.log(data);
 
     console.log("Create New Job based on template parameters");
-    var jparams = {
+    const jparams = {
     AlgorithmSpecification:{
      TrainingInputMode: data.AlgorithmSpecification.TrainingInputMode,
      AlgorithmName: data.AlgorithmSpecification.AlgorithmName,
