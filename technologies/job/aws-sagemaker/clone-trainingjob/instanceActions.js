@@ -125,7 +125,7 @@ exports.getStatus = async ({ job, instance }) => {
     
     const sagemaker = new AWS.SageMaker({apiVersion: '2017-07-24'});
     console.log('Get Job Details',  job.featuresValues.trainingjobs.label)
-    const data = await sagemaker.describeTrainingJob( params = {
+    const data = await sagemaker.describeTrainingJob({
       TrainingJobName: job.featuresValues.trainingjobname
     }).promise();
 
