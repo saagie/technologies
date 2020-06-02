@@ -36,7 +36,7 @@ exports.getJobInput = async ({ featuresValues }) => {
     AWS.config.update({region: featuresValues.endpoint.region});
     const sagemaker = new AWS.SageMaker();
 
-    const data = await sagemaker.describeTrainingJob( params = {
+    const data = await sagemaker.describeTrainingJob({
           TrainingJobName: featuresValues.trainingjobs.label
         }).promise();
 
