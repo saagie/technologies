@@ -54,6 +54,9 @@ contexts:
           label: Job Input S3 Location
           required: true
           helper: "S3 Location containing input data to train the model. "
+          value:
+            script: ./jobForm.js
+            function: getJobInput
           dependsOn:
             - trainingjobs
         - type: TEXT
