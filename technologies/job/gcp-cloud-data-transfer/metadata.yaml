@@ -19,51 +19,13 @@ contexts:
           label: JSON key
           required: true
           helper: "Full JSON document"
-        - type: TEXT
-          name: sourceBucket
-          label: Source GCS Bucket
-          required: true
-          helper: "Path to the source GCS bucket (without gs://...)"
-        - type: TEXT
-          name: destinationBucket
-          label: Destination GCS Bucket
-          required: true
-          helper: "Path to the destination GCS bucket (without gs://...)"
-        - type: TEXT
-          name: transferDate
-          label: First transfer date
-          required: true
-          helper: "The date of the first transfer in the format YYYY/MM/DD"
-        - type: TEXT
-          name: transferTime
-          label: First transfer time
-          required: true
-          helper: "The time of the first transfer in the format HH:MM"
-        - type: TEXT
-          name: description
-          label: Job description
-          required: true
-          helper: "Description for the job (optional)"
     
     job:
       features:
         - type: ENDPOINT
           name: endpoint
           label: Endpoint
-    
-        - type: SELECT
-          name: action
-          label: Action
           required: true
-          options:
-            - id: transfer
-              label: Create transfer job
-            - id: disable
-              label: Disable a job
-            - id: delete
-              label: Delete a job
-          dependsOn:
-            - endpoint
     
         - type: SELECT
           name: jobList
@@ -74,6 +36,67 @@ contexts:
             function: getJobList
           dependsOn:
             - endpoint
+    
+        - type: SELECT
+          name: action
+          label: Action
+          required: true
+          options:
+            - id: create
+              label: Create transfer job
+            - id: disable
+              label: Disable a job
+            - id: enable
+              label: Enable a job
+            - id: delete
+              label: Delete a job
+          dependsOn:
+            - endpoint
+    
+        - type: TEXT
+          name: sourceBucket
+          label: Source GCS Bucket
+          required: true
+          helper: "Path to the source GCS bucket (without gs://...)"
+          defaultValue: "sdk-bucket1"
+          dependsOn:
+            - action
+    
+        - type: TEXT
+          name: destinationBucket
+          label: Destination GCS Bucket
+          required: true
+          helper: "Path to the destination GCS bucket (without gs://...)"
+          defaultValue: "sdk-bucket2"
+          dependsOn:
+            - action
+      
+        - type: TEXT
+          name: transferDate
+          label: First transfer date
+          required: true
+          helper: "The date of the first transfer in the format YYYY/MM/DD"
+          defaultValue: "2020/06/30"
+          dependsOn:
+            - action
+      
+        - type: TEXT
+          name: transferTime
+          label: First transfer time
+          required: true
+          helper: "The time of the first transfer in the format HH:MM"
+          defaultValue: "18:00"
+          dependsOn:
+            - action
+      
+        - type: TEXT
+          name: description
+          label: Job description
+          required: true
+          helper: "Description for the job (optional)"
+          defaultValue: "Test"
+          dependsOn:
+            - action
       
     instance:
       actions:
