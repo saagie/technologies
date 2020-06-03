@@ -77,9 +77,30 @@ exports.start = async ({ job, instance }) => {
           },
           Response
         );
+      } else if (job.featuresValues.action.id == 'enable') {
+        console.log('Action selected:');
+        console.log(job.featuresValues.action.id);
+        console.log('Enabling job: %s', job.featuresValues.jobList.id);
+        updateTransferJob(
+          {
+            jobName: job.featuresValues.jobList.id,
+            jsonKey: job.featuresValues.endpoint.jsonKey,
+            newStatus: 'ENABLED',
+          },
+          Response
+        );
       } else if (job.featuresValues.action.id == 'delete') {
         console.log('Action selected:');
         console.log(job.featuresValues.action.id);
+        console.log('Deleting job: %s', job.featuresValues.jobList.id);
+        updateTransferJob(
+          {
+            jobName: job.featuresValues.jobList.id,
+            jsonKey: job.featuresValues.endpoint.jsonKey,
+            newStatus: 'DELETED',
+          },
+          Response
+        );
       }
       // You can return any payload you want to get in the stop and getStatus functions.
       // return Response.success({ customId: job.featuresValues.action.id });
@@ -99,12 +120,54 @@ exports.start = async ({ job, instance }) => {
  */
 exports.stop = async ({ job, instance }) => {
   try {
-    console.log('STOP INSTANCE:', instance);
-    console.log('STOP job:', util.inspect(job, false, null, true /* enable colors */))
+    // -----------------------
+    // ------ DEBUG ----------
+    // -----------------------
+    console.log('STOP instance:', instance);
+    // -----------------------
+    // ------ DEBUG ----------
+    // -----------------------
 
-    return Response.success();
+    if (job.featuresValues === undefined || job.featuresValues.jobList === undefined) {
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      console.log('You must select a job');
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      return Response.error('You must select a job');
+    } else {
+      console.log('Job selected:');
+      console.log(job.featuresValues.jobList);
+    }
+
+    if (job.featuresValues === undefined
+      || job.featuresValues.endpoint === undefined
+      || job.featuresValues.endpoint.jsonKey === undefined) {
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      console.log('You must provide a JSON key');
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      return Response.error('You must provide a JSON key');
+    }
+
+    console.log('Creating new job...');
+    cancelTransferJob(
+      {
+        jobName: job.featuresValues.jobList.id,
+        jsonKey: job.featuresValues.endpoint.jsonKey,
+      },
+      Response
+    );
+
+    return Response.success("Canceled job: ", job.featuresValues.jobList.id);
   } catch (error) {
-    return Response.error('Failed to stop job', { error });
+    console.log(error);
+    return Response.error('Failed to stop job');
   }
 };
 
@@ -116,9 +179,104 @@ exports.stop = async ({ job, instance }) => {
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
-    console.log('STATUS INSTANCE:', instance);
+    console.log('STATUS INSTANCE:');
     console.log('STATUS job:', util.inspect(job, false, null, true /* enable colors */))
 
+    console.log('JSON key:');
+    console.log(job.featuresValues.endpoint.jsonKey);
+
+    if (job === undefined || job.featuresValues === undefined
+      || job.featuresValues.endpoint === undefined || job.featuresValues.endpoint.jsonKey === undefined) {
+      console.log('Cannot get to job.featuresValues.endpoint.jsonKey');
+    }
+    const keys = JSON.parse(job.featuresValues.endpoint.jsonKey);
+
+    authClient = new google.auth.JWT({
+      email: keys.client_email,
+      key: keys.private_key,
+      scopes: ['https://www.googleapis.com/auth/cloud-platform']
+    });
+
+    console.log('authClient:');
+    console.log(authClient);
+
+    if (job === undefined || job.featuresValues === undefined
+      || job.featuresValues.jobList === undefined) {
+      console.log('Cannot get to job.featuresValues.jobList');
+    } else {
+      console.log('Before building the request');
+      console.log(job.featuresValues.jobList);
+    }
+
+    const request = {
+      // Required. The name of job to update.
+      projectId: keys.project_id,
+      name: job.featuresValues.jobList.id,
+      auth: authClient,
+    };
+
+    // -----------------------
+    // ------ DEBUG ----------
+    // -----------------------
+    console.log('Content of request:');
+    console.log(util.inspect(request, false, null, true /* enable colors */))
+    // -----------------------
+    // ------ DEBUG ----------
+    // -----------------------
+
+    let response;
+    do {
+      if (response && response.nextPageToken) {
+        request.pageToken = response.nextPageToken;
+      }
+
+      console.log('Before toragetransfer.transferOperations.list(request)');
+      response = await storagetransfer.transferOperations.list(request);
+      console.log('After toragetransfer.transferOperations.list(request)');
+      console.log('response:');
+      console.log(response);
+      const operationsPage = response.operations;
+      if (operationsPage) {
+        for (let i = 0; i < operationsPage.length; i++) {
+          // TODO: Change code below to process each resource in `operationsPage`:
+          console.log(JSON.stringify(operationsPage[i], null, 2));
+        }
+      }
+    } while (response.nextPageToken);
+
+    // let data;
+    // storagetransfer.transferOperations.get(
+    //   request,
+    //   (err, response) => {
+    //     // -----------------------
+    //     // ------ DEBUG ----------
+    //     // -----------------------
+    //     console.log('Inside storagetransfer.transferOperations.get');
+    //     // -----------------------
+    //     // ------ DEBUG ----------
+    //     // -----------------------
+
+    //     if (response) {
+    //       console.log("------------------");
+    //       console.log("---- response ----");
+    //       console.log("------------------");
+    //       console.log(response);
+    //       data = response;
+    //     }
+
+    //     if (err) {
+    //       console.log("---------------");
+    //       console.log("---- Error ----");
+    //       console.log("---------------");
+    //       console.log(err);
+    //       return Response.error('Error:', { err });
+    //     }
+
+    //     // const transferJob = response.data;
+    //     console.log('Canceled transfer job: %s', options.jobName);
+    //     return Response.success('Canceled transfer job: %s', options.jobName);
+    //   }
+    // );
     switch (data.status) {
       case 'IN_PROGRESS':
         return Response.success(JobStatus.RUNNING);
@@ -298,10 +456,6 @@ const createTransferJob = (options, Response) => {
       // ------ DEBUG ----------
       // -----------------------
       console.log('Inside (err, response)');
-      if (Response === undefined)
-        console.log('Response is undefined');
-      else
-        console.log('Response is ok')
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
@@ -382,10 +536,6 @@ const updateTransferJob = (options, Response) => {
       // ------ DEBUG ----------
       // -----------------------
       console.log('Inside storagetransfer.transferJobs.patch');
-      if (Response === undefined)
-        console.log('Response is undefined');
-      else
-        console.log('Response is ok')
       // -----------------------
       // ------ DEBUG ----------
       // -----------------------
@@ -401,6 +551,86 @@ const updateTransferJob = (options, Response) => {
       const transferJob = response.data;
       console.log('Updated transfer job: %s', transferJob.name);
       return Response.success('Updated transfer job: %s', transferJob.name);
+    }
+  );
+};
+
+const cancelTransferJob = (options, Response) => {
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Entering cancelTransferJob');
+  console.log('Content of options:');
+  console.log(util.inspect(options, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  const keys = JSON.parse(options.jsonKey);
+
+  authClient = new google.auth.JWT({
+    email: keys.client_email,
+    key: keys.private_key,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  });
+
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('-------------------------------------------------------------------------')
+  console.log('Content of authClient:');
+  console.log(util.inspect(authClient, false, null, true /* enable colors */))
+  console.log('-------------------------------------------------------------------------')
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  const request = {
+    // Required. The name of job to update.
+    name: options.jobName,
+    auth: authClient,
+  };
+
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+  console.log('Content of request:');
+  console.log(util.inspect(request, false, null, true /* enable colors */))
+  // -----------------------
+  // ------ DEBUG ----------
+  // -----------------------
+
+  storagetransfer.transferOperations.cancel(
+    request,
+    (err, response) => {
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+      console.log('Inside storagetransfer.transferOperations.cancel');
+      // -----------------------
+      // ------ DEBUG ----------
+      // -----------------------
+
+      if (response) {
+        console.log("------------------");
+        console.log("---- response ----");
+        console.log("------------------");
+        console.log(response);
+      }
+
+      if (err) {
+        console.log("---------------");
+        console.log("---- Error ----");
+        console.log("---------------");
+        console.log(err);
+        return Response.error('Error:', { err });
+      }
+
+      // const transferJob = response.data;
+      console.log('Canceled transfer job: %s', options.jobName);
+      return Response.success('Canceled transfer job: %s', options.jobName);
     }
   );
 };

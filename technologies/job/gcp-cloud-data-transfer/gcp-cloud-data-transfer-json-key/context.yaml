@@ -41,16 +41,19 @@ job:
     - type: ENDPOINT
       name: endpoint
       label: Endpoint
+      required: true
 
     - type: SELECT
       name: action
       label: Action
       required: true
       options:
-        - id: transfer
+        - id: create
           label: Create transfer job
         - id: disable
           label: Disable a job
+        - id: enable
+          label: Enable a job
         - id: delete
           label: Delete a job
       dependsOn:
@@ -65,7 +68,7 @@ job:
         function: getJobList
       dependsOn:
         - endpoint
-  
+
 instance:
   actions:
     onStart:

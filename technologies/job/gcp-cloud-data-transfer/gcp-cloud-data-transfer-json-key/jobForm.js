@@ -92,9 +92,9 @@ exports.getJobList = async ({ featuresValues }) => {
 
       if (transferJobsPage) {
         if (array.length == 0) // It's currently empty
-          array = transferJobsPage.map((job) => ({ id: job.name, label: job.description }));
+          array = transferJobsPage.map((job) => ({ id: job.name, label: job.description + ' - ' + job.status }));
         else
-         array.concat(transferJobsPage.map((job) => ({ id: job.name, label: job.description })));
+          array.concat(transferJobsPage.map((job) => ({ id: job.name, label: job.description + ' - ' + job.status })));
       }
     } while (response.nextPageToken);
 
