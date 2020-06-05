@@ -58,6 +58,15 @@ contexts:
             function: getWorkspaces
           dependsOn:
             - resourceGroup
+        - type: SELECT
+          name: job
+          label: Job
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getJobs
+          dependsOn:
+            - workspace
     instance:
       actions:
         onStart:
