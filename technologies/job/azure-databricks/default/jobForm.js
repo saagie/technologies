@@ -2,6 +2,8 @@ const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const {
   getHeadersWithAccessTokenForManagementResource,
+  getHeadersWithAccessTokenForDatabricksResource,
+  getAccessTokenForManagementCoreResource,
   checkDataFromAzureResponse,
   getErrorMessage,
   AZURE_MANAGEMENT_API_URL,
@@ -51,8 +53,9 @@ exports.getWorkspaces = async ({ featuresValues }) => {
       const workspaces = res.data.value;
 
       if (workspaces.length > 0) {
-        return Response.success(workspaces.map(({ id, name }) => ({
+        return Response.success(workspaces.map(({ id, name, properties }) => ({
           id,
+          url: properties.workspaceUrl,
           label: name
         })));
       }
@@ -69,24 +72,28 @@ exports.getWorkspaces = async ({ featuresValues }) => {
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
-exports.getFunctions = async ({ featuresValues }) => {
+exports.getJobs = async ({ featuresValues }) => {
   try {
     const res = await axios.get(
-      `${AZURE_MANAGEMENT_API_URL}${featuresValues.functionApp.id}/functions?api-version=2019-08-01`,
-      await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
+      `https://${featuresValues.workspace.url}/api/2.0/jobs/list`,
+      {
+        headers: {
+          ...await getHeadersWithAccessTokenForDatabricksResource(featuresValues.endpoint),
+          'X-Databricks-Azure-Workspace-Resource-Id': featuresValues.workspace.id,
+          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(featuresValues.endpoint)
+        }
+      }
     );
 
-    if (checkDataFromAzureResponse(res)) {
-      return Response.success(res.data.value.map(({ id, name, properties }) => ({
-        id,
-        label: name,
-        functionName: properties.name,
-        triggerUrl: properties.invoke_url_template
+    if (res && res.data && res.data.jobs && res.data.jobs.length > 0) {
+      return Response.success(res.data.jobs.map(({ job_id, settings }) => ({
+        id: job_id,
+        label: settings.name,
       })));
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_FUNCTIONS);
+    return Response.empty(ERRORS_MESSAGES.NO_JOBS);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FUNCTIONS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.JOBS_ERROR);
   }
 };

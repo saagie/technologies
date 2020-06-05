@@ -1,10 +1,10 @@
 export const ERRORS_MESSAGES = {
   NO_RESOURCE_GROUPS: 'No resource groups availables',
   NO_WORKSPACES: 'No workspaces availables',
-  NO_FUNCTIONS: 'No functions availables',
+  NO_JOBS: 'No jobs availables',
   RESOURCE_GROUPS_ERROR: 'Can\'t retrieve resource groups',
   WORKSPACES_ERROR: 'Can\'t retrieve workspaces',
-  FUNCTIONS_ERROR: 'Can\'t retrieve functions',
+  JOBS_ERROR: 'Can\'t retrieve jobs',
   LOGIN_ERROR: 'Login error, please check your credentials in Endpoint form',
   FAILED_TO_ENABLE_ERROR: 'Failed to enable function from Azure',
   FAILED_TO_DISABLE_ERROR: 'Failed to disable function from Azure',

@@ -44,7 +44,7 @@ export const getHeadersWithAccessTokenForManagementResource = async (endpoint) =
   };
 };
 
-export const getHeadersWithAccessTokenForInsightsResource = async (endpoint) => {
+export const getHeadersWithAccessTokenForDatabricksResource = async (endpoint) => {
   const {
     clientId,
     clientSecret,
@@ -55,7 +55,7 @@ export const getHeadersWithAccessTokenForInsightsResource = async (endpoint) => 
     'grant_type': 'client_credentials',
     'client_id': clientId,
     'client_secret': clientSecret,
-    resource: 'https://api.applicationinsights.io'
+    resource: '2ff814a6-3304-4ab8-85cb-cd0e6f879c1d'
   };
   
   const config = {
@@ -72,9 +72,38 @@ export const getHeadersWithAccessTokenForInsightsResource = async (endpoint) => 
 
   const { access_token: accessToken } = data;
 
-  return {
-    headers: { Authorization: `Bearer ${accessToken}` }
+  return { Authorization: `Bearer ${accessToken}` };
+};
+
+export const getAccessTokenForManagementCoreResource = async (endpoint) => {
+  const {
+    clientId,
+    clientSecret,
+    tenantId,
+  } = endpoint;
+
+  const loginRequestBody = {
+    'grant_type': 'client_credentials',
+    'client_id': clientId,
+    'client_secret': clientSecret,
+    resource: 'https://management.core.windows.net/'
   };
+  
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+
+  const { data } = await axios.post(
+    `https://login.microsoftonline.com/${tenantId}/oauth2/token`,
+    qs.stringify(loginRequestBody),
+    config
+  );
+
+  const { access_token: accessToken } = data;
+
+  return accessToken;
 };
 
 export const checkDataFromAzureResponse = (response) => (
