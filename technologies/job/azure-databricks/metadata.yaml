@@ -30,10 +30,6 @@ contexts:
           name: tenantId
           label: Tenant ID
           required: true
-        - type: TEXT
-          name: insightsAppId
-          label: Application Insights ID
-          required: true
     job:
       features:
         - type: ENDPOINT
