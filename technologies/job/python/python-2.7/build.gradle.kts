@@ -27,9 +27,9 @@
  val metadata = readContextMetadata(projectDir)
 
  tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-     dependsOn(":python2.7-base:buildDockerImage")
+     dependsOn(":python-2.7-base:buildDockerImage")
      this.buildArgs.put(
          "base_img",
-         "${metadata.dockerInfo?.image}:python2.7"
+         "${metadata.dockerInfo?.image}:python2.7-${this.project.getVersionForDocker()}"
      )
  }

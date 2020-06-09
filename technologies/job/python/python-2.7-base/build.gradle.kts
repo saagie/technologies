@@ -16,5 +16,7 @@
  * limitations under the License.
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
-apply<DockerRemoteApiPlugin>()
+ apply<DockerRemoteApiPlugin>()
+ apply<SaagieTechnologiesGradlePlugin>()
