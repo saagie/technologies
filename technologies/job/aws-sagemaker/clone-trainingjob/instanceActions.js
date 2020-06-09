@@ -28,15 +28,13 @@ exports.start = async ({ job, instance }) => {
     AWS.config.update({region: job.featuresValues.endpoint.region});
     
     const sagemaker = new AWS.SageMaker({apiVersion: '2017-07-24'});
-    console.log('Get Job Details',  job.featuresValues.trainingjobs.label)
     const data = await sagemaker.describeTrainingJob( params = {
       TrainingJobName: job.featuresValues.trainingjobs.label
     }).promise();
 
-    console.log("Retrieved Template Job Details");
-    console.log(data);
-
-    console.log("Create New Job based on template parameters");
+    console.log('Job Name:', job.featuresValues.trainingjobname);
+    console.log('Job Input: ', job.featuresValues.trainingjobinput);
+    console.log('Job Output: ', job.featuresValues.trainingjobinput);
     const jparams = {
     AlgorithmSpecification:{
      TrainingInputMode: data.AlgorithmSpecification.TrainingInputMode,
@@ -74,11 +72,7 @@ exports.start = async ({ job, instance }) => {
     ],
     Tags: data.Tags
     }
-
     const clone=await sagemaker.createTrainingJob(jparams).promise();
-
-    console.log(clone);
-
     // You can return any payload you want to get in the stop and getStatus functions.
     return Response.success({ customId: clone.TrainingJobArn });
   } catch (error) {
@@ -119,17 +113,13 @@ exports.stop = async ({ job, instance }) => {
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
-    console.log('GET STATUS INSTANCE:', instance);
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
     
     const sagemaker = new AWS.SageMaker({apiVersion: '2017-07-24'});
-    console.log('Get Job Details',  job.featuresValues.trainingjobs.label)
     const data = await sagemaker.describeTrainingJob({
       TrainingJobName: job.featuresValues.trainingjobname
     }).promise();
-
-    console.log(data)
 
     const JOB_STATES = {
       Stopping: JobStatus.KILLING,
@@ -138,7 +128,6 @@ exports.getStatus = async ({ job, instance }) => {
       Stopped: JobStatus.KILLED,
       Failed: JobStatus.FAILED,
     };
-
     return Response.success(JOB_STATES[data.TrainingJobStatus]);
   } catch (error) {
     console.log(error);
@@ -154,12 +143,11 @@ exports.getStatus = async ({ job, instance }) => {
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('GET LOG INSTANCE:', instance);
+
     AWS.config.update({credentials: { accessKeyId : job.featuresValues.endpoint.aws_access_key_id, secretAccessKey:  job.featuresValues.endpoint.aws_secret_access_key}});
     AWS.config.update({region: job.featuresValues.endpoint.region});
     
     const sagemaker = new AWS.SageMaker({apiVersion: '2017-07-24'});
-    console.log('Get Job Details',  job.featuresValues.trainingjobs.label)
     const data = await sagemaker.describeTrainingJob({
       TrainingJobName: job.featuresValues.trainingjobname
     }).promise();

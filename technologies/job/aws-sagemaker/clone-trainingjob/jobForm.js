@@ -40,7 +40,7 @@ exports.getJobInput = async ({ featuresValues }) => {
           TrainingJobName: featuresValues.trainingjobs.label
         }).promise();
 
-    console.log(data.InputDataConfig);
+
     return Response.success(data.InputDataConfig[0].DataSource.S3DataSource.S3Uri);
 
 
