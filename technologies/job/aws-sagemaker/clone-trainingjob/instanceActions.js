@@ -32,9 +32,6 @@ exports.start = async ({ job, instance }) => {
       TrainingJobName: job.featuresValues.trainingjobs.label
     }).promise();
 
-    console.log('Job Name:', job.featuresValues.trainingjobname);
-    console.log('Job Input: ', job.featuresValues.trainingjobinput);
-    console.log('Job Output: ', job.featuresValues.trainingjobinput);
     const jparams = {
     AlgorithmSpecification:{
      TrainingInputMode: data.AlgorithmSpecification.TrainingInputMode,
