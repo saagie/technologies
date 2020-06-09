@@ -2,7 +2,6 @@ const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
 const {
   getHeadersWithAccessTokenForDatabricksResource,
-  getAccessTokenForManagementCoreResource,
   getErrorMessage,
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
@@ -23,13 +22,7 @@ exports.start = async ({ job, instance }) => {
       {
         job_id: job.featuresValues.job.id,
       },
-      {
-        headers: {
-          ...await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues.endpoint),
-          'X-Databricks-Azure-Workspace-Resource-Id': job.featuresValues.workspace.id,
-          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(job.featuresValues.endpoint)
-        }
-      }
+      await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
     if (res && res.data && res.data.run_id) {
@@ -40,7 +33,7 @@ exports.start = async ({ job, instance }) => {
 
     return Response.success();
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_ENABLE_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR);
   }
 };
 
@@ -59,18 +52,12 @@ exports.stop = async ({ job, instance }) => {
       {
         run_id: instance.payload.run_id,
       },
-      {
-        headers: {
-          ...await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues.endpoint),
-          'X-Databricks-Azure-Workspace-Resource-Id': job.featuresValues.workspace.id,
-          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(job.featuresValues.endpoint)
-        }
-      }
+      await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
     return Response.success();
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_DISABLE_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_STOP_JOB_ERROR);
   }
 };
 
@@ -85,13 +72,7 @@ exports.getStatus = async ({ job, instance }) => {
     console.log('GET STATUS INSTANCE:', instance);
     const res = await axios.get(
       `https://${job.featuresValues.workspace.url}/api/2.0/jobs/runs/get?run_id=${instance.payload.run_id}`,
-      {
-        headers: {
-          ...await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues.endpoint),
-          'X-Databricks-Azure-Workspace-Resource-Id': job.featuresValues.workspace.id,
-          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(job.featuresValues.endpoint)
-        }
-      }
+      await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
     if (res && res.data && res.data.state) {
@@ -118,29 +99,41 @@ exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
     const res = await axios.get(
-      `https://${job.featuresValues.workspace.url}/api/2.0/jobs/runs/get-output?run_id=8`,
-      {
-        headers: {
-          ...await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues.endpoint),
-          'X-Databricks-Azure-Workspace-Resource-Id': job.featuresValues.workspace.id,
-          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(job.featuresValues.endpoint)
-        }
-      }
+      `https://${job.featuresValues.workspace.url}/api/2.0/jobs/runs/get?run_id=${instance.payload.run_id}`,
+      await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
-    console.log(res.data);
+    if (res && res.data && res.data.cluster_instance && res.data.cluster_instance.cluster_id) {
+      const clusterId = res.data.cluster_instance.cluster_id;
 
-    if (res && res.data && res.data.error) {
-      return Response.success([Log(res.data.error)]);
-    }
+      const resCluster = await axios.get(
+        `https://${job.featuresValues.workspace.url}/api/2.0/clusters/get?cluster_id=${clusterId}`,
+        await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
+      );
 
-    if (res && res.data && res.data.notebook_output && res.data.notebook_output.result) {
-      return Response.success([Log(res.data.notebook_output.result)]);
+      const { data : clusterData } = resCluster;
+
+      const logsDestination = clusterData.cluster_log_conf?.dbfs?.destination;
+
+      if (logsDestination) {
+        const resLogs = await axios.get(
+          `https://${job.featuresValues.workspace.url}/api/2.0/dbfs/read?path=${logsDestination}/${clusterId}/driver/stdout`,
+          await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
+        );
+
+        const { data: dataLogs } = resLogs;
+
+        const logsBuffer = new Buffer.from(dataLogs.data, 'base64');
+        const logsContent = logsBuffer.toString('utf8');
+
+        const logsLines = logsContent.split('\n');
+
+        return Response.success(logsLines.map((logLine) => Log(logLine)));
+      }
     }
 
     return Response.success([]);
   } catch (error) {
-    console.log({ error });
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR);
   }
 };

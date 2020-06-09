@@ -3,7 +3,6 @@ const { Response } = require('@saagie/sdk');
 const {
   getHeadersWithAccessTokenForManagementResource,
   getHeadersWithAccessTokenForDatabricksResource,
-  getAccessTokenForManagementCoreResource,
   checkDataFromAzureResponse,
   getErrorMessage,
   AZURE_MANAGEMENT_API_URL,
@@ -76,13 +75,7 @@ exports.getJobs = async ({ featuresValues }) => {
   try {
     const res = await axios.get(
       `https://${featuresValues.workspace.url}/api/2.0/jobs/list`,
-      {
-        headers: {
-          ...await getHeadersWithAccessTokenForDatabricksResource(featuresValues.endpoint),
-          'X-Databricks-Azure-Workspace-Resource-Id': featuresValues.workspace.id,
-          'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(featuresValues.endpoint)
-        }
-      }
+      await getHeadersWithAccessTokenForDatabricksResource(featuresValues),
     );
 
     if (res && res.data && res.data.jobs && res.data.jobs.length > 0) {
@@ -94,6 +87,7 @@ exports.getJobs = async ({ featuresValues }) => {
 
     return Response.empty(ERRORS_MESSAGES.NO_JOBS);
   } catch (error) {
+    console.log({ error });
     return getErrorMessage(error, ERRORS_MESSAGES.JOBS_ERROR);
   }
 };

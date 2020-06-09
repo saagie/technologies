@@ -6,8 +6,8 @@ export const ERRORS_MESSAGES = {
   WORKSPACES_ERROR: 'Can\'t retrieve workspaces',
   JOBS_ERROR: 'Can\'t retrieve jobs',
   LOGIN_ERROR: 'Login error, please check your credentials in Endpoint form',
-  FAILED_TO_ENABLE_ERROR: 'Failed to enable function from Azure',
-  FAILED_TO_DISABLE_ERROR: 'Failed to disable function from Azure',
-  FAILED_TO_GET_STATUS_ERROR: 'Failed to get function status from Azure',
-  FAILED_TO_GET_LOGS_ERROR: 'Failed to get function logs from Azure'
+  FAILED_TO_RUN_JOB_ERROR: 'Failed to run job on Azure Databricks',
+  FAILED_TO_STOP_JOB_ERROR: 'Failed to stop job on Azure Databricks',
+  FAILED_TO_GET_STATUS_ERROR: 'Failed to get function status from Azure Databricks',
+  FAILED_TO_GET_LOGS_ERROR: 'Failed to get function logs from Azure Databricks'
 };

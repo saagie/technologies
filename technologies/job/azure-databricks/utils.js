@@ -5,13 +5,10 @@ const qs = require('querystring');
 const { Response } = require('@saagie/sdk');
 
 export const AZURE_MANAGEMENT_API_URL = 'https://management.azure.com';
-const AZURE_INSIGHTS_API_URL = 'https://api.applicationinsights.io';
+export const AZURE_MANAGEMENT_CORE_API_URL = 'https://management.core.windows.net/';
+export const AZURE_DATABRICKS_API_ID = '2ff814a6-3304-4ab8-85cb-cd0e6f879c1d';
 
-export const getAzureInsightsAppEventsUrl = (endpoint) => (
-  `${AZURE_INSIGHTS_API_URL}/v1/apps/${endpoint.insightsAppId}/events`
-);
-
-export const getHeadersWithAccessTokenForManagementResource = async (endpoint) => {
+const loginToAzureResource = async (endpoint, resourceUrl) => {
   const {
     clientId,
     clientSecret,
@@ -22,71 +19,7 @@ export const getHeadersWithAccessTokenForManagementResource = async (endpoint) =
     'grant_type': 'client_credentials',
     'client_id': clientId,
     'client_secret': clientSecret,
-    resource: 'https://management.azure.com'
-  };
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }
-
-  const { data } = await axios.post(
-    `https://login.microsoftonline.com/${tenantId}/oauth2/token`,
-    qs.stringify(loginRequestBody),
-    config
-  );
-
-  const { access_token: accessToken } = data;
-
-  return {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  };
-};
-
-export const getHeadersWithAccessTokenForDatabricksResource = async (endpoint) => {
-  const {
-    clientId,
-    clientSecret,
-    tenantId,
-  } = endpoint;
-
-  const loginRequestBody = {
-    'grant_type': 'client_credentials',
-    'client_id': clientId,
-    'client_secret': clientSecret,
-    resource: '2ff814a6-3304-4ab8-85cb-cd0e6f879c1d'
-  };
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }
-
-  const { data } = await axios.post(
-    `https://login.microsoftonline.com/${tenantId}/oauth2/token`,
-    qs.stringify(loginRequestBody),
-    config
-  );
-
-  const { access_token: accessToken } = data;
-
-  return { Authorization: `Bearer ${accessToken}` };
-};
-
-export const getAccessTokenForManagementCoreResource = async (endpoint) => {
-  const {
-    clientId,
-    clientSecret,
-    tenantId,
-  } = endpoint;
-
-  const loginRequestBody = {
-    'grant_type': 'client_credentials',
-    'client_id': clientId,
-    'client_secret': clientSecret,
-    resource: 'https://management.core.windows.net/'
+    resource: resourceUrl,
   };
   
   const config = {
@@ -104,6 +37,33 @@ export const getAccessTokenForManagementCoreResource = async (endpoint) => {
   const { access_token: accessToken } = data;
 
   return accessToken;
+};
+
+export const getHeadersWithAccessTokenForManagementResource = async (endpoint) => {
+  const accessToken = await loginToAzureResource(endpoint, AZURE_MANAGEMENT_API_URL);
+
+  return {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  };
+};
+
+export const getAccessTokenForManagementCoreResource = async (endpoint) => {
+  const accessToken = await loginToAzureResource(endpoint, AZURE_MANAGEMENT_CORE_API_URL);
+
+  return accessToken;
+};
+
+export const getHeadersWithAccessTokenForDatabricksResource = async (featuresValues) => {
+  console.log({ featuresValues });
+  const accessToken = await loginToAzureResource(featuresValues.endpoint, AZURE_DATABRICKS_API_ID);
+
+  return {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'X-Databricks-Azure-Workspace-Resource-Id': featuresValues.workspace.id,
+      'X-Databricks-Azure-SP-Management-Token': await getAccessTokenForManagementCoreResource(featuresValues.endpoint)
+    }
+  };
 };
 
 export const checkDataFromAzureResponse = (response) => (
