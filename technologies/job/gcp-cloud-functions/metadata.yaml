@@ -7,8 +7,8 @@ type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: project
-    label: project
+  - id: default
+    label: Default
     description: ""
     recommended: true
     trustLevel: experimental
@@ -19,21 +19,30 @@ contexts:
           label: JSON key
           required: true
           helper: "Full JSON document"
-        - type: SELECT
-          name: location
-          label: Location
-          required: true
-          options:
-            script: ./endpointForm.js
-            function: getLocations
-          dependsOn:
-            - jsonKey
     job:
       features:
         - type: ENDPOINT
           name: endpoint
           label: Endpoint
           required: true
+        - type: SELECT
+          name: project
+          label: Project
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getProjects
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: region
+          label: Region
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getRegions
+          dependsOn:
+            - project
         - type: SELECT
           name: function
           label: Cloud Function
@@ -42,12 +51,9 @@ contexts:
             script: ./jobForm.js
             function: getFunctions
           dependsOn:
-            - endpoint
+            - region
     instance:
       actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
         getStatus:
           script: ./instanceActions.js
           function: getStatus
