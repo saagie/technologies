@@ -7,6 +7,57 @@ type: EXTERNAL_JOB
 icon: job
 
 contexts:
+  - id: scgenarios
+    label: Scenarios v7.0
+    description: "Scenarios v7.0"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use http://localhost:11000
+        - type: TEXT
+          name: apiKey
+          label: API key
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: project
+          label: Project
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getProjects
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: scenario
+          label: Scenario
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getScenarios
+          dependsOn:
+            - project
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
   - id: datasets
     label: Datasets v7.0
     description: "Datasets v7.0"
@@ -61,54 +112,3 @@ contexts:
         getLogs:
           script: ./instanceActions.js
           function: getLogs
-  - id: scgenarios
-    label: Scenarios v7.0
-    description: "Scenarios v7.0"
-    recommended: true
-    trustLevel: experimental
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use http://localhost:11000
-        - type: TEXT
-          name: apiKey
-          label: API key
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: scenario
-          label: Scenario
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getScenarios
-          dependsOn:
-            - project
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
