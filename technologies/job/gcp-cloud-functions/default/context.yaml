@@ -1,6 +1,6 @@
 id: default
 label: Default
-description: ""
+description: "Google API V1"
 recommended: true
 trustLevel: experimental
 endpoint:
