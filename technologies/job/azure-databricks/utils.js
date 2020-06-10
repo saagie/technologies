@@ -54,7 +54,6 @@ export const getAccessTokenForManagementCoreResource = async (endpoint) => {
 };
 
 export const getHeadersWithAccessTokenForDatabricksResource = async (featuresValues) => {
-  console.log({ featuresValues });
   const accessToken = await loginToAzureResource(featuresValues.endpoint, AZURE_DATABRICKS_API_ID);
 
   return {

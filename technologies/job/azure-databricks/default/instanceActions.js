@@ -113,9 +113,14 @@ exports.getLogs = async ({ job, instance }) => {
 
       const { data : clusterData } = resCluster;
 
-      const logsDestination = clusterData.cluster_log_conf?.dbfs?.destination;
+      if (
+        clusterData
+        && clusterData.cluster_log_conf
+        && clusterData.cluster_log_conf.dbfs
+        && clusterData.cluster_log_conf.dbfs.destination
+      ) {
+        const logsDestination = clusterData.cluster_log_conf.dbfs.destination;
 
-      if (logsDestination) {
         const resLogs = await axios.get(
           `https://${job.featuresValues.workspace.url}/api/2.0/dbfs/read?path=${logsDestination}/${clusterId}/driver/stdout`,
           await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
