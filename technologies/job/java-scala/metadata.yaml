@@ -5,13 +5,13 @@ label: Java/Scala
 available: true
 icon: java-scala
 contexts:
-  - id: 7
-    label: 7
+  - id: 11
+    label: 11
     available: true
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 7-1.28.0
+      version: 11-1.28.0
     trustLevel: stable
     job:
       features:
@@ -49,13 +49,13 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
-  - id: 11
-    label: 11
+  - id: 7
+    label: 7
     available: true
     recommended: false
     dockerInfo:
       image: saagie/java-scala
-      version: 11-1.28.0
+      version: 7-1.28.0
     trustLevel: stable
     job:
       features:
