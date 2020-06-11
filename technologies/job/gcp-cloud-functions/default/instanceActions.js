@@ -41,7 +41,7 @@ exports.getLogs = async ({ job }) => {
 
     const auth = getAuth(gcpKey);
 
-    const { data: { entries }} = await logging.entries.list({
+    const resLogging = await logging.entries.list({
       requestBody: {
         filter: `resource.type=cloud_function resource.labels.function_name=${job.featuresValues.function.label} resource.labels.region=${job.featuresValues.region.id} log_name=projects/${job.featuresValues.project.id}/logs/cloudfunctions.googleapis.com%2Fcloud-functions`,
         orderBy: "timestamp desc",
@@ -50,8 +50,17 @@ exports.getLogs = async ({ job }) => {
       auth
     });
 
-    return Response.success(entries.reverse().map(({timestamp, textPayload}) => Log(textPayload, "", timestamp)));  
+    if (
+      resLogging
+      && resLogging.data
+      && resLogging.data.entries
+      && resLogging.data.entries.length > 0
+    ) {
+      return Response.success(resLogging.data.entries.reverse().map(({timestamp, textPayload}) => Log(textPayload, "", timestamp)));  
+    }
+
+    return Response.empty();
   } catch (error) {
-    return getErrorMessage(error, `Failed to get log for ${job.featuresValues.function.name}}`);
+    return getErrorMessage(error, `Failed to get logs for ${job.featuresValues.function.label}`);
   }
 };
