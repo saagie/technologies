@@ -1,6 +1,5 @@
-const { Response, JobStatus, Log } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const { google } = require('googleapis');
-const cloudfunctions = google.cloudfunctions('v1');
 const dataflow = google.dataflow('v1b3');
 const logging = google.logging('v2');
 const { getAuth, getErrorMessage } = require('./utils');
@@ -16,8 +15,6 @@ exports.start = async ({ job }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
-    console.log(job.featuresValues);
-
     const auth = getAuth(gcpKey);
 
     let jsonParameters = null;
@@ -28,7 +25,7 @@ exports.start = async ({ job }) => {
       console.warn('No parameters readable for template');
     }
 
-    const res = await dataflow.projects.locations.templates.launch({
+    const { data: { job: newJob } } = await dataflow.projects.locations.templates.launch({
       auth,
       projectId : job.featuresValues.project.id,
       location : job.featuresValues.region.id,
@@ -39,13 +36,9 @@ exports.start = async ({ job }) => {
       }
     });
 
-    console.log({ res })
-
-    return Response.success();
+    return Response.success({ newJob });
   } catch (error) {
-    console.log({ error });
-    console.log(error.response.data);
-    return getErrorMessage(error, `Failed to get status for GCP Cloud function`);
+    return getErrorMessage(error, 'Failed to run GCP Dataflow job');
   }
 };
 
@@ -55,21 +48,22 @@ exports.start = async ({ job }) => {
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
-exports.getStatus = async ({ job }) => {
+exports.getStatus = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     const auth = getAuth(gcpKey);
 
-    console.log(`Retrieve status for ${job.featuresValues.function.id}`)
-    const { data } = await cloudfunctions.projects.locations.functions.get({
+    const { data } = await dataflow.projects.locations.jobs.get({
       auth,
-      name : job.featuresValues.function.id,
+      projectId : job.featuresValues.project.id,
+      location : job.featuresValues.region.id,
+      jobId: instance.payload.newJob.id,
     });
 
-    return Response.success(JOB_STATUS[data.status] || JobStatus.KILLED);
+    return Response.success(JOB_STATUS[data.currentState] || JobStatus.AWAITING);
   } catch (error) {
-    return getErrorMessage(error, `Failed to get status for GCP Cloud function ${job.featuresValues.function.id}`);
+    return getErrorMessage(error, 'Failed to get status for GCP Dataflow job ');
   }
 };
 
@@ -79,18 +73,18 @@ exports.getStatus = async ({ job }) => {
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
-exports.getLogs = async ({ job }) => {
+exports.getLogs = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     const auth = getAuth(gcpKey);
-
+    
     const resLogging = await logging.entries.list({
       requestBody: {
-        filter: `resource.type=cloud_function resource.labels.function_name=${job.featuresValues.function.label} resource.labels.region=${job.featuresValues.region.id} log_name=projects/${job.featuresValues.project.id}/logs/cloudfunctions.googleapis.com%2Fcloud-functions`,
+        filter: `resource.type="dataflow_step" resource.labels.job_id="${instance.payload.newJob.id}" logName="projects/${job.featuresValues.project.id}/logs/dataflow.googleapis.com%2Fjob-message"`,
         orderBy: "timestamp desc",
         resourceNames: [`projects/${job.featuresValues.project.id}`]
-      }, 
+      },
       auth
     });
 
@@ -100,11 +94,11 @@ exports.getLogs = async ({ job }) => {
       && resLogging.data.entries
       && resLogging.data.entries.length > 0
     ) {
-      return Response.success(resLogging.data.entries.reverse().map(({timestamp, textPayload}) => Log(textPayload, "", timestamp)));  
+      return Response.success(resLogging.data.entries.reverse().map(({ timestamp, textPayload }) => Log(textPayload, Stream.STDOUT, timestamp)));  
     }
 
     return Response.empty();
   } catch (error) {
-    return getErrorMessage(error, `Failed to get logs for ${job.featuresValues.function.label}`);
+    return getErrorMessage(error, 'Failed to get logs for GCP Dataflow job');
   }
 };
