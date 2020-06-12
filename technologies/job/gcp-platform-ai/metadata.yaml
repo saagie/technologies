@@ -26,14 +26,30 @@ contexts:
           label: Endpoint
           required: true
         - type: SELECT
-          name: jobs
+          name: project
+          label: Projects
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getProjects
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: job
           label: Jobs
           required: true
           options:
             script: ./jobForm.js
             function: getJobs
           dependsOn:
-            - endpoint
+            - project
+        - type: TEXT
+          name: newJobName
+          label: New job name
+          required: false
+          helper: "New job name to re-run the selected job"
+          dependsOn:
+            - job
     instance:
       actions:
         onStart:
