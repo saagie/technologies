@@ -1,8 +1,9 @@
-const axios = require('axios');
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const { google } = require('googleapis');
 const ml = google.ml('v1');
-const { getConnexion } = require('./utils');
+const logging = google.logging('v2');
+const { getAuth } = require('./utils');
+const { JOB_STATUS } = require('./job-states');
 
 /**
  * Logic to start the external job instance.
@@ -10,17 +11,31 @@ const { getConnexion } = require('./utils');
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data.
  */
-exports.start = async ({ job, instance }) => {
+exports.start = async ({ job }) => {
   try {
-    /* console.log('START INSTANCE:', instance);
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
-    );
+    const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
+    
+    const auth = getAuth(gcpKey);
 
-    // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id }); */
+    if (!job.featuresValues.newJobName) {
+      return Response.error("You need to select", new E);
+    }
+
+    const { data } = await ml.projects.jobs.create({
+      auth,
+      parent: `projects/${job.featuresValues.project.id}`,
+      requestBody: {
+        jobId: job.featuresValues.newJobName,
+        trainingInput: job.featuresValues.job.data && job.featuresValues.job.data.trainingInput,
+        trainingOutput: job.featuresValues.job.data && job.featuresValues.job.data.trainingOutput,
+        predictionInput: job.featuresValues.job.data && job.featuresValues.job.data.predictionInput,
+        predictionOutput: job.featuresValues.job.data && job.featuresValues.job.data.predictionOutput,
+      }
+    });
+
+    return Response.success(data);
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return getErrorMessage(error, "Failed to start job");
   }
 };
 
@@ -34,17 +49,28 @@ exports.stop = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
     
-    const authClient = getConnexion(gcpKey);
-    console.log('before stop')
-    const res = await ml.projects.jobs.cancel({
-      auth: authClient,
-      name: "projects/" + gcpKey.project_id + "/jobs/" + job.featuresValues.jobs.id,
+    const auth = getAuth(gcpKey);
+    
+    let jobId = null;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.jobId
+    ) {
+      jobId = instance.payload.jobId;
+    } else {
+      jobId = job.featuresValues.job.id;
+    }
+    
+    await ml.projects.jobs.cancel({
+      auth,
+      name: `projects/${job.featuresValues.project.id}/jobs/${jobId}`,
     });
-    console.log(res)
-    console.log('after stop')
+    
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to stop job', { error });
+    return getErrorMessage(error, "Failed to stop job");
   }
 };
 
@@ -58,33 +84,28 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
     
-    const authClient = getConnexion(gcpKey);
-    
+    const auth = getAuth(gcpKey);
+
+    let jobId = null;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.jobId
+    ) {
+      jobId = instance.payload.jobId;
+    } else {
+      jobId = job.featuresValues.job.id;
+    }
+
     const { data } = await ml.projects.jobs.get({
-      auth: authClient,
-      name: "projects/" + gcpKey.project_id + "/jobs/" + job.featuresValues.jobs.id,
+      auth,
+      name: `projects/${job.featuresValues.project.id}/jobs/${jobId}`,
     });
 
-    switch (data.state) {
-      case 'FAILED':
-        return Response.success(JobStatus.FAILED);
-      case 'CANCELLED':
-        return Response.success(JobStatus.KILLED);
-      case 'QUEUED':
-        return Response.success(JobStatus.QUEUED);
-      case 'PREPARING':
-        return Response.success(JobStatus.REQUESTED);
-      case 'RUNNING':
-        return Response.success(JobStatus.RUNNING);
-      case 'SUCCEEDED':
-        return Response.success(JobStatus.SUCCEEDED);
-      case 'CANCELLING':
-        return Response.success(JobStatus.KILLING);
-      default:
-        return Response.success(JobStatus.AWAITING);
-    }
+    return Response.success(JOB_STATUS[data.state] || JobStatus.AWAITING);
   } catch (error) {
-    return Response.error(`Failed to get status for dataset ${job.featuresValues.jobs.id}`, { error });
+    return getErrorMessage(error, "Failed to get status for job");
   }
 };
 
@@ -96,35 +117,59 @@ exports.getStatus = async ({ job, instance }) => {
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('test get logs')
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
-    
-    const authClient = getConnexion(gcpKey);
-    
-    const { data } = await ml.projects.jobs.get({
-      auth: authClient,
-      name: "projects/" + gcpKey.project_id + "/jobs/" + job.featuresValues.jobs.id,
-      });
-    
-    //console.log(data)
-    /* 
-    if (!datasets || !datasets.length) {
-      return Response.empty('No datasets availables');
+
+    const auth = getAuth(gcpKey);
+
+    let jobId = null;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.jobId
+    ) {
+      jobId = instance.payload.jobId;
+    } else {
+      jobId = job.featuresValues.job.id;
     }
-    */
 
-    console.log(Log(data.errorMessage, Stream.STDERR, data.startTime))
+    const resLogging = await logging.entries.list({
+      requestBody: {
+        filter: `resource.labels.job_id="${jobId}"`,
+        orderBy: "timestamp desc",
+        resourceNames: [`projects/${job.featuresValues.project.id}`]
+      }, 
+      auth
+    });
 
+    if (
+      resLogging
+      && resLogging.data
+      && resLogging.data.entries
+      && resLogging.data.entries.length > 0
+    ) {
+      return Response.success(
+        resLogging.data.entries
+          .reverse()
+          .map(({
+            timestamp,
+            jsonPayload,
+            textPayload
+          }) => {
+            let logContent = textPayload;
 
-    
+            if (jsonPayload && jsonPayload.levelname && jsonPayload.message) {
+              logContent = `[${jsonPayload.levelname}] - ${jsonPayload.message}`;
+            } else if (jsonPayload && jsonPayload.message) {
+              logContent = jsonPayload.message;
+            }
 
-    /* console.log('GET LOG INSTANCE:', instance);
-    const { data } = await axios.get(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/logs`,
-    ); */
-    return Response.success([Log(data.errorMessage, Stream.STDERR, data.startTime)])
-    //return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+            return Log(logContent, Stream.STDOUT, timestamp);
+          }));
+    }
+
+    return Response.empty();
   } catch (error) {
-    return Response.error(`Failed to get log for job ${job.featuresValues.jobs.id}`, { error });
+    return getErrorMessage(error, "Failed to get logs for job");
   }
 };
