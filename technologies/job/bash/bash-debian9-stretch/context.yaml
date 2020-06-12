@@ -2,8 +2,6 @@ id: debian9-stretch
 label: debian9-stretch
 available: true
 recommended: true
-dockerInfo:
-  image: saagie/bash
 trustLevel: stable
 job:
   features:

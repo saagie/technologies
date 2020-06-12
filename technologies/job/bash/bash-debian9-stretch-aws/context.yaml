@@ -2,8 +2,6 @@ id: debian9-stretch-aws
 label: debian9-stretch-aws
 available: true
 recommended: false
-dockerInfo:
-  image: saagie/bash
 trustLevel: stable
 job:
   features:

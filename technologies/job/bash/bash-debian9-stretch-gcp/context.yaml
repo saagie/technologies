@@ -2,8 +2,6 @@ id: debian9-stretch-gcp
 label: debian9-stretch-gcp
 available: true
 recommended: false
-dockerInfo:
-  image: saagie/bash
 trustLevel: "stable"
 job:
   features:
