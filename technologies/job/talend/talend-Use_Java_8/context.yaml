@@ -2,8 +2,6 @@ id: Use_Java_8
 label: Use_Java_8
 available: true
 recommended: true
-dockerInfo:
-  image: saagie/talend
 trustLevel: stable
 job:
   features:
