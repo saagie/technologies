@@ -1,0 +1,3 @@
+image: saagie/java-scala
+baseTag: 11
+version: 1.28.0

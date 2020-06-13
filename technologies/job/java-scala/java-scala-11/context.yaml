@@ -2,8 +2,6 @@ id: 11
 label: 11
 available: true
 recommended: false
-dockerInfo:
-  image: saagie/java-scala
 trustLevel: stable
 job:
   features:

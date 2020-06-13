@@ -1,9 +1,7 @@
-id: 8
-label: 8
+id: 7
+label: 7
 available: true
-recommended: true
-dockerInfo:
-  image: saagie/java-scala
+recommended: false
 trustLevel: stable
 job:
   features:

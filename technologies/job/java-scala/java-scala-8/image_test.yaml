@@ -61,7 +61,7 @@ commandTests:
     args: ["scp"]
     expectedOutput: ["/usr/bin/scp"]
     exitCode: 0
-    
+
   - name: "java installation"
     command: "which"
     args: ["java"]
