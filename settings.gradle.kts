@@ -23,7 +23,7 @@ pluginManagement {
 }
 plugins {
     id("com.gradle.enterprise") version "3.0"
-    id("org.kordamp.gradle.settings") version "0.32.0"
+    id("org.kordamp.gradle.settings") version "0.38.0"
 }
 
 gradleEnterprise {

@@ -17,19 +17,19 @@
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
+import com.saagie.technologies.readDockerInfo
 import com.saagie.technologies.getVersionForDocker
-import com.saagie.technologies.readContextMetadata
 
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
 
-val metadata = readContextMetadata(projectDir)
+val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":debian9-stretch:buildDockerImage")
+    dependsOn(":bash-debian9-stretch:testImage")
     this.buildArgs.put(
             "base_img",
-            "${metadata.dockerInfo?.image}:debian9-stretch-${this.project.getVersionForDocker()}"
+            "${dockerInfo?.image}:debian9-stretch-${this.project.getVersionForDocker()}"
     )
 }
