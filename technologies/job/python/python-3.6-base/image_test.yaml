@@ -19,13 +19,13 @@ fileExistenceTests:
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
-  - name: "kinit"
-    path: "/usr/bin/kinit"
+  - name: "entrypoint"
+    path: "/entrypoint"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
-  - name: "entrypoint"
-    path: "/entrypoint"
+  - name: "kinit"
+    path: "/usr/bin/kinit"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
@@ -85,7 +85,7 @@ commandTests:
   - name: "python version"
     command: "python"
     args: ["-V"]
-    expectedError: ["Python 2.7*"]
+    expectedOutput: ["Python 3.6*"]
 
   - name: "krb5-user installation"
     command: "kinit"

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if compgen -G "*.zip*" > /dev/null; then
+    unzip -q *.zip
+fi
+if test -f requirements.txt;
+then
+    echo "*******PIP INSTALL BEING*******"
+    pip install -r requirements.txt;
+    echo "*******PIP INSTALL END*******"
+fi;
+if [ $? != 0 ]; then echo "Error during 'pip install -f 'requirements.txt''";exit 1; fi;
+if test -f main_script;
+then sh ./main_script;
+else exec "$@"
+fi;

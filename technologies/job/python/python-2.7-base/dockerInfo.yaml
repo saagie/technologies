@@ -1,0 +1,2 @@
+image: saagie/python
+baseTag: 2.7-base

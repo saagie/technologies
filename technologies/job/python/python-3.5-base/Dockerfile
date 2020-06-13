@@ -1,4 +1,4 @@
-FROM python:2.7-slim-buster
+FROM python:3.5-slim-buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -9,7 +9,7 @@ ENV LD_RUN_PATH /usr/local/lib
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client \
+      ftp wget curl unzip telnet openssh-client git \
       krb5-user libpam-krb5 libpam-ccreds freeipa-client \
     && rm -rf /var/lib/apt/lists/*;
 # LIGHT DEPENDENCIES END
