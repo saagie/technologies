@@ -1,0 +1,19 @@
+id: 4.0
+label: 4.0
+available: true
+recommended: false
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch the job.
+      defaultValue: Rscript {file} arg1 arg2
+    - type: ARTIFACT
+      label: Package
+      mandatory: true
+      comment: "Compatible upload file : .r"
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if test -f main_script;
+then sh ./main_script;
+else exec "$@"
+fi;
