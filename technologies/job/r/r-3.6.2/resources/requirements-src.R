@@ -11,6 +11,7 @@ pkgs <- c(
 	'DescTools',
 	'doParallel',
 	'doSNOW',
+	'dtwclust',
 	'factoextra',
 	'FactoInvestigate',
 	'FactoMineR',
@@ -37,8 +38,7 @@ pkgs <- c(
 	'RWeka',
 	'sas7bdat',
 	'SnowballC',
-	'syuzhet',
-	'TSclust'
+	'syuzhet'
 )
 
 install.packages(pkgs) 

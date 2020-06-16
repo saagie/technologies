@@ -22,7 +22,7 @@ fileExistenceTests:
 commandTests:
   - name: "R version"
     command: "Rscript"
-    expectedOutput: ["R version 3.6.2.*"]
+    expectedOutput: ["R version 3.6.2*"]
     args: ["-e", "R.version.string; getOption('repos')"]
   - name: "krb5-user installation"
     command: "kinit"

@@ -108,6 +108,10 @@ commandTests:
     command: "bash"
     args: [ "-c", "Rscript -e 'library(dtplyr)'"]
     exitCode: 0
+  - name: check lib dtwclust
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(dtwclust)'"]
+    exitCode: 0
   - name: check lib e1071
     command: "bash"
     args: [ "-c", "Rscript -e 'library(e1071)'"]

@@ -22,7 +22,7 @@ fileExistenceTests:
 commandTests:
   - name: "R version"
     command: "Rscript"
-    expectedOutput: ["R version 3.6.2.*"]
+    expectedOutput: ["R version 3.6.2*"]
     args: ["-e", "R.version.string; getOption('repos')"]
   - name: "krb5-user installation"
     command: "kinit"
@@ -55,6 +55,7 @@ commandTests:
         Rscript -e 'library(doParallel)' &&
         Rscript -e 'library(doSNOW)' &&
         Rscript -e 'library(dtplyr)' &&
+        Rscript -e 'library(dtwclust)' &&
         Rscript -e 'library(e1071)' &&
         Rscript -e 'library(FactoInvestigate)' &&
         Rscript -e 'library(FactoMineR)' &&
@@ -121,7 +122,6 @@ commandTests:
         Rscript -e 'library(topicmodels)' &&
         Rscript -e 'library(tree)' &&
         Rscript -e 'library(trend)' &&
-        Rscript -e 'library(TSclust)' &&
         Rscript -e 'library(tseries)' &&
         Rscript -e 'library(wordcloud)' &&
         Rscript -e 'library(xlsx);'",
