@@ -27,7 +27,7 @@ contexts:
     dockerInfo:
       image: saagie/java-scala
       baseTag: 8
-      version: 1.28.0
+      version: 8-1.39.0_SDKTECHNO-47
   - id: 7
     label: 7
     available: true
@@ -50,7 +50,7 @@ contexts:
     dockerInfo:
       image: saagie/java-scala
       baseTag: 7
-      version: 1.28.0
+      version: 7-1.39.0_SDKTECHNO-47
   - id: 11
     label: 11
     available: true
@@ -73,4 +73,4 @@ contexts:
     dockerInfo:
       image: saagie/java-scala
       baseTag: 11
-      version: 1.28.0
+      version: 11-1.39.0_SDKTECHNO-47
