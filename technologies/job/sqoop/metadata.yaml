@@ -9,9 +9,6 @@ contexts:
     label: 1.4.6
     available: true
     recommended: true
-    dockerInfo:
-      image: saagie/sqoop
-      version: 1.4.6-1.26.0
     trustLevel: stable
     job:
       features:
@@ -27,3 +24,7 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+    dockerInfo:
+      image: saagie/sqoop
+      baseTag: 1.4.6
+      version: 1.26.0
