@@ -1,0 +1,57 @@
+id: job
+label: Job
+description: ""
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Projects
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: job
+      label: Jobs
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getJobs
+      dependsOn:
+        - project
+    - type: TEXT
+      name: newJobName
+      label: New job name
+      required: true
+      helper: "New job name to re-run the selected job"
+      dependsOn:
+        - job
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
