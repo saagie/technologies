@@ -37,7 +37,7 @@ job:
     - type: TEXT
       name: newJobName
       label: New job name
-      required: false
+      required: true
       helper: "New job name to re-run the selected job"
       dependsOn:
         - job

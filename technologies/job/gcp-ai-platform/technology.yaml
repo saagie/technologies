@@ -1,6 +1,6 @@
 version: v1
 id: gcp-platform-ai
-label: GCP Platform AI
+label: GCP AI Platform
 description: ""
 available: true
 type: EXTERNAL_JOB
