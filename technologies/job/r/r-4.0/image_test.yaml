@@ -376,10 +376,6 @@ commandTests:
     command: "bash"
     args: [ "-c", "Rscript -e 'library(trend)'"]
     exitCode: 0
-  - name: check lib TSclust
-    command: "bash"
-    args: [ "-c", "Rscript -e 'library(TSclust)'"]
-    exitCode: 0
   - name: check lib tseries
     command: "bash"
     args: [ "-c", "Rscript -e 'library(tseries)'"]
