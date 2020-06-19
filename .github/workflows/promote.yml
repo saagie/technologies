@@ -22,7 +22,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          ./gradlew promote
+          ./gradlew promote --stacktrace
       - name: Delete PreRelease
         id: delete_prerelease
         uses: actions/github-script@0.3.0
