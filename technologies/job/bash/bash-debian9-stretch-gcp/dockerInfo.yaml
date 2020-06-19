@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian9-stretch-gcp
+dynamicVersion: 1.39.0_SDKTECHNO-47
+version: debian9-stretch-gcp-1.39.0_SDKTECHNO-47

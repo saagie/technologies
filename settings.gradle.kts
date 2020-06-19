@@ -23,9 +23,8 @@ pluginManagement {
 }
 plugins {
     id("com.gradle.enterprise") version "3.0"
-    id("org.kordamp.gradle.settings") version "0.32.0"
+    id("org.kordamp.gradle.settings") version "0.38.0"
 }
-
 
 gradleEnterprise {
     buildScan {
@@ -46,8 +45,8 @@ File(rootDir.path + "/technologies").walkTopDown().forEach {
     }
 }
 configure<org.kordamp.gradle.plugin.settings.ProjectsExtension> {
-    layout = "multi-level"
-    enforceNamingConvention = false
-    directories = allProjects
+    layout.set("multi-level")
+    enforceNamingConvention.set(false)
+    directories.set(allProjects)
 }
 fun File.isAGradleModule(): Boolean = this.isDirectory && File(this.absolutePath + "/build.gradle.kts").exists()

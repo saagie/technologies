@@ -1,0 +1,19 @@
+id: 1.4.6
+label: 1.4.6
+available: true
+recommended: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Sqoop
+      defaultValue: "driver=xxx \nhost=\"x.x.x.x\"\nport=xxx \nusername=\"xxx\" \npassword=\"xxxx\" \ndatabase=\"xxxx\" \ntable=\"xxxx\" \nhdfsdest=hdfs:///tmp/sqoop_import \n\nsqoop import --connect jdbc:$driver://$host:$port/$database --username $username --password $password --as-textfile -m 1 --target-dir $hdfsdest --table \"$table\""
+    - type: ARTIFACT
+      label: Package
+      mandatory: false
+      comment: Any file necessary for the process, can be a zip file containing shell script, jar files, data etc.
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
