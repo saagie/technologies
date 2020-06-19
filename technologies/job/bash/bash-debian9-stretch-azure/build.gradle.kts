@@ -17,8 +17,8 @@
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
-import com.saagie.technologies.readDockerInfo
 import com.saagie.technologies.getVersionForDocker
+import com.saagie.technologies.readDockerInfo
 
 
 apply<DockerRemoteApiPlugin>()
