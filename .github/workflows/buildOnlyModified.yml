@@ -18,14 +18,6 @@ jobs:
       - name: extract branch
         id: extract_branch
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      - name: Patch Docker Daemon data-root
-        run: |
-          DOCKER_DATA_ROOT='/mnt/var/lib/docker'
-          DOCKER_DAEMON_JSON='/etc/docker/daemon.json'
-          sudo mkdir -p "${DOCKER_DATA_ROOT}"
-          jq --arg dataroot "${DOCKER_DATA_ROOT}" '. + {"data-root": $dataroot}' "${DOCKER_DAEMON_JSON}" > "/tmp/docker.json.tmp"
-          sudo mv "/tmp/docker.json.tmp" "${DOCKER_DAEMON_JSON}"
-          sudo systemctl restart docker
       - name: run gradle :buildModifiedJobs
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
