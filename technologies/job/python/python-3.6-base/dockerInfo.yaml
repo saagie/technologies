@@ -1,2 +1,4 @@
 image: saagie/python
 baseTag: 3.6-base
+dynamicVersion: 1.40.0_python
+version: 3.6-base-1.40.0_python
