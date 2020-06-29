@@ -21,6 +21,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
 # (ConfigSace install required by auto-sklearn will fail without that before the other install)
 COPY resources/requirements.txt .
 RUN grep -v '^#' requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
+    && rm -rf requirements.txt \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip

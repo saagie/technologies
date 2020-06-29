@@ -22,6 +22,7 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
 
 COPY resources/requirements.txt .
 RUN pip --no-cache-dir install -r requirements.txt \
+    && rm -rf requirements.txt \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip

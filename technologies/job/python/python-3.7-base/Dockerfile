@@ -14,6 +14,7 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
+# UPGRADE PIP
 RUN pip --no-cache-dir install --upgrade pip
 
 # Fix Locale
