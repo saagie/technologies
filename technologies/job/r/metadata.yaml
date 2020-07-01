@@ -1,0 +1,124 @@
+version: "v1"
+type: JOB
+id: r
+label: R
+available: true
+icon: r
+contexts:
+  - id: 3.4.4
+    label: 3.4.4
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .r"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/r-image
+      baseTag: 3.4.4
+      version: 3.4.4-1.40.0_R
+  - id: 3.5.3
+    label: 3.5.3
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .r"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/r-image
+      baseTag: 3.5.3
+      version: 3.5.3-1.40.0_R
+  - id: 3.6.2
+    label: 3.6.2
+    available: true
+    deprecated: true
+    dockerImageFallback: "saagie/r-image:3.6.2.202002.74"
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .r"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/r-image
+      baseTag: 3.6.2
+      version: 3.6.2-1.40.0_R
+  - id: 3.6.3
+    label: 3.6.3
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .r"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/r-image
+      baseTag: 3.6.3
+      version: 3.6.3-1.40.0_R
+  - id: 4.0
+    label: 4.0
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .r"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/r-image
+      baseTag: 4.0
+      version: 4.0-1.40.0_R

@@ -1,0 +1,4 @@
+image: saagie/r-image
+baseTag: 4.0
+dynamicVersion: 1.40.0_R
+version: 4.0-1.40.0_R

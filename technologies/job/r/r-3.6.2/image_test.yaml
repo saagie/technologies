@@ -1,0 +1,129 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "R version"
+    command: "Rscript"
+    expectedOutput: ["R version 3.6.2*"]
+    args: ["-e", "R.version.string; getOption('repos')"]
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+  - name: check All libs
+    command: "bash"
+    args: [
+      "-c",
+      "
+        Rscript -e 'library(ade4)' &&
+        Rscript -e 'library(argparse)' &&
+        Rscript -e 'library(arules)' &&
+        Rscript -e 'library(AUC)' &&
+        Rscript -e 'library(betareg)' &&
+        Rscript -e 'library(breakpoint)' &&
+        Rscript -e 'library(caret)' &&
+        Rscript -e 'library(cartography)' &&
+        Rscript -e 'library(changepoint)' &&
+        Rscript -e 'library(classInt)' &&
+        Rscript -e 'library(cluster)' &&
+        Rscript -e 'library(colorspace)' &&
+        Rscript -e 'library(colourpicker)' &&
+        Rscript -e 'library(curl)' &&
+        Rscript -e 'library(data.table)' &&
+        Rscript -e 'library(DescTools)' &&
+        Rscript -e 'library(doParallel)' &&
+        Rscript -e 'library(doSNOW)' &&
+        Rscript -e 'library(dtplyr)' &&
+        Rscript -e 'library(dtwclust)' &&
+        Rscript -e 'library(e1071)' &&
+        Rscript -e 'library(FactoInvestigate)' &&
+        Rscript -e 'library(FactoMineR)' &&
+        Rscript -e 'library(Factoshiny)' &&
+        Rscript -e 'library(ff)' &&
+        Rscript -e 'library(ffbase)' &&
+        Rscript -e 'library(FNN)' &&
+        Rscript -e 'library(forecast)' &&
+        Rscript -e 'library(ggplot2)' &&
+        Rscript -e 'library(glmnet)' &&
+        Rscript -e 'library(hunspell)' &&
+        Rscript -e 'library(jsonlite)' &&
+        Rscript -e 'library(kernlab)' &&
+        Rscript -e 'library(kknn)' &&
+        Rscript -e 'library(knitr)' &&
+        Rscript -e 'library(kohonen)' &&
+        Rscript -e 'library(labeling)' &&
+        Rscript -e 'library(LDAvis)' &&
+        Rscript -e 'library(leaflet)' &&
+        Rscript -e 'library(leaps)' &&
+        Rscript -e 'library(lsa)' &&
+        Rscript -e 'library(magrittr)' &&
+        Rscript -e 'library(mapproj)' &&
+        Rscript -e 'library(maps)' &&
+        Rscript -e 'library(maptools)' &&
+        Rscript -e 'library(markdown)' &&
+        Rscript -e 'library(missMDA)' &&
+        Rscript -e 'library(mlogit)' &&
+        Rscript -e 'library(mvoutlier)' &&
+        Rscript -e 'library(plotly)' &&
+        Rscript -e 'library(pls)' &&
+        Rscript -e 'library(pROC)' &&
+        Rscript -e 'library(prophet)' &&
+        Rscript -e 'library(proxy)' &&
+        Rscript -e 'library(pvclust)' &&
+        Rscript -e 'library(randomForest)' &&
+        Rscript -e 'library(rattle)' &&
+        Rscript -e 'library(RcmdrMisc)' &&
+        Rscript -e 'library(RColorBrewer)' &&
+        Rscript -e 'library(Rcpp)' &&
+        Rscript -e 'library(readr)' &&
+        Rscript -e 'library(readxl)' &&
+        Rscript -e 'library(recommenderlab)' &&
+        Rscript -e 'library(reshape2)' &&
+        Rscript -e 'library(rjson)' &&
+        Rscript -e 'library(RMySQL)' &&
+        Rscript -e 'library(rpart)' &&
+        Rscript -e 'library(RSelenium)' &&
+        Rscript -e 'library(rvest)' &&
+        Rscript -e 'library(RWeka)' &&
+        Rscript -e 'library(sas7bdat)' &&
+        Rscript -e 'library(scales)' &&
+        Rscript -e 'library(shiny)' &&
+        Rscript -e 'library(shinydashboard)' &&
+        Rscript -e 'library(shinyjs)' &&
+        Rscript -e 'library(shinythemes)' &&
+        Rscript -e 'library(skmeans)' &&
+        Rscript -e 'library(SnowballC)' &&
+        Rscript -e 'library(sp)' &&
+        Rscript -e 'library(sqldf)' &&
+        Rscript -e 'library(stringi)' &&
+        Rscript -e 'library(stringr)' &&
+        Rscript -e 'library(syuzhet)' &&
+        Rscript -e 'library(topicmodels)' &&
+        Rscript -e 'library(tree)' &&
+        Rscript -e 'library(trend)' &&
+        Rscript -e 'library(tseries)' &&
+        Rscript -e 'library(wordcloud)' &&
+        Rscript -e 'library(xlsx);'",
+    ]
+    exitCode: 0

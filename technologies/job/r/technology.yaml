@@ -1,0 +1,6 @@
+version: "v1"
+type: JOB
+id: r
+label: R
+available: true
+icon: r

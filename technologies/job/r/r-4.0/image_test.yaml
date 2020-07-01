@@ -1,0 +1,390 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "R version"
+    command: "Rscript"
+    args: ["-e", "R.version.string; getOption('repos')"]
+    expectedOutput: ["R version 4.0.*"]
+    exitCode: 0
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+  - name: check lib ade4
+    command: "bash"
+    args: ["-c", "Rscript -e 'library(ade4)'"]
+    exitCode: 0
+  - name: check lib argparse
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(argparse)'"]
+    exitCode: 0
+  - name: check lib arules
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(arules)'"]
+    exitCode: 0
+  - name: check lib AUC
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(AUC)'"]
+    exitCode: 0
+  - name: check lib betareg
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(betareg)'"]
+    exitCode: 0
+  - name: check lib breakpoint
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(breakpoint)'"]
+    exitCode: 0
+  - name: check lib caret
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(caret)'"]
+    exitCode: 0
+  - name: check lib cartography
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(cartography)'"]
+    exitCode: 0
+  - name: check lib changepoint
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(changepoint)'"]
+    exitCode: 0
+  - name: check lib classInt
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(classInt)'"]
+    exitCode: 0
+  - name: check lib cluster
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(cluster)'"]
+    exitCode: 0
+  - name: check lib colorspace
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(colorspace)'"]
+    exitCode: 0
+  - name: check lib colourpicker
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(colourpicker)'"]
+    exitCode: 0
+  - name: check lib curl
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(curl)'"]
+    exitCode: 0
+  - name: check lib data.table
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(data.table)'"]
+    exitCode: 0
+  - name: check lib DescTools
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(DescTools)'"]
+    exitCode: 0
+  - name: check lib doParallel
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(doParallel)'"]
+    exitCode: 0
+  - name: check lib doSNOW
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(doSNOW)'"]
+    exitCode: 0
+  - name: check lib dtplyr
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(dtplyr)'"]
+    exitCode: 0
+  - name: check lib dtwclust
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(dtwclust)'"]
+    exitCode: 0
+  - name: check lib e1071
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(e1071)'"]
+    exitCode: 0
+  - name: check lib FactoInvestigate
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(FactoInvestigate)'"]
+    exitCode: 0
+  - name: check lib FactoMineR
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(FactoMineR)'"]
+    exitCode: 0
+  - name: check lib Factoshiny
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(Factoshiny)'"]
+    exitCode: 0
+  - name: check lib ff
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(ff)'"]
+    exitCode: 0
+  - name: check lib ffbase
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(ffbase)'"]
+    exitCode: 0
+  - name: check lib FNN
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(FNN)'"]
+    exitCode: 0
+  - name: check lib forecast
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(forecast)'"]
+    exitCode: 0
+  - name: check lib ggplot2
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(ggplot2)'"]
+    exitCode: 0
+  - name: check lib glmnet
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(glmnet)'"]
+    exitCode: 0
+  - name: check lib hunspell
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(hunspell)'"]
+    exitCode: 0
+  - name: check lib jsonlite
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(jsonlite)'"]
+    exitCode: 0
+  - name: check lib kernlab
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(kernlab)'"]
+    exitCode: 0
+  - name: check lib kknn
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(kknn)'"]
+    exitCode: 0
+  - name: check lib knitr
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(knitr)'"]
+    exitCode: 0
+  - name: check lib kohonen
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(kohonen)'"]
+    exitCode: 0
+  - name: check lib labeling
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(labeling)'"]
+    exitCode: 0
+  - name: check lib LDAvis
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(LDAvis)'"]
+    exitCode: 0
+  - name: check lib leaps
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(leaflet)'"]
+    exitCode: 0
+  - name: check lib
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(leaps)'"]
+    exitCode: 0
+  - name: check lib lsa
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(lsa)'"]
+    exitCode: 0
+  - name: check lib magrittr
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(magrittr)'"]
+    exitCode: 0
+  - name: check lib mapproj
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(mapproj)'"]
+    exitCode: 0
+  - name: check lib maps
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(maps)'"]
+    exitCode: 0
+  - name: check lib maptools
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(maptools)'"]
+    exitCode: 0
+  - name: check lib markdown
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(markdown)'"]
+    exitCode: 0
+  - name: check lib missMDA
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(missMDA)'"]
+    exitCode: 0
+  - name: check lib mlogit
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(mlogit)'"]
+    exitCode: 0
+  - name: check lib mvoutlier
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(mvoutlier)'"]
+    exitCode: 0
+  - name: check lib plotly
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(plotly)'"]
+    exitCode: 0
+  - name: check lib pls
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(pls)'"]
+    exitCode: 0
+  - name: check lib pROC
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(pROC)'"]
+    exitCode: 0
+  - name: check lib prophet
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(prophet)'"]
+    exitCode: 0
+  - name: check lib proxy
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(proxy)'"]
+    exitCode: 0
+  - name: check lib pvclust
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(pvclust)'"]
+    exitCode: 0
+  - name: check lib randomForest
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(randomForest)'"]
+    exitCode: 0
+  - name: check lib rattle
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(rattle)'"]
+    exitCode: 0
+  - name: check lib RcmdrMisc
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(RcmdrMisc)'"]
+    exitCode: 0
+  - name: check lib RColorBrewer
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(RColorBrewer)'"]
+    exitCode: 0
+  - name: check lib Rcpp
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(Rcpp)'"]
+    exitCode: 0
+  - name: check lib readr
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(readr)'"]
+    exitCode: 0
+  - name: check lib readxl
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(readxl)'"]
+    exitCode: 0
+  - name: check lib recommenderlab
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(recommenderlab)'"]
+    exitCode: 0
+  - name: check lib reshape2
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(reshape2)'"]
+    exitCode: 0
+  - name: check lib rjson
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(rjson)'"]
+    exitCode: 0
+  - name: check lib RMySQL
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(RMySQL)'"]
+    exitCode: 0
+  - name: check lib rpart
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(rpart)'"]
+    exitCode: 0
+  - name: check lib RSelenium
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(RSelenium)'"]
+    exitCode: 0
+  - name: check lib rvest
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(rvest)'"]
+    exitCode: 0
+  - name: check lib RWeka
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(RWeka)'"]
+    exitCode: 0
+  - name: check lib sas7bdat
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(sas7bdat)'"]
+    exitCode: 0
+  - name: check lib scales
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(scales)'"]
+    exitCode: 0
+  - name: check lib shiny
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(shiny)'"]
+    exitCode: 0
+  - name: check lib shinydashboard
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(shinydashboard)'"]
+    exitCode: 0
+  - name: check lib shinyjs
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(shinyjs)'"]
+    exitCode: 0
+  - name: check lib shinythemes
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(shinythemes)'"]
+    exitCode: 0
+  - name: check lib skmeans
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(skmeans)'"]
+    exitCode: 0
+  - name: check lib SnowballC
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(SnowballC)'"]
+    exitCode: 0
+  - name: check lib sp
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(sp)'"]
+    exitCode: 0
+  - name: check lib sqldf
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(sqldf)'"]
+    exitCode: 0
+  - name: check lib stringi
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(stringi)'"]
+    exitCode: 0
+  - name: check lib stringr
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(stringr)'"]
+    exitCode: 0
+  - name: check lib syuzhet
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(syuzhet)'"]
+    exitCode: 0
+  - name: check lib topicmodels
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(topicmodels)'"]
+    exitCode: 0
+  - name: check lib tree
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(tree)'"]
+    exitCode: 0
+  - name: check lib trend
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(trend)'"]
+    exitCode: 0
+  - name: check lib tseries
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(tseries)'"]
+    exitCode: 0
+  - name: check lib wordcloud
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(wordcloud)'"]
+    exitCode: 0
+  - name: check lib xlsx
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(xlsx);'"]
+    exitCode: 0
