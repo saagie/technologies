@@ -1,0 +1,112 @@
+# fix version to avoid deprecation of Feature in 46.x.y for compatibility reasons
+setuptools==45.2.0
+# force beautifulsoup4 version for compatibility textract
+beautifulsoup4==4.8.0
+# force six version for compatibility textract
+six==1.12.0
+
+# LIBS PART BEGIN
+numpy>=1.17,<1.18
+h5py>=2.10,<2.11
+ipywidgets>=7.5,<7.6
+pandas>=0.25,<0.26
+matplotlib>=3.1,<3.2
+scipy>=1.3,<1.4
+# Should not be upgraded due to dependency from auto-sklearn 0.6.0
+scikit-learn>=0.21,<0.22
+pyodbc>=4.0,<4.1
+impyla>=0.16,<0.17
+hdfs[avro,dataframe,kerberos]>=2.5,<2.6
+scikit-image>=0.16,<0.17
+bokeh>=1.4,<1.5
+tensorflow>=2.0,<2.1
+keras>=2.3,<2.4
+Theano>=1.0,<1.1
+# WAITING for new tag, last is 0.3.3 released on 9 Jan 2015 · 24 commits to master since this release
+https://github.com/pybrain/pybrain/archive/dcdf32b.zip
+statsmodels>=0.10,<0.11
+mpld3>=0.3,<0.4
+networkx>=2.4,<2.5
+fiona>=1.8,<1.9
+folium>=0.10,<0.11
+shapely>=1.6,<1.7
+# Cython must be installed before thrift-sasl because of an error on ThriftPy and python 3.x : https://github.com/Thriftpy/thriftpy/issues/333
+cython>=0.29,<0.30
+# still remining bugs to connect to impala through ibis => 0.2.1 last compatible
+thrift-sasl==0.2.1
+SQLAlchemy>=1.3,<1.4
+ibis-framework>=1.2,<1.3
+pymongo>=3.9,<3.10
+seaborn>=0.9,<0.10
+#PRODUCT-38-BEGIN
+pytesseract>=0.3,<0.4
+opencv-python>=4.1,<4.2
+wand>=0.5,<0.6
+# Keep this deprecated version for compatibility instead of mysql-connetor-python
+mysql-connector==2.2.9
+pyshp>=2.1,<2.2
+# Fixed to 0.11 cause 0.11.1 needs sciit-learn 0.22.0 at least BUT auto-sklearn 0.6.0 requires scikit-learn 0.21.3 at most
+tpot==0.11
+lime>=0.1,<0.2
+shap>=0.32,<0.33
+nltk>=3.4,<3.5
+gensim>=3.8,<3.9
+xgboost>=0.90,<0.91
+imbalanced-learn>=0.5,<0.6
+dryscrape>=1.0,<1.1
+lxml>=4.4,<4.5
+scrapy>=1.8,<1.9
+bs4>=0.0,<0.1
+pydotplus>=2.0,<2.1
+elasticsearch>=7.1,<7.2
+psycopg2>=2.8,<2.9
+graphviz>=0.13,<0.14
+geopandas>=0.6,<0.7
+geopy>=1.20,<1.21
+#PRODUCT-38-END
+#PRODUCT-335 BEGIN
+tabula-py>=1.4,<1.5
+spacy>=2.2,<2.3
+pycrypto>=2.6,<2.7
+crypto>=1.4,<1.5
+tokenizer>=1.4,<1.5
+apiclient>=1.0,<1.1
+addok>=1.0,<1.1
+openpyxl>=3.0,<3.1
+jellyfish>=0.7,<0.8
+django>=3.0,<3.1
+joblib>=0.14,<0.15
+excel>=1.0,<1.1
+python-levenshtein>=0.12,<0.13
+xlwt>=1.3,<1.4
+tika>=1.22,<1.23
+textract>=1.6,<1.7
+pycurl>=7.43,<7.44
+neo4j-driver>=1.7,<1.8
+simplejson>=3.17,<3.18
+#PRODUCT-335 END
+#PRODUCT-402 BEGIN
+# latest 20191020 no tags/releases +27 commits since then on 20191126
+# pip check reports : textract 1.6.3 has requirement pdfminer.six==20181108, but you have pdfminer-six 20191110.
+pdfminer.six==20181108
+#PRODUCT-402 END
+umap-learn>=0.3,<0.4
+numba>=0.47,<0.48
+# WAITING for version 0.6.0 to be tagged (documented as last version) - last release 0.5.3 released this 13 May 2019 · 13 commits to master since this release
+# WARNING If you update auto-sklearn pleas also check tpot and scikit-learn versions compatibility
+https://github.com/automl/auto-sklearn/archive/049288e.zip
+fastparquet>=0.3,<0.4
+# CHECK 0.12.0 (20/12/2017) 14 commits since
+requests-kerberos>=0.12,<0.13
+# LIBS PART END
+
+# Install confluent Kafka
+kafka-python>=1.4,<1.5
+confluent-kafka>=1.2,<1.3
+#confluent-kafka
+torch>=1.4,<1.5
+torchvision>=0.5,<0.6
+tensorflow-gpu>=2.0,<2.1
+
+# fix version to avoid error in numba, fastparquet, ...
+llvmlite==0.32.0

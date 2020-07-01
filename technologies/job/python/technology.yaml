@@ -1,0 +1,6 @@
+version: "v1"
+type: JOB
+id: python
+label: Python
+available: true
+icon: python

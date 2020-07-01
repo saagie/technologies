@@ -1,0 +1,91 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: LD_RUN_PATH
+      value: "/usr/local/lib"
+    - key: PATH
+      value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "unzip"
+    path: "/usr/bin/unzip"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents:
+      [
+        "unzip -q \\*.zip",
+        "pip install -r requirements.txt",
+        "sh ./main_script",
+      ]
+
+commandTests:
+  - name: "ftp"
+    args: ["-h"]
+    command: "ftp"
+    exitCode: 0
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "telnet"
+    command: "which"
+    args: ["telnet"]
+    expectedOutput: ["/usr/bin/telnet"]
+    exitCode: 0
+
+  - name: "scp"
+    command: "which"
+    args: ["scp"]
+    expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "python installation"
+    command: "which"
+    args: ["python"]
+    expectedOutput: ["/usr/local/bin/python"]
+  - name: "python version"
+    command: "python"
+    args: ["-V"]
+    expectedOutput: ["Python 3.5"]
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1

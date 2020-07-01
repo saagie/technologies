@@ -1,0 +1,185 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: LD_RUN_PATH
+      value: "/usr/local/lib"
+    - key: PATH
+      value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "unzip"
+    path: "/usr/bin/unzip"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents:
+      [
+        "unzip -q \\*.zip",
+        "pip install -r requirements.txt",
+        "sh ./main_script",
+      ]
+
+commandTests:
+  - name: "ftp"
+    args: ["-h"]
+    command: "ftp"
+    exitCode: 0
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "telnet"
+    command: "which"
+    args: ["telnet"]
+    expectedOutput: ["/usr/bin/telnet"]
+    exitCode: 0
+
+  - name: "scp"
+    command: "which"
+    args: ["scp"]
+    expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "python installation"
+    command: "which"
+    args: ["python"]
+    expectedOutput: ["/usr/local/bin/python"]
+
+  - name: "python version"
+    command: "python"
+    args: ["-V"]
+    expectedError: ["Python 2.7*"]
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+
+  - name: import_libs-test
+    command: "python"
+    args: [
+      "-c",
+      "import numpy;
+        import h5py;
+        import ipywidgets;
+        import pandas;
+        import matplotlib;
+        import scipy;
+        from sklearn import datasets;
+        import pyodbc;
+        from impala.dbapi import connect;
+        import hdfs;
+        from skimage import data;
+        import bokeh;
+        from keras.layers import Dense;
+        import tensorflow;
+        import theano.tensor;
+        import pybrain;
+        import statsmodels;
+        import mpld3;
+        import networkx;
+        import fiona;
+        import folium;
+        import shapely;
+        import thrift_sasl;
+        import sasl;
+        from sqlalchemy import create_engine;
+        import ibis;
+        import pymongo;
+        import seaborn;
+        import pytesseract;
+        import cv2;
+        from wand.image import Image;
+        import mysql.connector;
+        import shapefile;
+        import cython;
+        import tpot;
+        import lime;
+        import shap;
+        import nltk;
+        from gensim import similarities;
+        import xgboost;
+        from imblearn.over_sampling import RandomOverSampler;
+        import dryscrape;
+        import lxml;
+        import scrapy;
+        import bs4;
+        import pydotplus;
+        import elasticsearch;
+        import psycopg2;
+        import graphviz;
+        import geopandas;
+        import geopy;
+        import tabula;
+        import spacy;
+        from Crypto.Hash import SHA256;
+        import tokenizer;
+        import apiclient;
+        import addok;
+        import openpyxl;
+        import jellyfish;
+        import django;
+        import joblib;
+        import excel;
+        from Levenshtein import _levenshtein;
+        import xlwt;
+        import tika;
+        import textract;
+        import pycurl;
+        from neo4j.v1 import GraphDatabase;
+        import simplejson;
+        from pdfminer.psparser import *;
+        from requests_kerberos import *;
+        from bs4 import BeautifulSoup;
+        import branca;
+        import crypto;
+        import six;
+        from kafka import KafkaConsumer;
+        from confluent_kafka import Producer;",
+    ]
+    exitCode: 0
+
+  - name: thrift_sasl version
+    command: "bash"
+    args: [
+      "-c",
+      "pip freeze | grep thrift-sasl"]
+    expectedOutput: ["thrift-sasl==0.2.1"]
+    exitCode: 0
