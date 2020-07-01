@@ -1,4 +1,4 @@
 image: saagie/python
 baseTag: 3.7-base
 dynamicVersion: 1.41.0_python
-version: 3.7-base-1.41.0_python
+version: 3.7-base-1.41.0
