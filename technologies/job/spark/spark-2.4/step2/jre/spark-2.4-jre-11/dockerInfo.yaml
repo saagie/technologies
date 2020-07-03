@@ -1,0 +1,2 @@
+image: saagie/spark
+baseTag: 2.4-jre-11

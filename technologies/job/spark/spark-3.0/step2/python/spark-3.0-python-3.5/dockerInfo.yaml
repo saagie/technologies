@@ -1,0 +1,2 @@
+image: saagie/spark
+baseTag: 3.0-py-3.5
