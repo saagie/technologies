@@ -1,2 +1,4 @@
 image: saagie/spark
 baseTag: 3.0-jre-11
+dynamicVersion: 1.42.0_spark
+version: 3.0-jre-11-1.42.0_spark
