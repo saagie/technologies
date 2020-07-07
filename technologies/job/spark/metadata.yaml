@@ -4,6 +4,8 @@ id: spark
 label: Spark
 available: true
 icon: spark
+customFlags:
+   - Spark
 contexts:
   - id: 2.4
     label: 2.4
