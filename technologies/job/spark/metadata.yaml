@@ -129,6 +129,7 @@ contexts:
               mandatory: true
               comment: "Compatible upload file : .jar"
             - type: SCHEDULER
+              label: Scheduled
               mandatory: true
         innerContexts:
           - id: 11
