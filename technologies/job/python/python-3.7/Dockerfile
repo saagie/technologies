@@ -48,9 +48,8 @@ RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu18
 
 # Need to read requirements.txt file sequentially to ensure consistent installatin order (Cython needed first)
 # (ConfigSace install required by auto-sklearn will fail without that before the other install)
-COPY resources/requirements.txt .
-RUN grep -v '^#' requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
-    && rm -rf requirements.txt \
+COPY resources/requirements.txt /tmp/requirements.txt
+RUN grep -v '^#' /tmp/requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip
