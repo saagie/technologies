@@ -33,7 +33,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.saagie:technologiesplugin:1.2.8")
+        classpath("com.saagie:technologiesplugin:1.2.9")
     }
 }
 apply<SaagieTechnologiesPackageGradlePlugin>()
@@ -129,7 +129,6 @@ tasks {
             }
             this.project.version = version as String
         }
-
         doLast {
             with(File("version.properties")) {
                 val version = File("versions")
