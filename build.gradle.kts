@@ -123,6 +123,7 @@ tasks.register("buildAllTechnologies") {
 tasks {
     "incrementBuildMeta"(SemverIncrementBuildMetaTask::class) {
         doFirst {
+            buildMeta = buildMeta.replace("/","-")
             if (buildMeta == "master") {
                 buildMeta = ""
             }
