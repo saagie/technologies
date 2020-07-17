@@ -1,0 +1,2 @@
+# Cython must be installed before thrift-sasl because of an error on ThriftPy and python 3.7 : https://github.com/Thriftpy/thriftpy/issues/333
+cython>=0.29,<0.30
