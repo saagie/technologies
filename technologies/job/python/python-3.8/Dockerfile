@@ -59,9 +59,4 @@ RUN pip --no-cache-dir install -r /tmp/requirements.txt \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip
 
-# (ConfigSace install required by auto-sklearn will fail without that before the other install)
-#RUN pip --no-cache-dir install \
-#        "https://github.com/automl/auto-sklearn/archive/049288e.zip"
-#        "auto-sklearn>=0.8,<0.9"
-
 RUN pip --no-cache-dir install pipdeptree pipcheck

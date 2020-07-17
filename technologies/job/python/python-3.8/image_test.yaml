@@ -386,7 +386,7 @@ commandTests:
     command: "python"
     args: [
         "-c",
-        "from imblearn.over_sampling import RandomOverSampler;"]
+        "from imblearn.over_sampling import RandomOverSampler"]
     exitCode: 0
 
   - name: import_dryscrape
@@ -611,6 +611,13 @@ commandTests:
     args: [
         "-c",
         "from numba import jit;"]
+    exitCode: 0
+
+  - name: import_autosklearn.classification
+    command: "python"
+    args: [
+      "-c",
+      "import autosklearn.classification;"]
     exitCode: 0
 
   - name: import_fastparquet.ParquetFile

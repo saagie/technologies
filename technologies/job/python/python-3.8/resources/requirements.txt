@@ -25,7 +25,7 @@ shap>=0.35,<0.36
 nltk>=3.5,<3.6
 gensim>=3.8,<3.9
 xgboost>=1.1,<1.2
-imbalanced-learn>=0.7,<0.8
+imbalanced-learn>=0.6,<0.7
 dryscrape>=1.0,<1.1
 lxml>=4.5,<4.6
 scrapy>=2.2,<2.3
@@ -85,18 +85,6 @@ torch>=1.5,<1.6
 torchvision>=0.6,<0.7
 ### # PyBrain not tagged after 0.3.3 (20150108) => use commit from sources for latest release dcdf32b - 20171217 +24commits)
 https://github.com/pybrain/pybrain/archive/dcdf32b.zip
+auto-sklearn>=0.8,<0.9
+### => downgrade imbalanced-learn to 0.6.2 because 0.7.0 has requirement scikit-learn>=0.23, but you have scikit-learn 0.22.2.post1.
 ipywidgets>=7.5,<7.6
-#
-# --------------------------------------------------------------
-#
-### # AutoSkLearn not tagged in 0.6.0 => use latest commit from sources for latest release 049288e at the time of this build 20191126
-### https://github.com/automl/auto-sklearn/archive/049288e.zip
-#
-### # fix version to avoid error in numba, fastparquet, ...
-### llvmlite==0.32.0
-#
-# -> pdfminer.six==20181108
-# -> beautifulsoup4==4.8.0
-# -> six==1.12.0
-# -> numpy>=1.7    1.19,<1.20
-# pykerberos>=1.2,<1.3
