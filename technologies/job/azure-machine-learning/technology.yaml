@@ -1,0 +1,7 @@
+version: v1
+id: azure-machine-learning
+label: Azure Machine Learning
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
