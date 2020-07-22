@@ -45,6 +45,18 @@ export const getHeadersWithAccessTokenForManagementResource = async (endpoint) =
   };
 };
 
+export const getRegionalApiServer = async (workspace) => {
+  const { data } = await axios.get(workspace.properties.discoveryUrl);
+
+  return data.api;
+};
+
+export const getExperimentsApiServer = async (workspace) => {
+  const { data } = await axios.get(workspace.properties.discoveryUrl);
+
+  return data.experimentation;
+};
+
 export const checkDataFromAzureResponse = (response) => (
   response
     && response.data

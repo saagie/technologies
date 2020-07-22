@@ -54,6 +54,23 @@ job:
         function: getPipelinesRuns
       dependsOn:
         - workspace
+    - type: SELECT
+      name: targetExperiment
+      label: New run experiment
+      helper: Target experiment for new run of pipeline run
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getExperiments
+      dependsOn:
+        - pipelineRun
+    - type: TEXT
+      name: description
+      label: New run description
+      helper: Description for new run of pipeline run
+      required: true
+      dependsOn:
+        - pipelineRun
 instance:
   actions:
     onStart:

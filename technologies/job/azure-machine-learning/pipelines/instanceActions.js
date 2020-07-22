@@ -1,6 +1,10 @@
 const axios = require('axios');
 const { Response, JobStatus, Log } = require('@saagie/sdk');
-const { getHeadersWithAccessTokenForManagementResource } = require('../utils');
+const {
+  getHeadersWithAccessTokenForManagementResource,
+  getExperimentsApiServer,
+  getRegionalApiServer,
+} = require('../utils');
 const { JOB_STATES } = require('../job-states');
 
 /**
@@ -12,14 +16,24 @@ const { JOB_STATES } = require('../job-states');
 exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
+
+    const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
+
     const { data } = await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start`,
+      `${apiUrl}/studioservice/api/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/workspaces/${job.featuresValues.workspace.label}/pipelineruns/${job.featuresValues.pipelineRun.id}/rerun`,
+      {
+        experimentName: job.featuresValues.targetExperiment.label,
+        description: job.featuresValues.description,
+        pipelineParameters: {},
+        dataPathAssignments: {},
+        dataSetDefinitionValueAssignments: {}
+      },
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
     );
 
-    // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ customId: data.id });
+    return Response.success({ newRunId: data, newRunExperimentId: job.featuresValues.targetExperiment.id });
   } catch (error) {
-    return Response.error('Fail to start job', { error, url: `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/start` });
+    return Response.error('Fail to start job', { error });
   }
 };
 
@@ -32,8 +46,13 @@ exports.start = async ({ job, instance }) => {
 exports.stop = async ({ job, instance }) => {
   try {
     console.log('STOP INSTANCE:', instance);
+
+    const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
+
     await axios.post(
-      `${job.featuresValues.endpoint.url}/api/demo/datasets/${job.featuresValues.dataset.id}/stop`,
+      `${apiUrl}/pipelines/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/pipelineruns/${job.featuresValues.pipelineRun.id}/cancel`,
+      {},
+      await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
     );
 
     return Response.success();
@@ -51,12 +70,29 @@ exports.stop = async ({ job, instance }) => {
 exports.getStatus = async ({ job, instance }) => {
   try {
     console.log('GET STATUS INSTANCE:', instance);
+
+    let pipelineRunId = job.featuresValues.pipelineRun.id;
+    let experimentId = job.featuresValues.pipelineRun.experimentId;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.newRunExperimentId
+      && instance.payload.newRunId
+    ) {
+      pipelineRunId = instance.payload.newRunId;
+      experimentId = instance.payload.newRunExperimentId;
+    }
+
+    const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
+
     const { data } = await axios.get(
-      `https://centralus.experiments.azureml.net/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${job.featuresValues.pipelineRun.experimentId}/runs/${job.featuresValues.pipelineRun.id}/details`,
+      `${apiUrl}/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${experimentId}/runs/${pipelineRunId}/details`,
       await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
     );
 
     if (data && data.status) {
+      console.log(data.status);
       return Response.success(JOB_STATES[data.status] || JobStatus.AWAITING);
     }
 
@@ -75,15 +111,51 @@ exports.getStatus = async ({ job, instance }) => {
 exports.getLogs = async ({ job, instance }) => {
   try {
     console.log('GET LOG INSTANCE:', instance);
+
+    let pipelineRunId = job.featuresValues.pipelineRun.id;
+    let experimentId = job.featuresValues.pipelineRun.experimentId;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.newRunExperimentId
+      && instance.payload.newRunId
+    ) {
+      pipelineRunId = instance.payload.newRunId;
+      experimentId = instance.payload.newRunExperimentId;
+    }
+
+    const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
+
     const { data } = await axios.get(
-      `https://centralus.experiments.azureml.net/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${job.featuresValues.pipelineRun.experimentId}/runs/${job.featuresValues.pipelineRun.id}/details`,
+      `${apiUrl}/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${experimentId}/runs/${pipelineRunId}/details`,
       await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
     );
 
     const { logFiles } = data;
 
-    return Response.success(data.logs.map((item) => Log(item.log, item.output, item.time)));
+    const logFilesUrls = Object.values(logFiles);
+
+    if (logFilesUrls && logFilesUrls.length > 0) {
+      let logsContent = '';
+
+      await Promise.all(
+        logFilesUrls.map(async (logFileUrl) => {
+          const logFileContent = await axios.get(logFileUrl);
+
+          if (logFileContent && logFileContent.data) {
+            logsContent = logsContent.concat(logFileContent.data);
+          }
+        })
+      );
+
+      const logsLines = logsContent.split('\n');
+
+      return Response.success(logsLines.map((logLine) => Log(logLine)));
+    }
+
+    return Response.empty();
   } catch (error) {
-    return Response.error(`Failed to get log for dataset ${job.featuresValues.dataset.id}`, { error });
+    return Response.error('Failed to get log for dataset', { error });
   }
 };
