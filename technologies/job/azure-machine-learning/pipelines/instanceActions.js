@@ -153,7 +153,7 @@ exports.getLogs = async ({ job, instance }) => {
       return Response.success(logsLines.map((logLine) => Log(logLine)));
     }
 
-    return Response.empty();
+    return Response.success([]);
   } catch (error) {
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR);
   }
