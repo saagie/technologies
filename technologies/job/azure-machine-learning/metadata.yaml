@@ -7,6 +7,91 @@ type: EXTERNAL_JOB
 icon: job
 
 contexts:
+  - id: experiments
+    label: Experiments runs
+    description: "Azure ML experiments runs"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: subscriptionId
+          label: Azure Subscription ID
+          required: true
+        - type: TEXT
+          name: clientId
+          label: Client ID
+          required: true
+        - type: PASSWORD
+          name: clientSecret
+          label: Client Secret
+          required: true
+        - type: TEXT
+          name: tenantId
+          label: Tenant ID
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: resourceGroup
+          label: Resource Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getResourceGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: workspace
+          label: Workspace
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkspaces
+          dependsOn:
+            - resourceGroup
+        - type: SELECT
+          name: experiment
+          label: Experiment
+          helper: Experiment for new run
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getExperiments
+          dependsOn:
+            - workspace
+        - type: TEXT
+          name: projectZipFile
+          label: Project Zip file
+          helper: Project Zip file content in base 64
+          required: true
+          dependsOn:
+            - workspace
+        - type: TEXT
+          name: runDefinitionFile
+          label: Run definition file
+          helper: Run definition file JSON content in base 64
+          required: true
+          dependsOn:
+            - workspace
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
   - id: pipelines
     label: Pipelines
     description: "Azure ML pipelines"
