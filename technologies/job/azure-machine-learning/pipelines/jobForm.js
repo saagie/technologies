@@ -69,7 +69,7 @@ exports.getWorkspaces = async ({ featuresValues }) => {
 };
 
 /**
- * Function to retrieve workspaces linked to selected resource group
+ * Function to retrieve pipelines runs linked to selected workspace
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -94,14 +94,14 @@ exports.getPipelinesRuns = async ({ featuresValues }) => {
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
+    return Response.empty(ERRORS_MESSAGES.NO_PIPELINES_RUNS);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.PIPELINES_RUNS_ERROR);
   }
 };
 
 /**
- * Function to retrieve workspaces linked to selected resource group
+ * Function to retrieve experiments linked to selected workspace
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -125,8 +125,8 @@ exports.getExperiments = async ({ featuresValues }) => {
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
+    return Response.empty(ERRORS_MESSAGES.NO_EXPERIMENTS);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.EXPERIMENTS_ERROR);
   }
 };
