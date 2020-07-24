@@ -5,7 +5,6 @@ const {
   checkDataFromAzureResponse,
   getErrorMessage,
   getExperimentsApiServer,
-  getRegionalApiServer,
   AZURE_MANAGEMENT_API_URL,
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
@@ -65,38 +64,6 @@ exports.getWorkspaces = async ({ featuresValues }) => {
     return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
   } catch (error) {
     return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
-  }
-};
-
-/**
- * Function to retrieve pipelines runs linked to selected workspace
- * @param {Object} entity - Contains entity data including featuresValues.
- * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
- */
-exports.getPipelinesRuns = async ({ featuresValues }) => {
-  try {
-    const apiUrl = await getRegionalApiServer(featuresValues.workspace);
-
-    const res = await axios.get(
-      `${apiUrl}/studioservice/api/subscriptions/${featuresValues.endpoint.subscriptionId}/resourceGroups/${featuresValues.resourceGroup.label}/workspaces/${featuresValues.workspace.label}/pipelineruns`,
-      await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
-    );
-
-    if (res && res.data && res.data.length > 0) {
-      const pipelineRuns = res.data;
-
-      if (pipelineRuns.length > 0) {
-        return Response.success(pipelineRuns.map(({ id, runNumber, experimentName, experimentId }) => ({
-          id,
-          label: `Run ${runNumber} - Run ID : ${id} - Experiment : ${experimentName}`,
-          experimentId
-        })));
-      }
-    }
-
-    return Response.empty(ERRORS_MESSAGES.NO_PIPELINES_RUNS);
-  } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.PIPELINES_RUNS_ERROR);
   }
 };
 

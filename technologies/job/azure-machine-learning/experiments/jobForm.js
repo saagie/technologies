@@ -5,7 +5,6 @@ const {
   checkDataFromAzureResponse,
   getErrorMessage,
   getExperimentsApiServer,
-  getRegionalApiServer,
   AZURE_MANAGEMENT_API_URL,
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');

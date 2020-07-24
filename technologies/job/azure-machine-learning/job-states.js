@@ -1,6 +1,7 @@
 const { JobStatus } = require('@saagie/sdk');
 
 export const JOB_STATES = {
+  'Starting': JobStatus.QUEUED,
   'Preparing': JobStatus.QUEUED,
   'Queued': JobStatus.QUEUED,
   'NotStarted': JobStatus.QUEUED,

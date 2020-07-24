@@ -5,18 +5,20 @@ const {
   getHeadersWithAccessTokenForManagementResource,
   getExperimentsApiServer,
   getRegionalApiServer,
+  getErrorMessage,
 } = require('../utils');
+const { ERRORS_MESSAGES } = require('../errors');
 const { JOB_STATES } = require('../job-states');
 
 /**
- * Logic to start the external job instance.
+ * Logic to start new experimental run
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data.
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log('START INSTANCE:', instance);
+    console.log('START EXPERIMENTAL RUN:', instance);
 
     const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
 
@@ -43,19 +45,19 @@ exports.start = async ({ job, instance }) => {
 
     return Response.success({ runId: data.runId });
   } catch (error) {
-    return Response.error('Fail to start job', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_EXPERIMENTAL_RUN_ERROR);
   }
 };
 
 /**
- * Logic to stop the external job instance.
+ * Logic to stop experimental run
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.stop = async ({ job, instance }) => {
   try {
-    console.log('STOP INSTANCE:', instance);
+    console.log('STOP EXPERIMENTAL RUN:', instance);
 
     const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
 
@@ -67,19 +69,19 @@ exports.stop = async ({ job, instance }) => {
 
     return Response.success();
   } catch (error) {
-    return Response.error('Fail to stop job', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_STOP_EXPERIMENTAL_RUN_ERROR);
   }
 };
 
 /**
- * Logic to retrieve the external job instance status.
+ * Logic to retrieve the experimental run status
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
-    console.log('GET STATUS INSTANCE:', instance);
+    console.log('GET EXPERIMENTAL RUN STATUS:', instance);
 
     const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
 
@@ -94,19 +96,19 @@ exports.getStatus = async ({ job, instance }) => {
 
     return Response.success(JobStatus.AWAITING);
   } catch (error) {
-    return Response.error('Failed to get status for dataset', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_EXPERIMENTAL_RUN_STATUS_ERROR);
   }
 };
 
 /**
- * Logic to retrieve the external job instance logs.
+ * Logic to retrieve the experimental run logs
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('GET LOG INSTANCE:', instance);
+    console.log('GET EXPERIMENTAL RUN LOGS:', instance);
 
     const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
 
@@ -139,6 +141,6 @@ exports.getLogs = async ({ job, instance }) => {
 
     return Response.success([]);
   } catch (error) {
-    return Response.error('Failed to get log for dataset', { error });
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_EXPERIMENTAL_RUN_LOGS_ERROR);
   }
 };

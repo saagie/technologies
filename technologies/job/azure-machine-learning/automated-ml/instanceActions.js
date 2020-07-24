@@ -4,18 +4,20 @@ const {
   getHeadersWithAccessTokenForManagementResource,
   getExperimentsApiServer,
   getRegionalApiServer,
+  getErrorMessage,
 } = require('../utils');
 const { JOB_STATES } = require('../job-states');
+const { ERRORS_MESSAGES } = require('../errors');
 
 /**
- * Logic to re run the selected pipeline run.
+ * Logic to start a new Automated ML run
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data.
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log('RE RUN PIPELINE RUN:', instance);
+    console.log('START AUTOMATED ML RUN:', instance);
 
     const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
 
@@ -29,19 +31,19 @@ exports.start = async ({ job, instance }) => {
 
     return Response.success({ runId: data });
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_PIPELINE_RUN_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_AUTOMATED_ML_RUN_ERROR);
   }
 };
 
 /**
- * Logic to stop the current pipeline run.
+ * Logic to stop the Automated ML run
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.stop = async ({ job, instance }) => {
   try {
-    console.log('STOP PIPELINE RUN:', instance);
+    console.log('STOP AUTOMATED ML RUN:', instance);
 
     const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
 
@@ -53,12 +55,12 @@ exports.stop = async ({ job, instance }) => {
 
     return Response.success();
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_STOP_PIPELINE_RUN_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_STOP_AUTOMATED_ML_RUN_ERROR);
   }
 };
 
 /**
- * Logic to retrieve the pipeline run status.
+ * Logic to retrieve the Automated ML run status.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
@@ -80,12 +82,12 @@ exports.getStatus = async ({ job, instance }) => {
 
     return Response.success(JobStatus.AWAITING);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_AUTOMATED_ML_RUN_STATUS_ERROR);
   }
 };
 
 /**
- * Logic to retrieve the pipeline run logs.
+ * Logic to retrieve the Automated ML run logs.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
@@ -125,6 +127,6 @@ exports.getLogs = async ({ job, instance }) => {
 
     return Response.success([]);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_LOGS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_GET_AUTOMATED_ML_RUN_LOGS_ERROR);
   }
 };

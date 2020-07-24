@@ -9,7 +9,15 @@ export const ERRORS_MESSAGES = {
   EXPERIMENTS_ERROR: 'Can\'t retrieve experiments',
   LOGIN_ERROR: 'Login error, please check your credentials in Endpoint form',
   FAILED_TO_RUN_PIPELINE_RUN_ERROR: 'Failed to run pipeline run on Azure ML',
+  FAILED_TO_RUN_EXPERIMENTAL_RUN_ERROR: 'Failed to run experimental run on Azure ML',
+  FAILED_TO_RUN_AUTOMATED_ML_RUN_ERROR: 'Failed to run Automated ML run on Azure ML',
   FAILED_TO_STOP_PIPELINE_RUN_ERROR: 'Failed to stop pipeline run on Azure ML',
+  FAILED_TO_STOP_EXPERIMENTAL_RUN_ERROR: 'Failed to stop experimental run on Azure ML',
+  FAILED_TO_STOP_AUTOMATED_ML_RUN_ERROR: 'Failed to stop Automated ML run on Azure ML',
   FAILED_TO_GET_STATUS_ERROR: 'Failed to get pipeline run status from Azure ML',
-  FAILED_TO_GET_LOGS_ERROR: 'Failed to get pipeline run logs from Azure ML'
+  FAILED_TO_GET_EXPERIMENTAL_RUN_STATUS_ERROR: 'Failed to get experimental run status from Azure ML',
+  FAILED_TO_GET_AUTOMATED_ML_RUN_STATUS_ERROR: 'Failed to get Automated ML run status from Azure ML',
+  FAILED_TO_GET_LOGS_ERROR: 'Failed to get pipeline run logs from Azure ML',
+  FAILED_TO_GET_EXPERIMENTAL_RUN_LOGS_ERROR: 'Failed to get experimental run logs from Azure ML',
+  FAILED_TO_GET_AUTOMATED_ML_RUN_LOGS_ERROR: 'Failed to get Automated ML run logs from Azure ML',
 };
