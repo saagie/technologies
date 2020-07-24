@@ -243,6 +243,13 @@ contexts:
           required: true
           dependsOn:
             - pipelineRun
+        - type: TEXT
+          name: parameters
+          label: New run parameters
+          helper: JSON containing run parameters
+          required: false
+          dependsOn:
+            - pipelineRun
     instance:
       actions:
         onStart:
