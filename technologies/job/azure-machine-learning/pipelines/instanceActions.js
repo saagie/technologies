@@ -21,12 +21,14 @@ exports.start = async ({ job, instance }) => {
 
     const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
 
+    const runParameters = JSON.parse(job.featuresValues.parameters);
+
     const { data } = await axios.post(
       `${apiUrl}/studioservice/api/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/workspaces/${job.featuresValues.workspace.label}/pipelineruns/${job.featuresValues.pipelineRun.id}/rerun`,
       {
         experimentName: job.featuresValues.targetExperiment.label,
         description: job.featuresValues.description,
-        pipelineParameters: {},
+        pipelineParameters: runParameters,
         dataPathAssignments: {},
         dataSetDefinitionValueAssignments: {}
       },
