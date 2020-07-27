@@ -1,0 +1,65 @@
+id: clone-job
+label: Clone job
+description: "Clone existing Dataflow job context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Project
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: region
+      label: Region
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getRegions
+      dependsOn:
+        - project
+    - type: SELECT
+      name: job
+      label: Job
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getJobs
+      dependsOn:
+        - region
+    - type: TEXT
+      name: clonedJobName
+      label: Cloned job name
+      required: false
+      dependsOn:
+        - job
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
