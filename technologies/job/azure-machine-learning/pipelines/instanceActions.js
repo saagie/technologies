@@ -21,14 +21,18 @@ exports.start = async ({ job, instance }) => {
 
     const apiUrl = await getRegionalApiServer(job.featuresValues.workspace);
 
-    const runParameters = JSON.parse(job.featuresValues.parameters);
+    let runParameters = null;
+
+    if (job.featuresValues.parameters && job.featuresValues.parameters.length > 0) {
+      runParameters = JSON.parse(job.featuresValues.parameters);
+    }
 
     const { data } = await axios.post(
       `${apiUrl}/studioservice/api/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/workspaces/${job.featuresValues.workspace.label}/pipelineruns/${job.featuresValues.pipelineRun.id}/rerun`,
       {
         experimentName: job.featuresValues.targetExperiment.label,
         description: job.featuresValues.description,
-        pipelineParameters: runParameters,
+        pipelineParameters: runParameters || {},
         dataPathAssignments: {},
         dataSetDefinitionValueAssignments: {}
       },
@@ -37,6 +41,7 @@ exports.start = async ({ job, instance }) => {
 
     return Response.success({ newRunId: data, newRunExperimentId: job.featuresValues.targetExperiment.id });
   } catch (error) {
+    console.log({ error });
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_PIPELINE_RUN_ERROR);
   }
 };
