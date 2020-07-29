@@ -55,13 +55,57 @@ job:
         function: getExperiments
       dependsOn:
         - workspace
-    - type: TEXT
-      name: runProperties
-      label: Run properties
-      helper: Run properties raw JSON format
+    - type: SELECT
+      name: compute
+      label: Compute cluster
       required: true
+      options:
+        script: ./jobForm.js
+        function: getComputes
       dependsOn:
-        - experiment
+        - workspace
+    - type: SELECT
+      name: dataset
+      label: Dataset
+      helper: Dataset for new run
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasets
+      dependsOn:
+        - workspace
+    - type: SELECT
+      name: targetColumn
+      label: Target column
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getDatasetColumns
+      dependsOn:
+        - dataset
+    - type: SELECT
+      name: taskType
+      label: Task type
+      required: true
+      options:
+        - id: classification
+          label: Classification
+        - id: regression
+          label: Regression
+        - id: time-series-forecasting
+          label: Time series forecasting
+      dependsOn:
+        - dataset
+    - type: SELECT
+      name: timeColumn
+      label: Time column
+      helper: The column which holds the timestamp for time series data. Only required for Time series forecasting task type.
+      required: false
+      options:
+        script: ./jobForm.js
+        function: getDatasetColumns
+      dependsOn:
+        - taskType
 instance:
   actions:
     onStart:

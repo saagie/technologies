@@ -97,3 +97,98 @@ exports.getExperiments = async ({ featuresValues }) => {
     return getErrorMessage(error, ERRORS_MESSAGES.EXPERIMENTS_ERROR);
   }
 };
+
+/**
+ * Function to retrieve datasets linked to selected workspace
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getDatasets = async ({ featuresValues }) => {
+  try {
+    const apiUrl = await getExperimentsApiServer(featuresValues.workspace);
+
+    const res = await axios.get(
+      `${apiUrl}/dataset/v1.0/subscriptions/${featuresValues.endpoint.subscriptionId}/resourceGroups/${featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${featuresValues.workspace.label}/datasets`,
+      await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
+    );
+
+    if (checkDataFromAzureResponse(res)) {
+      const datasets = res.data.value;
+
+      if (datasets.length > 0) {
+        return Response.success(datasets.map(({ datasetId, name, latest }) => ({
+          id: datasetId,
+          label: name,
+          savedId: latest.savedDatasetId,
+        })));
+      }
+    }
+
+    return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
+  } catch (error) {
+    return getErrorMessage(error, ERRORS_MESSAGES.DATASETS_ERROR);
+  }
+};
+
+/**
+ * Function to retrieve columns linked to selected dataset
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getDatasetColumns = async ({ featuresValues }) => {
+  try {
+    const apiUrl = await getExperimentsApiServer(featuresValues.workspace);
+
+    const { data } = await axios.get(
+      `${apiUrl}/dataset/v1.0/subscriptions/${featuresValues.endpoint.subscriptionId}/resourceGroups/${featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${featuresValues.workspace.label}/saveddatasets/${featuresValues.dataset.savedId}/tieredpreview`,
+      await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
+    );
+
+    if (data && data.quickPreviewResult) {
+      const datasetPreview = JSON.parse(data.quickPreviewResult);
+
+      if (datasetPreview && datasetPreview.schema) {
+        return Response.success(datasetPreview.schema.map(({ id }) => ({
+          id,
+          label: id
+        })));
+      }
+    }
+
+    return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
+  } catch (error) {
+    return getErrorMessage(error, ERRORS_MESSAGES.DATASETS_ERROR);
+  }
+};
+
+/**
+ * Function to retrieve computes linked to workspace
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getComputes = async ({ featuresValues }) => {
+  try {
+    const res = await axios.get(
+      `${AZURE_MANAGEMENT_API_URL}/subscriptions/${featuresValues.endpoint.subscriptionId}/resourceGroups/${featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${featuresValues.workspace.label}/computes?api-version=2020-04-01`,
+      await getHeadersWithAccessTokenForManagementResource(featuresValues.endpoint)
+    );
+
+    if (checkDataFromAzureResponse(res)) {
+      const computes = res.data.value;
+
+      const amlComputes = computes.filter((compute) => compute && compute.properties && compute.properties.computeType === 'AmlCompute');
+
+      if (amlComputes.length > 0) {
+        return Response.success(amlComputes.map(({ id, name }) => ({
+          id,
+          label: name,
+        })));
+      }
+    }
+
+    return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
+  } catch (error) {
+    return getErrorMessage(error, ERRORS_MESSAGES.DATASETS_ERROR);
+  }
+};
+
