@@ -57,7 +57,7 @@ contexts:
         - type: SELECT
           name: experiment
           label: Experiment
-          helper: Experiment for new run
+          helper: Experiment for new run.
           required: true
           options:
             script: ./jobForm.js
@@ -67,6 +67,7 @@ contexts:
         - type: SELECT
           name: compute
           label: Compute cluster
+          helper: A training cluster is required to execute the run in Azure.
           required: true
           options:
             script: ./jobForm.js
@@ -76,7 +77,7 @@ contexts:
         - type: SELECT
           name: dataset
           label: Dataset
-          helper: Dataset for new run
+          helper: Dataset for new run.
           required: true
           options:
             script: ./jobForm.js
@@ -86,6 +87,7 @@ contexts:
         - type: SELECT
           name: targetColumn
           label: Target column
+          helper: This is what the model will be trained to predict.
           required: true
           options:
             script: ./jobForm.js
