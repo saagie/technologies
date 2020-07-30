@@ -9,6 +9,7 @@ const {
 } = require('../utils');
 const { JOB_STATES } = require('../job-states');
 const { ERRORS_MESSAGES } = require('../errors');
+const { METRICS } = require('./metrics');
 
 /**
  * Logic to start a new Automated ML run
@@ -34,53 +35,64 @@ exports.start = async ({ job, instance }) => {
         const dataPrep = {
           datasetId: job.featuresValues.dataset.id,
           features: datasetPreview.schema.map(column => column.id),
-          label: "Column1",
+          label: job.featuresValues.targetColumn.id,
         };
 
         const amlSettings = {
-          'auto_blacklist': false,
-          'enable_early_stopping': true,
-          'enable_ensembling': true,
-          'enable_stack_ensembling': true,
-          'ensemble_iterations': 15,
-          'enable_onnx_compatible_models': false,
-          'max_cores_per_iteration': -1,
-          'send_telemetry': true,
-          'enable_distributed_featurization': true,
-          'compute_target': job.featuresValues.compute.label,
-          'enable_dnn': false,
-          'experiment_exit_score': null,
-          'experiment_timeout_minutes': 180,
-          'featurization': 'auto',
-          'is_timeseries': false,
-          'iteration_timeout_minutes': 180,
-          'max_concurrent_iterations': 6,
-          'metric_operation': 'maximize',
-          'model_explainability': true,
-          'n_cross_validations': null,
-          'name': job.featuresValues.experiment.label,
-          'path': `./sample_projects/${job.featuresValues.experiment.label}`,
-          'preprocess': true,
-          'primary_metric': 'accuracy',
-          'region': 'centralus',
-          'resource_group': job.featuresValues.resourceGroup.label,
-          'subscription_id': job.featuresValues.endpoint.subscriptionId,
-          'task_type': 'classification',
-          'validation_size': null,
-          'vm_type': 'STANDARD_D1',
-          'workspace_name': job.featuresValues.workspace.label,
+          auto_blacklist: false,
+          enable_early_stopping: true,
+          enable_ensembling: true,
+          enable_stack_ensembling: true,
+          ensemble_iterations: 15,
+          enable_onnx_compatible_models: false,
+          max_cores_per_iteration: -1,
+          send_telemetry: true,
+          enable_distributed_featurization: true,
+          compute_target: job.featuresValues.compute.label,
+          enable_dnn: false,
+          experiment_exit_score: null,
+          experiment_timeout_minutes: 180,
+          featurization: 'auto',
+          is_timeseries: job.featuresValues.taskType.id === 'time-series-forecasting',
+          iteration_timeout_minutes: 180,
+          max_concurrent_iterations: 6,
+          metric_operation: job.featuresValues.taskType.id === 'time-series-forecasting' ? 'minimize' : 'maximize',
+          model_explainability: true,
+          n_cross_validations: job.featuresValues.taskType.id === 'time-series-forecasting' ? 5 : null,
+          name: job.featuresValues.experiment.label,
+          path: `./sample_projects/${job.featuresValues.experiment.label}`,
+          preprocess: true,
+          primary_metric: METRICS[job.featuresValues.taskType.id],
+          region: 'centralus',
+          resource_group: job.featuresValues.resourceGroup.label,
+          subscription_id: job.featuresValues.endpoint.subscriptionId,
+          task_type: job.featuresValues.taskType.id === 'classification' ? job.featuresValues.taskType.id : 'regression',
+          validation_size: null,
+          vm_type: job.featuresValues.compute.properties.properties.vmSize,
+          workspace_name: job.featuresValues.workspace.label,
         };
+
+        if (job.featuresValues.taskType.id === 'time-series-forecasting') {
+          amlSettings['max_horizon'] = 'auto';
+          amlSettings['target_lags'] = null;
+          amlSettings['target_rolling_window_size'] = null;
+          amlSettings['time_column_name'] = job.featuresValues.timeColumn.id;
+        }
+
+        let amlSettingsJsonString = JSON.stringify(amlSettings);
+
+        let dataPrepJsonString = JSON.stringify(dataPrep).replace(/"/g, '\\"');
 
         const runProperties = {
           numIterations: 1000,
-          metrics :["accuracy"],
-          primaryMetric :"accuracy",
+          metrics: [METRICS[job.featuresValues.taskType.id]],
+          primaryMetric: METRICS[job.featuresValues.taskType.id],
           trainSplit: 0,
           acquisitionParameter: 0,
           numCrossValidation: 5,
           target: job.featuresValues.compute.label,
-          amlSettingsJsonString: JSON.stringify(amlSettings),
-          dataPrepJsonString: JSON.stringify(dataPrep),
+          amlSettingsJsonString: amlSettingsJsonString,
+          dataPrepJsonString: dataPrepJsonString,
           enableSubsampling: false,
           scenario: "UI"
         };
@@ -150,7 +162,7 @@ exports.stop = async ({ job, instance }) => {
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
-    console.log('GET PIPELINE RUN STATUS:', instance);
+    console.log('GET AUTOMATED ML RUN STATUS:', instance);
 
     const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
 
@@ -177,7 +189,7 @@ exports.getStatus = async ({ job, instance }) => {
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('GET PIPELINE RUN LOGS:', instance);
+    console.log('GET AUTOMATED ML RUN LOGS:', instance);
 
     const apiUrl = await getExperimentsApiServer(job.featuresValues.workspace);
 
@@ -188,7 +200,21 @@ exports.getLogs = async ({ job, instance }) => {
 
     const { logFiles } = data;
 
-    const logFilesUrls = Object.values(logFiles);
+    let logFilesUrls = Object.values(logFiles);
+    let setupLogFilesUrls = [];
+
+    if (data && data.status === 'Preparing') {
+      const { data: setupData } = await axios.get(
+        `${apiUrl}/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${job.featuresValues.experiment.id}/runs/${instance.payload.runId}_setup/details`,
+        await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
+      );
+  
+      const { logFiles: setupLogFiles } = setupData;
+
+      setupLogFilesUrls = Object.values(setupLogFiles);
+    }
+    
+    logFilesUrls = logFilesUrls.concat(setupLogFilesUrls);
 
     if (logFilesUrls && logFilesUrls.length > 0) {
       let logsContent = '';

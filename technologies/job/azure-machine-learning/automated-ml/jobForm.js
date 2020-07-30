@@ -155,9 +155,9 @@ exports.getDatasetColumns = async ({ featuresValues }) => {
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
+    return Response.empty(ERRORS_MESSAGES.NO_DATASET_COLUMNS);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.DATASETS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.DATASET_COLUMNS_ERROR);
   }
 };
 
@@ -179,16 +179,17 @@ exports.getComputes = async ({ featuresValues }) => {
       const amlComputes = computes.filter((compute) => compute && compute.properties && compute.properties.computeType === 'AmlCompute');
 
       if (amlComputes.length > 0) {
-        return Response.success(amlComputes.map(({ id, name }) => ({
+        return Response.success(amlComputes.map(({ id, name, properties }) => ({
           id,
           label: name,
+          properties,
         })));
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_DATASETS);
+    return Response.empty(ERRORS_MESSAGES.NO_COMPUTES);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.DATASETS_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.COMPUTES_ERROR);
   }
 };
 
