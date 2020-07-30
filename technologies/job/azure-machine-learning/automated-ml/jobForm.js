@@ -8,6 +8,7 @@ const {
   AZURE_MANAGEMENT_API_URL,
 } = require('../utils');
 const { ERRORS_MESSAGES } = require('../errors');
+const { AML_COMPUTE_TYPE } = require('./enums');
 
 /**
  * Function to retrieve resource groups linked to Azure credentials
@@ -176,7 +177,7 @@ exports.getComputes = async ({ featuresValues }) => {
     if (checkDataFromAzureResponse(res)) {
       const computes = res.data.value;
 
-      const amlComputes = computes.filter((compute) => compute && compute.properties && compute.properties.computeType === 'AmlCompute');
+      const amlComputes = computes.filter((compute) => compute && compute.properties && compute.properties.computeType === AML_COMPUTE_TYPE);
 
       if (amlComputes.length > 0) {
         return Response.success(amlComputes.map(({ id, name, properties }) => ({

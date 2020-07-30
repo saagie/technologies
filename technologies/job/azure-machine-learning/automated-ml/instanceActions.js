@@ -10,6 +10,7 @@ const {
 const { JOB_STATES } = require('../job-states');
 const { ERRORS_MESSAGES } = require('../errors');
 const { METRICS } = require('./metrics');
+const { TASK_TYPES, NOT_STARTED_STATUS } = require('./enums');
 
 /**
  * Logic to start a new Automated ML run
@@ -53,12 +54,12 @@ exports.start = async ({ job, instance }) => {
           experiment_exit_score: null,
           experiment_timeout_minutes: 180,
           featurization: 'auto',
-          is_timeseries: job.featuresValues.taskType.id === 'time-series-forecasting',
+          is_timeseries: job.featuresValues.taskType.id === TASK_TYPES.TIME_SERIES,
           iteration_timeout_minutes: 180,
           max_concurrent_iterations: 6,
-          metric_operation: job.featuresValues.taskType.id === 'time-series-forecasting' ? 'minimize' : 'maximize',
+          metric_operation: job.featuresValues.taskType.id === TASK_TYPES.TIME_SERIES ? 'minimize' : 'maximize',
           model_explainability: true,
-          n_cross_validations: job.featuresValues.taskType.id === 'time-series-forecasting' ? 5 : null,
+          n_cross_validations: job.featuresValues.taskType.id === TASK_TYPES.TIME_SERIES ? 5 : null,
           name: job.featuresValues.experiment.label,
           path: `./sample_projects/${job.featuresValues.experiment.label}`,
           preprocess: true,
@@ -66,13 +67,13 @@ exports.start = async ({ job, instance }) => {
           region: 'centralus',
           resource_group: job.featuresValues.resourceGroup.label,
           subscription_id: job.featuresValues.endpoint.subscriptionId,
-          task_type: job.featuresValues.taskType.id === 'classification' ? job.featuresValues.taskType.id : 'regression',
+          task_type: job.featuresValues.taskType.id === TASK_TYPES.CLASSIFICATION ? job.featuresValues.taskType.id : TASK_TYPES.REGRESSION,
           validation_size: null,
           vm_type: job.featuresValues.compute.properties.properties.vmSize,
           workspace_name: job.featuresValues.workspace.label,
         };
 
-        if (job.featuresValues.taskType.id === 'time-series-forecasting') {
+        if (job.featuresValues.taskType.id === TASK_TYPES.TIME_SERIES) {
           amlSettings['max_horizon'] = 'auto';
           amlSettings['target_lags'] = null;
           amlSettings['target_rolling_window_size'] = null;
@@ -91,8 +92,8 @@ exports.start = async ({ job, instance }) => {
           acquisitionParameter: 0,
           numCrossValidation: 5,
           target: job.featuresValues.compute.label,
-          amlSettingsJsonString: amlSettingsJsonString,
-          dataPrepJsonString: dataPrepJsonString,
+          amlSettingsJsonString,
+          dataPrepJsonString,
           enableSubsampling: false,
           scenario: "UI"
         };
@@ -203,12 +204,12 @@ exports.getLogs = async ({ job, instance }) => {
     let logFilesUrls = Object.values(logFiles);
     let setupLogFilesUrls = [];
 
-    if (data && data.status === 'Preparing') {
+    if (data && data.status !== NOT_STARTED_STATUS) {
       const { data: setupData } = await axios.get(
         `${apiUrl}/history/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experimentids/${job.featuresValues.experiment.id}/runs/${instance.payload.runId}_setup/details`,
         await getHeadersWithAccessTokenForManagementResource(job.featuresValues.endpoint)
       );
-  
+
       const { logFiles: setupLogFiles } = setupData;
 
       setupLogFilesUrls = Object.values(setupLogFiles);
