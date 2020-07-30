@@ -106,10 +106,52 @@ exports.start = async ({ job, instance }) => {
           headersWithAccessToken,
         );
 
-        const jsonDefinition = `{"Configuration":{"script":"train.py","arguments":[],"target":"${job.featuresValues.compute.label}","framework":"python","communicator":"None","autoPrepareEnvironment":true,"maxRunDurationSeconds":null,"nodeCount":1,"environment":null,"history":{"outputCollection":true,"snapshotProject":true,"directoriesToWatch":["logs"]},"spark":{"configuration":{"spark.app.name":"Azure ML Experiment","spark.yarn.maxAppAttempts":1}},"hdi":{"yarnDeployMode":"cluster"},"tensorflow":{"workerCount":1,"parameterServerCount":1},"mpi":{"processCountPerNode":1},"dataReferences":{},"sourceDirectoryDataStore":null,"amlcompute":{"vmSize":null,"vmPriority":null,"retainCluster":false,"name":null,"clusterMaxNodeCount":1}}}`;
+        const jsonDefinition = {
+          Configuration: {
+            script: "train.py",
+            arguments:[],
+            target: job.featuresValues.compute.label,
+            framework: "python",
+            communicator: "None",
+            autoPrepareEnvironment: true,
+            maxRunDurationSeconds: null,
+            nodeCount: 1,
+            environment: null,
+            history: {
+              outputCollection: true,
+              snapshotProject:true,
+              directoriesToWatch: ["logs"]
+            },
+            spark: {
+              configuration: {
+                'spark.app.name': "Azure ML Experiment",
+                'spark.yarn.maxAppAttempts': 1
+              }
+            },
+            hdi: {
+              yarnDeployMode: "cluster"
+            },
+            tensorflow: {
+              workerCount: 1,
+              parameterServerCount: 1
+            },
+            mpi: {
+              processCountPerNode: 1
+            },
+            dataReferences: {},
+            sourceDirectoryDataStore: null,
+            amlcompute: {
+              vmSize: null,
+              vmPriority: null,
+              retainCluster: false,
+              name: null,
+              clusterMaxNodeCount:1
+            }
+          }
+        };
 
         const formData = new FormData();
-        formData.append('json_definition', jsonDefinition);
+        formData.append('json_definition', JSON.stringify(jsonDefinition));
 
         await axios.post(
           `${apiUrl}/jasmine/v1.0/subscriptions/${job.featuresValues.endpoint.subscriptionId}/resourceGroups/${job.featuresValues.resourceGroup.label}/providers/Microsoft.MachineLearningServices/workspaces/${job.featuresValues.workspace.label}/experiment/${job.featuresValues.experiment.label}/runs/${runId}/startSnapshotRun`,
