@@ -1,0 +1,62 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/local/openjdk-8"
+    - key: SPARK_HOME
+      value: "/opt/spark"
+
+fileExistenceTests:
+  - name: "entrypoint.sh"
+    path: "/opt/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint.sh"
+    path: "/opt/entrypoint.sh"
+    expectedContents:
+      [
+        'mkdir -p /opt/spark/conf/',
+        'cat conf/\*\.conf > /opt/spark/conf/spark-defaults.conf',
+        'echo "spark\.kubernetes\.driver\.label\.io\.saagie/spark-submit-pod-uid \$SPARK_SUBMIT_POD_UID" >> /opt/spark/conf/spark-defaults.conf',
+        'sh \./main_script',
+      ]
+
+commandTests:
+  - name: "java installation"
+    command: "which"
+    args: ["java"]
+    expectedOutput: ["/usr/local/openjdk-8/bin/java"]
+
+  - name: "java version"
+    command: "java"
+    args: ["-version"]
+    expectedError: ['openjdk version "1.8*']
+
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+
+  - name: "Spark version"
+    command: "/opt/spark/bin/spark-submit"
+    args: ["--version"]
+    expectedError: ["version 3.0.*"]
+
+  - name: "spark-submit on path"
+    command: "which"
+    args: ["spark-submit"]
+    expectedOutput: ["/opt/spark/bin/spark-submit"]
+
+  - name: "unzip"
+    command: "which"
+    args: ["unzip"]
+    expectedOutput: ["/usr/bin/unzip"]

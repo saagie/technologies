@@ -1,0 +1,7 @@
+version: "v1"
+type: JOB
+id: spark
+label: Spark
+available: true
+icon: spark
+customFlags: [Spark]
