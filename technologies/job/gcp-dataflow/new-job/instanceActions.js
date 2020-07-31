@@ -2,14 +2,13 @@ const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const { google } = require('googleapis');
 const dataflow = google.dataflow('v1b3');
 const logging = google.logging('v2');
-const { getAuth, getErrorMessage } = require('./utils');
-const { JOB_STATUS } = require('./job-states');
+const { getAuth, getErrorMessage } = require('../utils');
+const { JOB_STATUS } = require('../job-states');
 
 /**
- * Logic to retrieve the external job instance status.
+ * Logic to start a new job.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
- * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.start = async ({ job }) => {
   try {
@@ -43,7 +42,35 @@ exports.start = async ({ job }) => {
 };
 
 /**
- * Logic to retrieve the external job instance status.
+ * Logic to stop the job
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.stop = async ({ job, instance }) => {
+  try {
+    const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
+
+    const auth = getAuth(gcpKey);
+
+    await dataflow.projects.locations.jobs.update({
+      auth,
+      projectId : job.featuresValues.project.id,
+      location : job.featuresValues.region.id,
+      jobId: instance.payload.newJob.id,
+      requestBody: {
+        requestedState: 'JOB_STATE_CANCELLED',
+      },
+    });
+
+    return Response.success();
+  } catch (error) {
+    return getErrorMessage(error, 'Failed to stop GCP Dataflow job');
+  }
+};
+
+/**
+ * Logic to retrieve the Dataflow job status.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
@@ -68,7 +95,7 @@ exports.getStatus = async ({ job, instance }) => {
 };
 
 /**
- * Logic to retrieve the external job instance logs.
+ * Logic to retrieve the Dataflow job logs.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
