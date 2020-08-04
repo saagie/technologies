@@ -2,9 +2,10 @@ ARG base_img
 
 FROM ${base_img} AS BASE_IMG
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # INSTALL GCP CLI START
-RUN apt-get update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
       apt-transport-https gnupg lsb-release \
     && export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
     && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
