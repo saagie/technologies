@@ -27,12 +27,7 @@ exports.start = async ({ job }) => {
         spec: {
           template: {
             spec: {
-              containers: [
-                {
-                  image: job.featuresValues.containerImageUrl,
-                  env: [],
-                }
-              ],
+              containers: job.featuresValues.service.data.spec.template.spec.containers,
             },
           }
         }
@@ -56,8 +51,20 @@ exports.stop = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
+    let selfLink = job.featuresValues.service.data.metadata.selfLink;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.data
+      && instance.payload.data.metadata
+      && instance.payload.data.metadata.selfLink
+    ) {
+      selfLink = instance.payload.data.metadata.selfLink;
+    }
+
     await axios.delete(
-      `https://${job.featuresValues.region.id}-run.googleapis.com${instance.payload.data.metadata.selfLink}`,
+      `https://${job.featuresValues.region.id}-run.googleapis.com${selfLink}`,
       await getHeadersWithAccessToken(gcpKey),
     );
 
@@ -78,8 +85,20 @@ exports.getStatus = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
+    let selfLink = job.featuresValues.service.data.metadata.selfLink;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.data
+      && instance.payload.data.metadata
+      && instance.payload.data.metadata.selfLink
+    ) {
+      selfLink = instance.payload.data.metadata.selfLink;
+    }
+
     const { data: { status } } = await axios.get(
-      `https://${job.featuresValues.region.id}-run.googleapis.com${instance.payload.data.metadata.selfLink}`,
+      `https://${job.featuresValues.region.id}-run.googleapis.com${selfLink}`,
       await getHeadersWithAccessToken(gcpKey),
     );
 
@@ -108,10 +127,22 @@ exports.getLogs = async ({ job, instance }) => {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     const auth = getAuth(gcpKey);
+
+    let serviceName = job.featuresValues.service.data.metadata.name;
+
+    if (
+      instance
+      && instance.payload
+      && instance.payload.data
+      && instance.payload.data.metadata
+      && instance.payload.data.metadata.name
+    ) {
+      serviceName = instance.payload.data.metadata.name;
+    }
     
     const resLogging = await logging.entries.list({
       requestBody: {
-        filter: `resource.type="cloud_run_revision" resource.labels.service_name="${instance.payload.data.metadata.name}" resource.labels.location="${job.featuresValues.region.id}"`,
+        filter: `resource.type="cloud_run_revision" resource.labels.service_name="${serviceName}" resource.labels.location="${job.featuresValues.region.id}"`,
         orderBy: "timestamp desc",
         resourceNames: [`projects/${job.featuresValues.project.id}`]
       },

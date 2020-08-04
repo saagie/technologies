@@ -1,0 +1,65 @@
+id: copy-service
+label: Copy service
+description: "GCP Cloud Run copy existing service context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Project
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: region
+      label: Region
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getRegions
+      dependsOn:
+        - project
+    - type: SELECT
+      name: service
+      label: Service
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getServices
+      dependsOn:
+        - region
+    - type: TEXT
+      name: serviceName
+      label: Copied service name
+      required: true
+      dependsOn:
+        - service
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
