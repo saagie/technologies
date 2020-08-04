@@ -9,6 +9,16 @@ export const getAuth = (gcpKey) => (
   })
 );
 
+export const getHeadersWithAccessToken = async (gcpKey) => {
+  const auth = getAuth(gcpKey);
+
+  const accessToken = await auth.getAccessToken();
+
+  return {
+    headers: { Authorization: `Bearer ${accessToken.token}` }
+  };
+};
+
 export const getErrorMessage = (error, mainErrorMessage) => {
   if (error && error.response) {
     if (
