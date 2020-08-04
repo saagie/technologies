@@ -1,0 +1,15 @@
+{
+  "name": "azure-machine-learning",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "saagie-sdk start",
+    "build": "saagie-sdk build",
+    "new:context": "saagie-sdk init"
+  },
+  "dependencies": {
+    "@saagie/sdk": "0.12.2",
+    "axios": "0.19.2",
+    "form-data": "^3.0.0"
+  }
+}

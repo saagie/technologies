@@ -1,0 +1,201 @@
+version: "v1"
+type: JOB
+id: spark
+label: Spark
+available: true
+icon: spark
+customFlags: [Spark]
+
+contexts:
+  - id: 2.4
+    label: 2.4
+    available: true
+    recommended: true
+    trustLevel: stable
+    dockerInfo:
+      image: saagie/spark
+      baseTag: 2.4
+      version: 2.4-1.43.0
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --class=Main {file} arg1 arg2
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 11
+            label: 11
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-jre-11
+              version: 2.4-jre-11-1.43.0
+          - id: 8
+            label: 8
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-jre-8
+              version: 2.4-jre-8-1.43.0
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --py-files={file} __main__.py
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 2.7
+            label: 2.7
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-py-2.7
+              version: 2.4-py-2.7-1.43.0
+          - id: 3.5
+            label: 3.5
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-py-3.5
+              version: 2.4-py-3.5-1.43.0
+          - id: 3.6
+            label: 3.6
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-py-3.6
+              version: 2.4-py-3.6-1.43.0
+          - id: 3.7
+            label: 3.7
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 2.4-py-3.7
+              version: 2.4-py-3.7-1.43.0
+  - id: 3.0
+    label: 3.0
+    available: true
+    recommended: false
+    trustLevel: stable
+    dockerInfo:
+      image: saagie/spark
+      baseTag: 3.0
+      version: 3.0-1.43.0
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --class=Main {file} arg1 arg2
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 11
+            label: 11
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-jre-11
+              version: 3.0-jre-11-1.43.0
+          - id: 8
+            label: 8
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-jre-8
+              version: 3.0-jre-8-1.43.0
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --py-files={file} __main__.py
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 2.7
+            label: 2.7
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-py-2.7
+              version: 3.0-py-2.7-1.43.0
+          - id: 3.5
+            label: 3.5
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-py-3.5
+              version: 3.0-py-3.5-1.43.0
+          - id: 3.6
+            label: 3.6
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-py-3.6
+              version: 3.0-py-3.6-1.43.0
+          - id: 3.7
+            label: 3.7
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-py-3.7
+              version: 3.0-py-3.7-1.43.0

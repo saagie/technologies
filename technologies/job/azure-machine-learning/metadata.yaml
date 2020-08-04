@@ -1,0 +1,312 @@
+version: v1
+id: azure-machine-learning
+label: Azure Machine Learning
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: automated-ml
+    label: Automated ML
+    description: "Azure ML automated ML runs"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: subscriptionId
+          label: Azure Subscription ID
+          required: true
+        - type: TEXT
+          name: clientId
+          label: Client ID
+          required: true
+        - type: PASSWORD
+          name: clientSecret
+          label: Client Secret
+          required: true
+        - type: TEXT
+          name: tenantId
+          label: Tenant ID
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: resourceGroup
+          label: Resource Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getResourceGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: workspace
+          label: Workspace
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkspaces
+          dependsOn:
+            - resourceGroup
+        - type: SELECT
+          name: experiment
+          label: Experiment
+          helper: Experiment for new run.
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getExperiments
+          dependsOn:
+            - workspace
+        - type: SELECT
+          name: compute
+          label: Compute cluster
+          helper: A training cluster is required to execute the run in Azure.
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getComputes
+          dependsOn:
+            - workspace
+        - type: SELECT
+          name: dataset
+          label: Dataset
+          helper: Dataset for new run.
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasets
+          dependsOn:
+            - workspace
+        - type: SELECT
+          name: targetColumn
+          label: Target column
+          helper: This is what the model will be trained to predict.
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getDatasetColumns
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: taskType
+          label: Task type
+          required: true
+          options:
+            - id: classification
+              label: Classification
+            - id: regression
+              label: Regression
+            - id: time-series-forecasting
+              label: Time series forecasting
+          dependsOn:
+            - dataset
+        - type: SELECT
+          name: timeColumn
+          label: Time column
+          helper: The column which holds the timestamp for time series data. Only required for Time series forecasting task type.
+          required: false
+          options:
+            script: ./jobForm.js
+            function: getDatasetColumns
+          dependsOn:
+            - taskType
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
+  - id: experiments
+    label: Experiments runs
+    description: "Azure ML experiments runs"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: subscriptionId
+          label: Azure Subscription ID
+          required: true
+        - type: TEXT
+          name: clientId
+          label: Client ID
+          required: true
+        - type: PASSWORD
+          name: clientSecret
+          label: Client Secret
+          required: true
+        - type: TEXT
+          name: tenantId
+          label: Tenant ID
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: resourceGroup
+          label: Resource Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getResourceGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: workspace
+          label: Workspace
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkspaces
+          dependsOn:
+            - resourceGroup
+        - type: SELECT
+          name: experiment
+          label: Experiment
+          helper: Experiment for new run
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getExperiments
+          dependsOn:
+            - workspace
+        - type: TEXT
+          name: projectZipFile
+          label: Project Zip file
+          helper: Project Zip file content in base 64
+          required: true
+          dependsOn:
+            - workspace
+        - type: TEXT
+          name: runDefinitionFile
+          label: Run definition file
+          helper: Run definition file JSON content in base 64
+          required: true
+          dependsOn:
+            - workspace
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
+  - id: pipelines
+    label: Pipelines
+    description: "Azure ML pipelines"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: subscriptionId
+          label: Azure Subscription ID
+          required: true
+        - type: TEXT
+          name: clientId
+          label: Client ID
+          required: true
+        - type: PASSWORD
+          name: clientSecret
+          label: Client Secret
+          required: true
+        - type: TEXT
+          name: tenantId
+          label: Tenant ID
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: resourceGroup
+          label: Resource Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getResourceGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: workspace
+          label: Workspace
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getWorkspaces
+          dependsOn:
+            - resourceGroup
+        - type: SELECT
+          name: pipelineRun
+          label: Pipelines runs
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getPipelinesRuns
+          dependsOn:
+            - workspace
+        - type: SELECT
+          name: targetExperiment
+          label: New run experiment
+          helper: Target experiment for new run of pipeline run
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getExperiments
+          dependsOn:
+            - pipelineRun
+        - type: TEXT
+          name: description
+          label: New run description
+          helper: Description for new run of pipeline run
+          required: true
+          dependsOn:
+            - pipelineRun
+        - type: TEXT
+          name: parameters
+          label: New run parameters
+          helper: JSON containing run parameters
+          required: false
+          dependsOn:
+            - pipelineRun
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
