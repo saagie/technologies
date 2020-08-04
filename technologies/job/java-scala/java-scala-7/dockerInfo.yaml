@@ -1,4 +1,4 @@
 image: saagie/java-scala
 baseTag: 7
-dynamicVersion: 1.39.0_SDKTECHNO-47
-version: 7-1.39.0_SDKTECHNO-47
+dynamicVersion: 1.44.0_SDKPLUGIN-9
+version: 7-1.44.0_SDKPLUGIN-9
