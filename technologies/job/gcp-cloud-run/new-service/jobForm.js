@@ -1,7 +1,7 @@
 const { Response } = require('@saagie/sdk');
 const { google } = require('googleapis');
-const cloudfunctions = google.cloudfunctions('v1');
 const cloudresourcemanager = google.cloudresourcemanager('v1');
+const run = google.run('v1');
 const { getAuth, getErrorMessage } = require('../utils');
 
 /**
@@ -45,7 +45,7 @@ exports.getRegions = async ({ featuresValues }) => {
   try{
     const auth = getAuth(gcpKey);
 
-    const { data: { locations } } = await cloudfunctions.projects.locations.list({
+    const { data: { locations } } = await run.projects.locations.list({
       auth,
       name : `projects/${featuresValues.project.id}`,
     });

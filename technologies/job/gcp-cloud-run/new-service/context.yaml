@@ -1,6 +1,6 @@
-id: default
-label: Default
-description: ""
+id: new-service
+label: New service
+description: "GCP Cloud Run new service creation context"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -35,23 +35,16 @@ job:
       dependsOn:
         - project
     - type: TEXT
-      name: templatePath
-      label: Template path
-      required: true
-      helper: "A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'"
-      dependsOn:
-        - region
-    - type: TEXT
-      name: jobName
-      label: Job name
+      name: serviceName
+      label: Service name
       required: true
       dependsOn:
         - region
     - type: TEXT
-      name: jsonParameters
-      label: Parameters JSON
-      required: false
-      helper: "Parameters for job"
+      name: containerImageUrl
+      label: Container image URL
+      required: true
+      helper: "Example : gcr.io/cloudrun/hello"
       dependsOn:
         - region
 instance:
@@ -59,6 +52,9 @@ instance:
     onStart:
       script: ./instanceActions.js
       function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
     getStatus:
       script: ./instanceActions.js
       function: getStatus

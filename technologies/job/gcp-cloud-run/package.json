@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@saagie/sdk": "^0.12.2",
+    "axios": "^0.19.2",
     "googleapis": "^49.0.0"
   }
 }
