@@ -1,4 +1,0 @@
-image: saagie/spark
-baseTag: 3.0-jre-11
-dynamicVersion: 1.44.0_SDKPLUGIN-9
-version: 3.0-jre-11-1.44.0_SDKPLUGIN-9
