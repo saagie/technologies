@@ -1,0 +1,18 @@
+version: v1
+type: APP
+id: jupyter
+label: Jupyter Notebook
+baseline: Data Science Notebook
+description: "The Jupyer Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
+available: true
+icon: jupyter
+trustLevel: stable
+dockerInfo:
+  image: saagie/jupyter-python-nbk
+  baseTag: v2
+  version: v2
+ports:
+  - port: 8888
+    rewrite: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/notebooks-dir"]
