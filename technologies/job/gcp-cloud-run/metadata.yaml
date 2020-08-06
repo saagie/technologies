@@ -54,7 +54,7 @@ contexts:
             - region
         - type: TEXT
           name: serviceName
-          label: Copied service name
+          label: New service name
           required: true
           dependsOn:
             - service
@@ -63,9 +63,6 @@ contexts:
         onStart:
           script: ./instanceActions.js
           function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
         getStatus:
           script: ./instanceActions.js
           function: getStatus
@@ -121,14 +118,25 @@ contexts:
           helper: "Example : gcr.io/cloudrun/hello"
           dependsOn:
             - region
+        - type: TEXT
+          name: containerPort
+          label: Container port
+          required: false
+          helper: "Custom container port, default is 8080"
+          dependsOn:
+            - region
+        - type: TEXT
+          name: maxScale
+          label: Autoscaling max scale
+          required: false
+          helper: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+          dependsOn:
+            - region
     instance:
       actions:
         onStart:
           script: ./instanceActions.js
           function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
         getStatus:
           script: ./instanceActions.js
           function: getStatus
