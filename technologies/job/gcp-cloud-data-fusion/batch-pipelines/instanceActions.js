@@ -60,8 +60,8 @@ exports.getStatus = async ({ job }) => {
       await getHeadersWithAccessToken(gcpKey),
     );
 
-    if (runs && runs.length > 0 && runs[runs.length - 1]) {
-      return Response.success(JOB_STATUS[runs[runs.length - 1].status] || JobStatus.AWAITING);
+    if (runs && runs.length > 0 && runs[0]) {
+      return Response.success(JOB_STATUS[runs[0].status] || JobStatus.AWAITING);
     }
 
     return Response.success(JobStatus.AWAITING);
