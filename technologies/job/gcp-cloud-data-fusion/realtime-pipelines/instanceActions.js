@@ -1,5 +1,4 @@
 const { Response, JobStatus, Log } = require('@saagie/sdk');
-const { google } = require('googleapis');
 const axios = require('axios');
 const { getErrorMessage, getHeadersWithAccessToken } = require('../utils');
 const { JOB_STATUS } = require('../job-states');
@@ -14,7 +13,7 @@ exports.start = async ({ job }) => {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     await axios.post(
-      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/workflows/DataPipelineWorkflow/start`,
+      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/spark/DataStreamsSparkStreaming/start`,
       {},
       await getHeadersWithAccessToken(gcpKey),
     );
@@ -35,13 +34,14 @@ exports.stop = async ({ job }) => {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     await axios.post(
-      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/workflows/DataPipelineWorkflow/stop`,
+      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/spark/DataStreamsSparkStreaming/stop`,
       {},
       await getHeadersWithAccessToken(gcpKey),
     );
 
     return Response.success();
   } catch (error) {
+    console.log({ error });
     return getErrorMessage(error, 'Failed to stop GCP Cloud Data Fusion pipeline');
   }
 };
@@ -56,7 +56,7 @@ exports.getStatus = async ({ job }) => {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     const { data: runs } = await axios.get(
-      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/workflows/DataPipelineWorkflow/runs`,
+      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/spark/DataStreamsSparkStreaming/runs`,
       await getHeadersWithAccessToken(gcpKey),
     );
 
@@ -80,7 +80,7 @@ exports.getLogs = async ({ job }) => {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
     const { data } = await axios.get(
-      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/workflows/DataPipelineWorkflow/logs`,
+      `${job.featuresValues.instance.apiEndpoint}/v3/namespaces/default/apps/${job.featuresValues.pipeline.id}/spark/DataStreamsSparkStreaming/logs`,
       await getHeadersWithAccessToken(gcpKey),
     );
 
