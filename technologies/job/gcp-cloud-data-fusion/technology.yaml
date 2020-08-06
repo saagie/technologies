@@ -1,7 +1,0 @@
-version: v1
-id: gcp-cloud-data-fusion
-label: GCP Cloud Data Fusion
-description: ""
-available: true
-type: EXTERNAL_JOB
-icon: job
