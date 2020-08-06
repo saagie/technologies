@@ -1,0 +1,85 @@
+version: v1
+id: gcp-cloud-data-fusion
+label: GCP Cloud Data Fusion
+description: "GCP Cloud Data Fusion pipelines"
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: batch-pipelines
+    label: Batch pipelines
+    description: "GCP Cloud Data Fusion batch pipelines context"
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: jsonKey
+          label: JSON key
+          required: true
+          helper: "Full JSON document"
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: project
+          label: Project
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getProjects
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: region
+          label: Region
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getRegions
+          dependsOn:
+            - project
+        - type: SELECT
+          name: service
+          label: Service
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getServices
+          dependsOn:
+            - region
+        - type: TEXT
+          name: serviceName
+          label: New service name
+          required: true
+          dependsOn:
+            - service
+        - type: TEXT
+          name: containerPort
+          label: Container port
+          required: false
+          helper: "Custom container port, default is 8080"
+          dependsOn:
+            - service
+        - type: TEXT
+          name: maxScale
+          label: Autoscaling max scale
+          required: false
+          helper: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+          dependsOn:
+            - service
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
