@@ -44,39 +44,31 @@ contexts:
           dependsOn:
             - project
         - type: SELECT
-          name: service
-          label: Service
+          name: instance
+          label: Instance
           required: true
           options:
             script: ./jobForm.js
-            function: getServices
+            function: getInstances
           dependsOn:
             - region
-        - type: TEXT
-          name: serviceName
-          label: New service name
+        - type: SELECT
+          name: pipeline
+          label: Batch pipelines
           required: true
+          options:
+            script: ./jobForm.js
+            function: getBatchPipelines
           dependsOn:
-            - service
-        - type: TEXT
-          name: containerPort
-          label: Container port
-          required: false
-          helper: "Custom container port, default is 8080"
-          dependsOn:
-            - service
-        - type: TEXT
-          name: maxScale
-          label: Autoscaling max scale
-          required: false
-          helper: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
-          dependsOn:
-            - service
+            - instance
     instance:
       actions:
         onStart:
           script: ./instanceActions.js
           function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
         getStatus:
           script: ./instanceActions.js
           function: getStatus
