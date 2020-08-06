@@ -45,7 +45,7 @@ job:
         - region
     - type: TEXT
       name: serviceName
-      label: Copied service name
+      label: New service name
       required: true
       dependsOn:
         - service
@@ -54,9 +54,6 @@ instance:
     onStart:
       script: ./instanceActions.js
       function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
     getStatus:
       script: ./instanceActions.js
       function: getStatus

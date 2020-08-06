@@ -42,12 +42,12 @@ exports.start = async ({ job }) => {
 };
 
 /**
- * Logic to stop a new GCP Cloud Run service
+ * Logic to delete a new GCP Cloud Run service (NOT USED FOR THE MOMENT)
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
-exports.stop = async ({ job, instance }) => {
+exports.delete = async ({ job, instance }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
@@ -70,7 +70,7 @@ exports.stop = async ({ job, instance }) => {
 
     return Response.success();
   } catch (error) {
-    return getErrorMessage(error, 'Failed to stop GCP Cloud Run service');
+    return getErrorMessage(error, 'Failed to delete GCP Cloud Run service');
   }
 };
 

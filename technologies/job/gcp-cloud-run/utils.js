@@ -24,6 +24,19 @@ export const getErrorMessage = (error, mainErrorMessage) => {
     if (
       error.response.data
       && error.response.data.error
+      && error.response.data.error.details
+      && error.response.data.error.details.length > 0
+      && error.response.data.error.details[0]
+      && error.response.data.error.details[0].fieldViolations
+      && error.response.data.error.details[0].fieldViolations.length > 0
+      && error.response.data.error.details[0].fieldViolations[0]
+    ) {
+      return Response.error(`${mainErrorMessage} : ${error.response.data.error.details[0].fieldViolations[0].description}`, { error: new Error(error.response.data.error.details[0].fieldViolations[0].description) });
+    }
+
+    if (
+      error.response.data
+      && error.response.data.error
       && error.response.data.error.message
     ) {
       return Response.error(`${mainErrorMessage} : ${error.response.data.error.message}`, { error: new Error(error.response.data.error.message) });
