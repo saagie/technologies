@@ -37,7 +37,7 @@ exports.start = async ({ job }) => {
       }
     };
 
-    if (job.featuresValues.maxScale || job.featuresValues.minScale) {
+    if (job.featuresValues.maxScale) {
       serviceData = {
         ...serviceData,
         spec: {

@@ -15,23 +15,47 @@ exports.start = async ({ job }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
 
-    const { data } = await axios.post(
-      `https://${job.featuresValues.region.id}-run.googleapis.com/apis/serving.knative.dev/v1/namespaces/${job.featuresValues.project.id}/services`,
-      {
-        apiVersion: 'serving.knative.dev/v1',
-        kind: 'Service',
-        metadata: {
-          name: job.featuresValues.serviceName,
-          namespace: job.featuresValues.project.id,
-        },
+    let serviceData = {
+      apiVersion: 'serving.knative.dev/v1',
+      kind: 'Service',
+      metadata: {
+        name: job.featuresValues.serviceName,
+        namespace: job.featuresValues.project.id,
+      },
+      spec: {
+        template: {
+          spec: {
+            containers: [
+              {
+                ...job.featuresValues.service.data.spec.template.spec.containers[0],
+                ports: [{ containerPort: job.featuresValues.containerPort || 8080 }]
+              },
+            ],
+          },
+        }
+      }
+    };
+
+    if (job.featuresValues.maxScale) {
+      serviceData = {
+        ...serviceData,
         spec: {
+          ...serviceData.spec,
           template: {
-            spec: {
-              containers: job.featuresValues.service.data.spec.template.spec.containers,
-            },
+            ...serviceData.spec.template,
+            metadata: {
+              annotations: {
+                'autoscaling.knative.dev/maxScale': job.featuresValues.maxScale,
+              }
+            }
           }
         }
-      },
+      }
+    }
+
+    const { data } = await axios.post(
+      `https://${job.featuresValues.region.id}-run.googleapis.com/apis/serving.knative.dev/v1/namespaces/${job.featuresValues.project.id}/services`,
+      serviceData,
       await getHeadersWithAccessToken(gcpKey),
     );
 
