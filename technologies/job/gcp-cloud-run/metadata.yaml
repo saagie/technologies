@@ -58,6 +58,20 @@ contexts:
           required: true
           dependsOn:
             - service
+        - type: TEXT
+          name: containerPort
+          label: Container port
+          required: false
+          helper: "Custom container port, default is 8080"
+          dependsOn:
+            - service
+        - type: TEXT
+          name: maxScale
+          label: Autoscaling max scale
+          required: false
+          helper: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+          dependsOn:
+            - service
     instance:
       actions:
         onStart:
