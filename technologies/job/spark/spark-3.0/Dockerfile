@@ -13,7 +13,7 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client krb5-user && \
-    rm -rf /var/lib/apt/lists/*;
+    rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
 # TINI INSTALL START

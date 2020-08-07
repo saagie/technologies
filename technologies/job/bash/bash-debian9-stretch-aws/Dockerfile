@@ -2,9 +2,10 @@ ARG base_img
 
 FROM ${base_img} AS BASE_IMG
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # INSTALL AWS CLI via pip3 START
-RUN apt-get update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
       apt-utils python3-setuptools python3-pip groff \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

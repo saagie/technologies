@@ -2,9 +2,10 @@ ARG base_img
 
 FROM ${base_img} AS BASE_IMG
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # INSTALL Azure CLI START
-RUN apt-get update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
       apt-transport-https gnupg lsb-release \
     && AZ_REPO=$(lsb_release -cs) \
         && curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null \
