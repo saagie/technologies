@@ -27,4 +27,4 @@ contexts:
     dockerInfo:
       image: saagie/sqoop
       baseTag: 1.4.6
-      version: 1.4.6-1.44.0_SDKPLUGIN-9
+      version: 1.4.6-1.44.0
