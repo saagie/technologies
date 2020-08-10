@@ -1,0 +1,4 @@
+pillow==4.3.0
+protobuf==3.6.1
+
+ConfigSpace==0.4.12
