@@ -1,7 +1,0 @@
-# Libs not present in saagie/python:2.7 images but previously in saagie/jupyter-python-nbk image.
-dask==0.16.0
-llvmlite==0.31.0
-fastparquet==0.1.5
-protobuf==3.6.1
-vega==0.4.4
-vincent==0.4.4
