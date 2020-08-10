@@ -1,2 +1,0 @@
-#WARNING (theano.configdefaults): install mkl with `conda install mkl-service`: No module named mkl
-mkl-service==2.3.0
