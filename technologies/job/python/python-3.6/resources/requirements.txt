@@ -93,7 +93,7 @@ pdfminer.six==20181108
 umap-learn>=0.3,<0.4
 numba>=0.47,<0.48
 # WAITING for version 0.6.0 to be tagged (documented as last version) - last release 0.5.3 released this 13 May 2019 · 13 commits to master since this release
-# WARNING If you update auto-sklearn pleas also check tpot and scikit-learn versions compatibility
+# WARNING If you update auto-sklearn please also check tpot and scikit-learn versions compatibility
 https://github.com/automl/auto-sklearn/archive/049288e.zip
 fastparquet>=0.3,<0.4
 # CHECK 0.12.0 (20/12/2017) 14 commits since

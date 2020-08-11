@@ -27,7 +27,7 @@ apply<SaagieTechnologiesGradlePlugin>()
 val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":${this.project.name}-minimal:testImage")
+    dependsOn(":jupyter-minimal:buildImage")
     this.buildArgs.put(
         "BASE_CONTAINER",
         "${dockerInfo?.image}:${dockerInfo?.baseTag}-minimal-${this.project.getVersionForDocker()}"
