@@ -44,6 +44,8 @@ RUN conda install -n py36 --quiet --yes --file requirements_conda3.txt \
     # Some installed library (scikit-learn) could not be removed so use --ignore-installed \
     && sed -n '/scikit-learn/p' requirements_python3.txt >> requirements_python3_ignore-installed.txt \
     && sed -i '/scikit-learn/d' requirements_python3.txt \
+    # Remove auto-sklearn at leat temporarily to avoid build problems
+    && sed -i '/auto-sklearn/d' requirements_python3.txt \
     && . activate py36 \
     && python -m pip install --no-cache-dir --ignore-installed -r requirements_python3_ignore-installed.txt \
     && python -m pip install --no-cache-dir -r requirements_python3.txt \
