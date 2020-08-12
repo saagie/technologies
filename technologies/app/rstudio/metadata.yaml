@@ -1,0 +1,26 @@
+version: "v1"
+type: APP
+id: rstudio
+label: RStudio
+baseline: IDE for R
+description: "RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management."
+available: true
+icon: rstudio
+customFlags: []
+contexts:
+  - id: v2-app
+    label: RStudio
+    releaseNotes: "First iteration post migration for branch v2-app"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: RStudio
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    
+    dockerInfo:
+      image: saagie/rstudio
+      baseTag: v2-app
+      version: v2-app-1.45.0_apprstudio
