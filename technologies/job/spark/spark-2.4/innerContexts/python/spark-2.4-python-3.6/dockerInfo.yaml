@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 2.4-py-3.6
-dynamicVersion: 1.43.0_spark
-version: 2.4-py-3.6-1.43.0
+dynamicVersion: 1.44.0_SDKPLUGIN-9
+version: 2.4-py-3.6-1.44.0

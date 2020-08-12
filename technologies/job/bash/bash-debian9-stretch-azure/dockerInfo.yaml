@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian9-stretch-azure
-dynamicVersion: 1.39.0_SDKTECHNO-47
-version: debian9-stretch-azure-1.39.0_SDKTECHNO-47
+dynamicVersion: 1.44.0_SDKPLUGIN-9
+version: debian9-stretch-azure-1.44.0

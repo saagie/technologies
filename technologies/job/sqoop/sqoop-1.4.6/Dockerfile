@@ -13,14 +13,14 @@ ENV DEBIAN_FRONTEND noninteractive
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -qqy --no-install-recommends \
       ftp wget curl unzip telnet openssh-client git procps krb5-user \
-    && rm -rf /var/lib/apt/lists/*;
+    && rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
 # INSTALL JAVA & BEELINE START
 # INSTALL JDK8
 RUN apt update -qq && apt install -qqy --no-install-recommends \
       openjdk-8-jdk \
-    && rm -rf /var/lib/apt/lists/*;
+    && rm -rf /var/lib/apt/lists/*
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
