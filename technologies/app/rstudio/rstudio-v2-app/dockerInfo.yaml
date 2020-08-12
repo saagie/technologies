@@ -1,0 +1,5 @@
+image: saagie/rstudio
+baseTag: v2-app
+dynamicVersion: 1.45.0_apprstudio
+version: v2-app-1.45.0_apprstudio
+
