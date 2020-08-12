@@ -14,7 +14,6 @@ RUN npm cache clean --force \
 
 ########################## LIBS PART BEGIN ##########################
 USER root
-# TODO check if all necessary seems there are duplicate from jupyter/scipy image
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
       curl \
     && rm -rf /var/lib/apt/lists/*

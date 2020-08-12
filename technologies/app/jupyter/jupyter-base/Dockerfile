@@ -31,7 +31,6 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
 
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
-# TODO check if all necessary seems there are duplicate from jupyter/scipy image
 SHELL ["/bin/bash", "-c"]
 # Add libs for python 3.6 env
 #     inherited from saagie/python:3.6 image
@@ -44,7 +43,7 @@ RUN conda install -n py36 --quiet --yes --file requirements_conda3.txt \
     # Some installed library (scikit-learn) could not be removed so use --ignore-installed \
     && sed -n '/scikit-learn/p' requirements_python3.txt >> requirements_python3_ignore-installed.txt \
     && sed -i '/scikit-learn/d' requirements_python3.txt \
-    # Remove auto-sklearn at leat temporarily to avoid build problems
+    # TODO We have remove auto-sklearn at leat temporarily to avoid build problems - re add with fixes
     && sed -i '/auto-sklearn/d' requirements_python3.txt \
     && . activate py36 \
     && python -m pip install --no-cache-dir --ignore-installed -r requirements_python3_ignore-installed.txt \
