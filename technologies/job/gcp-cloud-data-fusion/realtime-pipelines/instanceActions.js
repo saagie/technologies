@@ -4,7 +4,7 @@ const { getErrorMessage, getHeadersWithAccessToken } = require('../utils');
 const { JOB_STATUS } = require('../job-states');
 
 /**
- * Logic to start a new GCP Cloud Run service
+ * Logic to start a Cloud Data Fusion pipeline
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  */
@@ -25,7 +25,7 @@ exports.start = async ({ job }) => {
 };
 
 /**
- * Logic to stop a GCP Cloud Run service
+ * Logic to stop a Cloud Data Fusion pipeline
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  */
@@ -47,7 +47,7 @@ exports.stop = async ({ job }) => {
 };
 
 /**
- * Logic to retrieve the GCP Cloud Run service status.
+ * Logic to retrieve the Cloud Data Fusion pipeline status
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  */
@@ -71,7 +71,7 @@ exports.getStatus = async ({ job }) => {
 };
 
 /**
- * Logic to retrieve the GCP Cloud Run service logs.
+ * Logic to retrieve the Cloud Data Fusion pipeline logs
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  */
