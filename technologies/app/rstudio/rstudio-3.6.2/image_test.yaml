@@ -252,4 +252,3 @@ commandTests:
 #STDOUT: call: fun(libname, pkgname)
 #STDOUT: error: GDK display not found - please make sure X11 is running
 #STDOUT: Execution halted
-# TODO disble test         Rscript -e 'library(RTextTools)' &&
