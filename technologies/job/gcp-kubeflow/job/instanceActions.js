@@ -13,15 +13,22 @@ const { JOB_STATUS } = require('./job-states');
 exports.start = async ({ job }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
+
+    const pipelineSpec = {
+      pipeline_id: job.featuresValues.pipeline.id,
+    };
+
+    if (job.featuresValues.runParameters) {
+      const runParameters = JSON.parse(job.featuresValues.runParameters);
+      pipelineSpec.parameters = runParameters;
+    }
     
     const { data } = await axios.post(
       `${job.featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs`,
       {
         name: job.featuresValues.runName,
         description: job.featuresValues.runDescription,
-        pipeline_spec: {
-          pipeline_id: job.featuresValues.pipeline.id,
-        }
+        pipeline_spec: pipelineSpec,
       },
       await getHeadersWithAccessToken(gcpKey),
     );

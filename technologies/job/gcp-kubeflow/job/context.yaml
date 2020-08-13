@@ -66,7 +66,13 @@ job:
     - type: TEXT
       name: runDescription
       label: Run description
-      required: true
+      required: false
+      dependsOn:
+        - experiment
+    - type: TEXT
+      name: runParameters
+      label: Run parameters
+      required: false
       dependsOn:
         - experiment
 instance:
