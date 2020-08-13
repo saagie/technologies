@@ -1,0 +1,7 @@
+version: v1
+id: gcp-kubeflow
+label: GCP Kubeflow
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
