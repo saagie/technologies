@@ -19,7 +19,6 @@ contexts:
         rewrite: false
         basePath: SAAGIE_BASE_PATH
     volumes: ["/notebooks-dir"]
-    
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.6.2
@@ -35,7 +34,6 @@ contexts:
         rewrite: false
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
-    
     dockerInfo:
       image: saagie/rstudio
       baseTag: v2-app
