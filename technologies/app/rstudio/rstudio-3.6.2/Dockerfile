@@ -19,7 +19,7 @@ RUN apt-get update -qq \
 RUN cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
     && dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
-    && \odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini
+    && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini
 
 # Install Spark
 RUN cd /tmp \
@@ -50,15 +50,11 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
  R -e "install.packages('implyr')" && \
  R -e "install.packages('futile.logger')" && \
  R -e "install.packages('h2o')" && \
- R -e "install.packages('caret')" && \
  R -e "install.packages('ROSE')" && \
  R -e "install.packages('caretEnsemble')" && \
- R -e "install.packages('randomForest')" && \
- R -e "install.packages('pROC')" && \
  R -e "install.packages('rsparkling')" && \
  R -e "install.packages('xts')" && \
  R -e "install.packages('dygraphs')" && \
- R -e "install.packages('forecast')" && \
  R -e "install.packages('mclust')" && \
  R -e "install.packages('factoextra')" && \
  R -e "install.packages('dbscan')" && \
@@ -68,11 +64,8 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
  R -e "install.packages('corrplot')" && \
  R -e "install.packages('dummies')" && \
  R -e "install.packages('xgboost')" && \
- R -e "install.packages('e1071')" && \
- R -e "install.packages('DescTools')" && \
  R -e "install.packages('packrat')" && \
  R -e "install.packages('tm')" && \
- R -e "install.packages('RTextTools')" && \
  R -e "install.packages('networkD3')" && \
  R -e "install.packages('sqldf')" && \
  R -e "install.packages('syuzhet')" && \
@@ -82,16 +75,12 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
  R -e "install.packages('recommenderlab')" && \
  R -e "install.packages('AUC')" && \
  R -e "install.packages('kohonen')" && \
- R -e "install.packages('topicmodels')" && \
  R -e "install.packages('argparse')" && \
- R -e "install.packages('lsa')" && \
  R -e "install.packages('d3heatmap')" && \
  R -e "install.packages('pvclust')" && \
- R -e "install.packages('trend')" && \
  R -e "install.packages('breakpoint')" && \
  R -e "install.packages('changepoint')" && \
  R -e "install.packages('mvoutlier')" && \
- R -e "install.packages('shinydashboard')" && \
  R -e "install.packages('FNN')" && \
  R -e "install.packages('plotly')" && \
  R -e "install.packages('RMySQL')" && \
