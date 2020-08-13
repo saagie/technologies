@@ -87,18 +87,14 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
  R -e "install.packages('breakpoint')" && \
  R -e "install.packages('changepoint')" && \
  R -e "install.packages('mvoutlier')" && \
- R -e "install.packages('shinydashboard')" && \
  R -e "install.packages('FNN')" && \
  R -e "install.packages('plotly')" && \
  R -e "install.packages('RMySQL')" && \
- R -e "install.packages('DescTools')" && \
  R -e "install.packages('doParallel')" && \
  R -e "install.packages('ff')" && \
  R -e "install.packages('ffbase')" && \
  R -e "install.packages('jsonlite')" && \
- R -e "install.packages('forecast')" && \
  R -e "install.packages('tseries')" && \
- R -e "install.packages('trend')" && \
  R -e "install.packages('rvest')" && \
  R -e "install.packages('curl')" && \
  R -e "install.packages('RSelenium')" && \
@@ -136,32 +132,25 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
  R -e "install.packages('missMDA')" && \
  R -e "install.packages('RcmdrMisc')" && \
  R -e "install.packages('ade4')" && \
- R -e "install.packages('RTextTools')" && \
  R -e "install.packages('tree')" && \
  R -e "install.packages('kknn')" && \
  R -e "install.packages('kernlab')" && \
  R -e "install.packages('rpart')" && \
- R -e "install.packages('e1071')" && \
- R -e "install.packages('randomForest')" && \
  R -e "install.packages('pls')" && \
  R -e "install.packages('betareg')" && \
  R -e "install.packages('glmnet')" && \
  R -e "install.packages('leaps')" && \
  R -e "install.packages('mlogit')" && \
- R -e "install.packages('pROC')" && \
- R -e "install.packages('caret')" && \
  R -e "install.packages('wordcloud')" && \
  R -e "install.packages('stringi')" && \
  R -e "install.packages('SnowballC')" && \
  R -e "install.packages('RWeka')" && \
  R -e "install.packages('hunspell')" && \
- R -e "install.packages('topicmodels')" && \
  R -e "install.packages('magrittr')" && \
  R -e "install.packages('cluster')" && \
  R -e "install.packages('proxy')" && \
  R -e "install.packages('skmeans')" && \
  R -e "install.packages('LDAvis')" && \
- R -e "install.packages('lsa')" && \
  R -e "install.packages('doSNOW')" && \
  R -e "install.packages('cartography')" && \
  R -e "install.packages('Factoshiny')" && \
