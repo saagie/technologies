@@ -1,6 +1,6 @@
 version: v1
-id: gcp-platform-ai
-label: GCP AI Platform
+id: gcp-kubeflow
+label: GCP Kubeflow
 description: ""
 available: true
 type: EXTERNAL_JOB
@@ -19,6 +19,11 @@ contexts:
           label: JSON key
           required: true
           helper: "Full JSON document"
+        - type: TEXT
+          name: instanceUrl
+          label: Kubeflow instance URL
+          required: true
+          helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
     job:
       features:
         - type: ENDPOINT
@@ -35,21 +40,44 @@ contexts:
           dependsOn:
             - endpoint
         - type: SELECT
-          name: job
-          label: Jobs
+          name: pipeline
+          label: Pipeline
           required: true
           options:
             script: ./jobForm.js
-            function: getJobs
+            function: getPipelines
           dependsOn:
             - project
-        - type: TEXT
-          name: newJobName
-          label: New job name
+        - type: SELECT
+          name: pipelineVersion
+          label: Pipeline version
           required: true
-          helper: "New job name to re-run the selected job"
+          options:
+            script: ./jobForm.js
+            function: getPipelineVersions
           dependsOn:
-            - job
+            - pipeline
+        - type: SELECT
+          name: experiment
+          label: Experiment
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getExperiments
+          dependsOn:
+            - pipelineVersion
+        - type: TEXT
+          name: runName
+          label: Run name
+          required: true
+          dependsOn:
+            - experiment
+        - type: TEXT
+          name: runDescription
+          label: Run description
+          required: true
+          dependsOn:
+            - experiment
     instance:
       actions:
         onStart:
