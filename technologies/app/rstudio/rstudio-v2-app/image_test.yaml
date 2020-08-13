@@ -89,6 +89,10 @@ commandTests:
     command: "pwd"
 # TODO checks if / as wordir is normal, shouldn't it be /home/rstudio ?
     expectedOutput: ["/"]
+  - name: "R version"
+    command: "R"
+    args: ["--version"]
+    expectedOutput: ['R version 3.4.2']
   - name: "java version"
     command: "java"
     args: ["-version"]
