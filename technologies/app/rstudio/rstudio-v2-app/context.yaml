@@ -9,4 +9,3 @@ ports:
     rewrite: false
     basePath: SAAGIE_BASE_PATH
 volumes: ["/home"]
-
