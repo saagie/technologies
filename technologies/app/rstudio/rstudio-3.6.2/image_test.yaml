@@ -87,7 +87,7 @@ fileContentTests:
 commandTests:
   - name: "Workdir"
     command: "pwd"
-# TODO checks if / as wordir is normal, shouldn't it be /home/rstudio ?
+# TODO checks if / as workdir is normal, shouldn't it be /home/rstudio ?
     expectedOutput: ["/"]
   - name: "R version"
     command: "R"
@@ -244,11 +244,9 @@ commandTests:
     ]
     exitCode: 0
 # TODO test saagie/rstudio-saagie-addin ?
-# no Rscript -e 'library(dtwclust)' && ?
-# FIXME error on cairoDevice
-#      Rscript -e 'library(cairoDevice)' &&
-#Error: package or namespace load failed for ‘cairoDevice’:
-#STDOUT: .onLoad failed in loadNamespace() for 'cairoDevice', details:
-#STDOUT: call: fun(libname, pkgname)
-#STDOUT: error: GDK display not found - please make sure X11 is running
-#STDOUT: Execution halted
+# TODO compared to R images there is no dtwclust package, check if necessary or not.
+#      Rscript -e 'library(dtwclust)' &&
+# NOTE cairoDevice lib not tested because needs x11 display
+#      Rscript -e 'library(cairoDevice)'
+#      Error: package or namespace load failed for ‘cairoDevice’:
+#      STDOUT: error: GDK display not found - please make sure X11 is running
