@@ -34,9 +34,6 @@ fileExistenceTests:
     path: "/zeppelin/saagie-zeppelin-config.sh"
     shouldExist: true
     permissions: "-rwxr--r--"
-# TODO check crontab
-# TODO check jq
-# TODO check vim
 
 commandTests:
   - name: "Workdir"
@@ -48,3 +45,12 @@ commandTests:
     command: "$SPARK_HOME/bin/spark-submit"
     args: ["--version"]
     expectedError: ["version 2.1.*"]
+  - name: "vim"
+    args: ["--version"]
+    command: "vim"
+    exitCode: 0
+  - name: "jq"
+    args: ["--version"]
+    command: "jq"
+    exitCode: 0
+# TODO check crontab
