@@ -1,6 +1,6 @@
-id: job
-label: Job
-description: ""
+id: default
+label: Default
+description: "Default context"
 recommended: true
 trustLevel: experimental
 endpoint:
