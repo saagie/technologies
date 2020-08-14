@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: zeppelin
+label: Zeppelin Notebook
+baseline: Data Science Notebook
+description: "Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more."
+available: true
+icon: zeppelin
+customFlags: []
+contexts:
+  - id: 0.7.3
+    label: Zeppelin
+    releaseNotes: "First iteration post migration for branch v2-app"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8080
+        name: Zeppelin
+        rewrite: false
+        basePath: ZEPPELIN_SERVER_CONTEXT_PATH
+    volumes: ["/notebook"]
+    dockerInfo:
+      image: saagie/zeppelin-nbk
+      baseTag: 0.7.3
+      version: 0.7.3-1.45.0_appzeppelin
