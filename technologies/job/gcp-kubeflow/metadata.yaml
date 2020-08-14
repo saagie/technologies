@@ -1,15 +1,15 @@
 version: v1
 id: gcp-kubeflow
 label: GCP Kubeflow
-description: ""
+description: "Google Cloud Platform Kubeflow instance gestion"
 available: true
 type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: job
-    label: Job
-    description: ""
+  - id: default
+    label: Default
+    description: "Default context"
     recommended: true
     trustLevel: experimental
     endpoint:
