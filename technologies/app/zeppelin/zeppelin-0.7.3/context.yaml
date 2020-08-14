@@ -1,0 +1,11 @@
+id: 0.7.3
+label: Zeppelin
+releaseNotes: "First iteration post migration for branch v2-app"
+available: true
+trustLevel: stable
+ports:
+  - port: 8080
+    name: Zeppelin
+    rewrite: false
+    basePath: ZEPPELIN_SERVER_CONTEXT_PATH
+volumes: ["/notebook"]
