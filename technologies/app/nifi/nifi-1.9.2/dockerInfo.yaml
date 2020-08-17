@@ -1,0 +1,3 @@
+image: saagie/nifi
+baseTag: 1.9.2
+
