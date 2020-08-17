@@ -1,4 +1,4 @@
 image: saagie/python
 baseTag: 2.7.15
 dynamicVersion: 1.45.0_SDKTECHNO-59
-version: 2.7.15-1.45.0_SDKTECHNO-59
+version: 2.7.15-1.45.0

@@ -28,7 +28,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian8-jessie
-      version: debian8-jessie-1.45.0_SDKTECHNO-59
+      version: debian8-jessie-1.45.0
   - id: debian9-stretch
     label: debian9-stretch
     available: true
