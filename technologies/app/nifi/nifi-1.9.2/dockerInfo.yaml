@@ -2,3 +2,4 @@ image: saagie/nifi
 baseTag: 1.9.2
 dynamicVersion: 1.54.0_appnifi
 version: 1.9.2-1.54.0_appnifi
+
