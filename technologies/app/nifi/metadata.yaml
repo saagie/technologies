@@ -1,0 +1,25 @@
+version: "v1"
+type: APP
+id: nifi
+label: Nifi
+baseline: Apache Nifi
+description: "An easy to use, powerful, and reliable system to process and distribute data"
+available: true
+icon: nifi
+customFlags: []
+contexts:
+  - id: 1.9.2
+    label: Nifi 1.9.2
+    releaseNotes: "First iteration post migration for apache nifi 1.9.2"
+    available: false
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: Nifi
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/opt/nifi/nifi-current/conf"]
+    dockerInfo:
+      image: saagie/nifi
+      baseTag: 1.9.2
+      version: 1.9.2-null
