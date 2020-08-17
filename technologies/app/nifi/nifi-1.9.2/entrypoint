@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "PREPARE NGINX CONF ($SAAGIE_BASE_PATH)"
+echo ""
+# As Nifi onnly listen on container IP not loopback get this IP
+CONTAINER_IP=`awk 'END{print $1}' /etc/hosts`
+# As variables are not accessible in Nginx conf, replace in file
+sed -i 's:CONTAINER_IP:'"$CONTAINER_IP"':g' /etc/nginx/sites-enabled/nginx.conf
+sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/nginx.conf
+# NIFI_WEB_PROXY_CONTEXT_PATH
+export NIFI_WEB_PROXY_CONTEXT_PATH="$SAAGIE_BASE_PATH/"
+
+echo ""
+echo "******************************************"
+cat /etc/nginx/sites-enabled/nginx.conf
+echo "******************************************"
+echo ""
+echo ""
+
+# Launch nginx then Nifi
+(shopt -s dotglob; \
+  mv /opt/nifi/nifi-current/conf-tmp/* /opt/nifi/nifi-current/conf/ \
+  && rm -rf /opt/nifi/nifi-current/conf-tmp)
+
+nginx && /opt/nifi/scripts/start.sh
