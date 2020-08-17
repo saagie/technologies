@@ -53,4 +53,4 @@ commandTests:
   - name: "python version"
     command: "python"
     args: ["-V"]
-    expectedError: ["Python 3.6.*"]
+    expectedOutput: ["Python 3.6.*"]
