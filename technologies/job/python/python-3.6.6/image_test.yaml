@@ -52,6 +52,5 @@ commandTests:
 
   - name: "python version"
     command: "python"
-    args: ["-c", "print 'pwet'"]
-    exitCode: 1
-
+    args: ["-V"]
+    expectedError: ["Python 3.6.*"]

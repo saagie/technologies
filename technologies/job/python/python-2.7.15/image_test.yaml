@@ -49,6 +49,7 @@ commandTests:
     command: "which"
     args: ["python"]
     expectedOutput: ["/usr/local/bin/python"]
+
   - name: "python version"
     command: "python"
     args: ["-V"]
