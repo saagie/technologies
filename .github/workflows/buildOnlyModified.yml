@@ -23,7 +23,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          gradle stop && ./gradlew buildModifiedJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }} --status
+          ./gradlew buildModifiedJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }} --status
       - name: extract branch
         id: git_info
         run: echo "::set-output name=changes::$(git status -s | wc -l)"
