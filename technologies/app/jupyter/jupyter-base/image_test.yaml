@@ -57,7 +57,7 @@ commandTests:
                                               import graphviz;
                                               import h5py;
                                               import hdfs;
-                                              # import autosklearn.classification;
+                                              import autosklearn.classification;
                                               import thrift_sasl;
                                               from pybrain.tools.shortcuts import buildNetwork;
                                               import ibis;
@@ -102,6 +102,23 @@ commandTests:
                                               import simplejson;
                                               import six;
                                               import spacy;
+                                              from sqlalchemy import create_engine;
+                                              import statsmodels;
+                                              import tabula;
+                                              import tensorflow as tf;
+                                              print(\"Num GPUs Available: \", len(tf.config.experimental.list_physical_devices(\"GPU\")));
+                                              import tensorflow;
+                                              import textract;
+                                              import theano.tensor;
+                                              import tika;
+                                              import tokenizer;
+                                              import torch;
+                                              import torchvision;
+                                              import tpot;
+                                              import umap;
+                                              from wand.image import Image;
+                                              import xgboost;
+                                              import xlwt;
                                               '"]
     exitCode: 0
 
