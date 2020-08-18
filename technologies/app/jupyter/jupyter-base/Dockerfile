@@ -44,8 +44,11 @@ RUN conda install -n py36 --quiet --yes --file requirements_conda3.txt \
     && sed -n '/scikit-learn/p' requirements_python3.txt >> requirements_python3_ignore-installed.txt \
     && sed -i '/scikit-learn/d' requirements_python3.txt \
     # TODO We have remove auto-sklearn at leat temporarily to avoid build problems - re add with fixes
-    && sed -i '/auto-sklearn/d' requirements_python3.txt \
-    && . activate py36 \
+    && echo "sphinx-rtd-theme==0.4.3" >> requirements_python3_auto-sklearn.txt \
+    && sed -n '/auto-sklearn/p' requirements_python3.txt >> requirements_python3_auto-sklearn.txt \
+    && sed -i '/auto-sklearn/d' requirements_python3.txt
+RUN . activate py36 \
+    && python -m pip install --no-cache-dir --ignore-installed --no-binary :all: -r requirements_python3_auto-sklearn.txt \
     && python -m pip install --no-cache-dir --ignore-installed -r requirements_python3_ignore-installed.txt \
     && python -m pip install --no-cache-dir -r requirements_python3.txt \
     && python -m pip install --no-cache-dir -r requirements_pip3.txt \
