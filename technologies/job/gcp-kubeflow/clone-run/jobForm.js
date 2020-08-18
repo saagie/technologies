@@ -152,12 +152,6 @@ exports.getRuns = async ({ featuresValues }) => {
       return Response.empty('No runs availables')
     }
 
-    console.log({ filteredRuns });
-
-    console.log(filteredRuns[0].pipeline_spec);
-
-    console.log(filteredRuns[0].resource_references);
-    
     return Response.success(
       filteredRuns.map(({ id, name, ...runData }) => ({
         id,
