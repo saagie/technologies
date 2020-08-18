@@ -49,6 +49,7 @@ exports.stop = async ({ job, instance }) => {
     return getErrorMessage(error, "Failed to start job");
   }
 };
+
 /**
  * Logic to retrieve the external job instance status.
  * @param {Object} params

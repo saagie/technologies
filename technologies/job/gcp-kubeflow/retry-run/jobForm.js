@@ -2,6 +2,7 @@ const { Response } = require('@saagie/sdk');
 const axios = require('axios');
 const { getHeadersWithAccessToken, getErrorMessage, getAuth, EXPERIMENT_LABEL, PIPELINE_VERSION_LABEL } = require('../utils');
 const { google } = require('googleapis');
+const { RUN_STATUS } = require('../job-states');
 const cloudresourcemanager = google.cloudresourcemanager('v1');
 
 /**
@@ -145,6 +146,7 @@ exports.getRuns = async ({ featuresValues }) => {
       return (
         (runExperiment && runExperiment.key && runExperiment.key.id === featuresValues.experiment.id)
         && (runPipelineVersion && runPipelineVersion.key && runPipelineVersion.key.id === featuresValues.pipelineVersion.id)
+        && (run.status === RUN_STATUS.FAILED || run.status === RUN_STATUS.ERROR)
       );
     });
 
