@@ -1,6 +1,6 @@
-id: default
-label: Default
-description: "Default context"
+id: new-run
+label: New run
+description: "New run context"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -71,7 +71,8 @@ job:
         - experiment
     - type: TEXT
       name: runParameters
-      label: Run parameters
+      label: Run parameters (JSON format)
+      helper: JSON array of objects (name and value as properties)
       required: false
       dependsOn:
         - experiment

@@ -34,3 +34,7 @@ export const getErrorMessage = (error, mainErrorMessage) => {
 
   return Response.error(mainErrorMessage, { error });
 }
+
+export const EXPERIMENT_LABEL = 'EXPERIMENT';
+
+export const PIPELINE_VERSION_LABEL = 'PIPELINE_VERSION';

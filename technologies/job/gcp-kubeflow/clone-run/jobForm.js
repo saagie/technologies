@@ -1,6 +1,6 @@
 const { Response } = require('@saagie/sdk');
 const axios = require('axios');
-const { getHeadersWithAccessToken, getErrorMessage, getAuth } = require('./utils');
+const { getHeadersWithAccessToken, getErrorMessage, getAuth, EXPERIMENT_LABEL, PIPELINE_VERSION_LABEL } = require('../utils');
 const { google } = require('googleapis');
 const cloudresourcemanager = google.cloudresourcemanager('v1');
 
@@ -120,3 +120,53 @@ exports.getExperiments = async ({ featuresValues }) => {
     return getErrorMessage(error, "Can't retrieve experiments");
   }
 };
+
+/**
+ * Function to retrieve runs inside the Kubeflow instance
+ * @param {Object} entity - Contains entity data including featuresValues.
+ * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
+ */
+exports.getRuns = async ({ featuresValues }) => {
+  try{
+    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
+
+    const { data: { runs } } = await axios.get(
+      `${featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs`,
+      await getHeadersWithAccessToken(gcpKey)
+    );
+
+    const filteredRuns = runs.filter((run) => {
+      const { resource_references: resourceReferences } = run;
+
+      const runExperiment = resourceReferences.find((resource) => resource.key && resource.key.type === EXPERIMENT_LABEL);
+
+      const runPipelineVersion = resourceReferences.find((resource) => resource.key && resource.key.type === PIPELINE_VERSION_LABEL);
+
+      return (
+        (runExperiment && runExperiment.key && runExperiment.key.id === featuresValues.experiment.id)
+        && (runPipelineVersion && runPipelineVersion.key && runPipelineVersion.key.id === featuresValues.pipelineVersion.id)
+      );
+    });
+
+    if (!filteredRuns || !filteredRuns.length) {
+      return Response.empty('No runs availables')
+    }
+
+    console.log({ filteredRuns });
+
+    console.log(filteredRuns[0].pipeline_spec);
+
+    console.log(filteredRuns[0].resource_references);
+    
+    return Response.success(
+      filteredRuns.map(({ id, name, ...runData }) => ({
+        id,
+        label: name,
+        data: runData,
+      })),
+    );
+  } catch (error) {
+    return getErrorMessage(error, "Can't retrieve runs");
+  }
+};
+

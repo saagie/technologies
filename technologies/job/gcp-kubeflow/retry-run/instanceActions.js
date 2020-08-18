@@ -2,8 +2,8 @@ const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const { google } = require('googleapis');
 const logging = google.logging('v2');
 const axios = require('axios');
-const { getAuth, getErrorMessage, getHeadersWithAccessToken } = require('./utils');
-const { JOB_STATUS } = require('./job-states');
+const { getAuth, getErrorMessage, getHeadersWithAccessToken } = require('../utils');
+const { JOB_STATUS } = require('../job-states');
 
 /**
  * Logic to start the external job instance.
@@ -13,27 +13,14 @@ const { JOB_STATUS } = require('./job-states');
 exports.start = async ({ job }) => {
   try {
     const gcpKey = JSON.parse(job.featuresValues.endpoint.jsonKey);
-
-    const pipelineSpec = {
-      pipeline_id: job.featuresValues.pipeline.id,
-    };
-
-    if (job.featuresValues.runParameters) {
-      const runParameters = JSON.parse(job.featuresValues.runParameters);
-      pipelineSpec.parameters = runParameters;
-    }
     
-    const { data } = await axios.post(
-      `${job.featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs`,
-      {
-        name: job.featuresValues.runName,
-        description: job.featuresValues.runDescription,
-        pipeline_spec: pipelineSpec,
-      },
+    await axios.post(
+      `${job.featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs/${job.featuresValues.run.id}/retry`,
+      {},
       await getHeadersWithAccessToken(gcpKey),
     );
 
-    return Response.success(data);
+    return Response.success({ run: job.featuresValues.run });
   } catch (error) {
     return getErrorMessage(error, "Failed to start job");
   }
