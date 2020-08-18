@@ -43,7 +43,7 @@ RUN conda install -n py36 --quiet --yes --file requirements_conda3.txt \
     # Some installed library (scikit-learn) could not be removed so use --ignore-installed \
     && sed -n '/scikit-learn/p' requirements_python3.txt >> requirements_python3_ignore-installed.txt \
     && sed -i '/scikit-learn/d' requirements_python3.txt \
-    # TODO We have remove auto-sklearn at leat temporarily to avoid build problems - re add with fixes
+    # auto-sklearn causes build fails because of PEP 517 => force install via wheel + fix sphinx-rtd-theme version
     && echo "sphinx-rtd-theme==0.4.3" >> requirements_python3_auto-sklearn.txt \
     && sed -n '/auto-sklearn/p' requirements_python3.txt >> requirements_python3_auto-sklearn.txt \
     && sed -i '/auto-sklearn/d' requirements_python3.txt
