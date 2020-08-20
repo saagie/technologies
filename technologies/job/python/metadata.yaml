@@ -27,7 +27,7 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 2.7
-      version: 2.7-1.41.0
+      version: 2.7-1.46.0_SDKTECHNO-63
   - id: 2.7.15
     label: 2.7.15
     available: false
@@ -74,7 +74,7 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.5
-      version: 3.5-1.41.0
+      version: 3.5-1.46.0_SDKTECHNO-63
   - id: 3.6
     label: 3.6
     available: true
@@ -97,7 +97,7 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.6
-      version: 3.6-1.41.0
+      version: 3.6-1.46.0_SDKTECHNO-63
   - id: 3.6.6
     label: 3.6.6
     available: false
@@ -144,4 +144,4 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.7
-      version: 3.7-1.41.0
+      version: 3.7-1.46.0_SDKTECHNO-63
