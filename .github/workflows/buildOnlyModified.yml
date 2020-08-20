@@ -23,7 +23,13 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          ./gradlew buildModifiedJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }} --no-daemon
+          ./gradlew buildModifiedJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
+      - name: run gradle :buildModifiedApps
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          ./gradlew buildModifiedApps --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
       - name: extract branch
         id: git_info
         run: echo "::set-output name=changes::$(git status -s | wc -l)"
