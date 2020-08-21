@@ -1,0 +1,10 @@
+id: 7.6.2
+label: Kibana
+releaseNotes: "First iteration post migration"
+available: true
+trustLevel: stable
+ports:
+  - port: 5601
+    name: Kibana
+    rewrite: false
+    basePath: SERVER_BASEPATH
