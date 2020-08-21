@@ -1,4 +1,4 @@
-ARG PYTHON3_IMG="saagie/python:3.6-1.41.0_python"
+ARG PYTHON3_IMG="saagie/python:3.6-1.46.0"
 
 ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-minimal"
 
