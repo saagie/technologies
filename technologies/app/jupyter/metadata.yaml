@@ -22,4 +22,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: v2
-      version: v2-1.45.0_appjupyter
+      version: v2-1.47.0_appjupyter
