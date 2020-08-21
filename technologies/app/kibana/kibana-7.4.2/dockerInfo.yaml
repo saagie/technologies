@@ -1,4 +1,4 @@
 image: saagie/kibana
 baseTag: 7.4.2
-dynamicVersion: 1.47.0
-version: 7.4.2-1.47.0
+dynamicVersion: 1.47.0_appkibana
+version: 7.4.2-1.47.0_appkibana
