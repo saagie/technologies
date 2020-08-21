@@ -8,6 +8,20 @@ available: true
 icon: kibana
 customFlags: []
 contexts:
+  - id: 7.5.1
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 7.5.1
+      version: 7.5.1-1.47.0_appkibana
   - id: 7.6.2
     label: Kibana
     releaseNotes: "First iteration post migration"
