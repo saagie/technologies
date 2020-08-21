@@ -1,0 +1,4 @@
+image: saagie/kibana
+baseTag: 7.4.1
+dynamicVersion: 1.47.0
+version: 7.4.1-1.47.0
