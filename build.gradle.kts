@@ -162,8 +162,8 @@ tasks {
             with(File("version.properties")) {
                 val version = File("versions")
                 this.readLines()
-                    .drop(2)
-                    .forEach { version.appendText(it + "\n") }
+                        .drop(2)
+                        .forEach { version.appendText(it + "\n") }
                 this.delete()
                 version.renameTo(this)
             }
