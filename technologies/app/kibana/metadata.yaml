@@ -16,7 +16,7 @@ contexts:
     ports:
       - port: 5601
         name: Kibana
-        rewrite: false
+        rewrite: true
         basePath: SERVER_BASEPATH
     dockerInfo:
       image: saagie/kibana
@@ -30,7 +30,7 @@ contexts:
     ports:
       - port: 5601
         name: Kibana
-        rewrite: false
+        rewrite: true
         basePath: SERVER_BASEPATH
     dockerInfo:
       image: saagie/kibana
