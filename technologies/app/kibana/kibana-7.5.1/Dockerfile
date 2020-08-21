@@ -1,0 +1,4 @@
+ARG VERSION
+FROM docker.elastic.co/kibana/kibana:7.5.1
+
+ENV SERVER_REWRITEBASEPATH=true
