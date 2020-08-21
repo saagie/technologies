@@ -8,6 +8,21 @@ available: true
 icon: rstudio
 customFlags: []
 contexts:
+  - id: 3.4.2
+    label: RStudio
+    releaseNotes: "First iteration post migration for branch v2-app"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: RStudio
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    dockerInfo:
+      image: saagie/rstudio
+      baseTag: 3.4.2
+      version: 3.4.2-1.46.0_apprstudio
   - id: 3.6.2
     label: RStudio
     releaseNotes: "First iteration post migration for branch v2-app_3.6.2"
@@ -22,19 +37,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.6.2
-      version: 3.6.2-1.45.0_apprstudio
-  - id: v2-app
-    label: RStudio
-    releaseNotes: "First iteration post migration for branch v2-app"
-    available: true
-    trustLevel: stable
-    ports:
-      - port: 80
-        name: RStudio
-        rewrite: false
-        basePath: SAAGIE_BASE_PATH
-    volumes: ["/home"]
-    dockerInfo:
-      image: saagie/rstudio
-      baseTag: v2-app
-      version: v2-app-1.45.0_apprstudio
+      version: 3.6.2-1.46.0_apprstudio
