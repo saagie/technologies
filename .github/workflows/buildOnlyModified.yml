@@ -24,6 +24,12 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           ./gradlew buildModifiedJobs --parallel --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
+      - name: run gradle :buildModifiedApps
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          ./gradlew buildModifiedApps --scan -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
       - name: extract branch
         id: git_info
         run: echo "::set-output name=changes::$(git status -s | wc -l)"
@@ -38,7 +44,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_SECRET}}     
+          github_token: ${{ secrets.GITHUB_SECRET}}
           branch: ${{ steps.extract_branch.outputs.branch }}
       - name: extract version
         id: extract_version
