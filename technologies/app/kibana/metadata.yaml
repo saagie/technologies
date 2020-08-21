@@ -8,6 +8,132 @@ available: true
 icon: kibana
 customFlags: []
 contexts:
+  - id: 5.6.16
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 5.6.16
+      version: 5.6.16-1.47.0_appkibana
+  - id: 5.6.8
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 5.6.8
+      version: 5.6.8-1.47.0_appkibana
+  - id: 6.4.1
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 6.4.1
+      version: 6.4.1-1.47.0_appkibana
+  - id: 6.4.3
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 6.4.3
+      version: 6.4.3-1.47.0_appkibana
+  - id: 6.8.1
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 6.8.1
+      version: 6.8.1-1.47.0_appkibana
+  - id: 6.8.4
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 6.8.4
+      version: 6.8.4-1.47.0_appkibana
+  - id: 7.4.0
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 7.4.0
+      version: 7.4.0-1.47.0_appkibana
+  - id: 7.4.1
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 7.4.1
+      version: 7.4.1-1.47.0_appkibana
+  - id: 7.4.2
+    label: Kibana
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewrite: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 7.4.2
+      version: 7.4.2-1.47.0_appkibana
   - id: 7.5.1
     label: Kibana
     releaseNotes: "First iteration post migration"
