@@ -20,9 +20,9 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
 
-COPY resources/requirements.txt .
-RUN pip --no-cache-dir install -r requirements.txt \
-    && rm -rf requirements.txt \
+# Keep a copy of requirements.txt for depending images (jupyter...)
+COPY resources/requirements.txt /tmp/requirements.txt
+RUN pip --no-cache-dir install -r /tmp/requirements.txt \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip

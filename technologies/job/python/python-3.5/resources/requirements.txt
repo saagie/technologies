@@ -4,6 +4,9 @@ setuptools==45.2.0
 beautifulsoup4==4.8.0
 # force six version for compatibility textract
 six==1.12.0
+# Fix version max to 0.17 for compatibility issues
+update-checker==0.17
+
 numpy==1.17.4
 h5py==2.10.0
 ipywidgets==7.5.1
