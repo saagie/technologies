@@ -1,15 +1,15 @@
 version: v1
 id: trifacta
 label: Trifacta
-description: "Trifacta API Version : +6.4.2"
+description: "Trifacta Wrangler"
 available: true
 type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: login-auth
-    label: Login auth (+v6.4.2)
-    description: "Trifacta user authentication by credentials"
+  - id: flows-login-auth
+    label: Flows gestion with login auth (+v6.4.2)
+    description: "Trifacta flows gestion with user authentication by credentials"
     recommended: true
     trustLevel: stable
     endpoint:
@@ -48,7 +48,7 @@ contexts:
           label: Flow
           required: true
           options:
-            script: ./jobForm.js
+            script: ../flows-jobForm.js
             function: getFlows
           dependsOn:
             - endpoint
@@ -57,7 +57,7 @@ contexts:
           label: Wrangled dataset
           required: true
           options:
-            script: ./jobForm.js
+            script: ../flows-jobForm.js
             function: getDatasets
           dependsOn:
             - flow
@@ -127,17 +127,20 @@ contexts:
     instance:
       actions:
         onStart:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
           function: start
+        onStop:
+          script: ../flows-instanceActions.js
+          function: stop
         getStatus:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
           function: getStatus
         getLogs:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
           function: getLogs
-  - id: token-auth
-    label: Token auth (+v6.4.2)
-    description: "Trifacta user authentication by access token"
+  - id: flows-token-auth
+    label: Flows gestion with token auth (+v6.4.2)
+    description: "Trifacta flows gestion with user authentication by access token"
     recommended: true
     trustLevel: stable
     endpoint:
@@ -172,7 +175,7 @@ contexts:
           label: Flow
           required: true
           options:
-            script: ./jobForm.js
+            script: ../flows-jobForm.js
             function: getFlows
           dependsOn:
             - endpoint
@@ -181,7 +184,7 @@ contexts:
           label: Wrangled dataset
           required: true
           options:
-            script: ./jobForm.js
+            script: ../flows-jobForm.js
             function: getDatasets
           dependsOn:
             - flow
@@ -251,11 +254,122 @@ contexts:
     instance:
       actions:
         onStart:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
           function: start
+        onStop:
+          script: ../flows-instanceActions.js
+          function: stop
         getStatus:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
           function: getStatus
         getLogs:
-          script: ./instanceActions.js
+          script: ../flows-instanceActions.js
+          function: getLogs
+  - id: plans-login-auth
+    label: Plans gestion with login auth (+v7.1)
+    description: "Trifacta flows gestion with user authentication by credentials"
+    recommended: true
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://cloud.trifacta.com
+        - type: TEXT
+          name: email
+          label: Email address
+          required: true
+        - type: PASSWORD
+          name: password
+          label: Password
+          required: true
+        - type: SELECT
+          name: ignoreSslIssues
+          label: SSL issues
+          required: false
+          helper: (Don't ignore it by default)
+          options:
+          - id: true
+            label: Ignore SSL issues
+          - id: false
+            label: Don't ignore SSL issues
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: plan
+          label: Plan
+          required: true
+          options:
+            script: ../plans-jobForm.js
+            function: getPlans
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ../plans-instanceActions.js
+          function: start
+        getStatus:
+          script: ../plans-instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ../plans-instanceActions.js
+          function: getLogs
+  - id: plans-token-auth
+    label: Plans gestion with token auth (+v7.1)
+    description: "Trifacta flows gestion with user authentication by access token"
+    recommended: true
+    trustLevel: stable
+    endpoint:
+      features:
+        - type: URL
+          name: url
+          label: Endpoint URL
+          required: true
+          helper: e.g. use https://cloud.trifacta.com
+        - type: TEXT
+          name: access_token
+          label: Access token
+          required: true
+        - type: SELECT
+          name: ignoreSslIssues
+          label: SSL issues
+          required: false
+          helper: (Don't ignore it by default)
+          options:
+          - id: true
+            label: Ignore SSL issues
+          - id: false
+            label: Don't ignore SSL issues
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: plan
+          label: Plan
+          required: true
+          options:
+            script: ../plans-jobForm.js
+            function: getPlans
+          dependsOn:
+            - endpoint
+    instance:
+      actions:
+        onStart:
+          script: ../plans-instanceActions.js
+          function: start
+        getStatus:
+          script: ../plans-instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ../plans-instanceActions.js
           function: getLogs
