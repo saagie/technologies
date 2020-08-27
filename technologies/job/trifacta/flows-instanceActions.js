@@ -3,9 +3,9 @@ const fs = require('fs');
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
 const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
-const { JOB_STATES } = require('../job-states');
+const { JOB_STATES } = require('./job-states');
 const { getRequestConfigFromEndpointForm } = require('./utils');
-const { ERRORS_MESSAGES, VALIDATION_FIELD } = require('../errors');
+const { ERRORS_MESSAGES, VALIDATION_FIELD } = require('./errors');
 
 const getExistingOutputObjectForJob = async (job) => {
   try {
@@ -25,14 +25,14 @@ const getExistingOutputObjectForJob = async (job) => {
 }
 
 /**
- * Logic to start the external job instance.
+ * Logic to start a job on Trifacta
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data.
  */
 exports.start = async ({ job, instance }) => {
   try {
-    console.log('START INSTANCE:', instance);
+    console.log('START JOB :', instance);
 
     const parameters = [];
 
@@ -143,14 +143,41 @@ exports.start = async ({ job, instance }) => {
 };
 
 /**
- * Logic to retrieve the external job instance status.
+ * Logic to stop a job on Trifacta.
+ * @param {Object} params
+ * @param {Object} params.job - Contains job data including featuresValues.
+ * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
+ */
+exports.stop = async ({ job, instance }) => {
+  try {
+    console.log('STOP JOB:', instance);
+
+    await axios.post(
+      `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/cancel`,
+      {},
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
+    );
+
+    return Response.success();
+
+  } catch (error) {
+    if (error && error.response) {
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_STOP_JOB_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(`${ERRORS_MESSAGES.FAILED_TO_STOP_JOB_ERROR} : ${job.featuresValues.dataset.id}`, { error });
+  }
+};
+
+/**
+ * Logic to retrieve Trifacta job status.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.getStatus = async ({ job, instance }) => {
   try {
-    console.log('GET STATUS INSTANCE:', instance);
+    console.log('GET STATUS JOB:', instance);
 
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/status`,
@@ -169,14 +196,14 @@ exports.getStatus = async ({ job, instance }) => {
 };
 
 /**
- * Logic to retrieve the external job instance logs.
+ * Logic to retrieve the Trifacta job logs.
  * @param {Object} params
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
 exports.getLogs = async ({ job, instance }) => {
   try {
-    console.log('GET LOG INSTANCE:', instance);
+    console.log('GET LOG JOB:', instance);
 
     const result = await axios.get(
       `${job.featuresValues.endpoint.url}/v4/jobGroups/${instance.payload.jobGroupId}/logs`,
