@@ -1,6 +1,6 @@
-id: token-auth
-label: Token auth (+v6.4.2)
-description: "Trifacta user authentication by access token"
+id: flows-login-auth
+label: Flows gestion with login auth (+v6.4.2)
+description: "Trifacta flows gestion with user authentication by credentials"
 recommended: true
 trustLevel: stable
 endpoint:
@@ -11,8 +11,12 @@ endpoint:
       required: true
       helper: e.g. use https://cloud.trifacta.com
     - type: TEXT
-      name: access_token
-      label: Access token
+      name: email
+      label: Email address
+      required: true
+    - type: PASSWORD
+      name: password
+      label: Password
       required: true
     - type: SELECT
       name: ignoreSslIssues
@@ -35,7 +39,7 @@ job:
       label: Flow
       required: true
       options:
-        script: ./jobForm.js
+        script: ../flows-jobForm.js
         function: getFlows
       dependsOn:
         - endpoint
@@ -44,7 +48,7 @@ job:
       label: Wrangled dataset
       required: true
       options:
-        script: ./jobForm.js
+        script: ../flows-jobForm.js
         function: getDatasets
       dependsOn:
         - flow
@@ -114,11 +118,14 @@ job:
 instance:
   actions:
     onStart:
-      script: ./instanceActions.js
+      script: ../flows-instanceActions.js
       function: start
+    onStop:
+      script: ../flows-instanceActions.js
+      function: stop
     getStatus:
-      script: ./instanceActions.js
+      script: ../flows-instanceActions.js
       function: getStatus
     getLogs:
-      script: ./instanceActions.js
+      script: ../flows-instanceActions.js
       function: getLogs

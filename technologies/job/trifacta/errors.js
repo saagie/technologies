@@ -12,6 +12,7 @@ export const ERRORS_MESSAGES = {
   MISSING_RUN_ENV_ERROR: 'Failed to start job from Trifacta, missing running environment informations',
   MISSING_RUN_ENV_FULL_ERROR: 'Failed to start job from Trifacta : if it\'s the first time that a job is run for the selected wrangled dataset, please complete job execution, profiler and write settings fields',
   FAILED_TO_RUN_JOB_ERROR: 'Failed to start job from Trifacta',
+  FAILED_TO_STOP_JOB_ERROR: 'Failed to stop job from Trifacta',
   FAILED_TO_GET_STATUS_ERROR: 'Failed to get status for job from Trifacta',
   FAILED_TO_GET_LOGS_ERROR: 'Failed to get logs for job from Trifacta'
 }
