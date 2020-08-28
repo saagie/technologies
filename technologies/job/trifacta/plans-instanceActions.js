@@ -1,7 +1,7 @@
 const axios = require('axios');
-const { Response, JobStatus } = require('@saagie/sdk');
+const { Response, JobStatus, Log, Stream } = require('@saagie/sdk');
 const { JOB_STATES } = require('./job-states');
-const { getRequestConfigFromEndpointForm } = require('./utils');
+const { getRequestConfigFromEndpointForm, extractLogs } = require('./utils');
 const { ERRORS_MESSAGES, VALIDATION_FIELD } = require('./errors');
 
 /**
@@ -21,7 +21,7 @@ exports.start = async ({ job, instance }) => {
     );
 
     // You can return any payload you want to get in the stop and getStatus functions.
-    return Response.success({ planSnapshotRunId });
+    return Response.success({ planSnapshotRunId, planId: job.featuresValues.plan.id });
   } catch (error) {
     if (error && error.response) {
       if (
@@ -76,4 +76,72 @@ exports.getStatus = async ({ job, instance }) => {
  * @param {Object} params.job - Contains job data including featuresValues.
  * @param {Object} params.instance - Contains instance data including the payload returned in the start function.
  */
-exports.getLogs = async () => {};
+exports.getLogs = async ({ job, instance }) => {
+  try {
+    console.log('GET JOB LOGS:', instance);
+
+    let logsLines = [];
+    let logsPromises = [];
+
+    const { data } = await axios.get(
+      `${job.featuresValues.endpoint.url}/v4/plans/${instance.payload.planId}/full?ensureOriginal=false`,
+      getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
+    );
+
+    const { planSnapshots: { data: planSnapshotsData } } = data; 
+
+    if (planSnapshotsData && planSnapshotsData.length > 0) {
+      const lastPlanSnapshot = planSnapshotsData[0];
+
+      const { data: planSnapshotData } = await axios.get(
+        `${job.featuresValues.endpoint.url}/v4/plans/${lastPlanSnapshot.id}/full?ensureOriginal=false`,
+        getRequestConfigFromEndpointForm(job.featuresValues.endpoint)
+      );
+
+      const { planNodes: { data: planNodesData } } = planSnapshotData;
+
+      planNodesData.forEach((planNode) => {
+        const { planTaskSnapshotRuns } = planNode;
+
+        const { data: planTaskSnapshotRunsData } = planTaskSnapshotRuns;
+
+        const planTaskSnapshotRunCorrespondingToRun = planTaskSnapshotRunsData.find(
+          (planTaskSnapshotRun) => planTaskSnapshotRun.planSnapshotRun.id === instance.payload.planSnapshotRunId
+        );
+
+        const { planFlowTaskRunResults: { data: planFlowTaskRunResultsData } } = planTaskSnapshotRunCorrespondingToRun;
+
+        logsPromises = logsPromises.concat(planFlowTaskRunResultsData.map(async (flowTaskRun) => {
+
+          const { jobGroup } = flowTaskRun;
+
+          const { data: logsData } = await axios.get(
+            `${job.featuresValues.endpoint.url}/v4/jobGroups/${jobGroup.id}/logs`,
+            {
+              ...getRequestConfigFromEndpointForm(job.featuresValues.endpoint),
+              responseType: 'arraybuffer'
+            }
+          );
+
+          logsLines = logsLines.concat(await extractLogs(logsData, jobGroup.id));
+        }));
+
+      });
+
+      await Promise.all(logsPromises);
+    }
+
+    return Response.success(logsLines.map((line) => {
+      const logDate = line.substring(0, 23);
+      const logContent = line.substring(24);
+      return Log(logContent, Stream.STDOUT, logDate);
+    }));
+
+  } catch (error) {
+    if (error && error.response) {
+      return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${error.response.status} - ${error.response.statusText}`, { error: new Error(`${error.response.status} - ${error.response.statusText}`) });
+    }
+
+    return Response.error(`${ERRORS_MESSAGES.FAILED_TO_GET_STATUS_ERROR} : ${job.featuresValues.plan.id}`, { error });
+  }
+};
