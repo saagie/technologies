@@ -25,7 +25,7 @@ fileExistenceTests:
 fileContentTests:
   - name: "entrypoint.sh"
     path: "/opt/entrypoint.sh"
-    expectedContents: ["exec /sbin/tini -s -- "]
+    expectedContents: ["exec /usr/bin/tini -s -- "]
 
 commandTests:
   - name: "Workdir"
