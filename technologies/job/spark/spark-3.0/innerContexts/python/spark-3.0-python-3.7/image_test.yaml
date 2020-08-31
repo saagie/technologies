@@ -107,5 +107,5 @@ commandTests:
   - name: "tini"
     command: "/sbin/tini"
     args: ["--version"]
-    expectedOutput: ["tini version 0.18.0.*"]
+    expectedOutput: ["tini version 0.18.*"]
     exitCode: 0
