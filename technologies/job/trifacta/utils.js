@@ -1,7 +1,5 @@
 const https = require('https');
-const fs = require('fs');
-const extract = require('extract-zip');
-const rimraf = require('rimraf');
+const AdmZip = require('adm-zip');
 
 const agent = new https.Agent({  
   rejectUnauthorized: false
@@ -31,33 +29,22 @@ export const getRequestConfigFromEndpointForm = (endpointForm) => {
 }
 
 
-export const extractLogs = async (data, jobGroupId) => {
-  const jobLogsFilePath = `/tmp/job-${jobGroupId}-logs.zip`;
-  const jobLogsFolderPath = `/tmp/job-${jobGroupId}-logs`;
+export const extractLogs = async (data) => {
+	const zip = new AdmZip(data);
+  const zipEntries = zip.getEntries();
 
-  if (fs.existsSync(jobLogsFilePath)) {
-    fs.unlinkSync(jobLogsFilePath);
-  }
+  let logsLines = [];
 
-  fs.appendFileSync(jobLogsFilePath, data);
+	zipEntries.forEach((zipEntry) => {
+    if (zipEntry && zipEntry.entryName.includes('job.log')) {
 
-  if (fs.existsSync(jobLogsFolderPath)) {
-    rimraf.sync(jobLogsFolderPath);
-  }
+      const fileData = zipEntry.getData();
 
-  await extract(jobLogsFilePath, { dir: '/tmp' });
+      const logsContent = fileData.toString('utf8');
 
-  const directories = fs.readdirSync(jobLogsFolderPath, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
-    .filter(dirName => Number(dirName));
-
-  let logs = '';
-
-  directories.forEach((dir) => {
-    const newLogs = fs.readFileSync(`${jobLogsFolderPath}/${dir}/job.log`, 'utf8');
-    logs += newLogs;
+      logsLines = logsLines.concat(logsContent.split('\n'));
+    }
   });
 
-  return logs.split('\n');
+  return logsLines;
 }
