@@ -30,12 +30,13 @@ set -e
 # If there is no passwd entry for the container UID, attempt to create one
 if [ -z "$uidentry" ] ; then
     if [ -w /etc/passwd ] ; then
-        echo "$myuid:x:$myuid:$mygid:anonymous uid:$SPARK_HOME:/bin/false" >> /etc/passwd
+        echo "$myuid:x:$myuid:$mygid:${SPARK_USER_NAME:-anonymous uid}:$SPARK_HOME:/bin/false" >> /etc/passwd
     else
         echo "Container ENTRYPOINT failed to add passwd entry for anonymous UID"
     fi
 fi
 
+# BEGIN SAAGIE SPECIFIC CODE
 mkdir -p /opt/spark/conf/
 cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
 echo "spark.kubernetes.driver.label.io.saagie/spark-submit-pod-uid $SPARK_SUBMIT_POD_UID" >> /opt/spark/conf/spark-defaults.conf
@@ -45,3 +46,4 @@ then
     sh ./main_script;
 else exec "$@"
 fi;
+# END SAAGIE SPECIFIC CODE
