@@ -43,6 +43,11 @@ echo "spark.kubernetes.driver.label.io.saagie/spark-submit-pod-uid $SPARK_SUBMIT
 
 if test -f main_script;
 then
+    # parse content and if pyfiles extract minio url and inject it
+    if grep -q "\--py-files" main_script;
+    then
+      echo "spark.kubernetes.driverEnv.PYSPARK_FILES `awk -F '.*--py-files=| ' '{print $2}' main_script`" >> /opt/spark/conf/spark-defaults.conf
+    fi;
     sh ./main_script;
 else exec "$@"
 fi;

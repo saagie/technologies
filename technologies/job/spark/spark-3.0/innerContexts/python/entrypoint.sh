@@ -37,10 +37,6 @@ if [ -z "$uidentry" ] ; then
 fi
 
 # BEGIN SAAGIE SPECIFIC CODE
-echo "********************"
-export
-echo "********************"
-
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
     #Copy and unzip pyfiles
