@@ -36,7 +36,7 @@ fileContentTests:
         'unzip \*\.zip',
         'ln -s /sandbox/ /opt/spark/work-dir',
         '--py-files=/sandbox/\*',
-        'exec /usr/bin/tini -s -- '
+        'exec /sbin/tini -s -- '
       ]
 
   - name: "pip.conf"
@@ -102,4 +102,10 @@ commandTests:
     command: "which"
     args: ["scp"]
     expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "tini"
+    command: "/sbin/tini"
+    args: ["--version"]
+    expectedOutput: ["tini version 0.18.0.*"]
     exitCode: 0
