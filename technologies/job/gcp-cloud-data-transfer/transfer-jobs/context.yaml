@@ -1,0 +1,65 @@
+id: transfer-jobs
+label: Transfer jobs
+description: "Transfer jobs gestion context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Project
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: sourceBucket
+      label: GCS Source bucket
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getBuckets
+      dependsOn:
+        - project
+    - type: SELECT
+      name: destinationBucket
+      label: GCS Destination bucket
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getBuckets
+      dependsOn:
+        - project
+    - type: TEXT
+      name: jobName
+      label: Job name
+      required: true
+      dependsOn:
+        - project
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
