@@ -78,3 +78,9 @@ commandTests:
     args: ["scp"]
     expectedOutput: ["/usr/bin/scp"]
     exitCode: 0
+
+  - name: "tini"
+    command: "/sbin/tini"
+    args: ["--version"]
+    expectedOutput: ["tini version 0.18.0.*"]
+    exitCode: 0

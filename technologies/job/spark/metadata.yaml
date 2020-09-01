@@ -111,7 +111,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.0
-      version: 3.0-1.44.0
+      version: 3.0-1.47.0_SDKTECHNO-66
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -139,7 +139,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-jre-11
-              version: 3.0-jre-11-1.44.0
+              version: 3.0-jre-11-1.47.0_SDKTECHNO-66
           - id: 8
             label: 8
             available: true
@@ -147,7 +147,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-jre-8
-              version: 3.0-jre-8-1.44.0
+              version: 3.0-jre-8-1.47.0_SDKTECHNO-66
       - id: python
         label: Python
         available: true
@@ -167,14 +167,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 2.7
-            label: 2.7
-            available: true
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-py-2.7
-              version: 3.0-py-2.7-1.44.0
           - id: 3.5
             label: 3.5
             available: true
@@ -182,7 +174,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.5
-              version: 3.0-py-3.5-1.44.0
+              version: 3.0-py-3.5-1.47.0_SDKTECHNO-66
           - id: 3.6
             label: 3.6
             available: true
@@ -190,7 +182,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.6
-              version: 3.0-py-3.6-1.44.0
+              version: 3.0-py-3.6-1.47.0_SDKTECHNO-66
           - id: 3.7
             label: 3.7
             available: true
@@ -198,4 +190,4 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.7
-              version: 3.0-py-3.7-1.44.0
+              version: 3.0-py-3.7-1.47.0_SDKTECHNO-66
