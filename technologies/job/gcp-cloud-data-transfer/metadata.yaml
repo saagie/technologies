@@ -1,15 +1,15 @@
 version: v1
-id: gcp-dataflow
-label: GCP Dataflow
-description: "GCP Dataflow Saagie implementation"
+id: gcp-cloud-data-transfer
+label: GCP Cloud Data Transfer
+description: "GCP Cloud Data Transfer service"
 available: true
 type: EXTERNAL_JOB
 icon: job
 
 contexts:
-  - id: clone-job
-    label: Clone job
-    description: "Clone existing Dataflow job context"
+  - id: transfer-jobs
+    label: Transfer jobs
+    description: "Transfer jobs gestion context"
     recommended: true
     trustLevel: experimental
     endpoint:
@@ -35,99 +35,29 @@ contexts:
           dependsOn:
             - endpoint
         - type: SELECT
-          name: region
-          label: Region
+          name: sourceBucket
+          label: GCS Source bucket
           required: true
           options:
             script: ./jobForm.js
-            function: getRegions
+            function: getBuckets
           dependsOn:
             - project
         - type: SELECT
-          name: job
-          label: Job
+          name: destinationBucket
+          label: GCS Destination bucket
           required: true
           options:
             script: ./jobForm.js
-            function: getJobs
-          dependsOn:
-            - region
-        - type: TEXT
-          name: clonedJobName
-          label: Cloned job name
-          required: false
-          dependsOn:
-            - job
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
-  - id: new-job
-    label: New job
-    description: "New Dataflow job creation context"
-    recommended: true
-    trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: region
-          label: Region
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRegions
+            function: getBuckets
           dependsOn:
             - project
-        - type: TEXT
-          name: templatePath
-          label: Template path
-          required: true
-          helper: "A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'"
-          dependsOn:
-            - region
         - type: TEXT
           name: jobName
           label: Job name
           required: true
           dependsOn:
-            - region
-        - type: TEXT
-          name: jsonParameters
-          label: Parameters JSON
-          required: false
-          helper: "Parameters for job"
-          dependsOn:
-            - region
+            - project
     instance:
       actions:
         onStart:
