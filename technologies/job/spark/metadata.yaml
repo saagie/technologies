@@ -167,14 +167,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 2.7
-            label: 2.7
-            available: true
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-py-2.7
-              version: 3.0-py-2.7-1.47.0_SDKTECHNO-66
           - id: 3.5
             label: 3.5
             available: true
