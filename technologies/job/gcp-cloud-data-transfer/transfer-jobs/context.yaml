@@ -49,6 +49,13 @@ job:
       required: true
       dependsOn:
         - project
+    - type: TEXT
+      name: dailyExecutionHour
+      label: Daily execution hour
+      required: false
+      helper: Insert an hour to create a daily job (HH:mm format)
+      dependsOn:
+        - project
 instance:
   actions:
     onStart:

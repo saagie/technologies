@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@saagie/sdk": "^0.12.2",
-    "dayjs": "^1.8.34",
-    "googleapis": "^49.0.0"
+    "googleapis": "^49.0.0",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31"
   }
 }
