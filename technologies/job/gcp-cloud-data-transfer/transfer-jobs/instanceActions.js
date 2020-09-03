@@ -45,6 +45,7 @@ exports.start = async ({ job }) => {
     };
 
     if (job.featuresValues.dailyExecutionHour && job.featuresValues.dailyExecutionHour.length > 0) {
+      // DAILY RUN IF DAILY EXECUTION HOUR HAS BEEN INSERTED
       const dailyHour = moment(job.featuresValues.dailyExecutionHour, 'HH:mm');
 
       if (!dailyHour.isValid()) {
@@ -62,6 +63,7 @@ exports.start = async ({ job }) => {
         };
       }
     } else {
+      // RUN EXECUTED ONCE
       runObject.schedule.scheduleEndDate = {
         day: currentDate.day(),
         month: currentDate.month(),
@@ -99,6 +101,7 @@ exports.stop = async ({ job, instance }) => {
   
     const filterOptionsString = JSON.stringify(filterOptions);
   
+    // WE LIST ALL TRANSFER OPERATIONS LINKED TO TRANSFER JOB
     const { data: { operations } } = await storagetransfer.transferOperations.list({
       auth,
       name: 'transferOperations',
@@ -116,6 +119,7 @@ exports.stop = async ({ job, instance }) => {
       });
     }
 
+    // WE CANCEL ALL TRANSFER OPERATIONS LINKED TO TRANSFER JOB
     await Promise.all(promises);
 
     return Response.success();
@@ -143,6 +147,7 @@ exports.getStatus = async ({ job, instance }) => {
 
     const filterOptionsString = JSON.stringify(filterOptions);
 
+    // WE LIST ALL TRANSFER OPERATIONS LINKED TO TRANSFER JOB
     const { data: { operations } } = await storagetransfer.transferOperations.list({
       auth,
       name: 'transferOperations',
@@ -150,6 +155,7 @@ exports.getStatus = async ({ job, instance }) => {
     });
 
     if (operations && operations.length > 0) {
+      // WE GET LAST OPERATION STATUS
       const { metadata } = operations[operations.length - 1];
 
       return Response.success(JOB_STATUS[metadata.status] || JobStatus.AWAITING);
