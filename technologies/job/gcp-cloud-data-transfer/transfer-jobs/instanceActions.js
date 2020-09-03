@@ -47,6 +47,10 @@ exports.start = async ({ job }) => {
     if (job.featuresValues.dailyExecutionHour && job.featuresValues.dailyExecutionHour.length > 0) {
       const dailyHour = moment(job.featuresValues.dailyExecutionHour, 'HH:mm');
 
+      if (!dailyHour.isValid()) {
+        return Response.error('Error while parsing the daily execution hour', new Error('Error while parsing the daily execution hour'));
+      }
+
       const dailyHourUTC = dailyHour.utc();
 
       if (dailyHourUTC) {
