@@ -8,8 +8,8 @@ icon: job
 
 contexts:
   - id: transfer-jobs
-    label: Transfer jobs
-    description: "Transfer jobs gestion context"
+    label: GCS transfer jobs
+    description: "Google Cloud Storage transfer jobs gestion context"
     recommended: true
     trustLevel: experimental
     endpoint:
