@@ -2,7 +2,7 @@ const { Response } = require('@saagie/sdk');
 const { google } = require('googleapis');
 const storage = google.storage('v1');
 const cloudresourcemanager = google.cloudresourcemanager('v1');
-const { getAuth, getErrorMessage } = require('../utils');
+const { getAuth, getErrorMessage } = require('./utils');
 
 /**
  * Function to retrieve projects for the authenticated user.

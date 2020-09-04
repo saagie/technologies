@@ -1,6 +1,6 @@
-id: transfer-jobs
-label: GCS transfer jobs
-description: "Google Cloud Storage transfer jobs gestion context"
+id: tsv-transfer-jobs
+label: TSV file transfer jobs
+description: "TSV file transfer jobs context"
 recommended: true
 trustLevel: experimental
 endpoint:
@@ -25,13 +25,10 @@ job:
         function: getProjects
       dependsOn:
         - endpoint
-    - type: SELECT
-      name: sourceBucket
-      label: GCS Source bucket
+    - type: TEXT
+      name: tsvFileURL
+      label: TSV file URL
       required: true
-      options:
-        script: ../jobForm.js
-        function: getBuckets
       dependsOn:
         - project
     - type: SELECT

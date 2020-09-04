@@ -21,7 +21,7 @@ job:
       label: Project
       required: true
       options:
-        script: ./jobForm.js
+        script: ../jobForm.js
         function: getProjects
       dependsOn:
         - endpoint
@@ -48,7 +48,7 @@ job:
       label: GCS Destination bucket
       required: true
       options:
-        script: ./jobForm.js
+        script: ../jobForm.js
         function: getBuckets
       dependsOn:
         - project
