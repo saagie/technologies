@@ -3,9 +3,10 @@ type: APP
 id: kibana
 label: Kibana
 baseline: Your window into the Elastic Stack
-description: "Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack. Do anything from tracking query load to understanding the way requests flow through your apps."
+description: Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack. Do anything from tracking query load to understanding the way requests flow through your apps.
 available: true
 icon: kibana
+backgroundColor: "#40BEB0"
 customFlags: []
 contexts:
   - id: 5.6.16
@@ -21,7 +22,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 5.6.16
-      version: 5.6.16-1.47.0_appkibana
+      version: 5.6.16-1.48.0_appkibana
   - id: 5.6.3
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -35,7 +36,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 5.6.3
-      version: 5.6.3-1.47.0_appkibana
+      version: 5.6.3-1.48.0_appkibana
   - id: 6.4.1
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -49,7 +50,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.4.1
-      version: 6.4.1-1.47.0_appkibana
+      version: 6.4.1-1.48.0_appkibana
   - id: 6.4.3
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -63,7 +64,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.4.3
-      version: 6.4.3-1.47.0_appkibana
+      version: 6.4.3-1.48.0_appkibana
   - id: 6.8.1
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -77,7 +78,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.8.1
-      version: 6.8.1-1.47.0_appkibana
+      version: 6.8.1-1.48.0_appkibana
   - id: 6.8.4
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -91,7 +92,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.8.4
-      version: 6.8.4-1.47.0_appkibana
+      version: 6.8.4-1.48.0_appkibana
   - id: 7.4.0
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -105,7 +106,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.4.0
-      version: 7.4.0-1.47.0_appkibana
+      version: 7.4.0-1.48.0_appkibana
   - id: 7.4.1
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -119,7 +120,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.4.1
-      version: 7.4.1-1.47.0_appkibana
+      version: 7.4.1-1.48.0_appkibana
   - id: 7.4.2
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -133,7 +134,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.4.2
-      version: 7.4.2-1.47.0_appkibana
+      version: 7.4.2-1.48.0_appkibana
   - id: 7.5.1
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -147,7 +148,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.5.1
-      version: 7.5.1-1.47.0_appkibana
+      version: 7.5.1-1.48.0_appkibana
   - id: 7.6.2
     label: Kibana
     releaseNotes: "First iteration post migration"
@@ -161,4 +162,4 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.6.2
-      version: 7.6.2-1.47.0_appkibana
+      version: 7.6.2-1.48.0_appkibana
