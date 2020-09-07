@@ -6,6 +6,7 @@ baseline: Data Science Notebook
 description: "The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
 available: true
 icon: jupyter
+backgroundColor: "#E87A35"
 customFlags: []
 contexts:
   - id: v2-app
@@ -22,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: v2
-      version: v2-1.47.0_appjupyter
+      version: v2-1.48.0_appjupyter
