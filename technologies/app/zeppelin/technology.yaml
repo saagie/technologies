@@ -3,7 +3,8 @@ type: APP
 id: zeppelin
 label: Zeppelin Notebook
 baseline: Data Science Notebook
-description: "Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more."
+description: Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
 available: true
 icon: zeppelin
+backgroundColor: "#0099CC"
 customFlags: []
