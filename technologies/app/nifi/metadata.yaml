@@ -1,11 +1,12 @@
-version: "v1"
+version: v1
 type: APP
 id: nifi
 label: Nifi
 baseline: Apache Nifi
-description: "An easy to use, powerful, and reliable system to process and distribute data"
+description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
 icon: nifi
+backgroundColor: "#728E9B"
 customFlags: []
 contexts:
   - id: 1.9.2
@@ -22,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/nifi
       baseTag: 1.9.2
-      version: 1.9.2-1.46.0_appnifi
+      version: 1.9.2-1.48.0_appnifi
