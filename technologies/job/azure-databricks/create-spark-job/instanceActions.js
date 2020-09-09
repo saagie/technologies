@@ -22,9 +22,14 @@ exports.start = async ({ job, instance }) => {
       {
         name: job.featuresValues.jobName,
         new_cluster: {
-          spark_version: "5.3.x-scala2.11",
+          spark_version: "7.0.x-scala2.12",
           node_type_id: "Standard_D3_v2",
-          num_workers: 10
+          num_workers: 1,
+          cluster_log_conf: {
+            dbfs: {
+              destination: 'dbfs:/logs',
+            }
+          }
         },
         spark_submit_task: {
           parameters: JSON.parse(job.featuresValues.jobParameters)
