@@ -1,5 +1,5 @@
-id: client-id-auth
-label: Client ID auth
+id: create-notebook-job
+label: Create Notebook job
 description: ""
 recommended: true
 trustLevel: experimental
@@ -46,12 +46,24 @@ job:
       dependsOn:
         - resourceGroup
     - type: SELECT
-      name: job
-      label: Job
+      name: notebook
+      label: Notebook
       required: true
       options:
         script: ./jobForm.js
-        function: getJobs
+        function: getNotebooks
+      dependsOn:
+        - workspace
+    - type: TEXT
+      name: jobName
+      label: Notebook job name
+      required: true
+      dependsOn:
+        - workspace
+    - type: TEXT
+      name: jobParameters
+      label: Notebook job parameters
+      required: false
       dependsOn:
         - workspace
 instance:
