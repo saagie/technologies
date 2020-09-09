@@ -37,7 +37,7 @@ exports.getResourceGroups = async ({ featuresValues }) => {
 };
 
 /**
- * Function to retrieve function apps linked to selected resource group
+ * Function to retrieve Databricks workspaces linked to selected resource group
  * @param {Object} entity - Contains entity data including featuresValues.
  * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
  */
@@ -63,31 +63,5 @@ exports.getWorkspaces = async ({ featuresValues }) => {
     return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
   } catch (error) {
     return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
-  }
-};
-
-/**
- * Function to retrieve functions linked to selected function app
- * @param {Object} entity - Contains entity data including featuresValues.
- * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
- */
-exports.getJobs = async ({ featuresValues }) => {
-  try {
-    const res = await axios.get(
-      `https://${featuresValues.workspace.url}/api/2.0/jobs/list`,
-      await getHeadersWithAccessTokenForDatabricksResource(featuresValues),
-    );
-
-    if (res && res.data && res.data.jobs && res.data.jobs.length > 0) {
-      return Response.success(res.data.jobs.map(({ job_id, settings }) => ({
-        id: job_id,
-        label: settings.name,
-      })));
-    }
-
-    return Response.empty(ERRORS_MESSAGES.NO_JOBS);
-  } catch (error) {
-    console.log({ error });
-    return getErrorMessage(error, ERRORS_MESSAGES.JOBS_ERROR);
   }
 };
