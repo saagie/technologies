@@ -1,0 +1,74 @@
+id: new-service
+label: New service
+description: "GCP Cloud Run new service creation context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Project
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: region
+      label: Region
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getRegions
+      dependsOn:
+        - project
+    - type: TEXT
+      name: serviceName
+      label: Service name
+      required: true
+      dependsOn:
+        - region
+    - type: TEXT
+      name: containerImageUrl
+      label: Container image URL
+      required: true
+      helper: "Example : gcr.io/cloudrun/hello"
+      dependsOn:
+        - region
+    - type: TEXT
+      name: containerPort
+      label: Container port
+      required: false
+      helper: "Custom container port, default is 8080"
+      dependsOn:
+        - region
+    - type: TEXT
+      name: maxScale
+      label: Autoscaling max scale
+      required: false
+      helper: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+      dependsOn:
+        - region
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
