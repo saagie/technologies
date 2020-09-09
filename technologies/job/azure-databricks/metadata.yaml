@@ -218,12 +218,6 @@ contexts:
             function: getJobs
           dependsOn:
             - workspace
-        - type: TEXT
-          name: jobParameters
-          label: Job parameters
-          required: false
-          dependsOn:
-            - workspace
     instance:
       actions:
         onStart:
