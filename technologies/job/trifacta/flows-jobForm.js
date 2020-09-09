@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { Response } = require('@saagie/sdk');
 const { getRequestConfigFromEndpointForm } = require('./utils');
-const { ERRORS_MESSAGES, SSL_ISSUES_CODE } = require('../errors');
+const { ERRORS_MESSAGES, SSL_ISSUES_CODE } = require('./errors');
 
 /**
  * Function to get user flows in Trifacta
