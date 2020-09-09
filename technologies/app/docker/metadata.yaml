@@ -3,7 +3,7 @@ type: APP
 id: docker-app
 label: Docker image
 baseLine: Docker container technology
-description: Use any Docker image
+description: Use any Docker image.
 available: true
 icon: generic-app
 customFlags: ["GenericApp"]
