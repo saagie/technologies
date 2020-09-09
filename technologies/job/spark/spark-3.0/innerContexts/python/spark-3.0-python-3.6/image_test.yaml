@@ -32,11 +32,11 @@ fileContentTests:
     path: "/opt/entrypoint.sh"
     expectedContents:
       [
-        'exec /sbin/tini -s -- ',
         'wget \$PYSPARK_FILES',
         'unzip \*\.zip',
         'ln -s /sandbox/ /opt/spark/work-dir',
-        '--py-files=/sandbox/\*'
+        '--py-files=/sandbox/\*',
+        'exec /sbin/tini -s -- '
       ]
 
   - name: "pip.conf"
@@ -102,4 +102,10 @@ commandTests:
     command: "which"
     args: ["scp"]
     expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "tini"
+    command: "/sbin/tini"
+    args: ["--version"]
+    expectedOutput: ["tini version 0.18.0.*"]
     exitCode: 0

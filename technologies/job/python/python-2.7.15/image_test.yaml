@@ -1,0 +1,350 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: LD_RUN_PATH
+      value: "/usr/local/lib"
+    - key: PATH
+      value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+fileExistenceTests:
+  - name: "unzip"
+    path: "/usr/bin/unzip"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "pip.conf"
+    path: "/root/.pip/pip.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+fileContentTests:
+  - name: "pip.conf"
+    path: "/root/.pip/pip.conf"
+    expectedContents:
+      [
+        "index-url = http://saagie-common-nexus.saagie-common:8081/repository/pypi-all/simple",
+        "trusted-host = saagie-common-nexus.saagie-common",
+      ]
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents:
+      [
+        "unzip -q \\*.zip",
+        "pip install -r requirements.txt",
+        "sh ./main_script",
+      ]
+
+commandTests:
+  - name: "python installation"
+    command: "which"
+    args: ["python"]
+    expectedOutput: ["/usr/local/bin/python"]
+
+  - name: "python version"
+    command: "python"
+    args: ["-V"]
+    expectedError: ["Python 2.7*"]
+
+  - name: import_numpy
+    command: "python"
+    args: ["-c", "import numpy"]
+    exitCode: 0
+  - name: import_h5py
+    command: "python"
+    args: ["-c", "import h5py"]
+    exitCode: 0
+  - name: import_ipywidgets
+    command: "python"
+    args: ["-c", "import ipywidgets"]
+    exitCode: 0
+  - name: import_pandas
+    command: "python"
+    args: ["-c", "import pandas"]
+    exitCode: 0
+  - name: import_matplotlib
+    command: "python"
+    args: ["-c", "import matplotlib"]
+    exitCode: 0
+  - name: import_scipy
+    command: "python"
+    args: ["-c", "import scipy"]
+    exitCode: 0
+  - name: import_scikit-learn
+    command: "python"
+    args: ["-c", "from sklearn import datasets"]
+    exitCode: 0
+  - name: import_pyodbc
+    command: "python"
+    args: ["-c", "import pyodbc"]
+    exitCode: 0
+  - name: import_impyla
+    command: "python"
+    args: ["-c", "from impala.dbapi import connect"]
+    exitCode: 0
+  - name: import_hdfs
+    command: "python"
+    args: ["-c", "import hdfs"]
+    exitCode: 0
+  - name: import_scikit-image
+    command: "python"
+    args: ["-c", "from skimage import data"]
+    exitCode: 0
+  - name: import_bokeh
+    command: "python"
+    args: ["-c", "import bokeh"]
+    exitCode: 0
+  - name: import_keras
+    command: "python"
+    args: ["-c", "from keras.layers import Dense"]
+    exitCode: 0
+  - name: import_tensorflow
+    command: "python"
+    args: ["-c", "import tensorflow"]
+    exitCode: 0
+  - name: import_theano
+    command: "python"
+    args: ["-c", "import theano.tensor"]
+    exitCode: 0
+  - name: import_pybrain
+    command: "python"
+    args: ["-c", "import pybrain"]
+    exitCode: 0
+  - name: import_statsmodels
+    command: "python"
+    args: ["-c", "import statsmodels"]
+    exitCode: 0
+  - name: import_mpld3
+    command: "python"
+    args: ["-c", "import mpld3"]
+    exitCode: 0
+  - name: import_networkx
+    command: "python"
+    args: ["-c", "import networkx"]
+    exitCode: 0
+  - name: import_fiona
+    command: "python"
+    args: ["-c", "import fiona"]
+    exitCode: 0
+  - name: import_folium
+    command: "python"
+    args: ["-c", "import folium"]
+    exitCode: 0
+  - name: import_shapely
+    command: "python"
+    args: ["-c", "import shapely"]
+    exitCode: 0
+  - name: import_thrift_sasl
+    command: "python"
+    args: ["-c", "import thrift_sasl"]
+    exitCode: 0
+  - name: import_sasl
+    command: "python"
+    args: ["-c", "import sasl"]
+    exitCode: 0
+  - name: import_sqlalchemy
+    command: "python"
+    args: ["-c", "from sqlalchemy import create_engine"]
+    exitCode: 0
+  - name: import_ibis
+    command: "python"
+    args: ["-c", "import ibis"]
+    exitCode: 0
+  - name: import_pymongo
+    command: "python"
+    args: ["-c", "import pymongo"]
+    exitCode: 0
+  - name: import_seaborn
+    command: "python"
+    args: ["-c", "import seaborn"]
+    exitCode: 0
+  - name: import_pytesseract
+    command: "python"
+    args: ["-c", "import pytesseract"]
+    exitCode: 0
+  - name: import_opencv
+    command: "python"
+    args: ["-c", "import cv2"]
+    exitCode: 0
+  - name: import_wand
+    command: "python"
+    args: ["-c", "from wand.image import Image"]
+    exitCode: 0
+  - name: import_mysqlconnector
+    command: "python"
+    args: ["-c", "import mysql.connector"]
+    exitCode: 0
+  - name: import_pyshp
+    command: "python"
+    args: ["-c", "import shapefile"]
+    exitCode: 0
+  - name: import_cython
+    command: "python"
+    args: ["-c", "import cython"]
+    exitCode: 0
+  - name: import_tpot
+    command: "python"
+    args: ["-c", "import tpot"]
+    exitCode: 0
+  - name: import_lime
+    command: "python"
+    args: ["-c", "import lime"]
+    exitCode: 0
+  - name: import_shap
+    command: "python"
+    args: ["-c", "import shap"]
+    exitCode: 0
+  - name: import_nltk
+    command: "python"
+    args: ["-c", "import nltk"]
+    exitCode: 0
+  - name: import_gensim
+    command: "python"
+    args: ["-c", "import gensim"]
+    exitCode: 0
+  - name: import_xgboost
+    command: "python"
+    args: ["-c", "import xgboost"]
+    exitCode: 0
+  - name: import_imbalanced-learn
+    command: "python"
+    args: ["-c", "from imblearn.over_sampling import RandomOverSampler"]
+    exitCode: 0
+  - name: import_dryscape
+    command: "python"
+    args: ["-c", "import dryscrape"]
+    exitCode: 0
+  - name: import_lxml
+    command: "python"
+    args: ["-c", "import lxml"]
+    exitCode: 0
+  - name: import_scrapy
+    command: "python"
+    args: ["-c", "import scrapy"]
+    exitCode: 0
+  - name: import_bs4
+    command: "python"
+    args: ["-c", "import bs4"]
+    exitCode: 0
+  - name: import_pydotplus
+    command: "python"
+    args: ["-c", "import pydotplus"]
+    exitCode: 0
+  - name: import_elasticsearch
+    command: "python"
+    args: ["-c", "import elasticsearch"]
+    exitCode: 0
+  - name: import_psycopg2
+    command: "python"
+    args: ["-c", "import psycopg2"]
+    exitCode: 0
+  - name: import_graphviz
+    command: "python"
+    args: ["-c", "import graphviz"]
+    exitCode: 0
+  - name: import_geopandas
+    command: "python"
+    args: ["-c", "import geopandas"]
+    exitCode: 0
+  - name: import_geopy
+    command: "python"
+    args: ["-c", "import geopy"]
+    exitCode: 0
+  - name: import_tabula
+    command: "python"
+    args: ["-c", "import tabula"]
+    exitCode: 0
+  - name: import_spacy
+    command: "python"
+    args: ["-c", "import spacy"]
+    exitCode: 0
+  - name: import_pycrypto
+    command: "python"
+    args: ["-c", "from Crypto.Hash import SHA256"]
+    exitCode: 0
+  - name: import_crypto
+    command: "crypto"
+    args: ["-h"]
+    exitCode: 0
+  - name: import_tokenizer
+    command: "python"
+    args: ["-c", "import tokenizer"]
+    exitCode: 0
+  - name: import_apiclient
+    command: "python"
+    args: ["-c", "import apiclient"]
+    exitCode: 0
+  - name: import_addok
+    command: "python"
+    args: ["-c", "import addok"]
+    exitCode: 0
+  - name: import_openpyxl
+    command: "python"
+    args: ["-c", "import openpyxl"]
+    exitCode: 0
+  - name: import_jellyfish
+    command: "python"
+    args: ["-c", "import jellyfish"]
+    exitCode: 0
+  - name: import_django
+    command: "python"
+    args: ["-c", "import django"]
+    exitCode: 0
+  - name: import_joblib
+    command: "python"
+    args: ["-c", "import joblib"]
+    exitCode: 0
+  - name: import_excel
+    command: "python"
+    args: ["-c", "import excel"]
+    exitCode: 0
+  - name: import_pyhton_levenshtein
+    command: "python"
+    args: ["-c", "from Levenshtein import _levenshtein"]
+    exitCode: 0
+  - name: import_xlwt
+    command: "python"
+    args: ["-c", "import xlwt"]
+    exitCode: 0
+  - name: import_tika
+    command: "python"
+    args: ["-c", "import tika"]
+    exitCode: 0
+  - name: import_textract
+    command: "python"
+    args: ["-c", "import textract"]
+    exitCode: 0
+  - name: import_pycurl
+    command: "python"
+    args: ["-c", "import pycurl"]
+    exitCode: 0
+  - name: import_neo4j-driver
+    command: "python"
+    args: ["-c", "from neo4j.v1 import GraphDatabase"]
+    exitCode: 0
+  - name: import_simplejson
+    command: "python"
+    args: ["-c", "import simplejson"]
+    exitCode: 0
+  - name: import_pdfparser
+    command: "python"
+    args: ["-c", "from pdfminer.psparser import *"]
+    exitCode: 0
+  - name: import_requests-kerberos
+    command: "python"
+    args: ["-c", "from requests_kerberos import *"]
+    exitCode: 0
+
+# - name: import_
+#   command: "python"
+#   args: ["-c", "import"]
+#   exitCode: 0

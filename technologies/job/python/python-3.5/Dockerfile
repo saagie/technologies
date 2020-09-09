@@ -19,9 +19,9 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
 
 # Need to read requirements.txt file sequentially to ensure consistent installatin order (Cython needed first)
 # (ConfigSace install required by auto-sklearn will fail without that before the other install)
-COPY resources/requirements.txt .
-RUN grep -v '^#' requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
-    && rm -rf requirements.txt \
+# Keep a copy of requirements.txt for depending images (jupyter...)
+COPY resources/requirements.txt /tmp/requirements.txt
+RUN grep -v '^#' /tmp/requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip

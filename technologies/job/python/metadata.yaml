@@ -27,7 +27,31 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 2.7
-      version: 2.7-1.41.0
+      version: 2.7-1.46.0
+  - id: 2.7.15
+    label: 2.7.15
+    available: false
+    dockerImageFallback: saagie/python:2.7.15.201904.31
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      baseTag: 2.7.15
+      version: 2.7.15-1.45.0
   - id: 3.5
     label: 3.5
     available: true
@@ -50,7 +74,7 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.5
-      version: 3.5-1.41.0
+      version: 3.5-1.46.0
   - id: 3.6
     label: 3.6
     available: true
@@ -73,7 +97,31 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.6
-      version: 3.6-1.41.0
+      version: 3.6-1.46.0
+  - id: 3.6.6
+    label: 3.6.6
+    available: false
+    dockerImageFallback: saagie/python:3.6.6.201904.31
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      baseTag: 3.6.6
+      version: 3.6.6-1.45.0
   - id: 3.7
     label: 3.7
     available: true
@@ -96,4 +144,4 @@ contexts:
     dockerInfo:
       image: saagie/python
       baseTag: 3.7
-      version: 3.7-1.41.0
+      version: 3.7-1.46.0

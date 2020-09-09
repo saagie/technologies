@@ -30,24 +30,12 @@ set -e
 # If there is no passwd entry for the container UID, attempt to create one
 if [ -z "$uidentry" ] ; then
     if [ -w /etc/passwd ] ; then
-        echo "$myuid:x:$myuid:$mygid:anonymous uid:$SPARK_HOME:/bin/false" >> /etc/passwd
+        echo "$myuid:x:$myuid:$mygid:${SPARK_USER_NAME:-anonymous uid}:$SPARK_HOME:/bin/false" >> /etc/passwd
     else
         echo "Container ENTRYPOINT failed to add passwd entry for anonymous UID"
     fi
 fi
 
-SPARK_K8S_CMD="$1"
-case "$SPARK_K8S_CMD" in
-    driver | driver-py | driver-r | executor)
-      shift 1
-      ;;
-    "")
-      ;;
-    *)
-      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-      exec /sbin/tini -s -- "$@"
-      ;;
-esac
 
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
 env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n | sed 's/[^=]*=\(.*\)/\1/g' > /tmp/java_opts.txt
@@ -57,29 +45,21 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
-if [ -n "$PYSPARK_FILES" ]; then
-    PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
+
+
+# If HADOOP_HOME is set and SPARK_DIST_CLASSPATH is not set, set it here so Hadoop jars are available to the executor.
+# It does not set SPARK_DIST_CLASSPATH if already set, to avoid overriding customizations of this value from elsewhere e.g. Docker/K8s.
+if [ -n "${HADOOP_HOME}"  ] && [ -z "${SPARK_DIST_CLASSPATH}"  ]; then
+  export SPARK_DIST_CLASSPATH="$($HADOOP_HOME/bin/hadoop classpath)"
 fi
 
-PYSPARK_ARGS=""
-if [ -n "$PYSPARK_APP_ARGS" ]; then
-    PYSPARK_ARGS="$PYSPARK_APP_ARGS"
+if ! [ -z ${HADOOP_CONF_DIR+x} ]; then
+  SPARK_CLASSPATH="$HADOOP_CONF_DIR:$SPARK_CLASSPATH";
 fi
 
-R_ARGS=""
-if [ -n "$R_APP_ARGS" ]; then
-    R_ARGS="$R_APP_ARGS"
-fi
-
-if [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
-    pyv3="$(python3 -V 2>&1)"
-    export PYTHON_VERSION="${pyv3:7}"
-    export PYSPARK_PYTHON="python3"
-    export PYSPARK_DRIVER_PYTHON="python3"
-fi
-
-case "$SPARK_K8S_CMD" in
+case "$1" in
   driver)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -87,29 +67,14 @@ case "$SPARK_K8S_CMD" in
       "$@"
     )
     ;;
-  driver-py)
-    CMD=(
-      "$SPARK_HOME/bin/spark-submit"
-      --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --deploy-mode client
-      "$@" $PYSPARK_PRIMARY $PYSPARK_ARGS
-    )
-    ;;
-    driver-r)
-    CMD=(
-      "$SPARK_HOME/bin/spark-submit"
-      --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --deploy-mode client
-      "$@" $R_PRIMARY $R_ARGS
-    )
-    ;;
   executor)
+    shift 1
     CMD=(
       ${JAVA_HOME}/bin/java
       "${SPARK_EXECUTOR_JAVA_OPTS[@]}"
       -Xms$SPARK_EXECUTOR_MEMORY
       -Xmx$SPARK_EXECUTOR_MEMORY
-      -cp "$SPARK_CLASSPATH"
+      -cp "$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH"
       org.apache.spark.executor.CoarseGrainedExecutorBackend
       --driver-url $SPARK_DRIVER_URL
       --executor-id $SPARK_EXECUTOR_ID
@@ -120,8 +85,9 @@ case "$SPARK_K8S_CMD" in
     ;;
 
   *)
-    echo "Unknown command: $SPARK_K8S_CMD" 1>&2
-    exit 1
+    echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
+    CMD=("$@")
+    ;;
 esac
 
 # Execute the container CMD under tini for better hygiene
