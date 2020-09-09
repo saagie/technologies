@@ -1,0 +1,81 @@
+id: azure-transfer-jobs
+label: Azure transfer jobs
+description: "Azure storage account transfer jobs context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: jsonKey
+      label: JSON key
+      required: true
+      helper: "Full JSON document"
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: project
+      label: Project
+      required: true
+      options:
+        script: ../jobForm.js
+        function: getProjects
+      dependsOn:
+        - endpoint
+    - type: TEXT
+      name: storageAccountName
+      label: Azure storage account name
+      required: true
+      dependsOn:
+        - project
+    - type: TEXT
+      name: containerName
+      label: Azure container name
+      required: true
+      dependsOn:
+        - project
+    - type: TEXT
+      name: sapToken
+      label: Shared access signature (SAP)
+      required: true
+      dependsOn:
+        - project
+    - type: SELECT
+      name: destinationBucket
+      label: GCS Destination bucket
+      required: true
+      options:
+        script: ../jobForm.js
+        function: getBuckets
+      dependsOn:
+        - project
+    - type: TEXT
+      name: jobName
+      label: Job name
+      required: true
+      dependsOn:
+        - project
+    - type: TEXT
+      name: dailyExecutionHour
+      label: Daily execution hour
+      required: false
+      helper: Insert an hour to create a daily job (HH:mm format)
+      dependsOn:
+        - project
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
