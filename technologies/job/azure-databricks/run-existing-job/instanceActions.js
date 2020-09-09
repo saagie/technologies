@@ -17,17 +17,9 @@ exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
 
-    const jobToRun = {
-      job_id: job.featuresValues.job.id
-    };
-
-    if (job.featuresValues.jobParameters) {
-      jobToRun.spark_submit_params = JSON.parse(job.featuresValues.jobParameters);
-    }
-
     const res = await axios.post(
       `https://${job.featuresValues.workspace.url}/api/2.0/jobs/run-now`,
-      jobToRun,
+      { job_id: job.featuresValues.job.id },
       await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
