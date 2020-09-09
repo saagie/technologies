@@ -94,11 +94,40 @@ tasks.register("buildModifiedJobs") {
     finalizedBy(":packageAllVersions")
 }
 
+tasks.register("buildModifiedApps") {
+    group = "technologies"
+    description = "Build only modified apps"
+
+    val modifiedProjects = modifiedProjects(TYPE.APP, subprojects)
+
+    logger.info(this.description)
+    dependsOn("incrementBuildMeta")
+    logger.debug("$modifiedProjects")
+    modifiedProjects.forEach {
+        dependsOn("${it.path}:$buildDockerTaskName")
+    }
+    finalizedBy(":packageAllVersions")
+}
+
 tasks.register("localBuildModifiedJobs") {
     group = "technologies"
     description = "Local Build only modified jobs without push"
 
     val modifiedProjects = modifiedProjects(TYPE.JOB, subprojects)
+
+    logger.info(this.description)
+    dependsOn("incrementBuildMeta")
+    logger.debug("$modifiedProjects")
+    modifiedProjects.forEach {
+        dependsOn("${it.path}:testImage")
+    }
+}
+
+tasks.register("localBuildModifiedApps") {
+    group = "technologies"
+    description = "Local Build only modified apps without push"
+
+    val modifiedProjects = modifiedProjects(TYPE.APP, subprojects)
 
     logger.info(this.description)
     dependsOn("incrementBuildMeta")

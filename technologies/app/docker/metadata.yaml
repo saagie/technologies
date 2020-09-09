@@ -2,7 +2,9 @@ version: v1
 type: APP
 id: docker-app
 label: Docker image
+baseLine: Docker container technology
 description: Use any Docker image
 available: true
-icon: docker
-trustLevel: stable
+icon: generic-app
+customFlags: ["GenericApp"]
+contexts: []
