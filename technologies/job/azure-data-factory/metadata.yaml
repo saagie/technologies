@@ -1,0 +1,79 @@
+version: v1
+id: azure-data-factory
+label: Azure Data Factory
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: default
+    label: Default
+    description: ""
+    recommended: true
+    trustLevel: experimental
+    endpoint:
+      features:
+        - type: TEXT
+          name: subscriptionId
+          label: Azure Subscription ID
+          required: true
+        - type: TEXT
+          name: clientId
+          label: Client ID
+          required: true
+        - type: PASSWORD
+          name: clientSecret
+          label: Client Secret
+          required: true
+        - type: TEXT
+          name: tenantId
+          label: Tenant ID
+          required: true
+    job:
+      features:
+        - type: ENDPOINT
+          name: endpoint
+          label: Endpoint
+          required: true
+        - type: SELECT
+          name: resourceGroup
+          label: Resource Group
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getResourceGroups
+          dependsOn:
+            - endpoint
+        - type: SELECT
+          name: factory
+          label: Data factory
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getFactories
+          dependsOn:
+            - resourceGroup
+        - type: SELECT
+          name: pipeline
+          label: Pipeline
+          required: true
+          options:
+            script: ./jobForm.js
+            function: getPipelines
+          dependsOn:
+            - factory
+    instance:
+      actions:
+        onStart:
+          script: ./instanceActions.js
+          function: start
+        onStop:
+          script: ./instanceActions.js
+          function: stop
+        getStatus:
+          script: ./instanceActions.js
+          function: getStatus
+        getLogs:
+          script: ./instanceActions.js
+          function: getLogs
