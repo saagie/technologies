@@ -58,9 +58,9 @@ exports.getFactories = async ({ featuresValues }) => {
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
+    return Response.empty(ERRORS_MESSAGES.NO_FACTORIES);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.FACTORIES_ERROR);
   }
 };
 
@@ -87,9 +87,9 @@ exports.getPipelines = async ({ featuresValues }) => {
       }
     }
 
-    return Response.empty(ERRORS_MESSAGES.NO_WORKSPACES);
+    return Response.empty(ERRORS_MESSAGES.NO_PIPELINES);
   } catch (error) {
-    return getErrorMessage(error, ERRORS_MESSAGES.WORKSPACES_ERROR);
+    return getErrorMessage(error, ERRORS_MESSAGES.PIPELINES_ERROR);
   }
 };
 

@@ -1,6 +1,6 @@
-id: default
-label: Default
-description: ""
+id: pipelines-new-run
+label: Pipelines new run
+description: "Context for running new a run of a pipeline"
 recommended: true
 trustLevel: experimental
 endpoint:
