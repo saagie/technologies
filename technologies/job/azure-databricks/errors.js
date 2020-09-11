@@ -2,6 +2,7 @@ export const ERRORS_MESSAGES = {
   NO_RESOURCE_GROUPS: 'No resource groups availables',
   NO_WORKSPACES: 'No workspaces availables',
   NO_JOBS: 'No jobs availables',
+  NO_NOTEBOOKS: 'No notebooks availables',
   RESOURCE_GROUPS_ERROR: 'Can\'t retrieve resource groups',
   WORKSPACES_ERROR: 'Can\'t retrieve workspaces',
   JOBS_ERROR: 'Can\'t retrieve jobs',
