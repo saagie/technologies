@@ -22,7 +22,12 @@ exports.start = async ({ job, instance }) => {
       new_cluster: {
         spark_version: "7.0.x-scala2.12",
         node_type_id: "Standard_D3_v2",
-        num_workers: 1
+        num_workers: 1,
+        cluster_log_conf: {
+          dbfs: {
+            destination: 'dbfs:/logs',
+          }
+        }
       },
       notebook_task: {
         base_parameters: [],
