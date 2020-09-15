@@ -1,0 +1,24 @@
+import os
+#import pyspark
+from pyspark.sql import SparkSession
+#pyspark.SparkConf().setAll([('spark.submit.deployMode', 'cluster'), ('spark.master', 'k8s://https://kubernetes.default.svc:443')])
+
+spark = SparkSession \
+    .builder \
+    .appName("File lines count") \
+    .config("spark.submit.deployMode", "cluster") \
+    .config("spark.master", "k8s://https://kubernetes.default.svc:443") \
+    .config("spark.kubernetes.driver.label.io.saagie/type", "job") \
+    .config("spark.kubernetes.driver.label.io.saagie/spark-role", "driver") \
+    .config("spark.kubernetes.executor.label.io.saagie/type", "job") \
+    .config("spark.kubernetes.authenticate.driver.serviceAccountName", "spark-driver") \
+    .config("spark.kubernetes.namespace", "POD_NAMESPACE") \
+    .getOrCreate()
+
+#Doit en principe retourner l'URL de K8S
+spark.sparkContext.getConf().getAll()
+
+list_a=[('aa',3), ('aaze',3)]
+dfa = spark.createDataFrame(list_a)
+print("Nombre d'éléments : "+str(dfa.count()))
+dfa.show()
