@@ -17,21 +17,46 @@ exports.start = async ({ job, instance }) => {
   try {
     console.log('START INSTANCE:', instance);
 
-    const res = await axios.post(
-      `https://${job.featuresValues.workspace.url}/api/2.0/jobs/run-now`,
+    const resCreation = await axios.post(
+      `https://${job.featuresValues.workspace.url}/api/2.0/jobs/create`,
       {
-        job_id: job.featuresValues.job.id,
+        name: job.featuresValues.jobName,
+        new_cluster: {
+          spark_version: "7.0.x-scala2.12",
+          node_type_id: "Standard_D3_v2",
+          num_workers: 1,
+          cluster_log_conf: {
+            dbfs: {
+              destination: 'dbfs:/logs',
+            }
+          }
+        },
+        spark_submit_task: {
+          parameters: JSON.parse(job.featuresValues.jobParameters)
+        }
       },
       await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
     );
 
-    if (res && res.data && res.data.run_id) {
-      return Response.success({
-        run_id: res.data.run_id,
-      });
+    if (resCreation && resCreation.data && resCreation.data.job_id) {
+      const jobToRun = {
+        job_id: resCreation.data.job_id
+      };
+
+      const res = await axios.post(
+        `https://${job.featuresValues.workspace.url}/api/2.0/jobs/run-now`,
+        jobToRun,
+        await getHeadersWithAccessTokenForDatabricksResource(job.featuresValues),
+      );
+  
+      if (res && res.data && res.data.run_id) {
+        return Response.success({
+          run_id: res.data.run_id,
+        });
+      }
     }
 
-    return Response.success();
+    return Response.error();
   } catch (error) {
     return getErrorMessage(error, ERRORS_MESSAGES.FAILED_TO_RUN_JOB_ERROR);
   }
