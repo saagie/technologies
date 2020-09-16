@@ -48,8 +48,10 @@ WORKDIR /notebooks-dir
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Should run as $NB_USER
-USER $NB_USER
+# Should run as $NB_USER  ... but ...
+# USER $NB_USER
+# Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
+USER root
 
 # Default: run without authentication
 CMD ["/entrypoint.sh"]
