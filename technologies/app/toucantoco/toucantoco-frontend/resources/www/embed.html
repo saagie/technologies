@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <title>Toucan Toco</title>
+  <meta name="description" content="">
+  <meta name="viewport" content=" initial-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#a0d1c5">
+  <meta name="robots" content="noindex, nofollow, noarchive, noodp">
+  
+    <link rel="shortcut icon" href="favicon.ico">
+  
+  
+    <link id="toucan-styles" href="embed.css" rel="stylesheet">
+  
+  <link rel="manifest">
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+<link as="style" href="embed.css" rel="preload"><link as="script" href="scripts/embed.js" rel="preload"></head>
+
+<body>
+  <script type="text/javascript">
+    // DETECT IE 11
+    if (
+        navigator.appName.indexOf("Internet Explorer") != -1 &&
+        navigator.appVersion.indexOf("MSIE 11") == -1
+    ) {
+        window.location.href = '/old-browser.html'
+    }
+
+    // DETECT IOS HOMESCREEN
+    function iOSversion() {
+        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+            return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+        }
+    }
+
+    var version = iOSversion();
+
+    if ((window.navigator.standalone) && (version[0] < 11)) {
+        document.body.classList.add("ios-fullscreen");
+    }
+
+    // iOs does not support the use of a manifest. Among other troubles it opens external links in new windows
+    // preventing standalone external authentication.
+    if (version){
+      document.querySelector('link[rel="manifest"]').remove()
+    }
+  </script>
+  <div id="tc-embed" style="height: 100%; min-width: 100%; display: flex; flex-direction: column; overflow: auto">
+    
+    
+    
+    <script data-tc-embed-info="" src="scripts/embedLauncher.js"></script>
+    
+  </div>
+  
+  <script type="text/javascript" src="scripts/embed.js"></script>
+  
+  
+  
+</body>
+
+</html>

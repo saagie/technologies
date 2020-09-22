@@ -1,0 +1,10 @@
+id: backend
+label: Toucan Toco
+releaseNotes: "First iteration"
+available: true
+trustLevel: unstable
+ports:
+  - port: 80
+    name: ToucanBack
+    rewrite: false
+    basePath: SAAGIE_BASE_PATH

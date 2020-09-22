@@ -1,0 +1,100 @@
+@font-face {
+    font-family: 'roboto_slabthin';
+    src: url('fonts/RobotoSlab-Thin-webfont.eot');
+    src: url('fonts/RobotoSlab-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/RobotoSlab-Thin-webfont.woff') format('woff'),
+        url('fonts/RobotoSlab-Thin-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'roboto_slabbold';
+    src: url('fonts/RobotoSlab-Bold-webfont.eot');
+    src: url('fonts/RobotoSlab-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/RobotoSlab-Bold-webfont.woff') format('woff'),
+        url('fonts/RobotoSlab-Bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  background-color: #A1D1C5;
+}
+
+h1, h2, h3 {
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  padding-top: 80px;
+  font-size: 2.6em;
+  font-family: 'roboto_slabbold';
+}
+
+h2 {
+  font-weight: lighter;
+  font-size: 1.7em;
+  font-family: 'roboto_slabthin';
+}
+
+h3 {
+  font-family: 'roboto_slabthin';
+  font-size: 1em;
+  margin-top: 80px;
+}
+
+.button--large {
+  color: white;
+  font-size: 1em;
+  border: 2px solid white;
+  height: auto;
+  width: 190px;
+  text-align: center;
+  padding: 13px;
+  margin: 50px auto 60px auto;
+  letter-spacing: 3px;
+  font-family: arial, helvetica;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  outline: none;
+}
+
+.button--large:hover {
+  background-color: #f3c642;
+  border-color: #f3c642;
+  cursor: pointer;
+}
+
+#buttons-container {
+  width: 408px;
+  height: 47px;
+  margin: 30px auto auto auto;
+}
+
+.button--small {
+  float: left;
+  color: white;
+  font-size: 0.7em;
+  border: 2px solid white;
+  height: auto;
+  width: auto;
+  text-align: center;
+  padding: 10px;
+  margin: 7px;
+  letter-spacing: 2px;
+  font-family: arial, helvetica;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.button--small:hover {
+  background-color: #f3c642;
+  border-color: #f3c642;
+  cursor: pointer;
+}
