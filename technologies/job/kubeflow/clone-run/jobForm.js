@@ -1,38 +1,6 @@
 const { Response } = require('@saagie/sdk');
 const axios = require('axios');
-const { getHeadersWithAccessToken, getErrorMessage, getAuth, EXPERIMENT_LABEL, PIPELINE_VERSION_LABEL } = require('../utils');
-const { google } = require('googleapis');
-const cloudresourcemanager = google.cloudresourcemanager('v1');
-
-/**
- * Function to retrieve projects for the authenticated user.
- * @param {Object} entity - Contains entity data including featuresValues.
- * @param {Object} entity.featuresValues - Contains all the values from the entity features declared in the context.yaml
- */
-exports.getProjects = async ({ featuresValues }) => {
-  const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
-
-  try{
-    const auth = getAuth(gcpKey);
-
-    const { data: { projects } } = await cloudresourcemanager.projects.list({
-      auth,
-    });
-
-    if (!projects || !projects.length) {
-      return Response.empty('No projects availables')
-    }
-    
-    return Response.success(
-      projects.map(({ projectId, name }) => ({
-        id: projectId,
-        label: name,
-      })),
-    );
-  } catch (error) {
-    return getErrorMessage(error, "Can't retrieve projects");
-  }
-};
+const { getHeadersWithAccessToken, getErrorMessage, EXPERIMENT_LABEL, PIPELINE_VERSION_LABEL } = require('../utils');
 
 /**
  * Function to retrieve pipelines inside the Kubeflow instance
@@ -41,11 +9,9 @@ exports.getProjects = async ({ featuresValues }) => {
  */
 exports.getPipelines = async ({ featuresValues }) => {
   try{
-    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
-
     const { data: { pipelines } } = await axios.get(
-      `${featuresValues.endpoint.instanceUrl}/apis/v1beta1/pipelines`,
-      await getHeadersWithAccessToken(gcpKey)
+      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipelines`,
+      await getHeadersWithAccessToken(featuresValues)
     );
 
     if (!pipelines || !pipelines.length) {
@@ -70,11 +36,9 @@ exports.getPipelines = async ({ featuresValues }) => {
  */
 exports.getPipelineVersions = async ({ featuresValues }) => {
   try{
-    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
-
     const { data: { versions } } = await axios.get(
-      `${featuresValues.endpoint.instanceUrl}/apis/v1beta1/pipeline_versions?resource_key.type=PIPELINE&resource_key.id=${featuresValues.pipeline.id}`,
-      await getHeadersWithAccessToken(gcpKey),
+      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipeline_versions?resource_key.type=PIPELINE&resource_key.id=${featuresValues.pipeline.id}`,
+      await getHeadersWithAccessToken(featuresValues),
     );
 
     if (!versions || !versions.length) {
@@ -99,11 +63,9 @@ exports.getPipelineVersions = async ({ featuresValues }) => {
  */
 exports.getExperiments = async ({ featuresValues }) => {
   try{
-    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
-
     const { data: { experiments } } = await axios.get(
-      `${featuresValues.endpoint.instanceUrl}/apis/v1beta1/experiments`,
-      await getHeadersWithAccessToken(gcpKey)
+      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/experiments`,
+      await getHeadersWithAccessToken(featuresValues)
     );
 
     if (!experiments || !experiments.length) {
@@ -128,11 +90,9 @@ exports.getExperiments = async ({ featuresValues }) => {
  */
 exports.getRuns = async ({ featuresValues }) => {
   try{
-    const gcpKey = JSON.parse(featuresValues.endpoint.jsonKey);
-
     const { data: { runs } } = await axios.get(
-      `${featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs`,
-      await getHeadersWithAccessToken(gcpKey)
+      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs`,
+      await getHeadersWithAccessToken(featuresValues)
     );
 
     const filteredRuns = runs.filter((run) => {

@@ -6,30 +6,29 @@ trustLevel: experimental
 endpoint:
   features:
     - type: TEXT
-      name: jsonKey
-      label: JSON key
-      required: true
-      helper: "Full JSON document"
-    - type: TEXT
       name: instanceUrl
-      label: Kubeflow instance URL
+      label: Kubeflow instance host domain
       required: true
-      helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+      helper: "Example : 10.64.140.43.xip.io"
+    - type: TEXT
+      name: instancePort
+      label: Instance port
+      helper: "Default : 80"
+      required: false
+    - type: TEXT
+      name: login
+      label: Login
+      required: true
+    - type: PASSWORD
+      name: password
+      label: Password
+      required: true
 job:
   features:
     - type: ENDPOINT
       name: endpoint
       label: Endpoint
       required: true
-    - type: SELECT
-      name: project
-      label: Projects
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getProjects
-      dependsOn:
-        - endpoint
     - type: SELECT
       name: pipeline
       label: Pipeline
@@ -38,7 +37,7 @@ job:
         script: ./jobForm.js
         function: getPipelines
       dependsOn:
-        - project
+        - endpoint
     - type: SELECT
       name: pipelineVersion
       label: Pipeline version

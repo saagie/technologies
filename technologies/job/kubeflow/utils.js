@@ -5,13 +5,13 @@ const http = require('http');
 
 const login = (featuresValues, authLink) => {
   const postData = qs.stringify({
-    login: 'admin',
-    password: 'XJM5BR3D1YDHXLHHXNYOJ45J9XCGGY'
+    login: featuresValues.endpoint.login,
+    password: featuresValues.endpoint.password
   });
 
   const options = {
     hostname: featuresValues.endpoint.instanceUrl,
-    port: 80,
+    port: featuresValues.endpoint.instancePort || 80,
     path: authLink,
     method: 'POST',
     headers: {
@@ -40,7 +40,7 @@ const login = (featuresValues, authLink) => {
 export const getRequest = (featuresValues, path, headers = {}) => {
   const options = {
     hostname: featuresValues.endpoint.instanceUrl,
-    port: 80,
+    port: featuresValues.endpoint.instancePort || 80,
     path,
     method: 'GET',
     headers,
@@ -66,7 +66,7 @@ export const getRequest = (featuresValues, path, headers = {}) => {
 }
 
 export const getHeadersWithAccessToken = async (featuresValues) => {
-  const resAuthLink = await axios.get(`http://${featuresValues.endpoint.instanceUrl}`);
+  const resAuthLink = await axios.get(`http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`);
 
   const authLink = resAuthLink.request.path;
 
@@ -78,18 +78,23 @@ export const getHeadersWithAccessToken = async (featuresValues) => {
 
   const oidcLink = resApproval.headers.location;
 
-  const oidcLinkWithoutHost = oidcLink.replace(`http://${featuresValues.endpoint.instanceUrl}`, '');
+  const oidcLinkWithoutHost = oidcLink.replace(`http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`, '');
+
+  let authCookieString = null;
 
   const resOidc = await getRequest(featuresValues, oidcLinkWithoutHost);
 
-  const oidcLoginLink = resOidc.headers.location;
+  if (resOidc.headers && resOidc.headers['set-cookie']) {
+    const authCookie = resOidc.headers['set-cookie'];
+    authCookieString = authCookie[0];
+  } else {
+    const oidcLoginLink = resOidc.headers.location;
+    const resOidcLogin = await getRequest(featuresValues, oidcLoginLink);
+    const authCookie = resOidcLogin.headers['set-cookie'];
+    authCookieString = authCookie[0];
+  }
 
-  const resOidcLogin = await getRequest(featuresValues, oidcLoginLink);
-
-  const authCookie = resOidcLogin.headers['set-cookie'];
-  const authCookieString = authCookie[0];
-
-  const authCookieRes = authCookieString.substr(0, authCookieString.indexOf(';')); 
+  const authCookieRes = authCookieString.substr(0, authCookieString.indexOf(';'));
 
   return {
     headers: { Cookie: authCookieRes }
