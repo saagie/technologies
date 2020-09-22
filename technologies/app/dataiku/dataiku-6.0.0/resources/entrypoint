@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Customize Nginx conf
+# /home/dataiku/dss/install-support/nginx.conf
+#
+
+# replace var API_PATH = '/dip/api/';
+# in /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/api.js
+# in /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/mainpack.js
+sed -i 's:/dip/api/:/app/1/10000/dip/api/:g' /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/api.js
+sed -i 's:/dip/api/:/app/1/10000/dip/api/:g' /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/mainpack.js
+
+# location ^~ /    location ^~ SAAGIE_BASE_PATH/
+#sed -i 's:location ^~ /:location ^~ /app/1/10000/:g' /home/dataiku/dss/install-support/nginx.conf
+
+
+echo " "
+echo "*****************************************"
+cat /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/api.js | grep dip
+echo " "
+echo "*****************************************"
+cat /home/dataiku/dataiku-dss-6.0.0/frontend/static/dataiku/js/api.js | grep dip
+
+
+#/home/dataiku/run.sh

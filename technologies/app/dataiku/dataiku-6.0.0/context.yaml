@@ -1,0 +1,10 @@
+id: 6.0.0
+label: Dataiku
+releaseNotes: "First iteration"
+available: true
+trustLevel: stable
+ports:
+  - port: 10000
+    name: Dataiku
+    rewrite: false
+    basePath: SAAGIE_BASE_PATH

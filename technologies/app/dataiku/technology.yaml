@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: dataiku
+label: Dataiku
+baseline: Your Path to Enterprise AI
+description: Dataiku is the platform democratizing access to data and enabling enterprises to build their own path to AI in a human-centric way.
+available: true
+icon: dataiku
+backgroundColor: "#40BEB0"
+customFlags: []
