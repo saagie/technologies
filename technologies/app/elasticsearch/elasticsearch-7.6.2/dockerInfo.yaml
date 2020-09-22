@@ -1,0 +1,3 @@
+image: saagie/elasticsearch
+baseTag: 7.6.2
+

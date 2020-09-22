@@ -1,0 +1,10 @@
+id: 7.6.2
+label: Elasticsearch
+releaseNotes: "First iteration"
+available: true
+trustLevel: stable
+ports:
+  - port: 9200
+    name: Elasticsearch
+    rewrite: false
+    basePath: SAAGIE_BASE_PATH
