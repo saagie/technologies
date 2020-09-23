@@ -10,11 +10,7 @@
   "dependencies": {
     "@saagie/sdk": "0.10.1",
     "axios": "0.19.2",
-    "follow-redirects": "^1.13.0",
-    "global-agent": "^2.1.12",
-    "global-tunnel-ng": "^2.7.1",
     "googleapis": "^51.0.0",
-    "qs": "^6.9.4",
-    "socks-proxy-agent": "^5.0.0"
+    "qs": "^6.9.4"
   }
 }
