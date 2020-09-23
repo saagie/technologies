@@ -71,6 +71,8 @@ export const getLogs = async ({ job, instance }) => {
 
     const pods = nodesArray.filter(node => node.type === 'Pod');
 
+    pods.sort((a, b) => new Date(a.startedAt) - new Date(b.startedAt));
+
     const logsPromises = pods.map(async (pod) => {
       const { data: logsData } = await axios.get(
         `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/k8s/pod/logs?podname=${pod.id}`,
