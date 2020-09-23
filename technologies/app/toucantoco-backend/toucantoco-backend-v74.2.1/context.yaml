@@ -1,10 +1,10 @@
-id: frontend
-label: Toucan Toco
+id: v74.2.1
+label: Toucantoco Backend
 releaseNotes: "First iteration"
 available: true
 trustLevel: unstable
 ports:
   - port: 80
-    name: ToucanFront
+    name: ToucanBack
     rewrite: false
     basePath: SAAGIE_BASE_PATH
