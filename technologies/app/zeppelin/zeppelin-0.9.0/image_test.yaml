@@ -7,19 +7,15 @@ metadataTest:
     - key: LC_ALL
       value: en_US.UTF-8
     - key: APACHE_SPARK_VERSION
-      value: 2.1.0
-    - key: MESOS_NATIVE_JAVA_LIBRARY
-      value: /usr/lib/libmesos-1.3.1.so
+      value: 2.4.5
     - key: SPARK_HOME
-      value: /usr/local/spark/2.1.0
-    - key: APACHE_SPARK_VERSION
-      value: 2.1.0
+      value: /usr/local/spark/2.4.5
     - key: HADOOP_HOME
-      value: /etc/hadoop
+      value: /etc/cluster/hadoop
     - key: HADOOP_CONF_DIR
-      value: /etc/hadoop/conf
+      value: /etc/cluster/hadoop
     - key: ZEPPELIN_INTP_CLASSPATH_OVERRIDES
-      value: /etc/hive/conf
+      value: /etc/cluster/hive
     - key: ZEPPELIN_NOTEBOOK_DIR
       value: /notebook
     - key: JAVA_VERSION

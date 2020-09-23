@@ -10,14 +10,14 @@ ENV APACHE_SPARK_VERSION 2.4.5
 ENV HADOOP_VERSION 2.6
 
 # Set Hadoop default conf dir
-ENV HADOOP_HOME /etc/hadoop
-ENV HADOOP_CONF_DIR ${HADOOP_HOME}/conf
+ENV HADOOP_HOME /etc/cluster/hadoop
+ENV HADOOP_CONF_DIR ${HADOOP_HOME}
 
 ENV SPARK_BASE_DIR /usr/local/spark
 ENV SPARK_HOME ${SPARK_BASE_DIR}/${APACHE_SPARK_VERSION}
 
 # Set Hive default conf dir
-ENV ZEPPELIN_INTP_CLASSPATH_OVERRIDES /etc/hive/conf
+ENV ZEPPELIN_INTP_CLASSPATH_OVERRIDES /etc/cluster/hive
 # Default notebooks directory
 ENV ZEPPELIN_NOTEBOOK_DIR '/notebook'
 ENV ZEPPELIN_RUN_MODE local
@@ -48,7 +48,6 @@ RUN mkdir -p ${SPARK_BASE_DIR} \
     && ln -s ${SPARK_BASE_DIR}/${SPARK_DISTRIB} ${SPARK_HOME}
 
 ########################## Install Spark END ##########################
-
 
 # Add a startup script that will setup Spark conf before running Zeppelin
 ADD resources/saagie-zeppelin.sh /zeppelin
