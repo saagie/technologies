@@ -1,4 +1,4 @@
-FROM saagie/toucantoco_base_backend
+FROM saagie/toucantoco_backend:v74.2.1-base
 
 # Nginx
 RUN apt-get update \
