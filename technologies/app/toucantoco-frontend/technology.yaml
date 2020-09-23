@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: toucantoco-frontend
+label: Toucantoco Frontend
+baseline:
+description:
+available: true
+icon: toucantoco-front
+backgroundColor: "#40BEB0"
+customFlags: []

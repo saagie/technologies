@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: toucantoco-backend
+label: Toucantoco Backend
+baseline:
+description:
+available: true
+icon: toucantoco-backend
+backgroundColor: "#40BEB0"
+customFlags: []
