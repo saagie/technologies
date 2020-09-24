@@ -21,7 +21,7 @@ exports.start = async ({ job }) => {
     }
 
     const { data } = await axios.post(
-      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs`,
+      `${job.featuresValues.endpoint.instanceUrl}/pipeline/apis/v1beta1/runs`,
       {
         name: job.featuresValues.runName,
         description: job.featuresValues.runDescription || run.data.description,

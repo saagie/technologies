@@ -9,7 +9,7 @@ endpoint:
       name: instanceUrl
       label: Kubeflow instance url
       required: true
-      helper: "Example : 10.64.140.43.xip.io"
+      helper: "Example : http://10.64.140.43.xip.io"
     - type: TEXT
       name: login
       label: Login

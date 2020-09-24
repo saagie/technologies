@@ -1,7 +1,9 @@
 const { Response } = require('@saagie/sdk');
 const axios = require('axios');
 const qs = require('qs');
+const { URL } = require('url');
 const http = require('http');
+const https = require('https');
 
 const login = (featuresValues, authLink) => {
   const postData = qs.stringify({
@@ -9,9 +11,13 @@ const login = (featuresValues, authLink) => {
     password: featuresValues.endpoint.password
   });
 
+  const url = new URL(featuresValues.endpoint.instanceUrl);
+
+  const { port, hostname, protocol } = url;
+
   const options = {
-    hostname: featuresValues.endpoint.instanceUrl,
-    port: featuresValues.endpoint.instancePort || 80,
+    hostname,
+    port,
     path: authLink,
     method: 'POST',
     headers: {
@@ -21,7 +27,9 @@ const login = (featuresValues, authLink) => {
   };
 
   return new Promise ((resolve, reject) => {
-    let req = http.request(options);
+    const httpProtocol = protocol === 'https:' ? https : http;
+
+    let req = httpProtocol.request(options);
 
     req.on('response', res => {
       resolve(res);
@@ -38,23 +46,25 @@ const login = (featuresValues, authLink) => {
 }
 
 export const getRequest = (featuresValues, path, headers = {}) => {
+  const url = new URL(featuresValues.endpoint.instanceUrl);
+
+  const { port, hostname, protocol } = url;
+
   const options = {
-    hostname: featuresValues.endpoint.instanceUrl,
-    port: featuresValues.endpoint.instancePort || 80,
+    hostname,
+    port,
     path,
     method: 'GET',
     headers,
   };
 
   return new Promise ((resolve, reject) => {
-    let req = http.request(options);
+    const httpProtocol = protocol === 'https' ? https : http;
+
+    let req = httpProtocol.request(options);
 
     req.on('response', res => {
       resolve(res);
-    });
-
-    req.on('end', res => {
-      console.log({ res });
     });
 
     req.on('error', (e) => {
@@ -66,7 +76,7 @@ export const getRequest = (featuresValues, path, headers = {}) => {
 }
 
 export const getHeadersWithAccessToken = async (featuresValues) => {
-  const resAuthLink = await axios.get(`${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`);
+  const resAuthLink = await axios.get(featuresValues.endpoint.instanceUrl);
 
   const authLink = resAuthLink.request.path;
 
@@ -78,8 +88,7 @@ export const getHeadersWithAccessToken = async (featuresValues) => {
 
   const oidcLink = resApproval.headers.location;
 
-  const oidcLinkWithoutHost = oidcLink.replace(`http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`, '');
-  const oidcLinkWithoutHost = oidcLink.replace(`https://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`, '');
+  const oidcLinkWithoutHost = oidcLink.replace(featuresValues.endpoint.instanceUrl, '');
   
   let authCookieString = null;
 

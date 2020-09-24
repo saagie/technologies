@@ -14,7 +14,7 @@ export const stop = async ({ job, instance }) => {
     const { run } = instance.payload;
 
     await axios.post(
-      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}/terminate`,
+      `${job.featuresValues.endpoint.instanceUrl}/pipeline/apis/v1beta1/runs/${run.id}/terminate`,
       {},
       await getHeadersWithAccessToken(job.featuresValues),
     );
@@ -36,7 +36,7 @@ export const getStatus = async ({ job, instance }) => {
     const { run } = instance.payload;
 
     const { data } = await axios.get(
-      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
+      `${job.featuresValues.endpoint.instanceUrl}/pipeline/apis/v1beta1/runs/${run.id}`,
       await getHeadersWithAccessToken(job.featuresValues),
     );
 
@@ -59,7 +59,7 @@ export const getLogs = async ({ job, instance }) => {
     const headers = await getHeadersWithAccessToken(job.featuresValues);
 
     const { data } = await axios.get(
-      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
+      `${job.featuresValues.endpoint.instanceUrl}/pipeline/apis/v1beta1/runs/${run.id}`,
       headers,
     );
 
