@@ -66,7 +66,7 @@ export const getRequest = (featuresValues, path, headers = {}) => {
 }
 
 export const getHeadersWithAccessToken = async (featuresValues) => {
-  const resAuthLink = await axios.get(`http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`);
+  const resAuthLink = await axios.get(`${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`);
 
   const authLink = resAuthLink.request.path;
 
@@ -79,7 +79,8 @@ export const getHeadersWithAccessToken = async (featuresValues) => {
   const oidcLink = resApproval.headers.location;
 
   const oidcLinkWithoutHost = oidcLink.replace(`http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`, '');
-
+  const oidcLinkWithoutHost = oidcLink.replace(`https://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort}`, '');
+  
   let authCookieString = null;
 
   const resOidc = await getRequest(featuresValues, oidcLinkWithoutHost);

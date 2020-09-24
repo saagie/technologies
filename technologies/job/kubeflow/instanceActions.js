@@ -14,7 +14,7 @@ export const stop = async ({ job, instance }) => {
     const { run } = instance.payload;
 
     await axios.post(
-      `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}/terminate`,
+      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}/terminate`,
       {},
       await getHeadersWithAccessToken(job.featuresValues),
     );
@@ -36,7 +36,7 @@ export const getStatus = async ({ job, instance }) => {
     const { run } = instance.payload;
 
     const { data } = await axios.get(
-      `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
+      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
       await getHeadersWithAccessToken(job.featuresValues),
     );
 
@@ -56,9 +56,11 @@ export const getLogs = async ({ job, instance }) => {
   try {
     const { run } = instance.payload;
 
+    const headers = await getHeadersWithAccessToken(job.featuresValues);
+
     const { data } = await axios.get(
-      `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
-      await getHeadersWithAccessToken(job.featuresValues),
+      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${run.id}`,
+      headers,
     );
 
     const workflowJson = data.pipeline_runtime.workflow_manifest;
@@ -74,17 +76,31 @@ export const getLogs = async ({ job, instance }) => {
     pods.sort((a, b) => new Date(a.startedAt) - new Date(b.startedAt));
 
     const logsPromises = pods.map(async (pod) => {
-      const { data: logsData } = await axios.get(
-        `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/k8s/pod/logs?podname=${pod.id}`,
-        await getHeadersWithAccessToken(job.featuresValues),
-      );
+      let logsData = '';
+
+      try {
+        const { data } = await axios.get(
+          `${job.featuresValues.endpoint.instanceUrl}/k8s/pod/logs?podname=${pod.id}`,
+          headers,
+        );
+
+        if (data) {
+          logsData = data;
+        }
+      } catch (e) {
+        console.warn(`Error while getting logs for pod = ${pod.id}`);
+      }
 
       return logsData;
     });
 
     const logs = await Promise.all(logsPromises);
 
-    return Response.success(logs.map(log => Log(log)));
+    const logsLines = logs.reduce((acc, logData) => {
+      return acc.concat(logData.split('\n'));
+    }, []);
+
+    return Response.success(logsLines.map(log => Log(log)));
   } catch (error) {
     return getErrorMessage(error, "Failed to get logs for job");
   }

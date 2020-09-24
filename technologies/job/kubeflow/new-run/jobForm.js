@@ -10,7 +10,7 @@ const { getHeadersWithAccessToken, getErrorMessage } = require('../utils');
 exports.getPipelines = async ({ featuresValues }) => {
   try{
     const { data: { pipelines }} = await axios.get(
-      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipelines`,
+      `${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipelines`,
       await getHeadersWithAccessToken(featuresValues)
     );
 
@@ -37,7 +37,7 @@ exports.getPipelines = async ({ featuresValues }) => {
 exports.getPipelineVersions = async ({ featuresValues }) => {
   try{
     const { data: { versions } } = await axios.get(
-      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipeline_versions?resource_key.type=PIPELINE&resource_key.id=${featuresValues.pipeline.id}`,
+      `${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/pipeline_versions?resource_key.type=PIPELINE&resource_key.id=${featuresValues.pipeline.id}`,
       await getHeadersWithAccessToken(featuresValues),
     );
 
@@ -64,7 +64,7 @@ exports.getPipelineVersions = async ({ featuresValues }) => {
 exports.getExperiments = async ({ featuresValues }) => {
   try{
     const { data: { experiments } } = await axios.get(
-      `http://${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/experiments`,
+      `${featuresValues.endpoint.instanceUrl}:${featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/experiments`,
       await getHeadersWithAccessToken(featuresValues)
     );
 

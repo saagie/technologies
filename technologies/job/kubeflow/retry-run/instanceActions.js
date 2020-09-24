@@ -11,7 +11,7 @@ const { getLogs, getStatus, stop } = require('../instanceActions');
 exports.start = async ({ job }) => {
   try {
     await axios.post(
-      `http://${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${job.featuresValues.run.id}/retry`,
+      `${job.featuresValues.endpoint.instanceUrl}:${job.featuresValues.endpoint.instancePort || 80}/pipeline/apis/v1beta1/runs/${job.featuresValues.run.id}/retry`,
       {},
       await getHeadersWithAccessToken(job.featuresValues),
     );
