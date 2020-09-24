@@ -16,14 +16,9 @@ contexts:
       features:
         - type: TEXT
           name: instanceUrl
-          label: Kubeflow instance host domain
+          label: Kubeflow instance url
           required: true
-          helper: "Example : 10.64.140.43.xip.io"
-        - type: TEXT
-          name: instancePort
-          label: Instance port
-          helper: "Default : 80"
-          required: false
+          helper: "Example : http://10.64.140.43.xip.io"
         - type: TEXT
           name: login
           label: Login
@@ -111,7 +106,7 @@ contexts:
           name: instanceUrl
           label: Kubeflow instance url
           required: true
-          helper: "Example : 10.64.140.43.xip.io"
+          helper: "Example : http://10.64.140.43.xip.io"
         - type: TEXT
           name: login
           label: Login
@@ -195,14 +190,9 @@ contexts:
       features:
         - type: TEXT
           name: instanceUrl
-          label: Kubeflow instance host domain
+          label: Kubeflow instance url
           required: true
-          helper: "Example : 10.64.140.43.xip.io"
-        - type: TEXT
-          name: instancePort
-          label: Instance port
-          helper: "Default : 80"
-          required: false
+          helper: "Example : http://10.64.140.43.xip.io"
         - type: TEXT
           name: login
           label: Login
