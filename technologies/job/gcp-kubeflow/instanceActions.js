@@ -62,9 +62,11 @@ export const getLogs = async ({ job, instance }) => {
 
     const { run } = instance.payload;
 
+    const headers = await getHeadersWithAccessToken(gcpKey);
+
     const { data } = await axios.get(
       `${job.featuresValues.endpoint.instanceUrl}/apis/v1beta1/runs/${run.id}`,
-      await getHeadersWithAccessToken(gcpKey),
+      headers,
     );
 
     const workflowJson = data.pipeline_runtime.workflow_manifest;
@@ -85,7 +87,7 @@ export const getLogs = async ({ job, instance }) => {
       try {
         const { data } = await axios.get(
           `${job.featuresValues.endpoint.instanceUrl}/k8s/pod/logs?podname=${pod.id}`,
-          await getHeadersWithAccessToken(gcpKey),
+          headers,
         );
 
         if (data) {
