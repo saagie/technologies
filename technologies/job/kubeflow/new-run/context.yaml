@@ -7,14 +7,9 @@ endpoint:
   features:
     - type: TEXT
       name: instanceUrl
-      label: Kubeflow instance host domain
+      label: Kubeflow instance url
       required: true
       helper: "Example : 10.64.140.43.xip.io"
-    - type: TEXT
-      name: instancePort
-      label: Instance port
-      helper: "Default : 80"
-      required: false
     - type: TEXT
       name: login
       label: Login
