@@ -1,7 +1,7 @@
 version: v1
 id: gcp-kubeflow
 label: GCP Kubeflow
-description: "Google Cloud Platform Kubeflow instance gestion"
+description: "Kubeflow pipelines (GCP on-premises version)"
 available: true
 type: EXTERNAL_JOB
 icon: job
