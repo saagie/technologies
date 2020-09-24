@@ -80,17 +80,31 @@ export const getLogs = async ({ job, instance }) => {
     pods.sort((a, b) => new Date(a.startedAt) - new Date(b.startedAt));
 
     const logsPromises = pods.map(async (pod) => {
-      const { data: logsData } = await axios.get(
-        `${job.featuresValues.endpoint.instanceUrl}/k8s/pod/logs?podname=${pod.id}`,
-        await getHeadersWithAccessToken(gcpKey),
-      );
+      let logsData = '';
+
+      try {
+        const { data } = await axios.get(
+          `${job.featuresValues.endpoint.instanceUrl}/k8s/pod/logs?podname=${pod.id}`,
+          await getHeadersWithAccessToken(gcpKey),
+        );
+
+        if (data) {
+          logsData = data;
+        }
+      } catch (e) {
+        console.warn(`Error while getting logs for pod = ${pod.id}`);
+      }
 
       return logsData;
     });
 
     const logs = await Promise.all(logsPromises);
 
-    return Response.success(logs.map(log => Log(log)));
+    const logsLines = logs.reduce((acc, logData) => {
+      return acc.concat(logData.split('\n'));
+    }, []);
+
+    return Response.success(logsLines.map(log => Log(log)));
   } catch (error) {
     return getErrorMessage(error, "Failed to get logs for job");
   }
