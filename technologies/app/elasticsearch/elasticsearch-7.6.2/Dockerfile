@@ -1,20 +1,23 @@
+#syntax=docker/dockerfile-upstream:master-experimental
+
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.6.2
 
-MAINTAINER Saagie
-
-ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Saagie"
 
 ENV discovery.type single-node
 
-# Nginx
-RUN apt-get update -qq \
-  && apt-get install -yqq --no-install-recommends nginx \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+# Nginx & Tini
+RUN yum update -y
+RUN yum install -y epel-release
+RUN yum install -y nginx
+RUN yum clean all
 
-COPY resources/server.conf /etc/nginx/sites-enabled/elasticsearch.conf
-RUN rm /etc/nginx/sites-enabled/default
+# CONF
+COPY resources/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
-ADD resources/entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
+EXPOSE 8080
+
+# Beware, uses experimental feature frombuildkit with specific #syntax
+COPY --chown=elasticsearch --chmod=744 resources/entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
