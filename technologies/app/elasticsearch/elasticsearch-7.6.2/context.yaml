@@ -8,3 +8,7 @@ ports:
     name: Elasticsearch
     rewrite: false
     basePath: SAAGIE_BASE_PATH
+  - port: 9300
+    name: Elasticsearch
+    rewrite: false
+    basePath: SAAGIE_BASE2_PATH
