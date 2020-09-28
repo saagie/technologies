@@ -17,13 +17,11 @@ ENV LANG C.UTF-8
 ENV SPARK_HOME /opt/spark
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
-RUN mv /root/.pip/pip.conf /root/.pip/pip.conf.tmp \
-    && pip --no-cache-dir install --upgrade pip \
+RUN pip --no-cache-dir install --upgrade pip \
     && pip --no-cache-dir install pyspark==2.4.5 \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
-    && rm -rf ~/.cache/pip \
-    && mv /root/.pip/pip.conf.tmp /root/.pip/pip.conf
+    && rm -rf ~/.cache/pip
 
 # As long as base image is from saagie, no need to add krb5 or LD_LIBRARY_PATH
 
