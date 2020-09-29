@@ -24,4 +24,3 @@ contexts:
       image: saagie/nifi
       baseTag: 1.9.2
       version: 1.9.2-1.54.0_appnifi
-
