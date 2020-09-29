@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: 3.6.2
     label: RStudio
-    releaseNotes: "First iteration post migration for branch v2-app_3.6.2"
+    releaseNotes: First iteration post migration for branch v2-app_3.6.2
     available: true
     trustLevel: stable
     ports:
@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.6.2
-      version: 3.6.2-1.54.0_apprstudio
+      version: 3.6.2-1.56.0_apprstudio
