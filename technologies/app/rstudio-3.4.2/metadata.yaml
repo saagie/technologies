@@ -1,11 +1,12 @@
-version: "v1"
+version: v1
 type: APP
 id: rstudio
 label: RStudio
 baseline: IDE for R
-description: "RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management."
+description: RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
 available: true
 icon: rstudio
+backgroundColor: "#3374BA"
 customFlags: []
 contexts:
   - id: 3.4.2
@@ -22,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.4.2
-      version: 3.4.2-1.46.0_apprstudio
+      version: 3.4.2-1.54.0_apprstudio

@@ -1,4 +1,4 @@
 image: saagie/rstudio
 baseTag: 3.4.2
-dynamicVersion: 1.46.0_apprstudio
-version: 3.4.2-1.46.0_apprstudio
+dynamicVersion: 1.54.0_apprstudio
+version: 3.4.2-1.54.0_apprstudio
