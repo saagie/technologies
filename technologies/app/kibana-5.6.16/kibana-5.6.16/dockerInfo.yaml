@@ -1,0 +1,2 @@
+image: saagie/kibana
+baseTag: 5.6.16
