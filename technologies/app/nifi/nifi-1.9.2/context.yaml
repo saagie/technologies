@@ -1,8 +1,8 @@
 id: 1.9.2
 label: Nifi 1.9.2
-releaseNotes: "First iteration post migration for apache nifi 1.9.2"
-available: false
-trustLevel: stable
+releaseNotes: First iteration post migration for apache nifi 1.9.2
+available: true
+trustLevel: experimental
 ports:
   - port: 80
     name: Nifi
