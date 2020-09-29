@@ -1,4 +1,4 @@
 image: saagie/jupyter-python-nbk
 baseTag: v2
 dynamicVersion: 1.54.0_appjupyter
-version: v2-1.54.0_appjupyter
+version: v2-1.54.0
