@@ -8,6 +8,7 @@ available: true
 icon: nifi
 backgroundColor: "#728E9B"
 customFlags: []
+
 contexts:
   - id: 1.9.2
     label: Nifi 1.9.2
