@@ -1,0 +1,36 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+#  env:
+#    - key: NIFI_WEB_PROXY_CONTEXT_PATH
+#      value: "$SAAGIE_BASE_PATH/"
+
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "start nifi"
+    path: "/opt/nifi/scripts/start.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "conf nginx"
+    path: "/etc/nginx/sites-enabled/nginx.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents: ["nginx && /opt/nifi/scripts/start.sh"]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/opt/nifi/nifi-current"]
+  - name: "Nginx"
+    command: "nginx"
+    args: ["-v"]
+    expectedError: ["nginx version: nginx"]
+    exitCode: 0
