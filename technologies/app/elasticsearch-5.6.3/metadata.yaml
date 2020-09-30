@@ -1,0 +1,29 @@
+version: v1
+type: APP
+id: elasticsearch-5.6.3
+label: Elasticsearch 5.6.3
+baseline: The heart of the free and open Elastic Stack
+description: Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
+available: true
+icon: elasticsearch
+backgroundColor: "#40BEB0"
+customFlags: []
+contexts:
+  - id: 5.6.3
+    label: Elasticsearch 5.6.3
+    releaseNotes: "First iteration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8200
+        name: Elasticsearch
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 8300
+        name: Elasticsearch
+        rewrite: false
+        basePath: SAAGIE_BASE2_PATH
+    dockerInfo:
+      image: saagie/elasticsearch
+      baseTag: 5.6.3
+      version: 5.6.3-1.56.0_appelasticsearch

@@ -1,0 +1,29 @@
+version: v1
+type: APP
+id: elasticsearch-7.4.0
+label: Elasticsearch 7.4.0
+baseline: The heart of the free and open Elastic Stack
+description: Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
+available: true
+icon: elasticsearch
+backgroundColor: "#40BEB0"
+customFlags: []
+contexts:
+  - id: 7.4.0
+    label: Elasticsearch 7.4.0
+    releaseNotes: "First iteration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8200
+        name: Elasticsearch
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 8300
+        name: Elasticsearch
+        rewrite: false
+        basePath: SAAGIE_BASE2_PATH
+    dockerInfo:
+      image: saagie/elasticsearch
+      baseTag: 7.4.0
+      version: 7.4.0-1.56.0_appelasticsearch

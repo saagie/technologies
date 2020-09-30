@@ -1,2 +1,4 @@
 image: saagie/elasticsearch
 baseTag: 7.4.0
+dynamicVersion: 1.56.0_appelasticsearch
+version: 7.4.0-1.56.0_appelasticsearch
