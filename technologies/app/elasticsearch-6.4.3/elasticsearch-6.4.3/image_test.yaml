@@ -1,0 +1,6 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: discovery.type
+      value: single-node

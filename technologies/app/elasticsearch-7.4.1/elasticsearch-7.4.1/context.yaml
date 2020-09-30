@@ -1,14 +1,14 @@
-id: 7.6.2
-label: Elasticsearch
+id: 7.4.1
+label: Elasticsearch 7.4.1
 releaseNotes: "First iteration"
 available: true
 trustLevel: stable
 ports:
-  - port: 9200
+  - port: 8200
     name: Elasticsearch
     rewrite: false
     basePath: SAAGIE_BASE_PATH
-  - port: 9300
+  - port: 8300
     name: Elasticsearch
     rewrite: false
     basePath: SAAGIE_BASE2_PATH
