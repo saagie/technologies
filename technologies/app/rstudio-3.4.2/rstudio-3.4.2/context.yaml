@@ -1,5 +1,5 @@
 id: 3.4.2
-label: RStudio
+label: RStudio 3.4.2
 releaseNotes: First iteration post migration for branch v2-app
 available: true
 trustLevel: stable
