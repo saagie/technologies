@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: rstudio
-label: RStudio
+id: rstudio-3.6.2
+label: RStudio 3.6.2
 baseline: IDE for R
 description: RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
 available: true
@@ -10,7 +10,7 @@ backgroundColor: "#3374BA"
 customFlags: []
 contexts:
   - id: 3.6.2
-    label: RStudio
+    label: RStudio 3.6.2
     releaseNotes: First iteration post migration for branch v2-app_3.6.2
     available: true
     trustLevel: stable
