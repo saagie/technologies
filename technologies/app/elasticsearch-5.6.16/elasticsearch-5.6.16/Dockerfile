@@ -2,11 +2,13 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:5.6.16
 
 LABEL maintainer="Saagie"
 
+USER root
 # Nginx
 RUN yum install -y epel-release && \
     yum install -y nginx && \
     yum clean all
 
+USER elasticsearch
 # CONF
 COPY resources/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 8200
