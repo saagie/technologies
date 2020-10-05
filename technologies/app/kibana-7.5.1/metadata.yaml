@@ -17,7 +17,7 @@ contexts:
     ports:
       - port: 5601
         name: Kibana
-        rewrite: false
+        rewriteUrl: false
         basePath: SERVER_BASEPATH
     dockerInfo:
       image: saagie/kibana
