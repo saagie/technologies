@@ -6,6 +6,6 @@ trustLevel: stable
 ports:
   - port: 80
     name: RStudio
-    rewrite: false
+    rewriteUrl: false
     basePath: SAAGIE_BASE_PATH
 volumes: ["/home"]
