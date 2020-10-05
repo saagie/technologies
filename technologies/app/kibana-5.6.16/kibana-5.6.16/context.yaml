@@ -6,5 +6,5 @@ trustLevel: stable
 ports:
   - port: 5601
     name: Kibana
-    rewrite: true
+    rewriteUrl: true
     basePath: SERVER_BASEPATH
