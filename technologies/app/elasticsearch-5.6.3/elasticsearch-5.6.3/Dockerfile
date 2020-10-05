@@ -1,0 +1,21 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+
+LABEL maintainer="Saagie"
+
+USER root
+# Nginx
+RUN yum install -y epel-release && \
+    yum install -y nginx && \
+    yum clean all
+
+USER elasticsearch
+# CONF
+COPY resources/nginx.conf /etc/nginx/nginx.conf
+EXPOSE 8200
+EXPOSE 8300
+
+COPY --chown=elasticsearch resources/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENV discovery.type single-node
+
+ENTRYPOINT ["/entrypoint.sh"]

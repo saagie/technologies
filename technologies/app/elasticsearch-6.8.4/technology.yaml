@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: elasticsearch-6.8.4
+label: Elasticsearch 6.8.4
+baseline: The heart of the free and open Elastic Stack
+description: Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
+available: true
+icon: elasticsearch
+backgroundColor: "#40BEB0"
+customFlags: []
