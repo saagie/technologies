@@ -6,6 +6,6 @@ trustLevel: stable
 ports:
   - port: 8080
     name: Zeppelin
-    rewrite: false
+    rewriteUrl: false
     basePath: ZEPPELIN_SERVER_CONTEXT_PATH
 volumes: ["/notebook"]
