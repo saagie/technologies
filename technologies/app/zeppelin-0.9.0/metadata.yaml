@@ -9,7 +9,7 @@ icon: zeppelin
 backgroundColor: "#0099CC"
 customFlags: []
 contexts:
-  - id: 0.7.3
+  - id: 0.9.0
     label: Zeppelin
     releaseNotes: "First iteration post migration for branch v2-app"
     available: true
@@ -22,5 +22,5 @@ contexts:
     volumes: ["/notebook"]
     dockerInfo:
       image: saagie/zeppelin-nbk
-      baseTag: 0.7.3
-      version: 0.7.3-1.56.0_appzeppelin
+      baseTag: 0.9.0
+      version: 0.9.0-1.56.0_appzeppelin
