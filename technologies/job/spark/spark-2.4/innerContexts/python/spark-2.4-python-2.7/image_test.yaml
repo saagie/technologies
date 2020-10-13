@@ -17,11 +17,6 @@ fileExistenceTests:
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
-  - name: "pip.conf"
-    path: "/root/.pip/pip.conf"
-    shouldExist: true
-    permissions: "-rw-r--r--"
-
   - name: "kinit"
     path: "/usr/bin/kinit"
     shouldExist: true
@@ -37,14 +32,6 @@ fileContentTests:
         'unzip \*\.zip',
         'ln -s /sandbox/ /opt/spark/work-dir',
         '--py-files=/sandbox/\*'
-      ]
-
-  - name: "pip.conf"
-    path: "/root/.pip/pip.conf"
-    expectedContents:
-      [
-        "index-url = http://saagie-common-nexus.saagie-common:8081/repository/pypi-all/simple",
-        "trusted-host = saagie-common-nexus.saagie-common",
       ]
 
 commandTests:

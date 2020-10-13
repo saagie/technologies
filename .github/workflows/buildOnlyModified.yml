@@ -44,7 +44,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_SECRET}}     
+          github_token: ${{ secrets.GITHUB_SECRET}}
           branch: ${{ steps.extract_branch.outputs.branch }}
       - name: extract version
         id: extract_version
