@@ -1,0 +1,16 @@
+{
+  "name": "kubeflow",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "saagie-sdk start",
+    "build": "saagie-sdk build",
+    "new:context": "saagie-sdk init"
+  },
+  "dependencies": {
+    "@saagie/sdk": "0.10.1",
+    "axios": "0.19.2",
+    "googleapis": "^51.0.0",
+    "qs": "^6.9.4"
+  }
+}

@@ -1,0 +1,86 @@
+id: new-run
+label: New run
+description: "New run context"
+recommended: true
+trustLevel: experimental
+endpoint:
+  features:
+    - type: TEXT
+      name: instanceUrl
+      label: Kubeflow instance url
+      required: true
+      helper: "Example : http://10.64.140.43.xip.io"
+    - type: TEXT
+      name: login
+      label: Login
+      required: true
+    - type: PASSWORD
+      name: password
+      label: Password
+      required: true
+job:
+  features:
+    - type: ENDPOINT
+      name: endpoint
+      label: Endpoint
+      required: true
+    - type: SELECT
+      name: pipeline
+      label: Pipeline
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getPipelines
+      dependsOn:
+        - endpoint
+    - type: SELECT
+      name: pipelineVersion
+      label: Pipeline version
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getPipelineVersions
+      dependsOn:
+        - pipeline
+    - type: SELECT
+      name: experiment
+      label: Experiment
+      required: true
+      options:
+        script: ./jobForm.js
+        function: getExperiments
+      dependsOn:
+        - pipelineVersion
+    - type: TEXT
+      name: runName
+      label: Run name
+      required: true
+      dependsOn:
+        - experiment
+    - type: TEXT
+      name: runDescription
+      label: Run description
+      required: false
+      dependsOn:
+        - experiment
+    - type: TEXT
+      name: runParameters
+      label: Run parameters (JSON format)
+      helper: JSON array of objects (name and value as properties)
+      required: false
+      dependsOn:
+        - experiment
+instance:
+  actions:
+    onStart:
+      script: ./instanceActions.js
+      function: start
+    onStop:
+      script: ./instanceActions.js
+      function: stop
+    getStatus:
+      script: ./instanceActions.js
+      function: getStatus
+    getLogs:
+      script: ./instanceActions.js
+      function: getLogs
