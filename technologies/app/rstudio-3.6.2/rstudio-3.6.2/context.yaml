@@ -1,0 +1,11 @@
+id: 3.6.2
+label: RStudio 3.6.2
+releaseNotes: First iteration post migration for branch v2-app_3.6.2
+available: true
+trustLevel: stable
+ports:
+  - port: 80
+    name: RStudio
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/home"]
