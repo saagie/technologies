@@ -9,6 +9,7 @@ ENV HADOOP_VERSION 2.7
 # Install system libraries required by R packages
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \ 
+        curl \
         libcups2 libcups2-dev openjdk-11-jdk systemd \
         unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
         gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
@@ -19,17 +20,12 @@ RUN apt-get update -qq \
 RUN cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
     && dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
-    && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini
+    && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
+    && rm -rf /tmp/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb
 
 # Install Spark
-RUN cd /tmp \
-    && wget -q https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
-    && tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /usr/local \
-    && rm spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
-
-RUN cd /usr/local \
-    && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark
-
+RUN curl -s https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ \
+    && ln -s /usr/local/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /usr/local/spark
 
 # Spark config
 ENV SPARK_HOME /usr/local/spark
