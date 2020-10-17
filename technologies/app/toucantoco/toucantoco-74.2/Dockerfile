@@ -8,22 +8,28 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install redis & mongo
 RUN apt-get update -qq && \
     apt-get --fix-broken install --assume-yes && \
+# TODO - remove once dev finished
     apt-get install -yqq --no-install-recommends \
-        nano htop net-tools systemd && \
+        nano htop net-tools && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -qq && \
     apt-get install -yqq --no-install-recommends \
-        wget gnupg && \
-    wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
-    apt-get update -qq && \
-    apt-get install -yqq --no-install-recommends \
-        redis-server \
-        mongodb-org && \
+        curl redis-server build-essential python3.7-dev libssl-dev libcurl4-openssl-dev liblzma-dev && \
     rm -rf /var/lib/apt/lists/*
 
+# TODO create mongo user $MONGO_USER
 
+RUN curl -s https://fastdl.mongodb.org/src/mongodb-src-r4.4.1.tar.gz | tar -xz -C /usr/local/ && \
+    cd /usr/local/mongodb-src-r4.4.1 && \
+    python3 -m pip install -r etc/pip/compile-requirements.txt && \
+    python3 buildscripts/scons.py install-mongod --disable-warnings-as-errors && \
+    mv /usr/local/mongodb-src-r4.4.1/build/install/bin/* /usr/bin/ && \
+    rm -rf /usr/local/mongodb-src-r4.4.1 && \
+    mkdir -p /var/lib/mongodb /var/log/mongod
+# TODO sudo chown $MONGO_USER /var/lib/mongo
+# TODO sudo chown $MONGO_USER /var/log/mongodb
+# TODO check ulimit > 64000
 
 COPY --from=FRONT /usr/share/nginx/html /usr/share/nginx/html
 COPY --from=FRONT /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/front.conf
@@ -37,8 +43,13 @@ RUN sed -i '12i  include /etc/nginx/conf.d/*.conf;' /etc/nginx/nginx.conf \
     && cat /usr/local/bin/frontend-entrypoint.sh >> /usr/local/bin/saagie-entrypoint.sh \
     && cat /app/scripts/entrypoint.sh >> /usr/local/bin/saagie-entrypoint.sh
 
+RUN apt-get update -qq && \
+    apt-get install -yqq --no-install-recommends \
+        watch && \
+    rm -rf /var/lib/apt/lists/*
+
 ENTRYPOINT ["bash", "saagie-entrypoint.sh", "/usr/share/nginx/html/scripts/tc-params.js"]
-EXPOSE 80 88
+EXPOSE 80 88 5000 8000 27017 6379
 
 
 # expose port
