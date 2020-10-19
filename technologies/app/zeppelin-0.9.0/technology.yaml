@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: zeppelin
-label: Zeppelin Notebook
+label: Zeppelin Notebook 0.9.0
 baseline: Data Science Notebook
 description: Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
 available: true
