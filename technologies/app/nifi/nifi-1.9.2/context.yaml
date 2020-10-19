@@ -6,6 +6,6 @@ trustLevel: experimental
 ports:
   - port: 80
     name: Nifi
-    rewrite: false
+    rewriteUrl: false
     basePath: SAAGIE_BASE_PATH
 volumes: ["/opt/nifi/nifi-current/conf"]
