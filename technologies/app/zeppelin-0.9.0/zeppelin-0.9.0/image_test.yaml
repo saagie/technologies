@@ -1,0 +1,52 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: LC_ALL
+      value: en_US.UTF-8
+    - key: APACHE_SPARK_VERSION
+      value: 2.4.5
+    - key: SPARK_HOME
+      value: /usr/local/spark/2.4.5
+    - key: HADOOP_HOME
+      value: /etc/cluster/hadoop
+    - key: HADOOP_CONF_DIR
+      value: /etc/cluster/hadoop
+    - key: ZEPPELIN_INTP_CLASSPATH_OVERRIDES
+      value: /etc/cluster/hive
+    - key: ZEPPELIN_NOTEBOOK_DIR
+      value: /notebook
+    - key: JAVA_VERSION
+      value: 8.131
+
+fileExistenceTests:
+  - name: "saagie zeppelin launcher"
+    path: "/zeppelin/saagie-zeppelin.sh"
+    shouldExist: true
+    permissions: "-rwxr--r--"
+  - name: "saagie zeppelin config"
+    path: "/zeppelin/saagie-zeppelin-config.sh"
+    shouldExist: true
+    permissions: "-rwxr--r--"
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/zeppelin"]
+# TODO Find a way to test zeppelin version
+# TODO Spark not on PATH but seems not needed => check and notify
+  - name: "Spark version"
+    command: "$SPARK_HOME/bin/spark-submit"
+    args: ["--version"]
+    expectedError: ["version 2.4.*"]
+  - name: "vim"
+    args: ["--version"]
+    command: "vim"
+    exitCode: 0
+  - name: "jq"
+    args: ["--version"]
+    command: "jq"
+    exitCode: 0
+# TODO check crontab
