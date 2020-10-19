@@ -1,4 +1,4 @@
 image: saagie/zeppelin-nbk
 baseTag: 0.9.0
-dynamicVersion: 1.60.0_zeppelin_version3
-version: 0.9.0-1.60.0_zeppelin_version3
+dynamicVersion: 1.61.0_zeppelin_version3
+version: 0.9.0-1.61.0_zeppelin_version3
