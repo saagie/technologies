@@ -1,5 +1,5 @@
 id: 1.9.2
-label: Nifi 1.9.2
+label: "[Lab] Nifi 1.9.2"
 releaseNotes: First iteration post migration for apache nifi 1.9.2
 available: true
 trustLevel: experimental
