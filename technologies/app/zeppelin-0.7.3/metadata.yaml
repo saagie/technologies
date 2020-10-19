@@ -10,7 +10,7 @@ backgroundColor: "#0099CC"
 customFlags: []
 contexts:
   - id: 0.7.3
-    label: Zeppelin
+    label: Zeppelin 0.7.3
     releaseNotes: "First iteration post migration for branch v2-app"
     available: true
     trustLevel: stable
