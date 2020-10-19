@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: zeppelin
-label: Zeppelin Notebook
+label: Zeppelin Notebook 0.7.3
 baseline: Data Science Notebook
 description: Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
 available: true
@@ -10,7 +10,7 @@ backgroundColor: "#0099CC"
 customFlags: []
 contexts:
   - id: 0.7.3
-    label: Zeppelin
+    label: Zeppelin 0.7.3
     releaseNotes: "First iteration post migration for branch v2-app"
     available: true
     trustLevel: stable
@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/zeppelin-nbk
       baseTag: 0.7.3
-      version: 0.7.3-1.59.0
+      version: 0.7.3-1.60.0_zeppelin_version2

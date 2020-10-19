@@ -40,8 +40,8 @@ RUN cd /tmp && tar -xzf spark-2.1.0-bin-hadoop2.6.tgz && \
 ########################## Install Spark END ##########################
 
 # Add a startup script that will setup Spark conf before running Zeppelin
-ADD resources/saagie-zeppelin.sh /zeppelin
-ADD resources/saagie-zeppelin-config.sh /zeppelin
+COPY resources/saagie-zeppelin.sh /zeppelin
+COPY resources/saagie-zeppelin-config.sh /zeppelin
 RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh
 
 # Add CRON to copy interpreter.json to persisted folder
