@@ -11,7 +11,7 @@ customFlags: []
 
 contexts:
   - id: 1.9.2
-    label: Nifi 1.9.2
+    label: "[Lab] Nifi 1.9.2"
     releaseNotes: First iteration post migration for apache nifi 1.9.2
     available: true
     trustLevel: experimental
@@ -24,4 +24,4 @@ contexts:
     dockerInfo:
       image: saagie/nifi
       baseTag: 1.9.2
-      version: 1.9.2-1.54.0_appnifi
+      version: 1.9.2-1.61.0_zeppelin_version3
