@@ -1,4 +1,4 @@
 image: saagie/zeppelin-nbk
 baseTag: 0.9.0
 dynamicVersion: 1.59.0_appzeppelin
-version: 0.9.0-1.59.0_appzeppelin
+version: 0.9.0-1.59.0

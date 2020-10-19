@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/zeppelin-nbk
       baseTag: 0.7.3
-      version: 0.7.3-1.59.0_appzeppelin
+      version: 0.7.3-1.59.0
