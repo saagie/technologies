@@ -50,8 +50,8 @@ RUN mkdir -p ${SPARK_BASE_DIR} \
 ########################## Install Spark END ##########################
 
 # Add a startup script that will setup Spark conf before running Zeppelin
-ADD resources/saagie-zeppelin.sh /zeppelin
-ADD resources/saagie-zeppelin-config.sh /zeppelin
+COPY resources/saagie-zeppelin.sh /zeppelin
+COPY resources/saagie-zeppelin-config.sh /zeppelin
 RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh
 
 RUN mkdir ${ZEPPELIN_NOTEBOOK_DIR}
