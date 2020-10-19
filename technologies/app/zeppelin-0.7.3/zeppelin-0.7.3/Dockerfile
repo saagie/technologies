@@ -1,6 +1,6 @@
 FROM apache/zeppelin:0.7.3
 
-MAINTAINER Saagie
+LABEL maintainer=Saagie
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -31,9 +31,8 @@ RUN apt-get -qq update && apt-get -yqq install --no-install-recommends \
 ########################## LIBS PART END ##########################
 
 ########################## Install Spark 2.1.0 for Hadoop 2.6 BEGIN ##########################
-RUN cd /tmp && wget https://archive.apache.org/dist/spark/spark-2.1.0/spark-2.1.0-bin-hadoop2.6.tgz -O /tmp/spark-2.1.0-bin-hadoop2.6.tgz
-
-RUN cd /tmp && tar -xzf spark-2.1.0-bin-hadoop2.6.tgz && \
+RUN cd /tmp && wget https://archive.apache.org/dist/spark/spark-2.1.0/spark-2.1.0-bin-hadoop2.6.tgz -O /tmp/spark-2.1.0-bin-hadoop2.6.tgz && \
+  tar -xzf spark-2.1.0-bin-hadoop2.6.tgz && \
   cp spark-2.1.0-bin-hadoop2.6/conf/log4j.properties.template spark-2.1.0-bin-hadoop2.6/conf/log4j.properties && \
   mkdir -p /usr/local/spark/2.1.0 && mv spark-2.1.0-bin-hadoop2.6/* /usr/local/spark/2.1.0 && \
   rm -rf spark-2.1.0-bin-hadoop2.6.tgz spark-2.1.0-bin-hadoop2.6
@@ -42,12 +41,11 @@ RUN cd /tmp && tar -xzf spark-2.1.0-bin-hadoop2.6.tgz && \
 # Add a startup script that will setup Spark conf before running Zeppelin
 COPY resources/saagie-zeppelin.sh /zeppelin
 COPY resources/saagie-zeppelin-config.sh /zeppelin
-RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh
-
+RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh && \
 # Add CRON to copy interpreter.json to persisted folder
-RUN echo "* * * * * cp -f /zeppelin/conf/interpreter.json /notebook/" >> mycron && \
-crontab mycron && \
-rm mycron
+    echo "* * * * * cp -f /zeppelin/conf/interpreter.json /notebook/" >> mycron && \
+    crontab mycron && \
+    rm mycron
 
 # Keep default ENTRYPOINT as apache/zeppelin is using Tini, which is great.
 CMD ["/zeppelin/saagie-zeppelin.sh"]
