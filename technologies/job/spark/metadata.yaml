@@ -15,7 +15,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 2.4
-      version: 2.4-1.44.0
+      version: 2.4-1.61.0_spark-2.4.7
     innerContexts:
       - id: java-scala
         label: Java/Scala
