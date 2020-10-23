@@ -7,9 +7,9 @@ metadataTest:
     - key: LC_ALL
       value: en_US.UTF-8
     - key: APACHE_SPARK_VERSION
-      value: 2.4.5
+      value: 2.4.7
     - key: SPARK_HOME
-      value: /usr/local/spark/2.4.5
+      value: /usr/local/spark/2.4.7
     - key: HADOOP_HOME
       value: /etc/cluster/hadoop
     - key: HADOOP_CONF_DIR

@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Set Saagie's cluster Java version
 ENV JAVA_VERSION 8.131
-ENV APACHE_SPARK_VERSION 2.4.5
+ENV APACHE_SPARK_VERSION 2.4.7
 ENV HADOOP_VERSION 2.6
 
 # Set Hadoop default conf dir
