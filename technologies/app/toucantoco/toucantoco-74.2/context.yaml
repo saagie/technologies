@@ -1,10 +1,14 @@
 id: 74.2
-label: Toucantoco
+label: [Lab] Toucantoco
 releaseNotes: "First iteration"
 available: true
 trustLevel: experimental
 ports:
-  - port: 80
-    name: Toucan
+  - port: 90
+    name: Toucan front
     rewrite: false
-    basePath: SAAGIE_BASE_PATH
+    basePath: FRONT_PATH
+  - port: 91
+    name: Toucan back
+    rewrite: false
+    basePath: BACK_PATH

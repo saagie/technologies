@@ -1,0 +1,28 @@
+version: v1
+type: APP
+id: toucantoco
+label: Toucantoco
+baseline: Leader in Embedded Analytics & High Performer in Analytics Software
+description: With Best Results, Best Estimated ROI, Best Support, Highest User Adoption, Most Implementable and 20+ other recognitions awarded to the platform, we're happy and humbled to say that our customers trust us as a European Leader in the space.
+available: true
+icon: toucantoco
+backgroundColor: "#a0d1c5"
+customFlags: []
+contexts:
+  - id: 74.2-compose
+    label: Toucantoco Compose
+    releaseNotes: "First iteration"
+    available: true
+    trustLevel: experimental
+    ports:
+     - port: 8000
+        name: Toucan Frontent
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH_FRONT
+      - port: 5000
+        name: Toucan Backend
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH_BACK
+    dockerInfo:
+      image: ypetit/test
+      baseTag: toucantoco-74.2-compose-01
