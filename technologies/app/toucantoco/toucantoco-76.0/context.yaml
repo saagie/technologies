@@ -1,0 +1,14 @@
+id: 76.0
+label: [Lab] Toucantoco 76.0
+releaseNotes: "First iteration"
+available: true
+trustLevel: experimental
+ports:
+  - port: 90
+    name: Toucan front
+    rewrite: false
+    basePath: FRONT_PATH
+  - port: 91
+    name: Toucan back
+    rewrite: false
+    basePath: BACK_PATH
