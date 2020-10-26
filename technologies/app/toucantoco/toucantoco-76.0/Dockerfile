@@ -1,7 +1,7 @@
-FROM toucantoco/frontend:v76.0.0 AS FRONT
-FROM toucantoco/screenshot:1.1.10 AS SCREEN
+FROM saagie/toucantoco_frontend:v76.0.0 AS FRONT
+FROM saagie/toucantoco_screenshot:1.1.10 AS SCREEN
 
-FROM toucantoco/backend:v76.0.0
+FROM saagie/toucantoco_backend:v76.0.0
 
 ENV DEBIAN_FRONTEND noninteractive
 
