@@ -6,10 +6,10 @@ Changes by date
 
 ### 2020-10-23
 
- - First working Toucantoco release
+ - First working Toucantoco release 0.76
 
 ### 2020-09-22
 
- - Firsttry to add ToucanToc to technologies repository
+ - First try to add Toucantoco to technologies repository
  
  
