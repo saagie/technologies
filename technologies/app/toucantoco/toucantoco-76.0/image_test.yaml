@@ -1,0 +1,82 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: LC_ALL
+      value: en_US.UTF-8
+    - key: TOUCAN_CONFIG
+      value: /app/config.yml
+    - key: PYTHON_VERSION
+      value: 3.8.6
+    - key: PYTHON_PIP_VERSION
+      value: 20.2.3
+# API_BASEROUTE
+# TOUCAN_HOSTNAME
+# FRONT_PATH
+# BACK_PATH
+# TOUCAN_PUPPETEER_URL
+
+fileExistenceTests:
+  - name: "entrypoint backend"
+    path: "/app/scripts/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "entrypoint frontend"
+    path: "/usr/local/bin/frontend-entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "entrypoint saagie"
+    path: "/usr/local/bin/saagie-entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "redis_lib"
+    path: "/var/lib/redis"
+    shouldExist: true
+    permissions: "drwxr-x---"
+    uid: 101
+    gid: 101
+  - name: "mongo_lib"
+    path: "/var/lib/mongodb"
+    shouldExist: true
+    permissions: "drwxr-xr-x"
+    uid: 0
+    gid: 0
+  - name: "mongo_log"
+    path: "/var/log/mongod"
+    shouldExist: true
+    permissions: "drwxr-xr-x"
+    uid: 0
+    gid: 0
+# TODO nginx conf
+# /etc/nginx/conf.d/front.conf
+# /etc/nginx/nginx.conf
+
+
+fileContentTests:
+# TODO host content
+# nginx confs content
+#  - name: "Front nginx conf"
+#    path: "/etc/nginx/conf.d/front.conf"
+#    expectedContents:
+#      [
+#        "88",
+#      ]
+#  - name: "Back nginx conf"
+#    path: "/etc/nginx/nginx.conf"
+#    expectedContents:
+#      [
+#        "89"
+#      ]
+  - name: "Proxy conf"
+    path: "/etc/nginx/conf.d/proxy.conf"
+    expectedContents:
+      [
+        "FRONT_PATH",
+        "BACK_PATH"      ]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/app"]
