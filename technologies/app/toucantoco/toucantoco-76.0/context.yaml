@@ -12,4 +12,4 @@ ports:
     name: Toucan back
     rewrite: false
     basePath: BACK_PATH
-volumes: ["/var/lib/mongo", "/var/log/mongod"]
+volumes: ["/var/lib/mongodb", "/var/log/mongod"]
