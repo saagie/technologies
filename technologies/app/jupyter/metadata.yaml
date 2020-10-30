@@ -17,10 +17,10 @@ contexts:
     ports:
       - port: 8888
         name: Notebook
-        rewrite: false
+        rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     volumes: ["/notebooks-dir"]
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: v2
-      version: v2-1.54.0
+      version: v2-1.61.0_zeppelin_version3
