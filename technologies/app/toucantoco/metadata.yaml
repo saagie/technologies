@@ -23,8 +23,8 @@ contexts:
         name: Toucan back
         rewrite: false
         basePath: BACK_PATH
-    volumes: ["/var/lib/mongo", "/var/log/mongod"]
+    volumes: ["/var/lib/mongodb", "/var/log/mongod"]
     dockerInfo:
       image: saagie/toucantoco
       baseTag: 76.0
-      version: 76.0-1.61.0_apptoucantoco
+      version: 76.0-1.62.0_apptoucantoco

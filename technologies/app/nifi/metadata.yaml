@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: nifi
-label: Nifi
+label: "[Lab] Nifi 1.9.2"
 baseline: Apache Nifi
 description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
@@ -12,7 +12,7 @@ customFlags: []
 contexts:
   - id: 1.9.2
     label: "[Lab] Nifi 1.9.2"
-    releaseNotes: First iteration post migration for apache nifi 1.9.2
+    releaseNotes: Apache nifi 1.9.2 - anonymous access only - no auth
     available: true
     trustLevel: experimental
     ports:
@@ -24,4 +24,4 @@ contexts:
     dockerInfo:
       image: saagie/nifi
       baseTag: 1.9.2
-      version: 1.9.2-1.61.0
+      version: 1.9.2-1.62.0_apptoucantoco
