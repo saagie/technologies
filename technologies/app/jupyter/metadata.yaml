@@ -24,3 +24,18 @@ contexts:
       image: saagie/jupyter-python-nbk
       baseTag: v2
       version: v2-1.61.0
+  - id: v2-app
+    label: Jupyter Notebook
+    releaseNotes: "First iteration post migration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8888
+        name: Notebook
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/notebooks-dir"]
+    dockerInfo:
+      image: saagie/jupyter-python-nbk
+      baseTag: v2
+      version: v2-1.62.0_appjupyspark
