@@ -35,9 +35,9 @@ ENV PORT0 4040
 ENV SPARK_HOME /usr/local/spark
 ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
-ENV HADOOP_CONF_DIR="/home/jovyan/hadoop"
+ENV HADOOP_CONF_DIR /home/jovyan/hadoop
 
-RUN mkdir $HADOOP_CONF_DIR
+RUN mkdir -p $HADOOP_CONF_DIR
 COPY resources/core-site.xml /home/jovyan/hadoop/core-site.xml
 
 RUN mkdir -p /usr/lib/impala/lib/ && chown $NB_UID /usr/lib/impala/lib
@@ -66,4 +66,3 @@ RUN chown $NB_USER:$NB_UID $SPARK_HOME/conf/spark-env.sh \
     && chmod +x $SPARK_HOME/conf/spark-env.sh
 
 USER $NB_UID
-WORKDIR /home/jovyan/work
