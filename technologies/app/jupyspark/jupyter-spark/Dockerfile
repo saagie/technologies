@@ -50,7 +50,6 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
     && rm /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
 # Install conda libs (pyarrow)
-# TODO copy alsewhere (here it's in /notebook-dirs)
 USER $NB_UID
 COPY resources/requirements_conda.txt /home/$NB-USER/requirements_conda.txt
 RUN conda install -n py36 --quiet --yes --file /home/$NB-USER/requirements_conda.txt && \
@@ -65,4 +64,5 @@ RUN chown $NB_USER:$NB_UID $SPARK_HOME/conf/spark-env.sh \
     && chown $NB_USER:$NB_UID /home/$NB_USER/work/test2.ipynb \
     && chmod +x $SPARK_HOME/conf/spark-env.sh
 
+# Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root
