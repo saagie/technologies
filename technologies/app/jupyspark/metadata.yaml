@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: jupyter
-label: Jupyter Notebook
+id: jupyspark
+label: "[Lab] Jupyter Notebook with Spark"
 baseline: Data Science Notebook
 description: "The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
 available: true
@@ -9,18 +9,21 @@ icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
 contexts:
-  - id: v2-app
-    label: Jupyter Notebook
-    releaseNotes: "First iteration post migration"
+  - id: v2-app-spark
+    label: "[Lab] Jupyter Notebook with Spark"
+    releaseNotes: "First notebook release with Spark local mono node"
     available: true
-    trustLevel: stable
+    trustLevel: experimental
     ports:
       - port: 8888
         name: Notebook
-        rewriteUrl: false
+        rewrite: false
         basePath: SAAGIE_BASE_PATH
+      - port: 4040
+        name: SparkUI
+        rewrite: true
     volumes: ["/notebooks-dir"]
     dockerInfo:
       image: saagie/jupyter-python-nbk
-      baseTag: v2
-      version: v2-1.61.0
+      baseTag: pyspark
+      version: pyspark-1.62.0_appjupyspark
