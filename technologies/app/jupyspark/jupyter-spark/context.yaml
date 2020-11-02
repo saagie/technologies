@@ -1,0 +1,14 @@
+id: v2-app-spark
+label: "[Lab] Jupyter Notebook with Spark"
+releaseNotes: "First notebook release with Spark local mono node"
+available: true
+trustLevel: experimental
+ports:
+  - port: 8888
+    name: Notebook
+    rewrite: false
+    basePath: SAAGIE_BASE_PATH
+  - port: 4040
+    name: SparkUI
+    rewrite: true
+volumes: ["/notebooks-dir"]
