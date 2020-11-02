@@ -12,6 +12,6 @@ ports:
     name: SparkUI
     rewriteUrl: true
   - port: 4041
-    name: SparkUI
-    rewriteUrl: true
+    name: SparkUI2
+    rewriteUrl: false
 volumes: ["/notebooks-dir"]
