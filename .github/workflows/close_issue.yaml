@@ -16,7 +16,7 @@ jobs:
 
           - name: Jira Login
             id: login
-            uses: atlassian/gajira-login@v2.0.0
+            uses: atlassian/gajira-login@v2.0.2
             env:
                 JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
                 JIRA_USER_EMAIL: ${{ secrets.JIRA_EMAIL }}
@@ -27,7 +27,7 @@ jobs:
           
           - name: Jira Close issue
             id: close_jira_issue
-            uses: atlassian/gajira-transition@v2.0.0
+            uses: atlassian/gajira-transition@v2.0.2
             with:
               issue: ${{ steps.extract_jira_number.outputs.jira_number }}
               transitionId: "${{ secrets.JIRA_CLOSE_TRANSITIONID }}"
