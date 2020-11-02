@@ -24,7 +24,7 @@ contexts:
         rewriteUrl: true
       - port: 4041
         name: SparkUI2
-        rewriteUrl: false
+        rewriteUrl: true
     volumes: ["/notebooks-dir"]
     dockerInfo:
       image: saagie/jupyter-python-nbk
