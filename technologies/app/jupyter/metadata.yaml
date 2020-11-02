@@ -24,4 +24,3 @@ contexts:
       image: saagie/jupyter-python-nbk
       baseTag: v2
       version: v2-1.61.0
-
