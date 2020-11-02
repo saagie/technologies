@@ -65,4 +65,4 @@ RUN chown $NB_USER:$NB_UID $SPARK_HOME/conf/spark-env.sh \
     && chown $NB_USER:$NB_UID /home/$NB_USER/work/test2.ipynb \
     && chmod +x $SPARK_HOME/conf/spark-env.sh
 
-USER $NB_UID
+USER root
