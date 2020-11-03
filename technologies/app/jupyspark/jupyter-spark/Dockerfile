@@ -28,6 +28,7 @@ RUN apt-key adv  --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
     && apt-get update -qq && apt-get install -yqq --no-install-recommends \
       krb5-user acl \
       freeipa-client sentry-hdfs-plugin \
+      net-tools nginx \
     && rm -rf /var/lib/apt/lists/*;
 
 # Spark config
@@ -56,6 +57,8 @@ RUN conda install -n py36 --quiet --yes --file /home/$NB-USER/requirements_conda
     conda clean -ay
 
 USER root
+COPY resources/entrypoint.sh /entrypoint
+COPY resources/nginx.conf /etc/nginx/sites-available/default
 COPY resources/spark-env.sh $SPARK_HOME/conf/spark-env.sh
 COPY resources/tests/test.ipynb /home/$NB_USER/work/test.ipynb
 COPY resources/tests/test2.ipynb /home/$NB_USER/work/test2.ipynb
@@ -66,3 +69,5 @@ RUN chown $NB_USER:$NB_UID $SPARK_HOME/conf/spark-env.sh \
 
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root
+
+ENTRYPOINT ["/entrypoint"]
