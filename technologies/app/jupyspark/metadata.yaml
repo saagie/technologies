@@ -19,12 +19,10 @@ contexts:
         name: Notebook
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
-      - port: 4040
+      - port: 8081
         name: SparkUI
-        rewriteUrl: true
-      - port: 4041
-        name: SparkUI2
-        rewriteUrl: true
+        rewriteUrl: false
+        basePath: SPARK_UI_PATH
     volumes: ["/notebooks-dir"]
     dockerInfo:
       image: saagie/jupyter-python-nbk
