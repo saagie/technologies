@@ -22,6 +22,8 @@
 This repository contains all certified technologies used in Saagie.
 It also contains some experimental technologies before being certified.
 
+For information about using these technologies with your Saagie platform, refer to [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
+
 ## CONTENTS
 
 This repository contains all job and application technologies.
