@@ -23,7 +23,7 @@ contexts:
         name: Toucan back
         rewrite: false
         basePath: BACK_PATH
-    volumes: ["/var/lib/mongodb", "/var/log/mongod"]
+    volumes: ["/var/lib/redis", "/var/lib/mongodb", "/var/log/mongod"]
     dockerInfo:
       image: saagie/toucantoco
       baseTag: 76.0
