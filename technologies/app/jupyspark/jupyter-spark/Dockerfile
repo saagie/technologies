@@ -33,6 +33,7 @@ RUN apt-key adv  --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
 
 # Spark config
 ENV PORT0 4040
+ENV PORT1 20022
 ENV SPARK_HOME /usr/local/spark
 ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info

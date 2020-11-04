@@ -8,7 +8,7 @@ ports:
     name: Notebook
     rewriteUrl: false
     basePath: SAAGIE_BASE_PATH
-  - port: 8081
+  - port: 8080
     name: SparkUI
     rewriteUrl: false
     basePath: SPARK_UI_PATH
