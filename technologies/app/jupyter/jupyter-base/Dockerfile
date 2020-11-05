@@ -101,5 +101,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 ########################## CUDA PART END ##########################
 
+# Should run as $NB_USER  ... but ...
+# USER $NB_USER
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root

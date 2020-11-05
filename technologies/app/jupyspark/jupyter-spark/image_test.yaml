@@ -6,12 +6,59 @@ metadataTest:
       value: "en_US.UTF-8"
     - key: LC_ALL
       value: "en_US.UTF-8"
+    - key: PORT0
+      value: 4040
+    - key: PORT1
+      value: 20022
+    - key: SPARK_VERSION
+      value: 2.4.5
+    - key: HADOOP_VERSION
+      value: 2.6
+    - key: SPARK_HOME
+      value: /usr/local/spark
+    - key: PYTHONPATH
+      value: "/usr/local/spark/python:/usr/local/spark/python/lib/py4j-0.10.7-src.zip"
+    - key: SPARK_OPTS
+      value: "--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info"
+    - key: HADOOP_CONF_DIR
+      value: /home/jovyan/hadoop
 
 fileExistenceTests:
+  - name: "cloudera.list"
+    path: "/etc/apt/sources.list.d/cloudera.list"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "core-site.xml"
+    path: "/home/jovyan/hadoop/core-site.xml"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "requirements jupyspark conda"
+    path: "/home/jovyan/requirements_conda.txt"
+    shouldExist: true
+    permissions: "-rw-r--r--"
   - name: "entrypoint"
     path: "/entrypoint.sh"
     shouldExist: true
     permissions: "-rwxr-xr-x"
+  - name: "Nginx default conf"
+    path: "/etc/nginx/sites-available/default"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "spark env configuration script"
+    path: "/usr/local/spark/conf/spark-env.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "spark install tgz"
+    path: "/tmp/spark-2.4.5-bin-hadoop2.6.tgz"
+    shouldExist: false
+
+fileContentTests:
+  - name: "hive jars"
+    path: "/usr/local/bin/start-notebook.sh"
+    expectedContents:
+      [
+          "ln -s /etc/hadoop/conf/sentry-libs/hive-hcatalog-core.jar /usr/lib/impala/lib/hive-hcatalog-core.jar",
+      ]
 
 commandTests:
   - name: "Workdir"
@@ -33,6 +80,11 @@ commandTests:
   - name: check Jupyter specific lib protobuf
     command: "bash"
     args: ["-c", ". activate py36; python -c 'from google.protobuf import descriptor_pb2'"]
+    exitCode: 0
+  - name: check pyspark
+    command: "bash"
+    args: ["-c", ". activate py36; conda list | grep spark"]
+    expectedOutput: [ "pyspark" ]
     exitCode: 0
   - name: check Python libs
     command: "bash"
