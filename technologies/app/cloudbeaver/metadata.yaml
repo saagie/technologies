@@ -19,7 +19,7 @@ contexts:
         name: CloudBeaver
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
-    volumes: ["/home"]
+    volumes: ["/opt/cloudbeaver/workspace"]
     dockerInfo:
       image: saagie/cloudbeaver
       baseTag: 1.2.0
