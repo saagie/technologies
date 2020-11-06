@@ -9,6 +9,6 @@ RUN apt-get update -qq \
   && rm -rf /var/lib/apt/lists/
 
 COPY resources/nginx.conf /etc/nginx/sites-enabled/cloudbeaver.conf
-COPY resources/entrypoint.sh /entrypoint
+COPY resources/entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint"]
+ENTRYPOINT ["/entrypoint.sh"]
