@@ -1,0 +1,11 @@
+id: 1.2.0
+label: "[Lab] CloudBeaver 1.2.0"
+releaseNotes: First version 
+available: false
+trustLevel: experimental
+ports:
+  - port: 80
+    name: CloudBeaver
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/home"]
