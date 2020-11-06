@@ -8,4 +8,4 @@ ports:
     name: CloudBeaver
     rewriteUrl: false
     basePath: SAAGIE_BASE_PATH
-volumes: ["/home"]
+volumes: ["/opt/cloudbeaver/workspace"]
