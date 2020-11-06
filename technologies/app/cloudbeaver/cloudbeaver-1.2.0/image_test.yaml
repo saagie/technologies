@@ -1,0 +1,37 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: LC_ALL
+      value: en_US.UTF-8
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: No default nginx conf
+    path: /etc/nginx/sites-enabled/default
+    shouldExist: false
+  - name: cloudbeaver nginx conf
+    path: "/etc/nginx/sites-enabled/cloudbeaver.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+fileContentTests:
+  - name: "CloudbBeaver nginx conf"
+    path: "/etc/nginx/sites-enabled/cloudbeaver.conf"
+    expectedContents:
+      [
+        "listen 80 default_server;",
+        "listen \\[::\\]:80 default_server",
+        "location SAAGIE_BASE_PATH {",
+        "proxy_pass http:\\/\\/localhost:8787;",
+      ]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/"]
