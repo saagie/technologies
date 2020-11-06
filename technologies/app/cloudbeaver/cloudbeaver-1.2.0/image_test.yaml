@@ -28,10 +28,10 @@ fileContentTests:
         "listen 80 default_server;",
         "listen \\[::\\]:80 default_server",
         "location SAAGIE_BASE_PATH {",
-        "proxy_pass http:\\/\\/localhost:8787;",
+        "proxy_pass http:\\/\\/localhost:8978;",
       ]
 
 commandTests:
   - name: "Workdir"
     command: "pwd"
-    expectedOutput: ["/"]
+    expectedOutput: ["/opt/cloudbeaver"]
