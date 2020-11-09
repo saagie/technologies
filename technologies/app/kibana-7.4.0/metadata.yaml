@@ -22,4 +22,4 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.4.0
-      version: 7.4.0-1.62.0_appkibana
+      version: 7.4.0-1.62.0
