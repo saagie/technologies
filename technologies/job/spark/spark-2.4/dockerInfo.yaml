@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 2.4
-dynamicVersion: 1.44.0_SDKPLUGIN-9
-version: 2.4-1.44.0
+dynamicVersion: 1.63.0_sparkui-reverse-proxyfix
+version: 2.4-1.63.0_sparkui-reverse-proxyfix

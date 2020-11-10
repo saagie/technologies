@@ -15,7 +15,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 2.4
-      version: 2.4-1.44.0
+      version: 2.4-1.63.0_sparkui-reverse-proxyfix
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -111,7 +111,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.0
-      version: 3.0-1.47.0
+      version: 3.0-1.63.0_sparkui-reverse-proxyfix
     innerContexts:
       - id: java-scala
         label: Java/Scala
