@@ -2,5 +2,5 @@
 
 == Official documentation
 
-== Use as standalon image - for test purposes
+== Use as standalone image - for test purposes
 
