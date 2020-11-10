@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.0-py-3.7
-dynamicVersion: 1.53.0_SDKTECHNO-71
-version: 3.0-py-3.7-1.53.0
+dynamicVersion: 1.63.0_sparkui-reverse-proxyfix
+version: 3.0-py-3.7-1.63.0_sparkui-reverse-proxyfix

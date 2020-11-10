@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.0-jre-11
-dynamicVersion: 1.47.0_SDKTECHNO-66
-version: 3.0-jre-11-1.47.0
+dynamicVersion: 1.63.0_sparkui-reverse-proxyfix
+version: 3.0-jre-11-1.63.0_sparkui-reverse-proxyfix
