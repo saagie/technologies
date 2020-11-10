@@ -14,7 +14,7 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client krb5-user && \
+      ftp wget curl unzip telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
@@ -42,6 +42,20 @@ RUN mkdir -p /tmp/spark && \
     cp -R /tmp/spark/*/bin /opt/spark && \
     cp -R /tmp/spark/*/sbin /opt/spark && \
     rm -Rf /tmp/spark
+
+# SPARK UI FIX SDKTECHNO#83 START 
+RUN mkdir -p /opt/spark/backup && \
+    cp /opt/spark/jars/spark-core_2.11-${SPARK_VERSION}.jar /opt/spark/backup/spark-core_2.11-${SPARK_VERSION}.jar
+
+RUN mkdir -p /tmp/spark && cd /tmp/spark/ && \
+    cp /opt/spark/jars/spark-core_2.11-${SPARK_VERSION}.jar /tmp/spark/spark-core_2.11-${SPARK_VERSION}.jar && \
+    unzip spark-core_2.11-${SPARK_VERSION}.jar && \
+    rm spark-core_2.11-${SPARK_VERSION}.jar && \
+    sed -i -- 's#location.origin#location.href.replace(/executors\\\/$/, "")#g' org/apache/spark/ui/static/executorspage.js && \
+    zip -r spark-core_2.11-${SPARK_VERSION}.jar . && \
+    cp /tmp/spark/spark-core_2.11-${SPARK_VERSION}.jar /opt/spark/jars/spark-core_2.11-${SPARK_VERSION}.jar && \
+    rm -Rf /tmp/spark
+# SPARK UI FIX SDKTECHNO#83 END
 
 COPY entrypoint.sh /opt/
 RUN chmod 755 /opt/entrypoint.sh
