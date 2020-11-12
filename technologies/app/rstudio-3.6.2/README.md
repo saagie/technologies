@@ -12,7 +12,31 @@ It adds a few feature, such as:
 
 ## Build the image
 
-Run the following command:
+### Using gradle build 
+
+This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin) 
+
+To build the project go up 3 directories to be at the root of this project.
+Then run :
+
+```
+./gradlew :rstudio-3.6.2:buildImage
+```
+
+If you want to test the image you can run :
+```
+./gradlew :rstudio-3.6.2:testImage
+```
+
+### Using docker commands
+
+First go to context/version sub-directory :
+
+```
+cd rstudio-3.6.2
+```
+
+Then run the following command:
 ```
 docker build -t saagie/rstudio:3.6.2 .
 ```
