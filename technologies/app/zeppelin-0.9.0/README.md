@@ -1,28 +1,60 @@
 # Zeppelin Datascience Notebook
 
-This Docker image is based on official Apache Zeppelin image.
+This Docker image officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/zeppelin-nbk) is based on official Apache Zeppelin image : [apache/zeppelin:0.9.0](https://hub.docker.com/r/apache/zeppelin)
+
+It is specially designed to run on Saagie's platform v2.
+
 It adds some specific library versions used on Saagie's platform (such as Spark versions, etc.)
+
 
 ## Build the image
 
-Run the following command:
+### Using gradle build 
+
+This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin) 
+
+To build the project go up 3 directories to be at the root of this project.
+Then run :
+
 ```
-docker build -t saagie/zeppelin:sp[saagie-platform-min-version]-mesos[mesos-version]-spark[spark-version] .
+./gradlew :zeppelin-0.9.0:buildImage
 ```
 
-Where you need to provide:
-- the minimum Saagie platform version with which this Zeppelin image is compatible.
-- the mesos version currently running on your Saagie platform
-- the most recent spark version available on your Saagie platform
+If you want to test the image you can run :
+```
+./gradlew :zeppelin-0.9.0:testImage
+```
 
+### Using docker commands
+
+First go to context/version sub-directory :
+
+```
+cd zeppelin-0.9.0
+```
+
+
+Then run the following command:
+```
+docker build -t saagie/zeppelin:0.9.0 .
+```
 
 ## Run a container
 
-This container can run without any configuration on Saagie's platform.
+### On Saagie's Platform 
+
+This container is supposed to be run on Saagie's platform.
+
+Official documentation is available here : [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html)
+
+### On premise / your local server
+
+Anyway, it is possible mainly for development and tests to run this image outside Saagie.
+Please note that Saagie won't provide any support regarding images launched outside it's platform.
 
 If you want to run it with an in-memory Spark, just run:
 ```
-docker run -it --rm --name zeppelin -p 8080:8080 saagie/zeppelin:sp1.12.1-mesos1.3.1-spark2.1.0
+docker run -it --rm --name zeppelin -p 8080:8080 saagie/zeppelin:0.9.0
 ```
 
  If you want to run it locally but pointing to a remote Spark cluster, run:
@@ -33,7 +65,7 @@ docker run -it --rm --name zeppelin --net=host -e PORT0=[ZEPPELIN_PORT] \
   -v $(pwd)/conf/hadoop/:/etc/hadoop/conf/ \
   -v $(pwd)/conf/spark/spark-env.sh:/usr/local/spark/conf/spark-env.sh \
   -v $(pwd)/conf/spark/spark-defaults.conf:/tmp/spark-defaults.conf \
-  saagie/zeppelin:sp1.12.1-mesos1.3.1-spark2.1.0 /zeppelin/saagie-zeppelin.sh -d DEBUG --port [ZEPPELIN_PORT]
+  saagie/zeppelin:0.9.0 /zeppelin/saagie-zeppelin.sh -d DEBUG --port [ZEPPELIN_PORT]
 ```
 
 The given volumes contain Hive, Hadoop, and Spark configuration files of your remote cluster.
