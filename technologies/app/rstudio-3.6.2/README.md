@@ -1,6 +1,6 @@
 # RStudio Server - customized by Saagie
 
-This image is based on official [rocker/tidyverse:3.6.2](https://hub.docker.com/r/rocker/tidyverse/) image.
+This Docker image officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/rstudio) is based on official [rocker/tidyverse:3.6.2](https://hub.docker.com/r/rocker/tidyverse/) image.
 
 It is specially designed to run on Saagie's platform v2.
 
@@ -10,15 +10,30 @@ It adds a few feature, such as:
 * Ability to create multiple users accounts
 * Numerous other libs (see below fos a list) - which makes this image quite heavy...
 
+## Build the image
+
+Run the following command:
+```
+docker build -t saagie/rstudio:3.6.2 .
+```
      
 ## Run RStudio container
 
+### On Saagie's Platform 
+
 This container is supposed to be run on Saagie's platform.
+
 Official documentation is available here : [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html)
+
+### On premise / your local server
+
 Anyway, it is possible mainly for development and tests to run this image outside Saagie.
 Please note that Saagie won't provide any support regarding images launched outside it's platform.
 
-Simply run: `docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2`
+Simply run: 
+```
+docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
+```
 
  - Port `8787` should be mapped to the one you will be using on host side (here `10087`).
  - `SAAGIE_BASE_PATH` variable is **mandatory** and should be equal to / . It's used to customize the path to the application when behind a reverse proxy.
@@ -34,7 +49,9 @@ By default, the only user able to run `sudo` commands is `admin`, but you can al
 
 If you want to use [sparklyr](https://spark.rstudio.com/index.html) you'll need to mount a few volumes to share your cluster configuration with your container.
 In this case, try something like:
-`docker run --rm -it -p 10087:8787 -v $PWD/rstudio:/home -v $PWD/hadoop/conf:/etc/hadoop/conf --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2`
+```
+docker run --rm -it -p 10087:8787 -v $PWD/rstudio:/home -v $PWD/hadoop/conf:/etc/hadoop/conf --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
+```
 And you may also need to run it in HOST mode (for example if you're using a VPN).
 
 If you want to run RStudio on a custom port, let's say port 9999, you can run it like:
