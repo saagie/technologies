@@ -27,4 +27,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: pyspark
-      version: pyspark-1.62.0_appjupyspark
+      version: pyspark-1.63.0_appjupyspark
