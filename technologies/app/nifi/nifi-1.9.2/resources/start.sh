@@ -28,7 +28,7 @@ prop_replace 'nifi.remote.input.secure'         'false'
 
 # Set nifi-toolkit properties files and baseUrl
 "${scripts_dir}/toolkit.sh"
-# [SAAGIE] No need to have port, but path must be rewritent according to Saagie path.
+# [SAAGIE] No need to have port, but path must be rewritten according to Saagie path.
 prop_replace 'baseUrl' "http://${NIFI_WEB_HTTP_HOST}/${SAAGIE_BASE_PATH}/" ${nifi_toolkit_props_file}
 
 prop_replace 'nifi.variable.registry.properties'    "${NIFI_VARIABLE_REGISTRY_PROPERTIES:-}"

@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: nifi
-label: Nifi
+label: "[Lab] Nifi"
 baseline: Apache Nifi
 description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
