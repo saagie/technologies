@@ -37,7 +37,7 @@ Then run the following command:
 docker build -t saagie/nifi-1.9.2 .
 ```
      
-## Run RStudio container
+## Run Nifi container
 
 ### On Saagie's Platform 
 
@@ -55,7 +55,7 @@ Run:
 docker run --rm -it -p 10080:8080 --name nifi -e SAAGIE_BASE_PATH=/ -t saagie/nifi:1.9.2
 ```
 
-## Pending questions:
+## Pending questions
  - How to handle site to site communication
  - How to query API from external location
  - How to save and persist templates (some say they are saved in nifi `conf` folder under `flow.xml.gz`)
