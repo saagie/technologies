@@ -1,7 +1,9 @@
 #!/bin/bash
 
 set -euo pipefail
-
+if compgen -G "*.zip*" > /dev/null; then
+    unzip -q *.zip
+fi
 if test -f main_script;
 then sh ./main_script;
 else exec "$@"
