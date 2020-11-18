@@ -3,7 +3,6 @@ r-cran-arules
 r-cran-betareg
 r-cran-caret
 r-cran-changepoint
-r-cran-cluster
 r-cran-colorspace
 r-cran-colourpicker
 r-cran-corrplot
@@ -45,7 +44,6 @@ r-cran-odbc
 r-cran-packrat
 r-cran-plotly
 r-cran-pls
-r-cran-prophet
 r-cran-proxy
 r-cran-pvclust
 r-cran-rattle
@@ -53,7 +51,6 @@ r-cran-readr
 r-cran-readxl
 r-cran-reshape2
 r-cran-rjson
-r-cran-rpart
 r-cran-rpart.plot
 r-cran-rvest
 r-cran-scales

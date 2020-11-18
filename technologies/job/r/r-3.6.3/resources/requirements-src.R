@@ -22,6 +22,7 @@ pkgs <- c(
 	'missMDA',
 	'networkD3',
 	'pROC',
+	'prophet',
 	'randomForest',
 	'RcmdrMisc',
 	'RColorBrewer',
