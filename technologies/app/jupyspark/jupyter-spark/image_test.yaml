@@ -28,10 +28,6 @@ fileExistenceTests:
     path: "/etc/apt/sources.list.d/cloudera.list"
     shouldExist: true
     permissions: "-rw-r--r--"
-  - name: "core-site.xml"
-    path: "/home/jovyan/hadoop/core-site.xml"
-    shouldExist: true
-    permissions: "-rw-r--r--"
   - name: "requirements jupyspark conda"
     path: "/home/jovyan/requirements_conda.txt"
     shouldExist: true

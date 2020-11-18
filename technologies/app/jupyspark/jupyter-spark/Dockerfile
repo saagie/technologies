@@ -39,7 +39,6 @@ ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 ENV HADOOP_CONF_DIR /home/jovyan/hadoop
 
-COPY resources/core-site.xml /home/$NB_USER/hadoop/core-site.xml
 RUN mkdir -p $HADOOP_CONF_DIR && \
     mkdir -p /usr/lib/impala/lib/ && \
     chown $NB_UID /usr/lib/impala/lib && \
