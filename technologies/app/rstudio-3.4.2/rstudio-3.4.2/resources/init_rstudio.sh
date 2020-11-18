@@ -47,7 +47,7 @@ chown -R rstudio:rstudio /home/rstudio
 chmod -R 755 /home/rstudio
 
 # create an admin user who will be able to create new users directly from RStudio IDE
-useradd admin --home /home/admin --create-home -p $(openssl passwd -1 rstudioadmin) --groups sudo,shadow,rstudio,staff
+useradd admin --home /home/admin --create-home -p $(openssl passwd -1 ${RSTUDIO_ADMIN_PASSWD}) --groups sudo,shadow,rstudio,staff
 
 # Add backupusers script for admin user
 mkdir -p /home/admin
