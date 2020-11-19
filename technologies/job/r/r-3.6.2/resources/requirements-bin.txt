@@ -1,3 +1,6 @@
+# needed by prophet
+libv8-dev
+# r-cran binaries
 r-cran-ade4
 r-cran-arules
 r-cran-betareg
