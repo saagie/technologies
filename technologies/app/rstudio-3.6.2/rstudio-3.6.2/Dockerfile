@@ -2,13 +2,15 @@ FROM rocker/tidyverse:3.6.2
 
 USER root
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # Spark dependencies versions
 ENV APACHE_SPARK_VERSION 2.1.0
 ENV HADOOP_VERSION 2.7
 
 # Install system libraries required by R packages
 RUN apt-get update -qq \
-    && apt-get install -yqq --no-install-recommends \ 
+    && apt-get install -yqq --no-install-recommends \
         curl \
         libcups2 libcups2-dev openjdk-11-jdk systemd \
         unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
@@ -16,12 +18,41 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Hadoop client installation
+RUN wget --no-verbose http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.13.0.tar.gz \
+    && tar -xzf hadoop-2.6.0-cdh5.13.0.tar.gz \
+    && rm hadoop-2.6.0-cdh5.13.0.tar.gz \
+    && mv hadoop-2.6.0-cdh5.13.0 /usr/local/hadoop
+ENV HADOOP_HOME=/usr/local/hadoop
+ENV PATH=$PATH:$HADOOP_HOME/bin
+
+# Hive client installation
+RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz \
+    && tar -xvzf apache-hive-1.2.2-bin.tar.gz \
+    && rm apache-hive-1.2.2-bin.tar.gz
+ENV HIVE_HOME=/apache-hive-1.2.2-bin
+ENV PATH=$HIVE_HOME/bin:$PATH
+
+# Install Hive ODBC driver
+RUN apt update -qq && apt install -yqq --no-install-recommends \
+      libsasl2-modules-gssapi-mit && \
+    rm -rf /var/lib/apt/lists/* && \
+    cd /tmp && \
+    wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_2.6.4.1004/Debian/clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
+    dpkg -i clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
+    odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini && \
+    rm /tmp/clouderahiveodbc_2.6.4.1004-2_amd64.deb
+
 # Install Impala ODBC dependency
 RUN cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
     && dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
     && rm -rf /tmp/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb
+
+# JAVA_HOME define
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Install Spark
 RUN curl -s https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ \
@@ -36,8 +67,6 @@ RUN R -e "install.packages('sparklyr', repos='http://cran.rstudio.com/', depende
 # Install Saagie's RStudio Addin
 RUN R -e "install.packages('devtools')" && \
   R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
-
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 # Install R packages
 RUN R CMD javareconf && \
@@ -161,59 +190,30 @@ RUN mkdir /root/.R/
 RUN echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars
 RUN R -e "install.packages('prophet')"
 
-# Be sure rstudio user has full access to his home directory
-RUN mkdir -p /home/rstudio && \
-  chown -R rstudio:rstudio /home/rstudio && \
-  chmod -R 755 /home/rstudio
+RUN apt update -qq && apt install -yqq --no-install-recommends \
+      krb5-user \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*;
 
-ADD resources/init_rstudio.sh /
-RUN chmod 500 /init_rstudio.sh
+# Nginx
+RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
+      nginx \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/
 
-# JAVA_HOME define
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# Hadoop client installation
-RUN wget --no-verbose http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.13.0.tar.gz \
-&& tar -xzf hadoop-2.6.0-cdh5.13.0.tar.gz \
-&& rm hadoop-2.6.0-cdh5.13.0.tar.gz \
-&& mv hadoop-2.6.0-cdh5.13.0 /usr/local/hadoop
-ENV HADOOP_HOME=/usr/local/hadoop
-ENV PATH=$PATH:$HADOOP_HOME/bin
-
-# Hive client installation
-RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz \
-&& tar -xvzf apache-hive-1.2.2-bin.tar.gz \
-&& rm apache-hive-1.2.2-bin.tar.gz \
-&& cd apache-hive-1.2.2-bin
-ENV HIVE_HOME=/apache-hive-1.2.2-bin
-ENV PATH=$HIVE_HOME/bin:$PATH
+COPY resources/server.conf /etc/nginx/sites-enabled/rstudio.conf
+RUN rm /etc/nginx/sites-enabled/default
 
 # Store Root envvar to be able to exclude it at runtime when propagating envvars to every user
 RUN env >> /ROOT_ENV_VAR && chmod 400 /ROOT_ENV_VAR
 
-# Nginx
-RUN apt-get update \
-  && apt-get install -y nginx \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/
-
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      krb5-user && \
-    rm -rf /var/lib/apt/lists/*;
-
-# Install Hive ODBC driver
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      libsasl2-modules-gssapi-mit && \
-    rm -rf /var/lib/apt/lists/* && \
-    cd /tmp && \
-    wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_2.6.4.1004/Debian/clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
-    dpkg -i clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
-    odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini && \
-    rm /tmp/clouderahiveodbc_2.6.4.1004-2_amd64.deb
-
-COPY resources/server.conf /etc/nginx/sites-enabled/rstudio.conf
-RUN rm /etc/nginx/sites-enabled/default
+COPY resources/userconf /etc/cont-init.d/userconf
+COPY resources/init_rstudio.sh /init_rstudio.sh
+# Be sure rstudio user has full access to his home directory
+RUN mkdir -p /home/rstudio && \
+    chown -R rstudio:rstudio /home/rstudio && \
+    chmod -R 755 /home/rstudio && \
+    chmod 500 /init_rstudio.sh
 
 EXPOSE 80
 ADD resources/entrypoint.sh /entrypoint.sh
