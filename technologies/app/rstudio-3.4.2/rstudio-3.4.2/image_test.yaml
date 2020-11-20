@@ -8,7 +8,7 @@ metadataTest:
       value: en_US.UTF-8
     - key: APACHE_SPARK_VERSION
       value: 2.1.0
-    - key: HADOOP_VERSION
+    - key: SPARK_HADOOP_VERSION
       value: 2.7
     - key: SPARK_HOME
       value: /usr/local/spark
