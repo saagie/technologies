@@ -4,14 +4,22 @@ USER root
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Spark dependencies versions
+ENV CDH_MAIN_VERSION 5
+ENV CDH_VERSION ${CDH_MAIN_VERSION}.13.0
+ENV HADOOP_VERSION 2.6.0
+ENV HIVE_VERSION 1.2.2
+ENV HIVE_ODBC_VERSION 2.6.4.1004
+ENV HIVE_ODBC_VERSION_FULL ${HIVE_ODBC_VERSION}-2_amd64
+ENV IMPALA_ODBC_VERSION 2.5.41.1029
+ENV IMPALA_ODBC_VERSION_FULL ${IMPALA_ODBC_VERSION}-2_amd64
 ENV APACHE_SPARK_VERSION 2.1.0
-ENV HADOOP_VERSION 2.7
+ENV SPARK_HADOOP_VERSION 2.7
 
 # Install system libraries required by R packages
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
         curl \
+        krb5-user \
         libcups2 libcups2-dev openjdk-11-jdk systemd \
         unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
         gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
@@ -19,54 +27,62 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 # Hadoop client installation
-RUN wget --no-verbose http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && tar -xzf hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && rm hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && mv hadoop-2.6.0-cdh5.13.0 /usr/local/hadoop
+# TODO use oneline curl/wget with env var to simplify
+RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+    && tar -xzf hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+    && rm hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+    && mv hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION} /usr/local/hadoop
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV PATH=$PATH:$HADOOP_HOME/bin
 
 # Hive client installation
-RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz \
-    && tar -xvzf apache-hive-1.2.2-bin.tar.gz \
-    && rm apache-hive-1.2.2-bin.tar.gz
-ENV HIVE_HOME=/apache-hive-1.2.2-bin
+# TODO use oneline curl -o with env var to simplify
+RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
+    && tar -xvzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
+    && rm apache-hive-${HIVE_VERSION}-bin.tar.gz
+ENV HIVE_HOME=/apache-hive-${HIVE_VERSION}-bin
 ENV PATH=$HIVE_HOME/bin:$PATH
 
 # Install Hive ODBC driver
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      libsasl2-modules-gssapi-mit && \
-    rm -rf /var/lib/apt/lists/* && \
-    cd /tmp && \
-    wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_2.6.4.1004/Debian/clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
-    dpkg -i clouderahiveodbc_2.6.4.1004-2_amd64.deb && \
-    odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini && \
-    rm /tmp/clouderahiveodbc_2.6.4.1004-2_amd64.deb
+      libsasl2-modules-gssapi-mit \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /tmp \
+    && wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_${HIVE_ODBC_VERSION}/Debian/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
+    && dpkg -i clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
+    && odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini \
+    && rm /tmp/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb
 
 # Install Impala ODBC dependency
 RUN cd /tmp \
-    && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
-    && dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
+    && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_${IMPALA_ODBC_VERSION}/Debian/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
+    && dpkg -i clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
-    && rm -rf /tmp/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb
+    && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb
 
 # JAVA_HOME define
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Install Spark
-RUN curl -s https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ \
-    && ln -s /usr/local/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /usr/local/spark
-
-# Spark config
+RUN curl -s https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ \
+    && ln -s /usr/local/spark-${APACHE_SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION} /usr/local/spark
 ENV SPARK_HOME /usr/local/spark
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 
+
+#####################################
+### START R LIBS INTALLATION Part ###
+###
+
+# TODO check if this one is necessarily installd before others ...
+# TODO use requirements file to make this docker file more readable
 RUN R -e "install.packages('sparklyr', repos='http://cran.rstudio.com/', dependencies=T)"
 
 # Install Saagie's RStudio Addin
 RUN R -e "install.packages('devtools')" && \
-  R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
+    R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
 
 # Install R packages
 RUN R CMD javareconf && \
@@ -190,19 +206,17 @@ RUN mkdir /root/.R/
 RUN echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars
 RUN R -e "install.packages('prophet')"
 
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      krb5-user \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*;
+                                ###
+### END R LIBS INTALLATION Part ###
+###################################
 
-# Nginx
+# Nginx isntall and remove default conf
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
       nginx \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/
-
+    && rm -rf /var/lib/apt/lists/ \
+    && rm /etc/nginx/sites-enabled/default
 COPY resources/server.conf /etc/nginx/sites-enabled/rstudio.conf
-RUN rm /etc/nginx/sites-enabled/default
 
 # Store Root envvar to be able to exclude it at runtime when propagating envvars to every user
 RUN env >> /ROOT_ENV_VAR && chmod 400 /ROOT_ENV_VAR
@@ -216,7 +230,8 @@ RUN mkdir -p /home/rstudio && \
     chmod 500 /init_rstudio.sh
 
 EXPOSE 80
-ADD resources/entrypoint.sh /entrypoint.sh
+
+COPY resources/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/bin/sh", "-c", "/init_rstudio.sh"]
