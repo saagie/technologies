@@ -9,9 +9,9 @@ icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
 contexts:
-  - id: v2-app-spark
+  - id: jupyter-spark-2.4.5_python-3.6
     label: "[Lab] Jupyter Notebook with Spark"
-    releaseNotes: "First notebook release with Spark local mono node"
+    releaseNotes: "Runs Python 3.6 with Spark 2.4.5"
     available: true
     trustLevel: experimental
     ports:
