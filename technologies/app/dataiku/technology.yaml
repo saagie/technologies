@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: dss-8.0.2
+label: dss 8.0.2
+baseline: DataScience Studio
+description: Data Science Studio (DSS) is a software platform that aggregates all the steps and big data tools necessary to get from raw data to production ready applications.
+available: true
+icon: dss
+backgroundColor: "#3374BA"
+customFlags: []

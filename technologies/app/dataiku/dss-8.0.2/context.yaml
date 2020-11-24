@@ -1,0 +1,11 @@
+id: 8.0.2
+label: dss 8.0.2
+releaseNotes: First iteration post migration for branch v2-app_3.6.2
+available: true
+trustLevel: stable
+ports:
+  - port: 10000
+    name: dss
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/home"]

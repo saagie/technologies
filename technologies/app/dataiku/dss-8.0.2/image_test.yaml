@@ -1,0 +1,252 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: LC_ALL
+      value: en_US.UTF-8
+    - key: APACHE_SPARK_VERSION
+      value: 2.1.0
+    - key: HADOOP_VERSION
+      value: 2.7
+    - key: SPARK_HOME
+      value: /usr/local/spark
+    - key: SPARK_OPTS
+      value: --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
+    - key: JAVA_HOME
+      value: /usr/lib/jvm/java-11-openjdk-amd64
+    - key: HADOOP_HOME
+      value: /usr/local/hadoop
+    - key: HIVE_HOME
+      value: /apache-hive-1.2.2-bin
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "init_rstudio"
+    path: "/init_rstudio.sh"
+    shouldExist: true
+    permissions: "-r-x------"
+  - name: "rstudio_home"
+    path: "/home/rstudio"
+    shouldExist: true
+    permissions: "drwxr-xr-x"
+    uid: 1000
+    gid: 1000
+  - name: .R
+    path: /root/.R
+    shouldExist: true
+  - name: R vars
+    path: /root/.R/Makevars
+    shouldExist: true
+# TODO see how to test this part
+#  - name: "ROOT_ENV_VAR"
+#    path: "/ROOT_ENV_VAR"
+#    shouldExist: true
+#    permissions: "drw-------"
+  - name: No default nginx conf
+    path: /etc/nginx/sites-enabled/default
+    shouldExist: false
+  - name: rstudio nginx conf
+    path: "/etc/nginx/sites-enabled/rstudio.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: Impala ODBC dependecy
+    path: "/opt/cloudera/impalaodbc/Setup/odbcinst.ini"
+    shouldExist: true
+
+fileContentTests:
+  - name: "Makevars"
+    path: "/root/.R/Makevars"
+    expectedContents:
+      [
+        "CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION",
+      ]
+  - name: "OBBC Impala content"
+    path: "/opt/cloudera/impalaodbc/Setup/odbcinst.ini"
+    expectedContents:
+      [
+        "Cloudera ODBC Driver for Impala 32-bit=Installed",
+        "Cloudera ODBC Driver for Impala 64-bit=Installed",
+        "Driver=/opt/cloudera/impalaodbc/lib/32/libclouderaimpalaodbc32.so",
+        "Driver=/opt/cloudera/impalaodbc/lib/64/libclouderaimpalaodbc64.so"
+      ]
+  - name: "RStudio conf"
+    path: "/etc/nginx/sites-enabled/rstudio.conf"
+    expectedContents:
+      [
+        "listen 80 default_server;",
+        "listen \\[::\\]:80 default_server",
+        "location SAAGIE_BASE_PATH {",
+        "proxy_pass http:\\/\\/localhost:8787;",
+      ]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+# TODO checks if / as workdir is normal, shouldn't it be /home/rstudio ?
+    expectedOutput: ["/"]
+  - name: "R version"
+    command: "R"
+    args: ["--version"]
+    expectedOutput: ['R version 3.6.2']
+  - name: "java version"
+    command: "java"
+    args: ["-version"]
+    expectedError: ['openjdk version "11.*']
+  - name: "java installation"
+    command: "which"
+    args: ["java"]
+    expectedOutput: ["/usr/lib/jvm/java-11-openjdk-amd64/bin/java"]
+# TODO Spark not on PATH but seems not needed => check and notify
+### RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark
+#  - name: "spark-submit on path"
+#    command: "which"
+#    args: ["spark-submit"]
+#    expectedOutput: ["/usr/local/spark/bin/spark-submit"]
+  - name: "Hadoop installation"
+    command: "which"
+    args: ["hadoop"]
+    expectedOutput: ["/usr/local/hadoop/bin/hadoop"]
+  - name: "Beeline installation"
+    command: "which"
+    args: ["beeline"]
+    expectedOutput: ["/apache-hive-1.2.2-bin/bin/beeline"]
+  - name: "Spark version"
+    command: "/usr/local/spark/bin/spark-submit"
+    args: ["--version"]
+    expectedError: ["version 2.1.*"]
+  - name: check All libs
+    command: "bash"
+    args: [
+      "-c",
+      "
+        Rscript -e 'library(ade4)' &&
+        Rscript -e 'library(argparse)' &&
+        Rscript -e 'library(arules)' &&
+        Rscript -e 'library(arulesSequences)' &&
+        Rscript -e 'library(AUC)' &&
+        Rscript -e 'library(betareg)' &&
+        Rscript -e 'library(breakpoint)' &&
+        Rscript -e 'library(caret)' &&
+        Rscript -e 'library(caretEnsemble)' &&
+        Rscript -e 'library(cartography)' &&
+        Rscript -e 'library(changepoint)' &&
+        Rscript -e 'library(classInt)' &&
+        Rscript -e 'library(cluster)' &&
+        Rscript -e 'library(colorspace)' &&
+        Rscript -e 'library(colourpicker)' &&
+        Rscript -e 'library(corrplot)' &&
+        Rscript -e 'library(curl)' &&
+        Rscript -e 'library(d3heatmap)' &&
+        Rscript -e 'library(data.table)' &&
+        Rscript -e 'library(dbscan)' &&
+        Rscript -e 'library(DescTools)' &&
+        Rscript -e 'library(devtools)' &&
+        Rscript -e 'library(doParallel)' &&
+        Rscript -e 'library(doSNOW)' &&
+        Rscript -e 'library(dtplyr)' &&
+        Rscript -e 'library(dtw)' &&
+        Rscript -e 'library(dummies)' &&
+        Rscript -e 'library(dygraphs)' &&
+        Rscript -e 'library(e1071)' &&
+        Rscript -e 'library(factoextra)' &&
+        Rscript -e 'library(FactoInvestigate)' &&
+        Rscript -e 'library(FactoMineR)' &&
+        Rscript -e 'library(Factoshiny)' &&
+        Rscript -e 'library(ff)' &&
+        Rscript -e 'library(ffbase)' &&
+        Rscript -e 'library(FNN)' &&
+        Rscript -e 'library(forecast)' &&
+        Rscript -e 'library(futile.logger)' &&
+        Rscript -e 'library(ggplot2)' &&
+        Rscript -e 'library(glmnet)' &&
+        Rscript -e 'library(h2o)' &&
+        Rscript -e 'library(hunspell)' &&
+        Rscript -e 'library(implyr)' &&
+        Rscript -e 'library(jsonlite)' &&
+        Rscript -e 'library(kernlab)' &&
+        Rscript -e 'library(kknn)' &&
+        Rscript -e 'library(knitr)' &&
+        Rscript -e 'library(kohonen)' &&
+        Rscript -e 'library(labeling)' &&
+        Rscript -e 'library(LDAvis)' &&
+        Rscript -e 'library(leaflet)' &&
+        Rscript -e 'library(leaps)' &&
+        Rscript -e 'library(lsa)' &&
+        Rscript -e 'library(magrittr)' &&
+        Rscript -e 'library(mapproj)' &&
+        Rscript -e 'library(maps)' &&
+        Rscript -e 'library(maptools)' &&
+        Rscript -e 'library(markdown)' &&
+        Rscript -e 'library(mclust)' &&
+        Rscript -e 'library(missMDA)' &&
+        Rscript -e 'library(mlogit)' &&
+        Rscript -e 'library(mvoutlier)' &&
+        Rscript -e 'library(networkD3)' &&
+        Rscript -e 'library(odbc)' &&
+        Rscript -e 'library(packrat)' &&
+        Rscript -e 'library(plotly)' &&
+        Rscript -e 'library(pls)' &&
+        Rscript -e 'library(pROC)' &&
+        Rscript -e 'library(prophet)' &&
+        Rscript -e 'library(proxy)' &&
+        Rscript -e 'library(pvclust)' &&
+        Rscript -e 'library(randomForest)' &&
+        Rscript -e 'library(rattle)' &&
+        Rscript -e 'library(RcmdrMisc)' &&
+        Rscript -e 'library(RColorBrewer)' &&
+        Rscript -e 'library(Rcpp)' &&
+        Rscript -e 'library(readr)' &&
+        Rscript -e 'library(readxl)' &&
+        Rscript -e 'library(recommenderlab)' &&
+        Rscript -e 'library(reshape2)' &&
+        Rscript -e 'library(rJava)' &&
+        Rscript -e 'library(RJDBC)' &&
+        Rscript -e 'library(rjson)' &&
+        Rscript -e 'library(RMySQL)' &&
+        Rscript -e 'library(ROCR)' &&
+        Rscript -e 'library(ROSE)' &&
+        Rscript -e 'library(rpart)' &&
+        Rscript -e 'library(rpart.plot)' &&
+        Rscript -e 'library(RSelenium)' &&
+        Rscript -e 'library(rsparkling)' &&
+        Rscript -e 'library(Rtsne)' &&
+        Rscript -e 'library(rvest)' &&
+        Rscript -e 'library(RWeka)' &&
+        Rscript -e 'library(sas7bdat)' &&
+        Rscript -e 'library(scales)' &&
+        Rscript -e 'library(shiny)' &&
+        Rscript -e 'library(shinydashboard)' &&
+        Rscript -e 'library(shinyjs)' &&
+        Rscript -e 'library(shinythemes)' &&
+        Rscript -e 'library(skmeans)' &&
+        Rscript -e 'library(SnowballC)' &&
+        Rscript -e 'library(sp)' &&
+        Rscript -e 'library(sparklyr)' &&
+        Rscript -e 'library(sqldf)' &&
+        Rscript -e 'library(stringi)' &&
+        Rscript -e 'library(stringr)' &&
+        Rscript -e 'library(syuzhet)' &&
+        Rscript -e 'library(tm)' &&
+        Rscript -e 'library(topicmodels)' &&
+        Rscript -e 'library(tree)' &&
+        Rscript -e 'library(trend)' &&
+        Rscript -e 'library(TSclust)' &&
+        Rscript -e 'library(tseries)' &&
+        Rscript -e 'library(wordcloud)' &&
+        Rscript -e 'library(xgboost)' &&
+        Rscript -e 'library(xlsx)' &&
+        Rscript -e 'library(xts);'",
+    ]
+    exitCode: 0
+# TODO test saagie/rstudio-saagie-addin ?
+# TODO compared to R images there is no dtwclust package, check if necessary or not.
+#      Rscript -e 'library(dtwclust)' &&
+# NOTE cairoDevice lib not tested because needs x11 display
+#      Rscript -e 'library(cairoDevice)'
+#      Error: package or namespace load failed for ‘cairoDevice’:
+#      STDOUT: error: GDK display not found - please make sure X11 is running
