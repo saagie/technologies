@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: dataiku
+label: Dataiku
+baseline: Your Path to Enterprise AI
+description: Dataiku is the platform democratizing access to data and enabling enterprises to build their own path to AI in a human-centric way.
+available: true
+icon: dataiku
+backgroundColor: "#40BEB0"
+customFlags: []
+contexts:
+  - id: 6.0.0
+    label: Dataiku
+    releaseNotes: "First iteration"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 10000
+        name: Dataiku
+        rewrite: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/dataiku
+      baseTag: 6.0.0
+      version: 6.0.0-1.63.0_appdataiku
