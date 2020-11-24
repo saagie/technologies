@@ -1,6 +1,6 @@
 FROM dataiku/dss:8.0.2
 
-USER root
+#USER root
 
 # Nginx
 #RUN apt-get update \
