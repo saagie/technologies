@@ -1,0 +1,4 @@
+image: saagie/dataiku
+baseTag: 6.0.0
+dynamicVersion: 1.63.0_appdataiku
+version: 6.0.0-1.63.0_appdataiku
