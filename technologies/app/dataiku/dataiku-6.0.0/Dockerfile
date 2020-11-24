@@ -59,6 +59,7 @@ RUN mkdir -p /usr/local/lib/R/site-library \
             '/usr/local/lib/R/site-library', \
             repos='https://cloud.r-project.org')"
 
+# TODO remove before merge
 RUN yum update -y \
     && yum remove -y nginx \
     && yum install -y \
