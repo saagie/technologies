@@ -1,7 +1,7 @@
 id: orientdb
 label: "[Lab] OrientDB"
 releaseNotes: First iteration
-available: false
+available: true
 trustLevel: experimental
 ports:
   - port: 9424

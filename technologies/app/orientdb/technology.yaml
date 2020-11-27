@@ -4,7 +4,7 @@ id: orientdb
 label: "[Lab] OrientDB"
 baseline: baseline
 description: description
-available: false
+available: true
 icon: orientdb
 backgroundColor: "#3374BA"
 customFlags: []
