@@ -15,14 +15,14 @@ contexts:
     available: true
     trustLevel: experimental
     ports:
-      - port: 9424
-        name: Binary
-        rewriteUrl: false
-        basePath: REPLACE_TS2_PATH
       - port: 9480
         name: Http
         rewriteUrl: false
-        basePath: REPLACE_TS_PATH
+        basePath: TS_PATH
+      - port: 9424
+        name: Binary
+        rewriteUrl: false
+        basePath: TS2_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
       image: saagie/orientdb
