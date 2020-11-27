@@ -40,9 +40,9 @@ Then run the following command:
 ```
 docker build -t saagie/jupyter-python-nbk:v2-spark .
 ```
-It builds the image based the image `"saagie/jupyter-python-nbk:v2-1.61.0"`
+It builds the image based on the image `"saagie/jupyter-python-nbk:v2-1.61.0"`
 
-You can base it on another version/tag by using the build argument BASE_CONTAINER with the name/tag of the image you want to use.
+You can base it on another image by using the build argument BASE_CONTAINER with the repo/image:tag of the image you want to use.
 
 Example: 
 ```
