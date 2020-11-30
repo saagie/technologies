@@ -27,7 +27,7 @@ If you want to run RStudio on a custom port, let's say port 9999, you can run it
 
 ## Create new RStudio users
 
-If you want to create new RStudio users, you'll need to log in to RStudio as: `admin` (password: `${RSTUDIO_ADMIN_PASSWD}`).
+If you want to create new RStudio users, you'll need to log in to RStudio as: `admin` (password: `${RSTUDIO_ADMIN_PASSWORD}`).
 Then go to '*Tools > Shell*' and run `sudo adduser my_new_user`.
 You'll be prompted to enter admin's password, and then to chose your new user's password. No need to fill in the other fields.
 If you want to allow this new user to install libraries, you need to add him to the *staff* group using the following command: `sudo adduser my_new_user staff`.
