@@ -33,8 +33,10 @@ SHELL ["/bin/bash", "-c"]
 #     inherited from saagie/python:3.6 image
 #     installed via pip only
 #     installed via conda
+COPY resources/requirements_conda3.txt /home/$NB_USER/requirements_conda3.txt
 COPY resources/requirements_pandas.txt /home/$NB_USER/requirements_pandas.txt
 #COPY resources/requirements_pip3.txt /home/$NB_USER/requirements_pip3.txt
+RUN conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda3.txt
 RUN conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_pandas.txt
 #RUN . activate py36 \
 #    && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_pip3.txt \
