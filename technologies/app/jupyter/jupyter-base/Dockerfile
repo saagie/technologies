@@ -36,23 +36,14 @@ SHELL ["/bin/bash", "-c"]
 #     inherited from saagie/python:3.6 image
 #     installed via pip only
 #     installed via conda
-COPY resources/requirements_conda3.txt /home/$NB_USER/requirements_conda3.txt
 COPY --from=PYTHON3 /tmp/requirements.txt /home/$NB_USER/requirements_python3.txt
 COPY resources/requirements_pip3.txt /home/$NB_USER/requirements_pip3.txt
-RUN conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda3.txt \
-    # Some installed library (scikit-learn) could not be removed so use --ignore-installed \
-    && sed -n '/scikit-learn/p' /home/$NB_USER/requirements_python3.txt >> /home/$NB_USER/requirements_python3_ignore-installed.txt \
-    && sed -i '/scikit-learn/d' /home/$NB_USER/requirements_python3.txt \
-    # auto-sklearn causes build fails because of PEP 517 => force install via wheel + fix sphinx-rtd-theme version
-    && echo "sphinx-rtd-theme==0.4.3" >> /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && sed -n '/auto-sklearn/p' /home/$NB_USER/requirements_python3.txt >> /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && sed -i '/auto-sklearn/d' /home/$NB_USER/requirements_python3.txt
+COPY resources/requirements_conda3.txt /home/$NB_USER/requirements_conda3.txt
 RUN . activate py36 \
-    && python -m pip install --no-cache-dir --ignore-installed --no-binary :all: -r /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && python -m pip install --no-cache-dir --ignore-installed -r /home/$NB_USER/requirements_python3_ignore-installed.txt \
     && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_python3.txt \
     && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_pip3.txt \
     && conda deactivate \
+    && conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda3.txt \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################
