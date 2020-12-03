@@ -1,6 +1,6 @@
 id: jupyter-pandas-context
 label: Jupyter Notebook + Pandas
-releaseNotes: "First iteration add only pandas"
+releaseNotes: "002 add apt libs"
 available: true
 trustLevel: stable
 ports:

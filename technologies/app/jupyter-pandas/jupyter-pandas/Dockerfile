@@ -6,8 +6,23 @@ MAINTAINER Saagie
 
 ########################## LIBS PART BEGIN ##########################
 USER root
+# TODO check if all necessary seems there are duplicate from jupyter/scipy image
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
-        nano net-tools \
+      # replaces libpng3 for bionic
+      libpng16-16 \
+      # replaces libdal6 for bionic
+      libgdal-dev \
+      # needed to compile psycopg2
+      libpq-dev \
+      libxml2-dev libxslt1-dev antiword unrtf poppler-utils pstotext tesseract-ocr \
+      flac ffmpeg lame libmad0 libsox-fmt-mp3 sox libjpeg-dev swig redis-server libpulse-dev \
+      libfreetype6-dev libatlas-base-dev gfortran \
+      sasl2-bin libsasl2-2 libsasl2-dev \
+      libsasl2-modules unixodbc-dev python3-tk \
+      qt5-default \
+      libqt5webkit5-dev \
+      libcurl4-openssl-dev \
+      nano net-tools \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 

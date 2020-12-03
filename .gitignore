@@ -11,3 +11,4 @@ tmp-zip
 node_modules/
 .cache/
 .bundle/
+jupyter-pandas.zip
