@@ -1,0 +1,11 @@
+id: jupyter-pandas-context
+label: Jupyter Notebook + Pandas
+releaseNotes: "First iteration add only pandas"
+available: true
+trustLevel: stable
+ports:
+  - port: 8888
+    name: Notebook
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/notebooks-dir"]

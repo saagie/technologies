@@ -1,0 +1,42 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/notebooks-dir"]
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+  - name: "Check conda virtual env"
+    command: "bash"
+    args: ["-c", "conda env list | grep py36"]
+    expectedOutput: ["/opt/conda/envs/py36"]
+    exitCode: 0
+  - name: check Jupyter specific lib PIL
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'from PIL import Image'"]
+    exitCode: 0
+  - name: check Jupyter specific lib protobuf
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'from google.protobuf import descriptor_pb2'"]
+    exitCode: 0
+  - name: check Python libs
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'import pandas;'"]
+    exitCode: 0
+
+
