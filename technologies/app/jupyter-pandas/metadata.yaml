@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: jupyter-pandas-context
     label: Jupyter Notebook + Pandas
-    releaseNotes: "002 add apt libs"
+    releaseNotes: "003 add CUDA"
     available: true
     trustLevel: stable
     ports:
@@ -22,4 +22,4 @@ contexts:
     volumes: [ "/notebooks-dir" ]
     dockerInfo:
       image: ypetit/test
-      version: jupypandas_002
+      version: jupypandas_003
