@@ -1,6 +1,6 @@
 id: jupyter-pandas-context
 label: Jupyter Notebook + Pandas
-releaseNotes: "004 add conda libs"
+releaseNotes: "005 add spcific python3 libs"
 available: true
 trustLevel: stable
 ports:
