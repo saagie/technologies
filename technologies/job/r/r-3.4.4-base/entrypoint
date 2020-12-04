@@ -6,6 +6,7 @@ if compgen -G "*.zip*" > /dev/null; then
     unzip -qo *.zip
 fi
 if test -f main_script; then
+    echo "'main_script' detected ... executing ..."
     sh ./main_script
 else
     exec "$@"
