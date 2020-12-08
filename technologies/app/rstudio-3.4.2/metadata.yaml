@@ -22,5 +22,4 @@ contexts:
     volumes: ["/home"]
     dockerInfo:
       image: saagie/rstudio
-      baseTag: 3.4.2
-      version: 3.4.2-1.56.0_apprstudio
+      version: 3.4.2-1.56.0

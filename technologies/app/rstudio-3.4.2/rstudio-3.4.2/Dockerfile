@@ -7,10 +7,13 @@ ENV APACHE_SPARK_VERSION 2.1.0
 ENV HADOOP_VERSION 2.7
 
 # Install system libraries required by R packages
-RUN apt-get -y update  && apt-get install -y libcups2 libcups2-dev openjdk-8-jdk systemd \
-    unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
-    gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev && \
-    apt-get clean
+RUN apt-get -qq update \
+    && apt-get install -yqq --no-install-recommends \
+        libcups2 libcups2-dev openjdk-8-jdk systemd \
+        unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
+        gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Impala ODBC dependency
 RUN cd /tmp && \
