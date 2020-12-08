@@ -1,0 +1,15 @@
+id: jupyter-spark-2.4.5_python-3.6
+label: "[Lab] Jupyter Notebook with Spark"
+releaseNotes: "Runs Python 3.6 with Spark 2.4.5"
+available: true
+trustLevel: experimental
+ports:
+  - port: 8888
+    name: Notebook
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+  - port: 8080
+    name: SparkUI
+    rewriteUrl: false
+    basePath: SPARK_UI_PATH
+volumes: ["/notebooks-dir"]

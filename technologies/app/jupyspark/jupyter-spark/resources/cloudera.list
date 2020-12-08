@@ -1,0 +1,4 @@
+# Modified https://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh/cloudera.list file
+# To reference as trusted despite the expired / weak key
+deb [arch=amd64, trusted=yes] https://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh xenial-cdh5 contrib
+deb-src [trusted=yes] https://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh xenial-cdh5 contrib

@@ -1,0 +1,173 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: PORT0
+      value: 4040
+    - key: PORT1
+      value: 20022
+    - key: SPARK_VERSION
+      value: 2.4.5
+    - key: HADOOP_VERSION
+      value: 2.6
+    - key: SPARK_HOME
+      value: /usr/local/spark
+    - key: PYTHONPATH
+      value: "/usr/local/spark/python:/usr/local/spark/python/lib/py4j-0.10.7-src.zip"
+    - key: SPARK_OPTS
+      value: "--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info"
+    - key: HADOOP_CONF_DIR
+      value: /home/jovyan/hadoop
+
+fileExistenceTests:
+  - name: "cloudera.list"
+    path: "/etc/apt/sources.list.d/cloudera.list"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "requirements jupyspark conda"
+    path: "/home/jovyan/requirements_conda.txt"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "Nginx default conf"
+    path: "/etc/nginx/sites-available/default"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "spark env configuration script"
+    path: "/usr/local/spark/conf/spark-env.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "spark install tgz"
+    path: "/tmp/spark-2.4.5-bin-hadoop2.6.tgz"
+    shouldExist: false
+
+fileContentTests:
+  - name: "hive jars"
+    path: "/usr/local/bin/start-notebook.sh"
+    expectedContents:
+      [
+          "ln -s /etc/hadoop/conf/sentry-libs/hive-hcatalog-core.jar /usr/lib/impala/lib/hive-hcatalog-core.jar",
+      ]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/notebooks-dir"]
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+  - name: "Check conda virtual env"
+    command: "bash"
+    args: ["-c", "conda env list | grep py36"]
+    expectedOutput: ["/opt/conda/envs/py36"]
+    exitCode: 0
+  - name: check Jupyter specific lib PIL
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'from PIL import Image'"]
+    exitCode: 0
+  - name: check Jupyter specific lib protobuf
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'from google.protobuf import descriptor_pb2'"]
+    exitCode: 0
+  - name: check pyspark
+    command: "bash"
+    args: ["-c", ". activate py36; conda list | grep spark"]
+    expectedOutput: [ "pyspark" ]
+    exitCode: 0
+  - name: check Python libs
+    command: "bash"
+    args: ["-c", ". activate py36; python -c 'import addok;
+                                              import apiclient;
+                                              import bs4;
+                                              import bokeh;
+                                              import bs4;
+                                              from confluent_kafka import Producer;
+                                              import crypto;
+                                              import cython;
+                                              import django;
+                                              import dryscrape;
+                                              import elasticsearch;
+                                              import excel;
+                                              from fastparquet import ParquetFile;
+                                              import fiona;
+                                              import folium;
+                                              import gensim;
+                                              import geopandas;
+                                              import geopy;
+                                              import graphviz;
+                                              import h5py;
+                                              import hdfs;
+                                              import autosklearn.classification;
+                                              import thrift_sasl;
+                                              from pybrain.tools.shortcuts import buildNetwork;
+                                              import ibis;
+                                              from imblearn.over_sampling import RandomOverSampler;
+                                              from impala.dbapi import connect;
+                                              import ipywidgets;
+                                              import jellyfish;
+                                              import joblib;
+                                              from kafka import KafkaConsumer;
+                                              from keras.layers import Dense;
+                                              import lime;
+                                              import lxml;
+                                              import matplotlib;
+                                              import mpld3;
+                                              import mysql.connector;
+                                              from neo4j import GraphDatabase;
+                                              import networkx;
+                                              import nltk;
+                                              from numba import jit;
+                                              import numpy;
+                                              import cv2;
+                                              import openpyxl;
+                                              import pandas;
+                                              from pdfminer.psparser import *;
+                                              import psycopg2;
+                                              from Crypto.Hash import SHA256;
+                                              import pycurl;
+                                              import pydotplus;
+                                              import pymongo;
+                                              import pyodbc;
+                                              import shapefile;
+                                              import pytesseract;
+                                              from Levenshtein import _levenshtein;
+                                              from requests_kerberos import *;
+                                              from skimage import data;
+                                              from sklearn import datasets;
+                                              import scipy;
+                                              import scrapy;
+                                              import seaborn;
+                                              import shap;
+                                              import shapely;
+                                              import simplejson;
+                                              import six;
+                                              import spacy;
+                                              from sqlalchemy import create_engine;
+                                              import statsmodels;
+                                              import tabula;
+                                              import tensorflow as tf;
+                                              print(\"Num GPUs Available: \", len(tf.config.experimental.list_physical_devices(\"GPU\")));
+                                              import tensorflow;
+                                              import textract;
+                                              import theano.tensor;
+                                              import tika;
+                                              import tokenizer;
+                                              import torch;
+                                              import torchvision;
+                                              import tpot;
+                                              import umap;
+                                              from wand.image import Image;
+                                              import xgboost;
+                                              import xlwt;
+                                              '"]
+    exitCode: 0
+
+

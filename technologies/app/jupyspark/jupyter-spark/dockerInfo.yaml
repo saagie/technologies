@@ -1,4 +1,4 @@
 image: saagie/jupyter-python-nbk
-baseTag: v2
+baseTag: pyspark
 dynamicVersion: 1.64.0_appjupyspark
-version: v2-1.64.0_appjupyspark
+version: pyspark-1.64.0_appjupyspark
