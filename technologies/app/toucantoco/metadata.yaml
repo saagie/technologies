@@ -23,7 +23,7 @@ contexts:
         name: Toucan back
         rewrite: false
         basePath: BACK_PATH
-    volumes: [ "/data" , "/app/storage"]
+    volumes: ["/data", "/app/storage"]
     dockerInfo:
       image: saagie/toucantoco
       baseTag: 76.0
