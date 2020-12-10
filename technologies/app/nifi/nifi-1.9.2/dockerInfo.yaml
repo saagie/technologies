@@ -1,3 +1,4 @@
 image: saagie/nifi
 baseTag: 1.9.2
-
+dynamicVersion: 1.65.0_hotfix-promote_errors
+version: 1.9.2-1.65.0_hotfix-promote_errors

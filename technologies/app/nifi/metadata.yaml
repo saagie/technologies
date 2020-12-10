@@ -23,4 +23,5 @@ contexts:
     volumes: ["/opt/nifi/nifi-current/conf"]
     dockerInfo:
       image: saagie/nifi
-      version: 1.9.2-1.61.0
+      baseTag: 1.9.2
+      version: 1.9.2-1.65.0_hotfix-promote_errors

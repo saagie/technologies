@@ -1,2 +1,4 @@
 image: saagie/zeppelin-nbk
 baseTag: 0.9.0
+dynamicVersion: 1.65.0_hotfix-promote_errors
+version: 0.9.0-1.65.0_hotfix-promote_errors

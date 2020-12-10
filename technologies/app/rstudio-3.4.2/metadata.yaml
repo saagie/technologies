@@ -22,4 +22,5 @@ contexts:
     volumes: ["/home"]
     dockerInfo:
       image: saagie/rstudio
-      version: 3.4.2-1.56.0
+      baseTag: 3.4.2
+      version: 3.4.2-1.65.0_hotfix-promote_errors
