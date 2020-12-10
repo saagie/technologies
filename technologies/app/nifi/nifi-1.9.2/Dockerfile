@@ -1,9 +1,14 @@
 FROM apache/nifi:1.9.2
 
+LABEL maintainer="Saagie"
+
+ENV DEBIAN_FRONTEND noninteractive
+
 USER root
+
 # Nginx
 RUN apt-get update -qq \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
+  && apt-get install -qqy --no-install-recommends \
       nginx \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
@@ -20,6 +25,8 @@ COPY resources/start.sh /opt/nifi/scripts/start.sh
 
 COPY entrypoint /entrypoint
 
-RUN chmod +x /opt/nifi/scripts/start.sh && chmod 755 /entrypoint && cp -rfv /opt/nifi/nifi-current/conf /opt/nifi/nifi-current/conf-tmp
+RUN chmod +x /opt/nifi/scripts/start.sh \
+    && chmod 755 /entrypoint \
+    && cp -rfv /opt/nifi/nifi-current/conf /opt/nifi/nifi-current/conf-tmp
 
 ENTRYPOINT [ "/entrypoint" ]
