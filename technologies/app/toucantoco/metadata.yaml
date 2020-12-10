@@ -15,15 +15,15 @@ contexts:
     available: true
     trustLevel: experimental
     ports:
-      - port: 90
+      - port: 8080
         name: Toucan front
         rewrite: false
         basePath: FRONT_PATH
-      - port: 91
+      - port: 8090
         name: Toucan back
         rewrite: false
         basePath: BACK_PATH
-    volumes: ["/var/lib/redis", "/var/lib/mongodb", "/var/log/mongod", "/app/storage"]
+    volumes: [ "/data" , "/app/storage"]
     dockerInfo:
       image: saagie/toucantoco
       baseTag: 76.0

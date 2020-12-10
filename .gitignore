@@ -11,3 +11,5 @@ tmp-zip
 node_modules/
 .cache/
 .bundle/
+toucan-catalog.zip
+tmp/

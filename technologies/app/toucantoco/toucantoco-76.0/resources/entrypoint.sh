@@ -4,12 +4,12 @@ set -e
 
 # Set env var to backend
 # should contain public hostname etc
-export API_BASEROUTE=${TOUCAN_HOSTNAME}${BACK_PATH}
-#export TOUCAN_PUPPETEER_URL=""
+export TOUCAN_HOSTNAME="[${TOUCAN_HOST}${TOUCAN_BACK_PORT}]"
+export TOUCAN_FRONTEND_URLS="[${TOUCAN_HOST}${TOUCAN_FRONT_PORT}${FRONT_PATH}]"
+export API_BASEROUTE=${TOUCAN_HOST}${TOUCAN_BACK_PORT}${BACK_PATH}
+#TODO  export TOUCAN_PUPPETEER_URL=""
 
-# move frontend to port 88 to avoid collision with backend
-sed -i 's:80:88:g' /etc/nginx/conf.d/front.conf
-sed -i 's:80:89:g' /etc/nginx/nginx.conf
+sed -i 's:80:90:g' /etc/nginx/nginx.conf
 
 sed -i 's:FRONT_PATH:'$FRONT_PATH':g' /etc/nginx/conf.d/proxy.conf
 sed -i 's:BACK_PATH:'$BACK_PATH':g' /etc/nginx/conf.d/proxy.conf
@@ -22,8 +22,12 @@ sed -i 's:127\.0\.0\.1.*:127\.0\.0\.1 localhost redis mongo:g' /etc/hosts_tmp
 cp /etc/hosts_tmp /etc/hosts
 rm /etc/hosts_tmp
 
+chown -R toucan:toucan /app/storage
+chown -R redis:redis /var/lib/redis
+
 # Start Redis server
 /etc/init.d/redis-server start
 
+#config set stop-writes-on-bgsave-error no
 # Start Mongodb server
-mongod --dbpath /var/lib/mongodb --logpath /var/log/mongod/mongod.log --fork
+mongod --dbpath /data --logpath /var/log/mongod/mongod.log --fork
