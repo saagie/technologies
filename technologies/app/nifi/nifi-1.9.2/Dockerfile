@@ -1,8 +1,11 @@
 FROM apache/nifi:1.9.2
 
+LABEL maintainer="Saagie"
+
 ENV DEBIAN_FRONTEND noninteractive
 
 USER root
+
 # Nginx
 RUN apt-get update -qq \
   && apt-get install -qqy --no-install-recommends \

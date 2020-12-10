@@ -1,6 +1,6 @@
 FROM apache/zeppelin:0.9.0
 
-MAINTAINER Saagie
+LABEL maintainer="Saagie"
 
 ENV DEBIAN_FRONTEND noninteractive
 
