@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.4.2
-      version: 3.4.2-1.65.0_hotfix-promote_errors
+      version: 3.4.2-1.66.0_hotfix-nobranchtag
