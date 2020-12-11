@@ -45,9 +45,6 @@ RUN mkdir -p /tmp/spark && \
     rm -Rf /tmp/spark
 # SPARK INSTALL END
 # SPARK UI FIX SDKTECHNO#83 START 
-RUN mkdir -p /opt/spark/backup && \
-    cp /opt/spark/jars/spark-core_2.12-${SPARK_VERSION}.jar /opt/spark/backup/spark-core_2.12-${SPARK_VERSION}.jar
-
 COPY assets/stagepage.js /tmp/
 COPY assets/utils.js /tmp/
 
