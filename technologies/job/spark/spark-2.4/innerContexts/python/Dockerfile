@@ -32,5 +32,4 @@ RUN chmod 755 /opt/entrypoint.sh
 WORKDIR /opt/spark/work-dir
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
-
-ENV REBUILD ME
+ 
