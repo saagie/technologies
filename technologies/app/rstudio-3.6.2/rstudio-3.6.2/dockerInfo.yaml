@@ -1,4 +1,4 @@
 image: saagie/rstudio
 baseTag: 3.6.2
 dynamicVersion: 1.67.0_SDKTECHNO-85
-version: 3.6.2-1.67.0_SDKTECHNO-85
+version: 3.6.2-1.67.0
