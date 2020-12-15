@@ -12,7 +12,6 @@ r-cran-corrplot
 r-cran-curl
 r-cran-data.table
 r-cran-dbscan
-r-cran-devtools
 r-cran-dtplyr
 r-cran-dtw
 r-cran-dummies
