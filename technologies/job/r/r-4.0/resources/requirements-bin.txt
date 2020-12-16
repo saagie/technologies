@@ -21,7 +21,6 @@ r-cran-packrat
 r-cran-proxy
 r-cran-readr
 r-cran-reshape2
-r-cran-rjson
 r-cran-rpart.plot
 r-cran-shiny
 r-cran-shinydashboard

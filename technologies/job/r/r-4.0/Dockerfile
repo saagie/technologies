@@ -2,6 +2,13 @@ ARG base_img
 
 FROM ${base_img} AS BASE_IMG
 
+# pre requisite as of 20201216 to install properly prophet package
+RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
+        libv8-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/* \
+    && rm -rf /var/log/*
+
 # Install remaining packages from source
 COPY resources/requirements-src.R /tmp/requirements-src.R
 RUN Rscript /tmp/requirements-src.R
