@@ -28,6 +28,14 @@ RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
     && rm -rf /var/lib/apt/lists/*;
 ########################## LIBS PART END ##########################
 
+# Install Kerberos & ACL for Saagie
+COPY resources/cloudera.list /etc/apt/sources.list.d/cloudera.list
+RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
+    && apt-get update -qq \
+    && apt-get install -yqq --no-install-recommends \
+      krb5-user acl freeipa-client sentry-hdfs-plugin \
+    && rm -rf /var/lib/apt/lists/*;
+########################## LIBS PART END ##########################
 
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
@@ -64,4 +72,3 @@ USER root
 
 # Default: run without authentication
 CMD ["/entrypoint.sh"]
-
