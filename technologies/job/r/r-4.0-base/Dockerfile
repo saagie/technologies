@@ -42,9 +42,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
-
 ########################## ADAPT FROM R-APT END ##########################
-
 
 # Now install R 4.0 and littler, and create a link for littler in /usr/local/bin
 # Default CRAN repo is now set by R itself, and littler knows about it too

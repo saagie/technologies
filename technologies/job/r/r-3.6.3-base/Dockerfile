@@ -1,5 +1,7 @@
 FROM rocker/r-apt:bionic
 
+LABEL maintainer="Saagie"
+
 USER root
 
 ENV DEBIAN_FRONTEND noninteractive
