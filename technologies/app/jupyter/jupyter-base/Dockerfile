@@ -28,7 +28,6 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 
-
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
 SHELL ["/bin/bash", "-c"]
@@ -47,7 +46,6 @@ RUN . activate py36 \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################
-
 
 ########################## CUDA PART BEGIN ##########################
 USER root
