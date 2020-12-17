@@ -73,6 +73,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       libcups2 libcups2-dev openjdk-11-jdk systemd \
       unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
       gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
+      libgit2-dev \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
     && rm -rf /var/log/* \
@@ -83,8 +84,8 @@ RUN mkdir /root/.R/ \
     && R CMD javareconf
 
 # Install Saagie's RStudio Addin
-RUN R -e "install.packages(c('Rcpp','devtools'))" && \
-  R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
+RUN R -e "install.packages(c('Rcpp','RTools','devtools'))" \
+    && R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
 
 # Install Impala ODBC dependency
 ARG IMPALA_ODBC_VERSION="2.6.8.1008"

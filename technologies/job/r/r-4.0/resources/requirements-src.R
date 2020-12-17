@@ -10,6 +10,7 @@ rpkgs <- c(
     'lattice',
     'Matrix',
     'proto',
+    'rjson',
     'RSQLite',
     'safe',
     'survival'
