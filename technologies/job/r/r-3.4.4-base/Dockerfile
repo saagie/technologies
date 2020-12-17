@@ -29,11 +29,13 @@ RUN mkdir -p /home/rstudio && \
   chmod -R 755 /home/rstudio
 
 # Install Impala ODBC dependency
-RUN cd /tmp && \
-  wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb && \
-  dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb && \
-  odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini && \
-  rm /tmp/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb
+RUN cd /tmp \
+  && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_2.5.41.1029/Debian/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
+  && dpkg -i clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
+  && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
+  && rm /tmp/clouderaimpalaodbc_2.5.41.1029-2_amd64.deb \
+  && rm -rf /var/log/* \
+  && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 # Install Hive ODBC driver
 RUN apt update -qq && apt install -yqq --no-install-recommends \

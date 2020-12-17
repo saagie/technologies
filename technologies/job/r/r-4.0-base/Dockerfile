@@ -96,7 +96,8 @@ RUN cd /tmp \
     && dpkg -i "${IMPALA_ODBC_FILE}" \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
     && rm "/tmp/${IMPALA_ODBC_FILE}" \
-    && rm -rf /var/log/*
+    && rm -rf /var/log/* \
+    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 # Install Hive ODBC driver
 ARG HIVE_ODBC_VERSION="2.6.4.1004"
