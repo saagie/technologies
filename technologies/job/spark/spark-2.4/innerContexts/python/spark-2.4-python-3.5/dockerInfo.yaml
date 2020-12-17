@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 2.4-py-3.5
-dynamicVersion: 1.63.0_sparkui-reverse-proxyfix
-version: 2.4-py-3.5-1.63.0_sparkui-reverse-proxyfix
+dynamicVersion: 1.69.0_sparkui-reverse-proxyfix
+version: 2.4-py-3.5-1.69.0_sparkui-reverse-proxyfix
