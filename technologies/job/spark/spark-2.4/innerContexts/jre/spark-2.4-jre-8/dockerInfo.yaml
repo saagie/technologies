@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 2.4-jre-8
 dynamicVersion: 1.69.0_sparkui-reverse-proxyfix
-version: 2.4-jre-8-1.69.0_sparkui-reverse-proxyfix
+version: 2.4-jre-8-1.69.0
