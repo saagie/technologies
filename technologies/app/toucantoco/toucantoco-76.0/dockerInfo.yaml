@@ -1,4 +1,4 @@
 image: saagie/toucantoco
 baseTag: 76.0
-dynamicVersion: 1.63.0_apptoucantoco
-version: 76.0-1.63.0_apptoucantoco
+dynamicVersion: 1.70.0_apptoucantoco
+version: 76.0-1.70.0_apptoucantoco
