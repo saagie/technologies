@@ -2,6 +2,8 @@ ARG base_img
 
 FROM ${base_img} AS BASE_IMG
 
+LABEL maintainer="Saagie"
+
 # Install R packages
 RUN R CMD javareconf && R -e "install.packages('rJava')" && \
   R -e "install.packages('odbc')" && \
