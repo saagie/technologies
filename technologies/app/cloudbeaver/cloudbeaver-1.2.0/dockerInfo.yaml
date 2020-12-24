@@ -1,4 +1,4 @@
 image: saagie/cloudbeaver
 baseTag: 1.2.0
-dynamicVersion: 1.63.0_cloudbeaver
-version: 1.2.0-1.63.0_cloudbeaver
+dynamicVersion: 1.71.0_cloudbeaver
+version: 1.2.0-1.71.0_cloudbeaver
