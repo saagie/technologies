@@ -1,8 +1,6 @@
 FROM rocker/tidyverse:3.4.2
 
-LABEL maintainer="Saagie"
-
-ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Saagie <yann.petit@saagie.com>"
 
 USER root
 
