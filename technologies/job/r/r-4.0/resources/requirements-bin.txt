@@ -1,4 +1,5 @@
 r-cran-arules
+r-cran-aws.s3
 r-cran-colorspace
 r-cran-corrplot
 r-cran-curl
