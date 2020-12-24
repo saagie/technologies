@@ -1,10 +1,13 @@
 FROM dbeaver/cloudbeaver:1.2.0
 
+LABEL maintainer="Saagie <yann.petit@saagie.com>"
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # Nginx
 RUN apt-get update -qq \
-  && apt-get install -yqq --no-install-recommends nginx \
+  && apt-get install -yqq --no-install-recommends \
+        nginx \
   && rm /etc/nginx/sites-enabled/default \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
