@@ -59,7 +59,8 @@ RUN cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_${IMPALA_ODBC_VERSION}/Debian/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && dpkg -i clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
-    && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb
+    && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
+    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 # JAVA_HOME define
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
@@ -209,6 +210,8 @@ RUN R -e "install.packages('prophet')"
                                 ###
 ### END R LIBS INTALLATION Part ###
 ###################################
+
+
 
 # Nginx isntall and remove default conf
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
