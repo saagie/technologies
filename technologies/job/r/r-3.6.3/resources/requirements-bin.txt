@@ -3,6 +3,7 @@ libv8-dev
 # r-cran binaries
 r-cran-ade4
 r-cran-arules
+r-cran-aws.s3
 r-cran-betareg
 r-cran-caret
 r-cran-changepoint
