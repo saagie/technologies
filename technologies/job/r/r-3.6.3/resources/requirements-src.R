@@ -42,4 +42,4 @@ pkgs <- c(
 	'syuzhet'
 )
 
-install.packages(pkgs) 
+install.packages(pkgs)
