@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: torchserve
+label: "[Lab] Torchserve"
+baseline: TorchServe is a flexible and easy to use tool for serving PyTorch models.
+description: "WARNING: TorchServe is experimental and subject to change."
+available: true
+icon: pytorch
+backgroundColor: "#f34f7"
+customFlags: []
