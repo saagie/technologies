@@ -49,6 +49,7 @@ commandTests:
         Rscript -e 'library(arules)' &&
         Rscript -e 'library(arulesSequences)' &&
         Rscript -e 'library(AUC)' &&
+        Rscript -e 'library(aws.s3)' &&
         Rscript -e 'library(betareg)' &&
         Rscript -e 'library(breakpoint)' &&
         Rscript -e 'library(caret)' &&
