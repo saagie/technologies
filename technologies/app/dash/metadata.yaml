@@ -1,0 +1,11 @@
+version: v1
+type: APP
+id: dash
+label: "[Lab] Dash"
+baseline: Dash Enterprise is the end-to-end development & deployment platform for low-code AI Dash applications.
+description: The Dash platform empowers data science teams to focus on the data and models, while producing and sharing enterprise-ready analytic apps that sit on top of Python and R models.
+available: true
+icon: dash
+backgroundColor: "#3F4F75"
+customFlags: []
+contexts:
