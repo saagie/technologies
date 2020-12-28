@@ -1,0 +1,2 @@
+image: saagie/torchserve
+baseTag: 0.2.0

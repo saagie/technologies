@@ -1,0 +1,19 @@
+id: 0.2.0
+label: "[Lab] Torchserve 0.2.0"
+releaseNotes: First port of Torchserve 0.2.0 into Saagie
+available: true
+trustLevel: experimental
+ports:
+  - port: 8079
+    name: REST port for pushing model files
+    rewriteUrl: false
+    basePath:
+  - port: 8080
+    name: REST port for inferences
+    rewriteUrl: false
+    basePath:
+  - port: 8081
+    name: REST port for managing stored models
+    rewriteUrl: false
+    basePath:
+volumes: ["/home/model-server/model-store"]
