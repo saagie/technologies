@@ -1,0 +1,16 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/"]

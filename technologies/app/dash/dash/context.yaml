@@ -1,0 +1,5 @@
+id: dash
+label: "[Lab] Dash"
+releaseNotes: First port of Dash into Saagie
+available: true
+trustLevel: experimental
