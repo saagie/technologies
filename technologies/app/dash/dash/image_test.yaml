@@ -4,7 +4,7 @@ metadataTest:
 
 fileExistenceTests:
   - name: "entrypoint"
-    path: "/entrypoint.sh"
+    path: "/code/entrypoint.sh"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
@@ -13,4 +13,4 @@ fileContentTests:
 commandTests:
   - name: "Workdir"
     command: "pwd"
-    expectedOutput: ["/"]
+    expectedOutput: ["/code"]
