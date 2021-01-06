@@ -13,7 +13,8 @@ ENV HADOOP_VERSION 2.6
 USER root
 
 # Install tools & java
-RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
+RUN apt-get update -qq \
+    && apt-get install -yqq --no-install-recommends \
       vim nano gnupg2 \
       openjdk-8-jre-headless ca-certificates-java && \
     rm -rf /var/lib/apt/lists/*

@@ -22,8 +22,7 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
       libfreetype6-dev libatlas-base-dev gfortran \
       sasl2-bin libsasl2-2 libsasl2-dev \
       libsasl2-modules unixodbc-dev python3-tk \
-      qt5-default \
-      libqt5webkit5-dev \
+      qt5-default ibqt5webkit5-dev \
       libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################

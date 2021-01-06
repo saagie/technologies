@@ -10,7 +10,6 @@ ENV PATH="${PATH}:/home/$NB_USER/.local/bin"
 RUN npm cache clean --force \
     && conda clean -ay \
     && rm -rf $CONDA_DIR/share/jupyter/lab/staging
-# Not necessary to apt-get clean it seems
 
 ########################## LIBS PART BEGIN ##########################
 USER root
@@ -52,7 +51,6 @@ RUN mkdir /notebooks-dir && chown 1000:100 /notebooks-dir
 WORKDIR /notebooks-dir
 ########################## NOTEBOOKS DIR  END ##########################
 
-#Add entrypoint.sh
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
