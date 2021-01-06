@@ -12,24 +12,11 @@ ENV HADOOP_VERSION 2.6
 
 USER root
 
-# Install tools
+# Install tools & java
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
-      vim nano gnupg2 && \
-    rm -rf /var/lib/apt/lists/*;
-
-# Installing Java
-RUN apt-get update -qq && apt-get install -yqq --no-install-recommends -y \
+      vim nano gnupg2 \
       openjdk-8-jre-headless ca-certificates-java && \
     rm -rf /var/lib/apt/lists/*
-
-# Install Kerberos & ACL for Saagie
-COPY resources/cloudera.list /etc/apt/sources.list.d/cloudera.list
-RUN apt-key adv  --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
-    && apt-get update -qq && apt-get install -yqq --no-install-recommends \
-      krb5-user acl \
-      freeipa-client sentry-hdfs-plugin \
-      nginx \
-    && rm -rf /var/lib/apt/lists/*;
 
 # Spark config
 ENV PORT0 4040

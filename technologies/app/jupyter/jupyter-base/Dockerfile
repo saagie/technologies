@@ -28,7 +28,6 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 
-
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
 SHELL ["/bin/bash", "-c"]
@@ -36,27 +35,17 @@ SHELL ["/bin/bash", "-c"]
 #     inherited from saagie/python:3.6 image
 #     installed via pip only
 #     installed via conda
-COPY resources/requirements_conda3.txt /home/$NB_USER/requirements_conda3.txt
 COPY --from=PYTHON3 /tmp/requirements.txt /home/$NB_USER/requirements_python3.txt
 COPY resources/requirements_pip3.txt /home/$NB_USER/requirements_pip3.txt
-RUN conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda3.txt \
-    # Some installed library (scikit-learn) could not be removed so use --ignore-installed \
-    && sed -n '/scikit-learn/p' /home/$NB_USER/requirements_python3.txt >> /home/$NB_USER/requirements_python3_ignore-installed.txt \
-    && sed -i '/scikit-learn/d' /home/$NB_USER/requirements_python3.txt \
-    # auto-sklearn causes build fails because of PEP 517 => force install via wheel + fix sphinx-rtd-theme version
-    && echo "sphinx-rtd-theme==0.4.3" >> /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && sed -n '/auto-sklearn/p' /home/$NB_USER/requirements_python3.txt >> /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && sed -i '/auto-sklearn/d' /home/$NB_USER/requirements_python3.txt
+COPY resources/requirements_conda3.txt /home/$NB_USER/requirements_conda3.txt
 RUN . activate py36 \
-    && python -m pip install --no-cache-dir --ignore-installed --no-binary :all: -r /home/$NB_USER/requirements_python3_auto-sklearn.txt \
-    && python -m pip install --no-cache-dir --ignore-installed -r /home/$NB_USER/requirements_python3_ignore-installed.txt \
     && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_python3.txt \
     && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_pip3.txt \
     && conda deactivate \
+    && conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda3.txt \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################
-
 
 ########################## CUDA PART BEGIN ##########################
 USER root
@@ -75,12 +64,9 @@ ENV CUDNN_VERSION 7.6.0.64
 
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      ca-certificates apt-transport-https gnupg-curl && \
-    rm -rf /var/lib/apt/lists/* && \
-    NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5 && \
-    NVIDIA_GPGKEY_FPR=ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80 && \
-    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
+ENV NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5
+ENV NVIDIA_GPGKEY_FPR=ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
     apt-key adv --export --no-emit-version -a $NVIDIA_GPGKEY_FPR | tail -n +5 > cudasign.pub && \
     echo "$NVIDIA_GPGKEY_SUM  cudasign.pub" | sha256sum -c --strict - && rm cudasign.pub && \
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
