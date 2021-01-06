@@ -10,7 +10,7 @@
   "dependencies": {
     "@saagie/sdk": "0.9.2",
     "adm-zip": "^0.4.16",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "extract-zip": "^2.0.0",
     "rimraf": "^3.0.2"
   }
