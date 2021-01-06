@@ -16,8 +16,8 @@ USER root
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
       vim nano gnupg2 \
-      openjdk-8-jre-headless ca-certificates-java && \
-    rm -rf /var/lib/apt/lists/*
+      openjdk-8-jre-headless ca-certificates-java \
+    && rm -rf /var/lib/apt/lists/*
 
 # Spark config
 ENV PORT0 4040
@@ -27,10 +27,10 @@ ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 ENV HADOOP_CONF_DIR /home/jovyan/hadoop
 
-RUN mkdir -p $HADOOP_CONF_DIR && \
-    mkdir -p /usr/lib/impala/lib/ && \
-    chown $NB_UID /usr/lib/impala/lib && \
-    sed -i '2iln -s /etc/hadoop/conf/sentry-libs/hive-hcatalog-core.jar /usr/lib/impala/lib/hive-hcatalog-core.jar' /usr/local/bin/start-notebook.sh
+RUN mkdir -p $HADOOP_CONF_DIR \
+    && mkdir -p /usr/lib/impala/lib/ \
+    && chown $NB_UID /usr/lib/impala/lib \
+    && sed -i '2iln -s /etc/hadoop/conf/sentry-libs/hive-hcatalog-core.jar /usr/lib/impala/lib/hive-hcatalog-core.jar' /usr/local/bin/start-notebook.sh
 
 #Installing Spark
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -P /tmp \

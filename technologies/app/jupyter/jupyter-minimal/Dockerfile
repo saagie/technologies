@@ -24,7 +24,7 @@ RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
     && apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
       krb5-user acl freeipa-client sentry-hdfs-plugin \
-    && rm -rf /var/lib/apt/lists/*;
+    && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 
 ################ Kernels / Conda envs / requirements PART BEGIN ################
