@@ -1,36 +1,36 @@
 # RStudio Server - customized by Saagie
 
-This Docker image officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/rstudio) is based on official [rocker/tidyverse:3.6.2](https://hub.docker.com/r/rocker/tidyverse/) image.
+This Docker image is available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/rstudio) is based on the official [rocker/tidyverse:3.6.2](https://hub.docker.com/r/rocker/tidyverse/) image.
 
-It is specially designed to run on Saagie's platform v2.
+It is specially designed to run on Saagie's V2 platform.
 
-It adds a few feature, such as:
+It adds a few features, such as:
 * [sparklyr](https://spark.rstudio.com/index.html): Connect to [Spark](http://spark.apache.org/) from R
-* [Saagie Add-in](https://github.com/saagie/rstudio-saagie-addin): allows you to push R jobs to Saagie's platform
-* Ability to create multiple users accounts
-* Numerous other libs (see below fos a list) - which makes this image quite heavy...
+* [Saagie Add-in](https://github.com/saagie/rstudio-saagie-addin): Push R jobs to Saagie's platform
+* Create multiple users accounts
+* Numerous other libs (see below fos a list), making this image quite heavy
 
 ## Build the image
 
 ### Using gradle build 
 
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin) 
+This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin). 
 
-To build the project go up 3 directories to be at the root of this project.
-Then run :
+To build the project, go to the root of this project.
+Then run:
 
 ```
 ./gradlew :rstudio-3.6.2:buildImage
 ```
 
-If you want to test the image you can run :
+If you want to test the image, you can run:
 ```
 ./gradlew :rstudio-3.6.2:testImage
 ```
 
 ### Using docker commands
 
-First go to context/version sub-directory :
+First go to context/version sub-directory:
 
 ```
 cd rstudio-3.6.2
@@ -45,16 +45,16 @@ docker build -t saagie/rstudio:3.6.2 .
 
 ### On Saagie's Platform 
 
-This container is supposed to be run on Saagie's platform.
+This container is designed to run on Saagie's platform.
 
-Official documentation is available here : [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html)
+The official documentation is available here: [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
 
 ### On premise / your local server
 
-Anyway, it is possible mainly for development and tests to run this image outside Saagie.
-Please note that Saagie won't provide any support regarding images launched outside it's platform.
+It is possible (mainly for development and testing) to run this image outside of a Saagie platform.
+Please note that Saagie cannot provide any support for images launched outside of its platform.
 
-Simply run: 
+Run: 
 ```
 docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
 ```
@@ -63,11 +63,13 @@ docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWO
  - `SAAGIE_BASE_PATH` variable is **mandatory** and should be equal to / . It's used to customize the path to the application when behind a reverse proxy.
  - `PASSWORD` variable is also **mandatory** and should be set to whatever you'll be using as a password to access Rstudio, here `yourPassword`
 
-You can also decide to share a volume to be able to persist or load from host some notebooks eg :
+You can also share volume to persist or load some notebooks from localhost.
+For example:
   `-v $PWD/rstudio:/home`
 
 Then you'll be able to access RStudio at http://localhost:10087 using the default user (login: rstudio, password: yourPassword).
-Mounting a volume to `/home` directory allows you to persist every RStudio user projects and settings. Meaning the `-v $PWD/rstudio:/home` part is optional but can be useful.
+Mounting a volume to `/home` directory allows you to persist all RStudio user projects and settings.
+The `-v $PWD/rstudio:/home` part is optional but useful.
 
 By default, the only user able to run `sudo` commands is `admin`, but you can also allow it for `rstudio` user by running the container with `-e ROOT=TRUE` option.
 
@@ -76,9 +78,9 @@ In this case, try something like:
 ```
 docker run --rm -it -p 10087:8787 -v $PWD/rstudio:/home -v $PWD/hadoop/conf:/etc/hadoop/conf --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
 ```
-And you may also need to run it in HOST mode (for example if you're using a VPN).
+And you may also need to run it in HOST mode (for example, if you're using a VPN).
 
-If you want to run RStudio on a custom port, let's say port 9999, you can run it like:
+You can also run RStudio on a custom port, such as `9999`:
 * Bridge mode: `docker run --rm -it -p9999:9999 --name rstudio saagie/rstudio:latest /init_rstudio.sh --port 9999`
 * Host mode: `docker run --rm -it --net=host --name rstudio saagie/rstudio:latest /init_rstudio.sh --port 9999`
 
@@ -86,7 +88,7 @@ If you want to run RStudio on a custom port, let's say port 9999, you can run it
 
 If you want to create new RStudio users, you'll need to log in to RStudio as: `admin` (password: `${RSTUDIO_ADMIN_PASSWORD}`).
 Then go to '*Tools > Shell*' and run `sudo adduser my_new_user`.
-You'll be prompted to enter admin's password, and then to chose your new user's password. No need to fill in the other fields.
+You'll be prompted to enter admin's password, and then to choose your new user's password. No need to fill in the other fields.
 If you want to allow this new user to install libraries, you need to add him to the *staff* group using the following command: `sudo adduser my_new_user staff`.
 
 **Important note:** After you created a new user, remember to run `./backupusers`. This will backup users info in a tarball. If you add mounted a volume to `/home`, every user will be recreated on next container startup.
