@@ -1,8 +1,8 @@
 # [Lab] Apache Nifi - customized by Saagie
 
-This Docker image officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/nifi) is based on official [apache/nifi:1.9.2](https://hub.docker.com/r/apache/nifi/) image.
+This Docker image is available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/nifi) is based on the official [apache/nifi:1.9.2](https://hub.docker.com/r/apache/nifi/) image.
 
-It is specially designed to run on Saagie's platform v2.
+It is specially designed to run on Saagie's V2 platform.
 
 This image is still experimental [Lab].
 
@@ -10,23 +10,23 @@ This image is still experimental [Lab].
 
 ### Using gradle build 
 
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin) 
+This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin). 
 
-To build the project go up 3 directories to be at the root of this project.
-Then run :
+To build the project, go to the root of this project.
+Then run:
 
 ```
 ./gradlew :nifi-1.9.2:buildImage
 ```
 
-If you want to test the image you can run :
+If you want to test the image, you can run:
 ```
 ./gradlew :nifi-1.9.2:testImage
 ```
 
 ### Using docker commands
 
-First go to context/version sub-directory :
+First go to context/version sub-directory:
 
 ```
 cd nifi-1.9.2
@@ -41,21 +41,21 @@ docker build -t saagie/nifi-1.9.2 .
 
 ### On Saagie's Platform 
 
-This container is supposed to be run on Saagie's platform.
+This container is designed to run on Saagie's platform.
 
-Official documentation is available here : [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html)
+The official documentation is available here: [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
 
 ### On premise / your local server
 
-Anyway, it is possible mainly for development and tests to run this image outside Saagie.
-Please note that Saagie won't provide any support regarding images launched outside it's platform.
+It is possible (mainly for development and testing) to run this image outside of a Saagie platform.
+Please note that Saagie cannot provide any support for images launched outside of its platform.
 
-Simply run: 
+Run: 
 ```
 docker run --rm -it -p 10080:8080 --name nifi -e SAAGIE_BASE_PATH=/ -t saagie/nifi:1.9.2
 ```
 
-## Pending questions :
+## Pending questions:
  - How to handle site to site communication
  - How to query API from external location
  - How to save and persist templates (some say they are saved in nifi `conf` folder under `flow.xml.gz`)
