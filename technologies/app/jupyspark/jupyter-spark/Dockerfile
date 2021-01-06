@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-1.61.0"
+ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-1.71.0"
 
 FROM $BASE_CONTAINER
 

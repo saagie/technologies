@@ -1,11 +1,11 @@
 ARG PYTHON3_IMG="saagie/python:3.6-1.46.0"
 
-ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-minimal"
+ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-minimal-1.63.0"
 
 FROM $PYTHON3_IMG AS PYTHON3
 FROM $BASE_CONTAINER
 
-MAINTAINER Saagie
+LABEL maintainer="Saagie"
 
 ########################## LIBS PART BEGIN ##########################
 USER root
