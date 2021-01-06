@@ -43,6 +43,13 @@ COPY resources/requirements_conda.txt /home/$NB_USER/requirements_conda.txt
 RUN conda install -n py36 --quiet --yes --file /home/$NB_USER/requirements_conda.txt && \
     conda clean -ay
 
+#Install scala kernel
+RUN conda create -n scala python=3.6 \
+    && bash -c "source activate scala && conda install spylon-kernel=0.4.1 && python -m spylon_kernel install --user --name scalakernel" \
+    && sed -i 's:spylon-kernel:Scala:g' /home/jovyan/.local/share/jupyter/kernels/scalakernel/kernel.json \
+    && conda clean -ay \
+    && rm -rf ~/.cache/pip
+
 USER root
 COPY resources/entrypoint.sh /entrypoint
 COPY resources/nginx.conf /etc/nginx/sites-available/default
