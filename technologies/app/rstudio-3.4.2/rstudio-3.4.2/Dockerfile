@@ -1,8 +1,6 @@
 FROM rocker/tidyverse:3.4.2
 
-LABEL maintainer="Saagie"
-
-ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Saagie <yann.petit@saagie.com>"
 
 USER root
 
@@ -63,7 +61,8 @@ RUN cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/impala_odbc_${IMPALA_ODBC_VERSION}/Debian/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && dpkg -i clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
-    && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb
+    && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
+    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 # JAVA_HOME define
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
