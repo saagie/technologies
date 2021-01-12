@@ -1,4 +1,4 @@
 image: saagie/kibana
 baseTag: 5.6.16
 dynamicVersion: 1.76.0_SDKTECHNO-80
-version: 5.6.16-1.76.0_SDKTECHNO-80
+version: 5.6.16-1.76.0
