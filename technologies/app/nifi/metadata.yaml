@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: nifi
-label: Nifi
+label: "[Lab] Nifi"
 baseline: Apache Nifi
 description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
@@ -24,4 +24,4 @@ contexts:
     dockerInfo:
       image: saagie/nifi
       baseTag: 1.9.2
-      version: 1.9.2-1.66.0
+      version: 1.9.2-1.76.0_SDKTECHNO-80
