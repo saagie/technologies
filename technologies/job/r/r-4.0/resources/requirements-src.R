@@ -103,4 +103,4 @@ pkgs <- c(
 )
 
 install.packages(c(rpkgs,pkgs,bpkgs))
-install.packages('aws.s3', repos = c('https://cloud.R-project.org/', 'https://cran.r-project.org/', 'http://cran.irsn.fr/', 'https://cran.uni-muenster.de/'))
+install.packages('aws.s3')
