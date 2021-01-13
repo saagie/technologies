@@ -2,7 +2,7 @@
 # Dockerfile to run an OrientDB (Graph) Container
 ############################################################
 
-FROM openjdk:8-jdk-slim
+FROM openjdk:8-jre-slim
 
 MAINTAINER OrientDB LTD (info@orientdb.com)
 
@@ -10,8 +10,9 @@ ENV ORIENTDB_VERSION 2.1.25
 ENV ORIENTDB_DOWNLOAD_MD5 054da3fb7c56e7822b2af116966576ce
 ENV ORIENTDB_DOWNLOAD_SHA1 b7b08242b40117ac8eb9a201f8704bde839dfcb8
 
-RUN apt update \
-    && apt install -y curl wget nginx \
+RUN apt-get update -qq \
+    && apt-get install -yqq --no-install-recommends \
+        curl wget nginx \
     && rm -rf /var/lib/apt/lists/*
 
 #download distribution tar, untar and delete databases
@@ -45,7 +46,6 @@ WORKDIR /orientdb
 EXPOSE 9424
 #OrientDb http
 EXPOSE 9480
-
 
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh"]
 # Default command start the server
