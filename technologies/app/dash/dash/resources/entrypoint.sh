@@ -1,7 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-git clone $GIT_URL_REPOSITORY app
+set -xeuo pipefail
+
+git clone $DASH_GIT_URL_REPOSITORY app
+
 cd app
-export DASH_URL_BASE_PATHNAME=$SAAGIE_BASE_PATH"/"
+git checkout $DASH_GIT_BRANCH
+
 pip install -r ./requirements.txt
-python ./app.py
+
+# replace the Saagie base path in the app main file
+sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' app.py
+
+python -u ./app.py
