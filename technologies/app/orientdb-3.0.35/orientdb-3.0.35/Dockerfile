@@ -31,6 +31,7 @@ RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh
 # Modify conf nginx
 RUN useradd -m nginx
 COPY resources/nginx.conf /etc/nginx/nginx.conf
+COPY resources/index.htm /orientdb/www/index.htm
 
 ENV PATH /orientdb/bin:$PATH
 
