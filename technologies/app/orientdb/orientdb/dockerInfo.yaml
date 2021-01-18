@@ -1,4 +1,0 @@
-image: saagie/orientdb
-baseTag: alpha
-dynamicVersion: 1.63.0_apporientdb
-version: alpha-1.63.0_apporientdb

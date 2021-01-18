@@ -17,10 +17,10 @@ fileContentTests:
     expectedContents:
       [
         "listen       9480 default_server;",
-        "location REPLACE_TS_PATH\\/ {",
+        "location PATH_REPLACE\\/ {",
         "proxy_pass http:\\/\\/localhost:2480\\/;",
         "listen       9424 default_server;",
-        "location REPLACE_TS2_PATH\\/ {",
+        "location PATH2_REPLACE\\/ {",
         "proxy_pass http:\\/\\/localhost:2424\\/;",
       ]
 

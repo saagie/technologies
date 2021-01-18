@@ -4,11 +4,11 @@
 
 FROM openjdk:8-jre-slim
 
-MAINTAINER OrientDB LTD (info@orientdb.com)
+LABEL maintainer="Saagie"
 
-ENV ORIENTDB_VERSION 2.1.25
-ENV ORIENTDB_DOWNLOAD_MD5 054da3fb7c56e7822b2af116966576ce
-ENV ORIENTDB_DOWNLOAD_SHA1 b7b08242b40117ac8eb9a201f8704bde839dfcb8
+ENV ORIENTDB_VERSION 3.0.35
+ENV ORIENTDB_DOWNLOAD_MD5 e157039bc09a3e1c05aca3c0bc2eedca
+ENV ORIENTDB_DOWNLOAD_SHA1 3ec47ef18605297d8dabf31390503cc512d2f8eb
 
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
@@ -16,8 +16,8 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 #download distribution tar, untar and delete databases
-RUN mkdir /orientdb && \
-  wget  "https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz" \
+RUN mkdir /orientdb \
+  && wget  "https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz" \
   && echo "$ORIENTDB_DOWNLOAD_MD5 *orientdb-community-$ORIENTDB_VERSION.tar.gz" | md5sum -c - \
   && echo "$ORIENTDB_DOWNLOAD_SHA1 *orientdb-community-$ORIENTDB_VERSION.tar.gz" | sha1sum -c - \
   && tar -xvzf orientdb-community-$ORIENTDB_VERSION.tar.gz -C /orientdb --strip-components=1\
@@ -31,10 +31,6 @@ RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh
 # Modify conf nginx
 RUN useradd -m nginx
 COPY resources/nginx.conf /etc/nginx/nginx.conf
-
-# OPTION 1 add a custom index file to avoid redirect problems
-# see resources/dockerd-entrypoint.sh for OPTIONM 2
-COPY resources/index.htm /orientdb/www/index.htm
 
 ENV PATH /orientdb/bin:$PATH
 
