@@ -18,13 +18,13 @@ contexts:
       - port: 9480
         name: Http
         rewriteUrl: false
-        basePath: TS_PATH
+        basePath: ORIENTDB_WEB_PATH
       - port: 9424
         name: Binary
         rewriteUrl: false
-        basePath: TS2_PATH
+        basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
       image: saagie/orientdb
-      baseTag: alpha
-      version: alpha-1.63.0_apporientdb
+      baseTag: 2.2.37
+      version: 2.2.37-1.77.0_apporientdb
