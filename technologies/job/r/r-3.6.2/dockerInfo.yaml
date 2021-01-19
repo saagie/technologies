@@ -1,4 +1,4 @@
 image: saagie/r-image
 baseTag: 3.6.2
-dynamicVersion: 1.71.0_SDKTECHNO-91
-version: 3.6.2-1.71.0_SDKTECHNO-91
+dynamicVersion: 1.75.0_SDKTECHNO-91
+version: 3.6.2-1.75.0_SDKTECHNO-91
