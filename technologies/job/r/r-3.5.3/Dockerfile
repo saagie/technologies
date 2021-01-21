@@ -11,6 +11,7 @@ RUN R CMD javareconf && \
   R -e "install.packages('arules')" && \
   R -e "install.packages('arulesSequences')" && \
   R -e "install.packages('AUC')" && \
+  R -e "install.packages('aws.s3')" && \
   R -e "install.packages('betareg')" && \
   R -e "install.packages('breakpoint')" && \
   R -e "install.packages('cairoDevice', INSTALL_opts='--no-test-load')" && \

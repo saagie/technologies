@@ -103,3 +103,4 @@ pkgs <- c(
 )
 
 install.packages(c(rpkgs,pkgs,bpkgs))
+install.packages('aws.s3')

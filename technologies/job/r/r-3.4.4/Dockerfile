@@ -6,6 +6,7 @@ LABEL maintainer="Saagie"
 
 # Install R packages
 RUN R CMD javareconf && R -e "install.packages('rJava')" && \
+  R -e "install.packages('aws.s3')" && \
   R -e "install.packages('odbc')" && \
   R -e "install.packages('RJDBC')" && \
   R -e "install.packages('implyr')" && \
