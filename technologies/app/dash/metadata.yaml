@@ -16,5 +16,5 @@ contexts:
     trustLevel: experimental
     dockerInfo:
       image: saagie/dash
-      baseTag: 0.0.1
-      version: 0.0.1-1.78.0_appdash
+      baseTag: 2.0.0
+      version: 2.0.0-1.78.0_appdash
