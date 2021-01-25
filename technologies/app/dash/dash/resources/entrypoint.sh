@@ -2,14 +2,15 @@
 
 set -xeuo pipefail
 
-git clone $DASH_GIT_URL_REPOSITORY app
+DASH_GIT_BRANCH=${DASH_GIT_BRANCH:-master}
+echo "Setting DASH_GIT_BRANCH to $DASH_GIT_BRANCH..."
+
+git clone $DASH_GIT_URL_REPOSITORY --branch $DASH_GIT_BRANCH --single-branch --depth 1 app
 
 cd app
-git checkout $DASH_GIT_BRANCH
 
 pip install -r ./requirements.txt
 
-# replace the Saagie base path in the app main file
-sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' app.py
+export DASH_URL_BASE_PATHNAME=${SAAGIE_BASE_PATH}"/"
 
 python -u ./app.py
