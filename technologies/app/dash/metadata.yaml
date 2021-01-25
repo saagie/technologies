@@ -17,4 +17,4 @@ contexts:
     dockerInfo:
       image: saagie/dash
       baseTag: 0.0.1
-      version: 0.0.1-1.71.0_appdash
+      version: 0.0.1-1.78.0_appdash
