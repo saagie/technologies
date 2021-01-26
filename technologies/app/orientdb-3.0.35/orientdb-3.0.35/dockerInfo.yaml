@@ -1,0 +1,4 @@
+image: saagie/orientdb
+baseTag: 3.0.35
+dynamicVersion: 1.77.0_apporientdb
+version: 3.0.35-1.77.0_apporientdb

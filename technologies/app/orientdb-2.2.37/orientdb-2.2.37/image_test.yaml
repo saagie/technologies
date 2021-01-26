@@ -1,0 +1,30 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: C.UTF-8
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/usr/local/bin/dockerd-entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "Nginx conf"
+    path: "/etc/nginx/nginx.conf"
+    expectedContents:
+      [
+        "listen       9480 default_server;",
+        "location PATH_REPLACE\\/ {",
+        "proxy_pass http:\\/\\/localhost:2480\\/;",
+        "listen       9424 default_server;",
+        "location PATH2_REPLACE\\/ {",
+        "proxy_pass http:\\/\\/localhost:2424\\/;",
+      ]
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/orientdb"]

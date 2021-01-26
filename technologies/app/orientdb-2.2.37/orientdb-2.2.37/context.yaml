@@ -1,0 +1,15 @@
+id: orientdb
+label: "[Lab] OrientDB"
+releaseNotes: First iteration
+available: true
+trustLevel: experimental
+ports:
+  - port: 9480
+    name: Http
+    rewriteUrl: false
+    basePath: ORIENTDB_WEB_PATH
+  - port: 9424
+    name: Binary
+    rewriteUrl: false
+    basePath: ORIENTDB_BINARY_PATH
+volumes: ["/orientdb/databases"]
