@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian9-stretch-aws
-dynamicVersion: 1.44.0_SDKPLUGIN-9
-version: debian9-stretch-aws-1.44.0
+dynamicVersion: 1.79.0_security-fix
+version: debian9-stretch-aws-1.79.0_security-fix

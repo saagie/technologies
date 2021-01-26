@@ -74,7 +74,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian9-stretch-aws
-      version: debian9-stretch-aws-1.44.0
+      version: debian9-stretch-aws-1.79.0_security-fix
   - id: debian9-stretch-azure
     label: debian9-stretch-azure
     available: true
@@ -97,7 +97,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian9-stretch-azure
-      version: debian9-stretch-azure-1.44.0
+      version: debian9-stretch-azure-1.79.0_security-fix
   - id: debian9-stretch-gcp
     label: debian9-stretch-gcp
     available: true
@@ -120,4 +120,4 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian9-stretch-gcp
-      version: debian9-stretch-gcp-1.44.0
+      version: debian9-stretch-gcp-1.79.0_security-fix
