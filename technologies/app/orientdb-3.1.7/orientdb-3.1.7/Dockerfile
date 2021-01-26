@@ -45,5 +45,3 @@ EXPOSE 9424
 EXPOSE 9480
 
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh"]
-# Default command start the server
-#CMD ["server.sh"]
