@@ -1,4 +1,4 @@
 image: saagie/orientdb
 baseTag: 3.1.7
-dynamicVersion: 1.77.0_apporientdb
-version: 3.1.7-1.77.0_apporientdb
+dynamicVersion: 1.78.0_SDKTECHNO-98-2
+version: 3.1.7-1.78.0_SDKTECHNO-98-2
