@@ -1,4 +1,4 @@
 image: saagie/dash
 baseTag: 2.0.0
-dynamicVersion: 1.78.0_appdash
-version: 2.0.0-1.78.0_appdash
+dynamicVersion: 1.79.0_SDKTECHNO-75-2
+version: 2.0.0-1.79.0_SDKTECHNO-75-2
