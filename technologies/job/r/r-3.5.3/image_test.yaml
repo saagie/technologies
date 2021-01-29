@@ -129,6 +129,7 @@ commandTests:
         Rscript -e 'library(stringi)' &&
         Rscript -e 'library(stringr)' &&
         Rscript -e 'library(syuzhet)' &&
+        Rscript -e 'library(tidyverse)' &&
         Rscript -e 'library(topicmodels)' &&
         Rscript -e 'library(tree)' &&
         Rscript -e 'library(trend)' &&

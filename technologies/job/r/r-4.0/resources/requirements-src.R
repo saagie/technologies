@@ -53,6 +53,7 @@ bpkgs <- c(
     'skmeans',
     'sp',
     'sqldf',
+    'tidyverse',
     'topicmodels',
     'tm',
     'tree',
