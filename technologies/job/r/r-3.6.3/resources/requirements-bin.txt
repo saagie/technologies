@@ -66,6 +66,7 @@ r-cran-sp
 r-cran-sqldf
 r-cran-stringi
 r-cran-stringr
+r-cran-tidyverse
 r-cran-tm
 r-cran-topicmodels
 r-cran-tree

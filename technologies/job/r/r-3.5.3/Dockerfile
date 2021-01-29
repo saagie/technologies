@@ -113,6 +113,7 @@ RUN R CMD javareconf && \
   R -e "install.packages('stringi')" && \
   R -e "install.packages('stringr')" && \
   R -e "install.packages('syuzhet')" && \
+  R -e "install.packages('tidyverse')" && \
   R -e "install.packages('tm')" && \
   R -e "install.packages('topicmodels')" && \
   R -e "install.packages('tree')" && \
