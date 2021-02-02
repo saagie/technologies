@@ -28,8 +28,8 @@ RUN apt-get update -qq \
         ca-certificates \
         gnupg2 \
         krb5-user \
-    && add-apt-repository --enable-source --yes "ppa:marutter/rrutter3.5" \
-    && add-apt-repository --enable-source --yes "ppa:marutter/c2d4u3.5" \
+    && add-apt-repository --enable-source --yes "ppa:marutter/rrutter4.0" \
+    && add-apt-repository --enable-source --yes "ppa:c2d4u.team/c2d4u4.0+" \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
@@ -48,7 +48,7 @@ ENV LANG en_US.UTF-8
 # Default CRAN repo is now set by R itself, and littler knows about it too
 # r-cran-docopt is not currently in c2d4u so we install from source
 RUN apt-get update -qq \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -yqq --no-install-recommends \
           littler \
           r-base \
           r-base-dev \
