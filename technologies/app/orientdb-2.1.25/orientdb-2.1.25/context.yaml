@@ -1,5 +1,5 @@
-id: orientdb
-label: "[Lab] OrientDB"
+id: orientdb-2.1.25
+label: "[Lab] OrientDB 2.1.25"
 releaseNotes: First iteration
 available: true
 trustLevel: experimental
