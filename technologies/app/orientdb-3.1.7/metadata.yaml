@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: orientdb
-label: "[Lab] OrientDB"
+id: orientdb-3.1.7
+label: "[Lab] OrientDB 3.1.7"
 baseline: baseline
 description: description
 available: true
@@ -9,8 +9,8 @@ icon: orientdb
 backgroundColor: "#3374BA"
 customFlags: []
 contexts:
-  - id: orientdb
-    label: "[Lab] OrientDB"
+  - id: orientdb-3.1.7
+    label: "[Lab] OrientDB 3.1.7"
     releaseNotes: First iteration
     available: true
     trustLevel: experimental
@@ -27,4 +27,4 @@ contexts:
     dockerInfo:
       image: saagie/orientdb
       baseTag: 3.1.7
-      version: 3.1.7-1.78.0
+      version: 3.1.7-1.81.0_SDKTECHNO-104
