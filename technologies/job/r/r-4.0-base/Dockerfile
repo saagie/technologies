@@ -2,6 +2,8 @@ FROM ubuntu:bionic
 
 LABEL maintainer="Saagie <yann.petit@saagie.com>"
 
+USER root
+
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
@@ -71,11 +73,12 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       libcups2 libcups2-dev openjdk-11-jdk systemd \
       unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
       gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
+      krb5-user \
       libgit2-dev \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
     && rm -rf /var/log/* \
-    && rm -rf /var/lib/apt/lists/*;
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /root/.R/ \
     && echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars \
