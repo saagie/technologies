@@ -1,6 +1,14 @@
 FROM debian:stretch-20210111
 
+LABEL maintainer="Saagie <yann.petit@saagie.com>"
+
 ENV DEBIAN_FRONTEND noninteractive
+
+ENV CDH_MAIN_VERSION 5
+ENV CDH_VERSION ${CDH_MAIN_VERSION}.13.0
+ENV CDH_VERSION2 ${CDH_MAIN_VERSION}.13.3
+ENV HADOOP_VERSION 2.6.0
+ENV HIVE_VERSION 1.1.0
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
@@ -17,20 +25,20 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
 # Hadoop client installation
-RUN wget --no-verbose https://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && tar -xzf hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && rm hadoop-2.6.0-cdh5.13.0.tar.gz \
-    && mv hadoop-2.6.0-cdh5.13.0 /usr/lib/hadoop
+RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+        && tar -xzf hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+        && rm hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
+        && mv hadoop--cdh${CDH_VERSION} ${HADOOP_PREFIX}
 ENV HADOOP_PREFIX=/usr/lib/hadoop
 ENV PATH=$PATH:$HADOOP_PREFIX/bin
 ENV HADOOP_COMMON_HOME=$HADOOP_PREFIX
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 # Hive client installation
-RUN wget --no-verbose http://archive.cloudera.com/cdh5/cdh/5/hive-1.1.0-cdh5.13.3.tar.gz \
-    && tar -xvzf hive-1.1.0-cdh5.13.3.tar.gz \
-    && rm hive-1.1.0-cdh5.13.3.tar.gz
-ENV HIVE_HOME=/hive-1.1.0-cdh5.13.3
+RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hive-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz \
+    && tar -xzf hadoop-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz \
+    && rm hadoop-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz
+ENV HIVE_HOME=/hive-${HIVE_VERSION}-cdh${CDH_VERSION2}
 ENV PATH=$PATH:$HIVE_HOME/bin
 # INSTALL JAVA & BEELINE END
 
