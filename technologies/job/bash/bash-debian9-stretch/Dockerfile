@@ -5,8 +5,7 @@ LABEL maintainer="Saagie <yann.petit@saagie.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV CDH_MAIN_VERSION 5
-ENV CDH_VERSION ${CDH_MAIN_VERSION}.13.0
-ENV CDH_VERSION2 ${CDH_MAIN_VERSION}.13.3
+ENV CDH_VERSION ${CDH_MAIN_VERSION}.13.3
 ENV HADOOP_VERSION 2.6.0
 ENV HIVE_VERSION 1.1.0
 
@@ -35,10 +34,10 @@ ENV HADOOP_COMMON_HOME=$HADOOP_PREFIX
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 # Hive client installation
-RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hive-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz \
-    && tar -xzf hadoop-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz \
-    && rm hadoop-${HIVE_VERSION}-cdh${CDH_VERSION2}.tar.gz
-ENV HIVE_HOME=/hive-${HIVE_VERSION}-cdh${CDH_VERSION2}
+RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hive-${HIVE_VERSION}-cdh${CDH_VERSION}.tar.gz \
+    && tar -xzf hadoop-${HIVE_VERSION}-cdh${CDH_VERSION}.tar.gz \
+    && rm hadoop-${HIVE_VERSION}-cdh${CDH_VERSION}.tar.gz
+ENV HIVE_HOME=/hive-${HIVE_VERSION}-cdh${CDH_VERSION}
 ENV PATH=$PATH:$HIVE_HOME/bin
 # INSTALL JAVA & BEELINE END
 
