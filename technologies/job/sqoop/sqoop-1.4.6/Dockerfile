@@ -1,4 +1,6 @@
-FROM saagie/bash:debian9-stretch-1.80.0
+ARG base_img
+
+FROM ${base_img} AS BASE_IMG
 
 LABEL maintainer="Saagie <yann.petit@saagie.com>"
 
@@ -14,10 +16,17 @@ ARG SQOOP_FILE="sqoop-${SQOOP_VERSION}-cdh${CDH_VERSION}"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sL "${CDH_URL}/${SQOOP_FILE}.tar.gz" | tar xzf - -C "/" \
-    && cp "${HIVE_HOME}/lib/*.jar" "/${SQOOP_FILE}/lib/"
+    && cp ${HIVE_HOME}/lib/*.jar /${SQOOP_FILE}/lib/ \
+    && mkdir -p /usr/lib/hive-hcatalog/share/hcatalog/ \
+    && ln -s ${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-core-${HIVE_VERSION}-cdh${CDH_VERSION}.jar $_/hive-hcatalog-core.jar
 ENV SQOOP_HOME "/${SQOOP_FILE}"
 ENV PATH "${PATH}:${SQOOP_HOME}/bin"
 
 ENV HADOOP_HOME "${HADOOP_PREFIX}"
 
 COPY lib/*.jar /${SQOOP_FILE}/lib/
+
+COPY entrypoint /entrypoint
+RUN chmod 755 /entrypoint
+
+ENTRYPOINT  ["bash","/entrypoint"]

@@ -129,7 +129,7 @@ commandTests:
     exitCode: 0
 
   - name: "lib"
-    args: ["-c", "ls $SQOOP_HOME/lib/*.jar | wc -l"]
+    args: ["-c", "ls ${SQOOP_HOME}/lib/*.jar | wc -l"]
     command: "sh"
     expectedOutput: ["161"]
     exitCode: 0

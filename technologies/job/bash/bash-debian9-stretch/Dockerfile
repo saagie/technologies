@@ -10,7 +10,7 @@ ENV CDH_VERSION "${CDH_MAIN_VERSION}.13.0"
 ENV CDH_URL "http://ovh.ypetit.net:18080"
 
 ARG HADOOP_VERSION=2.6.0
-ARG HIVE_VERSION=1.1.0
+ENV HIVE_VERSION 1.1.0
 ARG HADOOP_FILE="hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}"
 ARG HIVE_FILE="hive-${HIVE_VERSION}-cdh${CDH_VERSION}"
 
@@ -48,7 +48,6 @@ ENV HIVE_CONF_DIR "/etc/hive/conf"
 
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
-# Move scripts and frequently changing directive to the end of the build
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
 
