@@ -11,7 +11,7 @@ metadataTest:
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
     - key: "HIVE_HOME"
-      value: "/hive-1.1.0-cdh5.13.3"
+      value: "/hive-1.1.0-cdh5.13.0"
 
 fileExistenceTests:
   - name: "entrypoint"

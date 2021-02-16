@@ -32,21 +32,21 @@ ENV PATH=${PATH}:${JAVA_HOME}/bin
 
 # Hadoop client installation
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN mkdir -p "${HADOOP_PREFIX}" \
-    && curl -sL "${CDH_URL}/${HADOOP_FILE}.tar.gz" | tar xzf - -C "${HADOOP_PREFIX}"
-ENV PATH=${PATH}:${HADOOP_PREFIX}/bin
-ENV HADOOP_COMMON_HOME=${HADOOP_PREFIX}
-ENV HADOOP_CONF_DIR=/etc/hadoop/conf
+RUN curl -sL "${CDH_URL}/${HADOOP_FILE}.tar.gz" | tar xzf - -C "/" \
+    && ln -s "/${HADOOP_FILE}" "${HADOOP_PREFIX}"
+ENV PATH "${PATH}:${HADOOP_PREFIX}/bin"
+ENV HADOOP_COMMON_HOME "${HADOOP_PREFIX}"
+ENV HADOOP_CONF_DIR "/etc/hadoop/conf"
 
 # Hive client installation
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl -sL ${CDH_URL}/${HIVE_FILE}.tar.gz | tar xzf - -C "/"
-ENV HIVE_HOME=/${HIVE_FILE}
-ENV PATH=${PATH}:${HIVE_HOME}/bin
-ENV HIVE_CONF_DIR=/etc/hive/conf
+RUN curl -sL "${CDH_URL}/${HIVE_FILE}.tar.gz" | tar xzf - -C "/"
+ENV HIVE_HOME "/${HIVE_FILE}"
+ENV PATH "${PATH}:${HIVE_HOME}/bin"
+ENV HIVE_CONF_DIR "/etc/hive/conf"
 # INSTALL JAVA & BEELINE END
 
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 # Move scripts and frequently changing directive to the end of the build
 COPY entrypoint /entrypoint
