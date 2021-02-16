@@ -51,7 +51,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian9-stretch
-      version: debian9-stretch-1.80.0
+      version: debian9-stretch-1.81.0_SDKTECHNO-106
   - id: debian9-stretch-aws
     label: debian9-stretch-aws
     available: true
