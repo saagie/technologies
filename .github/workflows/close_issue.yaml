@@ -23,7 +23,9 @@ jobs:
                 JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
           - name: Extract JIRA number
             id: extract_jira_number
-            run: echo "::set-output name=jira_number::$(echo ${{ github.event.issue.title }}| sed 's/.*\[\(${{ secrets.JIRA_PROJECT }}-[[:digit:]]\{1,\}\)\].*/\1/')"          
+            env:
+              TITLE: ${{github.event.issue.title}}
+            run: echo "::set-output name=jira_number::$(echo "$TITLE"| sed 's/.*\[\(${{ secrets.JIRA_PROJECT }}-[[:digit:]]\{1,\}\)\].*/\1/')"
           
           - name: Jira Close issue
             id: close_jira_issue
