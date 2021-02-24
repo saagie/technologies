@@ -18,24 +18,24 @@ jobs:
             id: login
             uses: atlassian/gajira-login@master
             env:
-                JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-                JIRA_USER_EMAIL: ${{ secrets.JIRA_EMAIL }}
-                JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+              JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+              JIRA_USER_EMAIL: ${{ secrets.JIRA_EMAIL }}
+              JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+
           - name: Jira Create issue
             id: create_jira_issue
             uses: atlassian/gajira-create@master
             with:
-                project: ${{ secrets.JIRA_PROJECT }}
-                issuetype: ${{ secrets.JIRA_ISSUE_TYPE }}
-                summary: "[GH#${{ github.event.issue.number }}]  ${{ github.event.issue.title }}"
-                description: |
-                  ${{ github.event.issue.body }}
-                  ----
-                  {panel}
-                  _[Github permalink |${{ github.event.issue.html_url }}]_
-                  {panel}
+              project: ${{ secrets.JIRA_PROJECT }}
+              issuetype: ${{ secrets.JIRA_ISSUE_TYPE }}
+              summary: "[GH#${{ github.event.issue.number }}]  ${{ github.event.issue.title }}"
+              description: |
+                ${{ github.event.issue.body }}
+                ----
+                {panel}
+                _[Github permalink |${{ github.event.issue.html_url }}]_
+                {panel}
 
-          
           - name: Change Title
             uses: actions/github-script@0.8.0
             env: 
