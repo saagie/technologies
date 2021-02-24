@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: orientdb
-label: "[Lab] OrientDB"
+id: orientdb-2.2.37
+label: "[Lab] OrientDB 2.2.37"
 baseline: baseline
 description: description
 available: true
