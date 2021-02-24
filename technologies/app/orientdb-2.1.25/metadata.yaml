@@ -27,4 +27,4 @@ contexts:
     dockerInfo:
       image: saagie/orientdb
       baseTag: 2.1.25
-      version: 2.1.25-1.82.0_SDKTECHNO-104
+      version: 2.1.25-1.82.0
