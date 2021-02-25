@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV APACHE_URL "https://archive.apache.org/dist"
 
-ARG HADOOP_VERSION=2.6.0
+ENV HADOOP_VERSION=2.6.0
 ARG HADOOP_FILE="hadoop-${HADOOP_VERSION}"
 ENV HADOOP_URL "${APACHE_URL}/hadoop/common/${HADOOP_FILE}"
 ENV HADOOP_PREFIX "/usr/lib/hadoop"

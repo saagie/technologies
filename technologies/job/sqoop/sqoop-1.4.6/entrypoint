@@ -1,7 +1,39 @@
 #!/bin/bash
 
+# set user that can write to hdfs
+export HADOOP_USER_NAME="hdfs"
+
+# Get custom directory if exists
+export SQOOP_CUSTOM_HOME="${SQOOP_CUSTOM_HOME:-/tmp}"
+echo "Preparing Sqoop Libraries into ${SQOOP_CUSTOM_HOME}"
+# Create custom directory path
+mkdir -p "${SQOOP_CUSTOM_HOME}"
+# Move content
+mv "${SQOOP_HOME}/" "${SQOOP_CUSTOM_HOME}/sqoop-${SQOOP_VERSION}"
+# Link back for PATH compatibility
+ln -s "${SQOOP_CUSTOM_HOME}/sqoop-${SQOOP_VERSION}" "${SQOOP_HOME}"
+export SQOOP_HOME="${SQOOP_CUSTOM_HOME}/sqoop-${SQOOP_VERSION}"
+
+echo "Checking Sqoop libraries availability on HDFS into ${SQOOP_HOME}"
+hdfs dfs -test -e ${SQOOP_HOME}
+if [ $? -ne 0 ]
+then
+  echo "Creating ${SQOOP_HOME} ..."
+  hdfs dfs -mkdir -p ${SQOOP_HOME}/lib
+  echo "... created !"
+else
+  echo "Sqoop home (${SQOOP_HOME}) aleady exists."
+fi
+
+echo "Initializing Sqoop libraries into HDFS : ${SQOOP_HOME} ..."
+hdfs dfs -put -f ${SQOOP_HOME}/*.jar ${SQOOP_HOME}
+hdfs dfs -put -f ${SQOOP_HOME}/lib/*.jar ${SQOOP_HOME}/lib
+echo "... sqoop initialization finished !"
+
 set -euo pipefail
 
+echo
+echo "Start job execution : "
 if test -f main_script;
 then ln -s $HIVE_CONF_DIR/hive-site.xml; sh ./main_script;
 else exec "$@"

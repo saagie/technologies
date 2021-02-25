@@ -13,7 +13,7 @@ metadataTest:
     - key: "HIVE_CONF_DIR"
       value: "/etc/hive/conf"
     - key: "SQOOP_HOME"
-      value: "/sqoop-1.4.6.bin__hadoop-2.0.4-alpha"
+      value: "/usr/lib/sqoop-1.4.6"
 
 fileExistenceTests:
   - name: "entrypoint"
@@ -131,7 +131,7 @@ commandTests:
   - name: "lib"
     args: ["-c", "ls ${SQOOP_HOME}/lib/*.jar | wc -l"]
     command: "sh"
-    expectedOutput: ["135"]
+    expectedOutput: ["133"]
     exitCode: 0
 
   - name: "krb5-user installation"
