@@ -1,4 +1,4 @@
-# use latest image with ubuntu 16.04 Xenial for CDH5 compatibility
+ # use latest image with ubuntu 16.04 Xenial for CDH5 compatibility
 # see (https://github.com/jupyter/docker-stacks/commits/master?after=04f7f60d34a674a2964d96a6cb97c57a7870a828+664)
 FROM jupyter/minimal-notebook:f9e77e3ddd6f
 
@@ -19,11 +19,9 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Kerberos & ACL for Saagie
-COPY resources/cloudera.list /etc/apt/sources.list.d/cloudera.list
-RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 327574EE02A818DD \
-    && apt-get update -qq \
+RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
-      krb5-user acl freeipa-client sentry-hdfs-plugin \
+      krb5-user acl freeipa-client \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 
