@@ -16,7 +16,7 @@ contexts:
           label: Command line
           mandatory: true
           comment: Sqoop
-          defaultValue: "driver=xxx \nhost=\"x.x.x.x\"\nport=xxx \nusername=\"xxx\" \npassword=\"xxxx\" \ndatabase=\"xxxx\" \ntable=\"xxxx\" \nhdfsdest=hdfs:///tmp/sqoop_import \n\nsqoop import --connect jdbc:$driver://$host:$port/$database --username $username --password $password --as-textfile -m 1 --target-dir $hdfsdest --table \"$table\""
+          defaultValue: "# You can customize the user on HDFS by setting HADOOP_USER_NAME variable\n You can customize Sqoop libs directory by setting SQOOP_CUSTOM_HOME variable\ndriver=xxx \nhost=\"x.x.x.x\"\nport=xxx \nusername=\"xxx\" \npassword=\"xxxx\" \ndatabase=\"xxxx\" \ntable=\"xxxx\" \nhdfsdest=hdfs:///tmp/sqoop_import \n\nsqoop import --connect jdbc:$driver://$host:$port/$database --username $username --password $password --as-textfile -m 1 --target-dir $hdfsdest --table \"$table\""
         - type: ARTIFACT
           label: Package
           mandatory: false
