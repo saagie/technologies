@@ -6,10 +6,6 @@ metadataTest:
       value: en_US.UTF-8
     - key: LC_ALL
       value: en_US.UTF-8
-    - key: APACHE_SPARK_VERSION
-      value: 2.1.0
-    - key: SPARK_HADOOP_VERSION
-      value: 2.7
     - key: SPARK_HOME
       value: /usr/local/spark
     - key: SPARK_OPTS
@@ -252,4 +248,3 @@ commandTests:
 #      Rscript -e 'library(cairoDevice)'
 #      Error: package or namespace load failed for ‘cairoDevice’:
 #      STDOUT: error: GDK display not found - please make sure X11 is running
-
