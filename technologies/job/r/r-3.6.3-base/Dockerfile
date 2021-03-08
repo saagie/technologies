@@ -9,12 +9,14 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG APACHE_URL="https://archive.apache.org/dist"
 
 # Install system libraries required by R packages
-RUN apt update -qq && apt install -qqy --no-install-recommends \
+RUN apt-get update -qq \
+    && apt-get install -qqy --no-install-recommends \
       libcups2 libcups2-dev openjdk-11-jdk systemd \
       unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
       gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
       krb5-user \
       libgit2-dev \
+    && apt-get clean \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
     && rm -rf /var/log/* \
@@ -24,14 +26,15 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
 ARG HIVE_ODBC_VERSION="2.6.4.1004"
 ARG HIVE_ODBC_FILE="clouderahiveodbc_${HIVE_ODBC_VERSION}-2_amd64.deb"
 ARG HIVE_ODBC_URL="https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_${HIVE_ODBC_VERSION}/Debian/${HIVE_ODBC_FILE}"
-RUN apt update -qq && apt install -yqq --no-install-recommends \
-      libsasl2-modules-gssapi-mit && \
-    rm -rf /var/lib/apt/lists/* && \
-    cd /tmp && \
-    wget --no-verbose "${HIVE_ODBC_URL}" && \
-    dpkg -i "${HIVE_ODBC_FILE}" && \
-    odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini && \
-    rm "/tmp/${HIVE_ODBC_FILE}" \
+RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
+      libsasl2-modules-gssapi-mit \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*  \
+    && cd /tmp \
+    && wget --no-verbose "${HIVE_ODBC_URL}" \
+    && dpkg -i "${HIVE_ODBC_FILE}" \
+    && odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini \
+    && rm "/tmp/${HIVE_ODBC_FILE}" \
     && rm -rf /var/log/* \
     && rm -rf /var/cache/*
 
