@@ -10,17 +10,40 @@ ARG APACHE_URL="https://archive.apache.org/dist"
 
 # Install system libraries required by R packages
 RUN apt-get update -qq \
-    && apt-get install -qqy --no-install-recommends \
+    && apt-get install -yqq --no-install-recommends \
       libcups2 libcups2-dev openjdk-11-jdk systemd \
       unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
       gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
       krb5-user \
+      curl \
       libgit2-dev \
     && apt-get clean \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
     && rm -rf /var/log/* \
     && rm -rf /var/lib/apt/lists/*
+
+# Hadoop client installation
+ARG HADOOP_VERSION="2.6.0"
+ARG HADOOP_FILE="hadoop-${HADOOP_VERSION}"
+ARG HADOOP_URL="${APACHE_URL}/hadoop/common/${HADOOP_FILE}"
+ENV HADOOP_HOME "/usr/local/hadoop"
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sL "${HADOOP_URL}/${HADOOP_FILE}.tar.gz" | tar xzf - -C "/" \
+    && ln -s "/${HADOOP_FILE}" "${HADOOP_HOME}"
+ENV PATH "${PATH}:${HADOOP_HOME}/bin"
+ENV HADOOP_CONF_DIR "/etc/hadoop/conf"
+
+# Hive client installation
+ARG HIVE_VERSION="1.2.2"
+ARG HIVE_FILE="apache-hive-${HIVE_VERSION}-bin"
+ARG HIVE_URL="${APACHE_URL}/hive/hive-${HIVE_VERSION}"
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sL "${HIVE_URL}/${HIVE_FILE}.tar.gz" | tar xzf - -C "/"
+ENV HIVE_HOME "/${HIVE_FILE}"
+ENV PATH "${PATH}:${HIVE_HOME}/bin"
+ENV HIVE_CONF_DIR "/etc/hive/conf"
+# INSTALL JAVA & BEELINE END
 
 # Install Hive ODBC driver
 ARG HIVE_ODBC_VERSION="2.6.4.1004"
@@ -29,7 +52,7 @@ ARG HIVE_ODBC_URL="https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_$
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
       libsasl2-modules-gssapi-mit \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*  \
+    && rm -rf /var/lib/apt/lists/* \
     && cd /tmp \
     && wget --no-verbose "${HIVE_ODBC_URL}" \
     && dpkg -i "${HIVE_ODBC_FILE}" \
@@ -43,12 +66,12 @@ ARG IMPALA_ODBC_VERSION="2.6.8.1008"
 ARG IMPALA_ODBC_FILE="clouderaimpalaodbc_${IMPALA_ODBC_VERSION}-2_amd64.deb"
 ARG IMPALA_ODBC_URL="https://downloads.cloudera.com/connectors/ClouderaImpala_ODBC_${IMPALA_ODBC_VERSION}/Debian/${IMPALA_ODBC_FILE}"
 RUN cd /tmp \
-  && wget --no-verbose "${IMPALA_ODBC_URL}" \
-  && dpkg -i "${IMPALA_ODBC_FILE}" \
-  && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
-  && rm "/tmp/${IMPALA_ODBC_FILE}" \
-  && rm -rf /var/log/* \
-  && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
+    && wget --no-verbose "${IMPALA_ODBC_URL}" \
+    && dpkg -i "${IMPALA_ODBC_FILE}" \
+    && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
+    && rm "/tmp/${IMPALA_ODBC_FILE}" \
+    && rm -rf /var/log/* \
+    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 RUN mkdir /root/.R/ \
     && echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars \
