@@ -6,8 +6,7 @@ USER root
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV HADOOP_CONF_DIR=/etc/hadoop/conf
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
+ARG APACHE_URL="https://archive.apache.org/dist"
 
 # Install system libraries required by R packages
 RUN apt update -qq && apt install -qqy --no-install-recommends \
@@ -20,26 +19,6 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
     && rm -rf /tmp/* \
     && rm -rf /var/log/* \
     && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /root/.R/ \
-    && echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars \
-    && R CMD javareconf
-
-# Install Saagie's RStudio Addin
-RUN R -e "install.packages(c('Rcpp','RTools','devtools'))" \
-    && R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
-
-# Install Impala ODBC dependency
-ARG IMPALA_ODBC_VERSION="2.6.8.1008"
-ARG IMPALA_ODBC_FILE="clouderaimpalaodbc_${IMPALA_ODBC_VERSION}-2_amd64.deb"
-ARG IMPALA_ODBC_URL="https://downloads.cloudera.com/connectors/ClouderaImpala_ODBC_${IMPALA_ODBC_VERSION}/Debian/${IMPALA_ODBC_FILE}"
-RUN cd /tmp \
-    && wget --no-verbose "${IMPALA_ODBC_URL}" \
-    && dpkg -i "${IMPALA_ODBC_FILE}" \
-    && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
-    && rm "/tmp/${IMPALA_ODBC_FILE}" \
-    && rm -rf /var/log/* \
-    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
 
 # Install Hive ODBC driver
 ARG HIVE_ODBC_VERSION="2.6.4.1004"
@@ -56,7 +35,29 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
     && rm -rf /var/log/* \
     && rm -rf /var/cache/*
 
-# Move scripts and frequently changing directive to the end of the build
+# Install Impala ODBC dependency
+ARG IMPALA_ODBC_VERSION="2.6.8.1008"
+ARG IMPALA_ODBC_FILE="clouderaimpalaodbc_${IMPALA_ODBC_VERSION}-2_amd64.deb"
+ARG IMPALA_ODBC_URL="https://downloads.cloudera.com/connectors/ClouderaImpala_ODBC_${IMPALA_ODBC_VERSION}/Debian/${IMPALA_ODBC_FILE}"
+RUN cd /tmp \
+  && wget --no-verbose "${IMPALA_ODBC_URL}" \
+  && dpkg -i "${IMPALA_ODBC_FILE}" \
+  && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
+  && rm "/tmp/${IMPALA_ODBC_FILE}" \
+  && rm -rf /var/log/* \
+  && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
+
+RUN mkdir /root/.R/ \
+    && echo CXXFLAGS=-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION > /root/.R/Makevars \
+    && R CMD javareconf
+
+# Install Saagie's RStudio Addin
+RUN R -e "install.packages(c('Rcpp','RTools','devtools'))" \
+    && R -e "devtools::install_github('saagie/rstudio-saagie-addin')"
+
+ENV HADOOP_CONF_DIR=/etc/hadoop/conf
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
+
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
 
