@@ -10,10 +10,6 @@ metadataTest:
       value: 4040
     - key: PORT1
       value: 20022
-    - key: SPARK_VERSION
-      value: 2.4.5
-    - key: HADOOP_VERSION
-      value: 2.6
     - key: SPARK_HOME
       value: /usr/local/spark
     - key: PYTHONPATH
@@ -24,16 +20,12 @@ metadataTest:
       value: /home/jovyan/hadoop
 
 fileExistenceTests:
-  - name: "cloudera.list"
-    path: "/etc/apt/sources.list.d/cloudera.list"
-    shouldExist: true
-    permissions: "-rw-r--r--"
   - name: "requirements jupyspark conda"
     path: "/home/jovyan/requirements_conda.txt"
     shouldExist: true
     permissions: "-rw-r--r--"
   - name: "entrypoint"
-    path: "/entrypoint.sh"
+    path: "/entrypoint"
     shouldExist: true
     permissions: "-rwxr-xr-x"
   - name: "Nginx default conf"

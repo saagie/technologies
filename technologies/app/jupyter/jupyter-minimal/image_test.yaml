@@ -9,7 +9,7 @@ metadataTest:
 
 fileExistenceTests:
   - name: "entrypoint"
-    path: "/entrypoint.sh"
+    path: "/entrypoint"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
