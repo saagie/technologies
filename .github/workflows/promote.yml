@@ -27,7 +27,7 @@ jobs:
         id: delete_prerelease
         uses: actions/github-script@v3
         with:
-          github-token: ${{secrets.GITHUB_SECRET}}
+          github-token: ${{secrets.GITHUB_USER_TOKEN}}
           script: |
             const result = await github.repos.listReleases(context.repo);
             result.data
@@ -40,7 +40,7 @@ jobs:
         run: |
           git config --local user.email "github-action@saagie.com"
           git config --local user.name "GitHub Action Bot"
-          remote_repo="https://${{ github.actor }}:${{ secrets.GITHUB_SECRET }}@github.com/${{ github.repository }}.git"
+          remote_repo="https://${{ github.actor }}:${{ secrets.GITHUB_USER_TOKEN }}@github.com/${{ github.repository }}.git"
           git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
       - name: Remove buildMeta version
         run: |
@@ -52,7 +52,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_USER_TOKEN }}
         with:
           tag_name: ${{ steps.extract_version.outputs.v }}
           release_name: Release ${{ steps.extract_version.outputs.v }}
@@ -62,7 +62,7 @@ jobs:
         id: upload-release-asset-technologies-zip
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_USER_TOKEN}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/technologies.zip
@@ -72,7 +72,7 @@ jobs:
         id: upload-release-asset-technologies-json
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_USER_TOKEN}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/docker_listing.json
@@ -82,7 +82,7 @@ jobs:
         id: upload-release-asset-technologies-textplain
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_USER_TOKEN}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/docker_listing.txt
@@ -100,4 +100,4 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_SECRET }}
+          github_token: ${{ secrets.GITHUB_USER_TOKEN }}
