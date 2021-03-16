@@ -18,6 +18,7 @@ RUN apt-get update -qq \
       gnupg2 \
       openjdk-8-jre-headless \
       ca-certificates-java \
+      nginx \
     && rm -rf /var/lib/apt/lists/*
 
 ENV HADOOP_CONF_DIR /home/jovyan/hadoop
