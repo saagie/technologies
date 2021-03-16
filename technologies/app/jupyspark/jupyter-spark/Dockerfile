@@ -29,9 +29,9 @@ RUN mkdir -p $HADOOP_CONF_DIR \
 #Installing Spark
 ARG SPARK_VERSION="2.4.5"
 ARG HADOOP_VERSION="2.6"
-ARG SPARK_FILENAME="spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
-RUN curl -Ls "https://archive.apache.org/dist/spark/${SPARK_FILENAME}.tgz" | tar xzf - -C "/usr/local/"  \
-    && ln -s "/usr/local/${SPARK_FILENAME}/" "/usr/local/spark"
+ARG SPARK_FILENAME="spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
+RUN curl -Ls "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_FILENAME}.tgz" | tar xzf - -C "/usr/local/"  \
+    && ln -s "/usr/local/${SPARK_FILENAME}" "/usr/local/spark"
 ENV SPARK_HOME /usr/local/spark
 # Spark config
 ENV PORT0 4040
@@ -43,7 +43,8 @@ WORKDIR /usr/local/spark/jars
 ARG CLOUDERA_URL="https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/sentry"
 RUN curl -LOs "${CLOUDERA_URL}/sentry-hdfs-namenode-plugin/1.5.1-cdh5.16.2/sentry-hdfs-namenode-plugin-1.5.1-cdh5.16.2.jar" \
     && curl -LOs "${CLOUDERA_URL}/sentry-hdfs-dist/1.5.1-cdh5.16.2/sentry-hdfs-dist-1.5.1-cdh5.16.2.jar" \
-    && curl -LOs "${CLOUDERA_URL}/sentry-hdfs-common/1.5.1-cdh5.16.2/sentry-hdfs-common-1.5.1-cdh5.16.2.jar"
+    && curl -LOs "${CLOUDERA_URL}/sentry-hdfs-common/1.5.1-cdh5.16.2/sentry-hdfs-common-1.5.1-cdh5.16.2.jar" \
+    && chown -R "${NB_USER}":"${NB_UID}" /usr/local/spark/jars
 WORKDIR /notebooks-dir
 
 # Install conda libs (pyarrow/pyspark)
