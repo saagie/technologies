@@ -1,4 +1,4 @@
 image: saagie/jupyter-python-nbk
 baseTag: pyspark
-dynamicVersion: 1.73.0_SDKTECHNO-68-3
-version: pyspark-1.73.0
+dynamicVersion: 1.81.0_SDKTECHNO-106
+version: pyspark-1.81.0_SDKTECHNO-106
