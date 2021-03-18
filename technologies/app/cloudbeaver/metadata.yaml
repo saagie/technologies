@@ -22,5 +22,5 @@ contexts:
     volumes: ["/opt/cloudbeaver/workspace"]
     dockerInfo:
       image: saagie/cloudbeaver
-      baseTag: 1.2.0
-      version: 1.2.0-1.83.0_cloudbeaver-icon-bug
+      baseTag: 20.0.3
+      version: 20.0.3-1.83.0_cloudbeaver-icon-bug
