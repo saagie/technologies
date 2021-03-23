@@ -43,11 +43,11 @@ COPY --from=PYTHON3 /tmp/requirements.txt "/home/${NB_USER}/requirements_python3
 COPY resources/requirements_pip3.txt "/home/${NB_USER}/requirements_pip3.txt"
 COPY resources/requirements_conda3.txt "/home/${NB_USER}/requirements_conda3.txt"
 # shellcheck disable=SC1091
-RUN . activate py36 \
+RUN . activate py3.6 \
     && python -m pip install --no-cache-dir -r "/home/${NB_USER}/requirements_python3.txt" \
     && python -m pip install --no-cache-dir -r "/home/${NB_USER}/requirements_pip3.txt" \
     && conda deactivate \
-    && conda install -n py36 --quiet --yes --file "/home/${NB_USER}/requirements_conda3.txt" \
+    && conda install -n py3.6 --quiet --yes --file "/home/${NB_USER}/requirements_conda3.txt" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################

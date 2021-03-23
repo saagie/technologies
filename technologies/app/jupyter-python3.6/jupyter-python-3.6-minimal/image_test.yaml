@@ -23,6 +23,6 @@ commandTests:
     exitCode: 0
   - name: "Check conda virtual env"
     command: "bash"
-    args: ["-c", "conda env list | grep py36"]
-    expectedOutput: ["/opt/conda/envs/py36"]
+    args: ["-c", "conda env list | grep py3.6"]
+    expectedOutput: ["/opt/conda/envs/py3.6"]
     exitCode: 0

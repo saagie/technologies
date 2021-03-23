@@ -28,7 +28,7 @@ If you want to test the image, you can run:
 
 ### Using docker commands
 
-Prerequisite: saagie/jupyter-base image exists and is built - refer to [this documentation](../jupyter/README.md).
+Prerequisite: saagie/jupyter-base image exists and is built - refer to [this documentation](../jupyter-minimal-python-3.6/README.md).
 
 First go to context/version sub-directory of the technology:
 
@@ -89,4 +89,4 @@ This limitation is due to the fact that, for Spark versions 3.x and earlier, the
 
 ## Libraries
 
-See [Saagies' Jupyter base image ](../jupyter/README.md) for specificities.
+See [Saagies' Jupyter base image ](../jupyter-minimal-python-3.6/README.md) for specificities.

@@ -5,6 +5,9 @@ FROM jupyter/minimal-notebook:f9e77e3ddd6f
 
 LABEL Maintainer="Saagie"
 
+# Declare after FROM to be usable during the build process
+ARG PYTHON_KERNEL="3.6"
+
 ENV PATH="${PATH}:/home/${NB_USER}/.local/bin"
 
 # Starts by cleaning useless npm cache & other files
@@ -26,15 +29,10 @@ RUN apt-get update -qq \
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER ${NB_USER}
 # Uninstall python3 kernel
-RUN jupyter kernelspec remove -f python3
-
-# Update conda to latest version
-#RUN conda update -n root conda \
-RUN conda clean -ay
-
+RUN jupyter kernelspec remove -f python3 \
 # seems there's sometimesa problem with pyzmq so need to reinstall it...
-RUN conda create -n py36 python=3.6 \
-    && bash -c "source activate py36 && pip uninstall pyzmq -y && pip install pyzmq && conda install notebook ipykernel -y && ipython kernel install --user --name py36 --display-name 'Python 3.6'" \
+    && conda create -n "py${PYTHON_KERNEL}" python="${PYTHON_KERNEL}" \
+    && bash -c "source activate py${PYTHON_KERNEL} && pip uninstall pyzmq -y && pip install pyzmq && conda install notebook ipykernel -y && ipython kernel install --user --name py${PYTHON_KERNEL} --display-name 'Python ${PYTHON_KERNEL}'" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################

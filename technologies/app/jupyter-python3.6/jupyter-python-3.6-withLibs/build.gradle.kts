@@ -17,6 +17,20 @@
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
+import com.saagie.technologies.readDockerInfo
+import com.saagie.technologies.getVersionForDocker
+
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
+
+val dockerInfo = readDockerInfo(projectDir)
+
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    dependsOn(":jupyter-python-3.6-minimal:testImage")
+    this.noCache.set(nocache?.toBoolean() ?: true)
+    this.buildArgs.put(
+        "BASE_CONTAINER",
+        "saagie/jupyter-python-nbk:python-3.6-minimal-${this.project.getVersionForDocker()}"
+    )
+}

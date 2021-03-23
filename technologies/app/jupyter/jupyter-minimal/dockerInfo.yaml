@@ -1,4 +1,0 @@
-image: saagie/jupyter-python-nbk
-baseTag: v2-minimal
-dynamicVersion: 1.83.0_release-202103
-version: v2-minimal-1.83.0_release-202103
