@@ -19,7 +19,7 @@ RUN curl -sL "${SQOOP_URL}/${SQOOP_FILE}.tar.gz" | tar xzf - -C "/" \
     && rm ${SQOOP_HOME}/lib/commons-io-1.4.jar \
     && rm ${SQOOP_HOME}/lib/commons-logging-1.1.1.jar \
     && mkdir -p /usr/lib/hive-hcatalog/share/hcatalog/ \
-    && ln -s ${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-core-${HIVE_VERSION}-cdh${CDH_VERSION}.jar $_/hive-hcatalog-core.jar
+    && ln -s ${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-core-${HIVE_VERSION}.jar $_/hive-hcatalog-core.jar
 
 ENV PATH "${PATH}:${SQOOP_HOME}/bin"
 
