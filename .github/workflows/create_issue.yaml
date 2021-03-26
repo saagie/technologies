@@ -11,23 +11,23 @@ jobs:
         steps:
           - name: Dump GitHub context
             env:
-              GITHUB_CONTEXT: ${{ toJson(github) }}
+              GITHUB_CONTEXT: "${{ toJson(github) }}"
             run: echo "$GITHUB_CONTEXT"
 
           - name: Jira Login
             id: login
             uses: atlassian/gajira-login@master
             env:
-              JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-              JIRA_USER_EMAIL: ${{ secrets.JIRA_EMAIL }}
-              JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+              JIRA_BASE_URL: "${{ secrets.JIRA_BASE_URL }}"
+              JIRA_USER_EMAIL: "${{ secrets.JIRA_EMAIL }}"
+              JIRA_API_TOKEN: "${{ secrets.JIRA_TOKEN }}"
 
           - name: Jira Create issue
             id: create_jira_issue
             uses: atlassian/gajira-create@master
             with:
-              project: ${{ secrets.JIRA_PROJECT }}
-              issuetype: ${{ secrets.JIRA_ISSUE_TYPE }}
+              project: "${{ secrets.JIRA_PROJECT }}"
+              issuetype: "${{ secrets.JIRA_ISSUE_TYPE }}"
               summary: "[GH#${{ github.event.issue.number }}]  ${{ github.event.issue.title }}"
               description: |
                 ${{ github.event.issue.body }}
@@ -39,9 +39,9 @@ jobs:
           - name: Change Title
             uses: actions/github-script@0.8.0
             env: 
-              ISSUE_TITLE: ${{ github.event.issue.title}}
+              ISSUE_TITLE: "${{ github.event.issue.title}}"
             with:
-              github-token: ${{secrets.GITHUB_TOKEN}}
+              github-token: "${{secrets.GITHUB_TOKEN}}"
               script: |
                 github.issues.update({
                   issue_number: context.issue.number,
@@ -53,7 +53,7 @@ jobs:
           - name: Add comment after sync
             uses: actions/github-script@0.8.0
             with:
-              github-token: ${{secrets.GITHUB_TOKEN}}
+              github-token: "${{secrets.GITHUB_TOKEN}}"
               script: |
                 github.issues.createComment({
                   issue_number: context.issue.number,
