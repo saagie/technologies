@@ -141,6 +141,7 @@ commandTests:
         Rscript -e 'library(cartography)' &&
         Rscript -e 'library(Factoshiny)' &&
         Rscript -e 'library(rattle)' &&
-        Rscript -e 'library(prophet);'",
+        Rscript -e 'library(prophet);' &&
+        Rscript -e 'library(tidyverse);'",
     ]
     exitCode: 0

@@ -370,7 +370,11 @@ commandTests:
     exitCode: 0
   - name: check lib topicmodels
     command: "bash"
-    args: [ "-c", "Rscript -e 'library(topicmodels)'"]
+    args: [ "-c", "Rscript -e 'library(topicmodels)'" ]
+    exitCode: 0
+  - name: check lib tidyverse
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(tidyverse)'"]
     exitCode: 0
   - name: check lib tree
     command: "bash"

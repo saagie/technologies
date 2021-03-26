@@ -133,4 +133,5 @@ RUN R CMD javareconf && R -e "install.packages('rJava')" && \
   R -e "install.packages('Factoshiny')" && \
   R -e "install.packages('cairoDevice', INSTALL_opts='--no-test-load')" && \
   R -e "install.packages('rattle')" && \
-  R -e "install.packages('prophet')"
+  R -e "install.packages('prophet')" && \
+  R -e "install.packages('tidyverse')"
