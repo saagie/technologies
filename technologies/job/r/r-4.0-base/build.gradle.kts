@@ -18,5 +18,11 @@
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
+val nocache: String? by project
+
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
+
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    this.noCache.set(nocache?.toBoolean() ?: true)
+}

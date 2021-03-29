@@ -30,8 +30,8 @@ RUN apt-get update -qq \
         ca-certificates \
         gnupg2 \
         krb5-user \
-    && add-apt-repository --enable-source --yes "ppa:marutter/rrutter3.5" \
-    && add-apt-repository --enable-source --yes "ppa:marutter/c2d4u3.5" \
+    && add-apt-repository --enable-source --yes "ppa:marutter/rrutter4.0" \
+    && add-apt-repository --enable-source --yes "ppa:c2d4u.team/c2d4u4.0+" \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/* \
     && rm -rf /tmp/* \
