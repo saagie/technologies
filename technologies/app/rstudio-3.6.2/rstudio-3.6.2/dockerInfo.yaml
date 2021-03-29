@@ -1,3 +1,4 @@
 image: saagie/rstudio
 baseTag: 3.6.2
-
+dynamicVersion: 1.83.0_release-202103
+version: 3.6.2-1.83.0_release-202103
