@@ -20,6 +20,7 @@
  import com.saagie.technologies.readDockerInfo
  import com.saagie.technologies.getVersionForDocker
 
+val nocache: String? by project
 
  apply<DockerRemoteApiPlugin>()
  apply<SaagieTechnologiesGradlePlugin>()
@@ -28,6 +29,7 @@
 
  tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
      dependsOn(":${this.project.name}-base:testImage")
+     this.noCache.set(nocache?.toBoolean() ?: true)
      this.buildArgs.put(
              "base_img",
              "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
