@@ -1,7 +1,7 @@
 # Jupyter Datascience Notebook for Python - customized by Saagie
 
 This Docker image is officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/jupyter-python-nbk) and is based on the official [FROM jupyter/minimal-notebook:f9e77e3ddd6f](https://hub.docker.com/r/jupyter/minimal-notebook/) image.
-(Note: the chosen tag is latest with an Ubuntu OS version compatible with CDH5)
+(Note: the chosen tag is latest with an Ubuntu OS version compatible with CDH5, this may change in the near future)
 
 It is specially designed to run on Saagie's platform v2.
 

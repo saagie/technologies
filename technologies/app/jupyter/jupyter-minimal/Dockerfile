@@ -1,5 +1,6 @@
 # use latest image with ubuntu 16.04 Xenial for CDH5 compatibility
 # see (https://github.com/jupyter/docker-stacks/commits/master?after=04f7f60d34a674a2964d96a6cb97c57a7870a828+664)
+# TODO Once we won't depend on CDH5 anymore this base image could and should be updated
 FROM jupyter/minimal-notebook:f9e77e3ddd6f
 
 LABEL Maintainer="Saagie"
