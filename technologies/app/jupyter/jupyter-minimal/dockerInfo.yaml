@@ -1,4 +1,4 @@
 image: saagie/jupyter-python-nbk
 baseTag: v2-minimal
-dynamicVersion: 1.81.0_SDKTECHNO-106
-version: v2-minimal-1.81.0_SDKTECHNO-106
+dynamicVersion: 1.83.0_SDKTECHNO-106
+version: v2-minimal-1.83.0_SDKTECHNO-106
