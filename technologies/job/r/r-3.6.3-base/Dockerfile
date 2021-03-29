@@ -43,7 +43,6 @@ RUN curl -sL "${HIVE_URL}/${HIVE_FILE}.tar.gz" | tar xzf - -C "/"
 ENV HIVE_HOME "/${HIVE_FILE}"
 ENV PATH "${PATH}:${HIVE_HOME}/bin"
 ENV HIVE_CONF_DIR "/etc/hive/conf"
-# INSTALL JAVA & BEELINE END
 
 # Install Hive ODBC driver
 ARG HIVE_ODBC_VERSION="2.6.4.1004"
