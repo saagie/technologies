@@ -81,6 +81,13 @@ RUN apt-get update -qq \
     && rm -rf /var/log/* \
     && rm -rf /var/lib/apt/lists/*
 
+# INSTALL JDK8
+RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
+      openjdk-8-jdk && \
+    rm -rf /var/lib/apt/lists/*
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH=${PATH}:${JAVA_HOME}/bin
+
 # Hadoop client installation
 ARG HADOOP_VERSION="2.6.0"
 ARG HADOOP_FILE="hadoop-${HADOOP_VERSION}"
