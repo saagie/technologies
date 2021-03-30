@@ -1,4 +1,4 @@
 image: saagie/sqoop
 baseTag: 1.4.6
-dynamicVersion: 1.81.0_SDKTECHNO-106
-version: 1.4.6-1.81.0_SDKTECHNO-106
+dynamicVersion: 1.83.0_SDKTECHNO-105
+version: 1.4.6-1.83.0_SDKTECHNO-105

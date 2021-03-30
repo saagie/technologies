@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/cloudbeaver
       baseTag: 20.0.3
-      version: 20.0.3-1.83.0_cloudbeaver-icon-bug
+      version: 20.0.3-1.83.0_SDKTECHNO-105
