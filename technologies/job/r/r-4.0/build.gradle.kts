@@ -15,21 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
  import com.saagie.technologies.SaagieTechnologiesGradlePlugin
  import com.saagie.technologies.readDockerInfo
  import com.saagie.technologies.getVersionForDocker
 
+val nocache: String? by project
 
- apply<DockerRemoteApiPlugin>()
- apply<SaagieTechnologiesGradlePlugin>()
+apply<DockerRemoteApiPlugin>()
+apply<SaagieTechnologiesGradlePlugin>()
 
- val dockerInfo = readDockerInfo(projectDir)
+val dockerInfo = readDockerInfo(projectDir)
 
- tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-     dependsOn(":${this.project.name}-base:testImage")
-     this.buildArgs.put(
-             "base_img",
-             "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
-     )
- }
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    dependsOn(":${this.project.name}-base:testImage")
+    this.noCache.set(nocache?.toBoolean() ?: true)
+    this.buildArgs.put(
+        "base_img",
+        "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
+    )
+}

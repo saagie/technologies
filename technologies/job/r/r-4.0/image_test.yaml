@@ -6,8 +6,12 @@ metadataTest:
       value: "en_US.UTF-8"
     - key: LC_ALL
       value: "en_US.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/lib/jvm/java-8-openjdk-amd64"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
+    - key: "HIVE_HOME"
+      value: "/apache-hive-1.2.2-bin"
 
 fileExistenceTests:
   - name: "kinit"
@@ -32,6 +36,18 @@ commandTests:
   - name: "Workdir"
     command: "pwd"
     expectedOutput: ["/sandbox"]
+  - name: "java"
+    args: ["-version"]
+    command: "java"
+    exitCode: 0
+  - name: "hadoop"
+    args: ["--help"]
+    command: "hadoop"
+    exitCode: 0
+  - name: "beeline"
+    args: ["--help"]
+    command: "beeline"
+    exitCode: 0
   - name: check lib ade4
     command: "bash"
     args: ["-c", "Rscript -e 'library(ade4)'"]
@@ -370,7 +386,11 @@ commandTests:
     exitCode: 0
   - name: check lib topicmodels
     command: "bash"
-    args: [ "-c", "Rscript -e 'library(topicmodels)'"]
+    args: [ "-c", "Rscript -e 'library(topicmodels)'" ]
+    exitCode: 0
+  - name: check lib tidyverse
+    command: "bash"
+    args: [ "-c", "Rscript -e 'library(tidyverse)'"]
     exitCode: 0
   - name: check lib tree
     command: "bash"

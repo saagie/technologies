@@ -1,4 +1,4 @@
-FROM dbeaver/cloudbeaver:1.2.0
+FROM dbeaver/cloudbeaver:20.0.3
 
 LABEL maintainer="Saagie <yann.petit@saagie.com>"
 
@@ -14,5 +14,8 @@ RUN apt-get update -qq \
 
 COPY resources/nginx.conf /etc/nginx/sites-enabled/cloudbeaver.conf
 COPY resources/entrypoint.sh /entrypoint.sh
+RUN chmod 644 /etc/nginx/sites-enabled/cloudbeaver.conf \
+    && chmod 755 /entrypoint.sh
+
 
 ENTRYPOINT ["/entrypoint.sh"]
