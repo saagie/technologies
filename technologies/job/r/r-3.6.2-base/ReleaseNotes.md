@@ -1,6 +1,9 @@
 ReleaseNotes
 ============
 
+This image is deprecated as R automatically updates R 3.6.x to 3.6.3 at least.
+No changes should be made here anymore.
+
 Changes by date
 ---------------
 

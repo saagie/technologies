@@ -6,8 +6,12 @@ metadataTest:
       value: "en_US.UTF-8"
     - key: LC_ALL
       value: "en_US.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/lib/jvm/java-8-openjdk-amd64"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
+    - key: "HIVE_HOME"
+      value: "/apache-hive-1.2.2-bin"
 
 fileExistenceTests:
   - name: "kinit"
@@ -24,10 +28,27 @@ commandTests:
     command: "Rscript"
     args: ["-e", "R.version.string; getOption('repos')"]
     expectedOutput: ["R version 3.6.3.*"]
+
   - name: "krb5-user installation"
     command: "kinit"
     expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
     exitCode: 1
+
   - name: "Workdir"
     command: "pwd"
     expectedOutput: ["/sandbox"]
+
+  - name: "java"
+    args: ["-version"]
+    command: "java"
+    exitCode: 0
+
+  - name: "hadoop"
+    args: ["--help"]
+    command: "hadoop"
+    exitCode: 0
+
+  - name: "beeline"
+    args: ["--help"]
+    command: "beeline"
+    exitCode: 0

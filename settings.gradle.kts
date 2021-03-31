@@ -22,8 +22,8 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.gradle.enterprise") version "3.0"
-    id("org.kordamp.gradle.settings") version "0.38.0"
+    id("com.gradle.enterprise") version "3.5.2"
+    id("org.kordamp.gradle.settings") version "0.43.0"
 }
 
 gradleEnterprise {
@@ -45,7 +45,7 @@ File(rootDir.path + "/technologies").walkTopDown().forEach {
     }
 }
 configure<org.kordamp.gradle.plugin.settings.ProjectsExtension> {
-    layout.set("multi-level")
+    setLayout("multi-level")
     enforceNamingConvention.set(false)
     directories.set(allProjects)
 }

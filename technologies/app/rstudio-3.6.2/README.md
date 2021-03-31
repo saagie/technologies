@@ -56,12 +56,13 @@ Please note that Saagie cannot provide any support for images launched outside o
 
 Run: 
 ```
-docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
+docker run --rm -it -p 10087:8787 --name rstudio -e SAAGIE_BASE_PATH=/ -e RSTUDIO_PASSWORD=yourPassword -e RSTUDIO_ADMIN_PASSWORD=yourAdminPassword saagie/rstudio:3.6.2
 ```
 
  - Port `8787` should be mapped to the one you will be using on host side (here `10087`).
  - `SAAGIE_BASE_PATH` variable is **mandatory** and should be equal to / . It's used to customize the path to the application when behind a reverse proxy.
- - `PASSWORD` variable is also **mandatory** and should be set to whatever you'll be using as a password to access Rstudio, here `yourPassword`
+- `RSTUDIO_PASSWORD` variable is also **mandatory** and should be set to whatever you'll be using as a password to access Rstudio, here `yourPassword`
+- `RSTUDIO_ADMIN_PASSWORD` variable is also **mandatory** and should be set to whatever you'll be using as the admin password to access Rstudio, here `yourAdminPassword`
 
 You can also share volume to persist or load some notebooks from localhost.
 For example:
@@ -76,7 +77,7 @@ By default, the only user able to run `sudo` commands is `admin`, but you can al
 If you want to use [sparklyr](https://spark.rstudio.com/index.html) you'll need to mount a few volumes to share your cluster configuration with your container.
 In this case, try something like:
 ```
-docker run --rm -it -p 10087:8787 -v $PWD/rstudio:/home -v $PWD/hadoop/conf:/etc/hadoop/conf --name rstudio -e SAAGIE_BASE_PATH=/ -e PASSWORD=yourPassword saagie/rstudio:3.6.2
+docker run --rm -it -p 10087:8787 -v $PWD/rstudio:/home -v $PWD/hadoop/conf:/etc/hadoop/conf --name rstudio -e SAAGIE_BASE_PATH=/ -e RSTUDIO_PASSWORD=yourPassword -e RSTUDIO_ADMIN_PASSWORD=yourAdminPassword saagie/rstudio:3.6.2
 ```
 And you may also need to run it in HOST mode (for example, if you're using a VPN).
 
