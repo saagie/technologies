@@ -1,0 +1,11 @@
+id: 4.0.4
+label: RStudio 4.0.4
+releaseNotes: First Rstudio for Saagie based on r 4.0
+available: true
+trustLevel: stable
+ports:
+  - port: 80
+    name: RStudio
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/home"]

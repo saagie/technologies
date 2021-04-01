@@ -1,0 +1,2 @@
+image: saagie/rstudio
+baseTag: 3.6.3
