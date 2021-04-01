@@ -1,6 +1,7 @@
-ARG PYTHON3_IMG="saagie/python:3.6-1.46.0"
+ARG PYTHON3_IMG="saagie/python:3.7-1.83.0_SDKTECHNO-97"
 
-ARG BASE_CONTAINER="saagie/jupyter-python-nbk:v2-minimal-1.63.0"
+# FIXME change this default value once the matching image is available on dockerhub
+ARG BASE_CONTAINER="saagie/jupyter-python-nbk:python-3.7-minimal-1.83.0_SDKTECHNO-97"
 
 # hadolint ignore=DL3006
 FROM $PYTHON3_IMG AS PYTHON3
@@ -10,7 +11,7 @@ FROM $BASE_CONTAINER
 LABEL Maintainer="Saagie"
 
 # Declare after FROM to be usable during the build process
-ARG PYTHON_KERNEL="3.6"
+ARG PYTHON_KERNEL="3.7"
 
 ENV DEBIAN_FRONTEND noninteractive
 

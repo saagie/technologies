@@ -18,20 +18,19 @@
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 import com.saagie.technologies.readDockerInfo
+import com.saagie.technologies.getJacksonObjectMapper
+import com.saagie.technologies.checkYamlExtension
 import com.saagie.technologies.getVersionForDocker
+import java.io.File
 
 val nocache: String? by project
+val python_version: String = "3.7"
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
 
-val dockerInfo = readDockerInfo(projectDir)
-
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":jupyter-python-3.6-minimal:testImage")
     this.noCache.set(nocache?.toBoolean() ?: true)
-    this.buildArgs.put(
-        "BASE_CONTAINER",
-        "saagie/jupyter-python-nbk:python-3.6-minimal-${this.project.getVersionForDocker()}"
-    )
+    this.buildArgs.put("PYTHON_KERNEL", python_version)
 }
+
