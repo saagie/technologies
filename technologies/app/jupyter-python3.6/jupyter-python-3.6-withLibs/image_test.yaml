@@ -23,20 +23,20 @@ commandTests:
     exitCode: 0
   - name: "Check conda virtual env"
     command: "bash"
-    args: ["-c", "conda env list | grep py36"]
-    expectedOutput: ["/opt/conda/envs/py36"]
+    args: ["-c", "conda env list | grep py3.6"]
+    expectedOutput: ["/opt/conda/envs/py3.6"]
     exitCode: 0
   - name: check Jupyter specific lib PIL
     command: "bash"
-    args: ["-c", ". activate py36; python -c 'from PIL import Image'"]
+    args: ["-c", ". activate py3.6; python -c 'from PIL import Image'"]
     exitCode: 0
   - name: check Jupyter specific lib protobuf
     command: "bash"
-    args: ["-c", ". activate py36; python -c 'from google.protobuf import descriptor_pb2'"]
+    args: ["-c", ". activate py3.6; python -c 'from google.protobuf import descriptor_pb2'"]
     exitCode: 0
   - name: check Python libs
     command: "bash"
-    args: ["-c", ". activate py36; python -c 'import addok;
+    args: ["-c", ". activate py3.6; python -c 'import addok;
                                               import apiclient;
                                               import bs4;
                                               import bokeh;

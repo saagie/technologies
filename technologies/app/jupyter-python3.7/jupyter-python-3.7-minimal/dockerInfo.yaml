@@ -1,0 +1,2 @@
+image: saagie/jupyter-python-nbk
+baseTag: python-3.7-minimal

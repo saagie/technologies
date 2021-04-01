@@ -1,9 +1,12 @@
-# use latest image with ubuntu 16.04 Xenial for CDH5 compatibility
-# see (https://github.com/jupyter/docker-stacks/commits/master?after=04f7f60d34a674a2964d96a6cb97c57a7870a828+664)
-# TODO Once we won't depend on CDH5 anymore this base image could and should be updated
-FROM jupyter/minimal-notebook:f9e77e3ddd6f
+# latest tag    20/12/2020 github daff4686e830a7fc0fcc95a66c4df7f88486125f 26/03/2021 docker 4d9c9bd9ced0
+# focal first   28/05/2020 github a2086ce62679858ff3c01129d7043ecc4076edd7
+# bionic latest 26/05/2020 github 90962703684184b7efa53ed1d0fa433692b67019
+FROM jupyter/minimal-notebook:68d2d835fb16
 
 LABEL Maintainer="Saagie"
+
+# Declare after FROM to be usable during the build process
+ARG PYTHON_KERNEL="3.7"
 
 ENV PATH="${PATH}:/home/${NB_USER}/.local/bin"
 
@@ -26,15 +29,10 @@ RUN apt-get update -qq \
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER ${NB_USER}
 # Uninstall python3 kernel
-RUN jupyter kernelspec remove -f python3
-
-# Update conda to latest version
-#RUN conda update -n root conda \
-RUN conda clean -ay
-
+RUN jupyter kernelspec remove -f python3 \
 # seems there's sometimesa problem with pyzmq so need to reinstall it...
-RUN conda create -n py36 python=3.6 \
-    && bash -c "source activate py36 && pip uninstall pyzmq -y && pip install pyzmq && conda install notebook ipykernel -y && ipython kernel install --user --name py36 --display-name 'Python 3.6'" \
+    && conda create -n "py${PYTHON_KERNEL}" python="${PYTHON_KERNEL}" \
+    && bash -c "source activate py${PYTHON_KERNEL} && pip uninstall pyzmq -y && pip install pyzmq && conda install notebook ipykernel -y && ipython kernel install --user --name py${PYTHON_KERNEL} --display-name 'Python ${PYTHON_KERNEL}'" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################

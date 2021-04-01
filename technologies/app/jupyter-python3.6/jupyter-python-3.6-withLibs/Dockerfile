@@ -9,6 +9,9 @@ FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
 
+# Declare after FROM to be usable during the build process
+ARG PYTHON_KERNEL="3.6"
+
 ENV DEBIAN_FRONTEND noninteractive
 
 ########################## LIBS PART BEGIN ##########################
@@ -35,19 +38,19 @@ RUN apt-get update -qq \
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER "${NB_USER}"
 SHELL ["/bin/bash", "-c"]
-# Add libs for python 3.6 env
-#     inherited from saagie/python:3.6 image
+# Add libs for python ${PYTHON_KERNEL} env
+#     inherited from saagie/python:${PYTHON_KERNEL} image
 #     installed via pip only
 #     installed via conda
 COPY --from=PYTHON3 /tmp/requirements.txt "/home/${NB_USER}/requirements_python3.txt"
 COPY resources/requirements_pip3.txt "/home/${NB_USER}/requirements_pip3.txt"
 COPY resources/requirements_conda3.txt "/home/${NB_USER}/requirements_conda3.txt"
 # shellcheck disable=SC1091
-RUN . activate py36 \
+RUN . activate py${PYTHON_KERNEL} \
     && python -m pip install --no-cache-dir -r "/home/${NB_USER}/requirements_python3.txt" \
     && python -m pip install --no-cache-dir -r "/home/${NB_USER}/requirements_pip3.txt" \
     && conda deactivate \
-    && conda install -n py36 --quiet --yes --file "/home/${NB_USER}/requirements_conda3.txt" \
+    && conda install -n py${PYTHON_KERNEL} --quiet --yes --file "/home/${NB_USER}/requirements_conda3.txt" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 ################ Kernels / Conda envs / requirements PART ENDS #################
