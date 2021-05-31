@@ -9,4 +9,4 @@ fileContentTests:
 commandTests:
   - name: "Workdir"
     command: "pwd"
-    expectedOutput: ["/mlflow"]
+    expectedOutput: ["/"]
