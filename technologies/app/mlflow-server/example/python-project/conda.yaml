@@ -1,0 +1,9 @@
+name: test
+channels:
+  - defaults
+dependencies:
+  - scikit-learn=0.22.1
+  - pip:
+    - mlflow
+    - cloudpickle==0.2.2
+    - pyarrow==0.15.1
