@@ -4,7 +4,6 @@ RUN mkdir /mlflow/
 
 RUN apt-get update && \
     apt-get install -y openjdk-8-jdk && \
-    apt-get install -y ant && \
     apt-get clean;
 
 RUN cd / \
