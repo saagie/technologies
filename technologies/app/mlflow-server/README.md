@@ -1,7 +1,5 @@
 # MLflow Server
 
-[[_TOC_]]
-
 ## Description
 
 This directory contains a version of MLflow server containerized and customized for Saagie Platform.
