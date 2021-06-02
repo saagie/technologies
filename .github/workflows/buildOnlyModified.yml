@@ -45,7 +45,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_SECRET}}
+          github_token: ${{ secrets.TOKEN_GITHUB}}
           branch: ${{ steps.extract_branch.outputs.branch }}
       - name: extract version
         id: extract_version
@@ -53,7 +53,7 @@ jobs:
       - name: List all releases
         uses: actions/github-script@0.3.0
         with:
-          github-token: ${{secrets.GITHUB_SECRET}}
+          github-token: ${{secrets.TOKEN_GITHUB}}
           script: |
             const result = await github.repos.listReleases(context.repo);
             result.data
@@ -66,7 +66,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
         with:
           tag_name: ${{ steps.extract_version.outputs.v }}
           release_name: Release ${{ steps.extract_version.outputs.v }}
@@ -76,7 +76,7 @@ jobs:
         id: upload-release-asset-technologies-zip
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/technologies.zip
@@ -86,7 +86,7 @@ jobs:
         id: upload-release-asset-technologies-json
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/docker_listing.json
@@ -96,7 +96,7 @@ jobs:
         id: upload-release-asset-technologies-textplain
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./tmp-zip/docker_listing.txt
