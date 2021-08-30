@@ -1,0 +1,18 @@
+id: java-scala
+label: Java/Scala
+available: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch the job.
+      defaultValue: spark-submit --class=Main {file} arg1 arg2
+    - type: ARTIFACT
+      label: Package
+      mandatory: true
+      comment: "Compatible upload file : .jar"
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
