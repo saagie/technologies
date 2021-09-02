@@ -10,6 +10,8 @@ ENV SPARK_HOME /opt/spark
 ENV PATH "$PATH:$SPARK_HOME/bin"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
+ENV HADOOP_CONF_DIR=/etc/hadoop/conf/
+
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client krb5-user zip && \
