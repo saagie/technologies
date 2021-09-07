@@ -1,0 +1,5 @@
+local({
+    r <- getOption("repos")
+    r["CRAN"] <- Sys.getenv("R_CRAN_URL")
+    options(repos = r)
+})

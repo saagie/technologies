@@ -116,6 +116,11 @@ RUN apt update -qq && apt install -yqq --no-install-recommends \
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
 
+ENV R_HOME="/usr/lib/R"
+ENV R_CRAN_URL="https://cloud.r-project.org"
+
+COPY resources/Rprofile.site "$R_HOME/etc/Rprofile.site"
+
 WORKDIR /sandbox
 
 CMD ["/bin/sh", "-c", "/entrypoint"]
