@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 2.4-jre-11
 dynamicVersion: 1.86.0_SDKTECHNO-114
-version: 2.4-jre-11-1.86.0_SDKTECHNO-114
+version: 2.4-jre-11-1.86.0
