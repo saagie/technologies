@@ -68,15 +68,15 @@ if [ -n "$PYSPARK_FILES" ]; then
       for file in $pyfiles
       do
           echo ">>> [$file]"
-          wget $file
+          wget -nv $file
       done
     else
       echo ">>> [$PYSPARK_FILES]"
-      wget $PYSPARK_FILES
+      wget -nv $PYSPARK_FILES
     fi
     if [ -f *.zip ]
     then
-      unzip *.zip
+      unzip -q *.zip
     fi
     if [ -f "requirements.txt" ]
     then

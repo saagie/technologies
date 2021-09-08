@@ -14,7 +14,7 @@ ENV HADOOP_CONF_DIR=/etc/hadoop/conf/
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client krb5-user zip && \
+      ftp wget curl unzip -q telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
@@ -37,7 +37,7 @@ RUN set -ex && \
 # SPARK INSTALL START
 RUN mkdir -p /tmp/spark && \
     cd /tmp/spark && \
-    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    wget -nv https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
     tar xf spark-*.tgz && \
     rm spark-*.tgz && \
     cp -R /tmp/spark/*/jars /opt/spark && \
@@ -48,7 +48,7 @@ RUN mkdir -p /tmp/spark && \
 # SPARK UI FIX SDKTECHNO#83 START 
 RUN mkdir -p /tmp/spark && cd /tmp/spark/ && \
     cp /opt/spark/jars/spark-core_2.11-${SPARK_VERSION}.jar /tmp/spark/spark-core_2.11-${SPARK_VERSION}.jar && \
-    unzip spark-core_2.11-${SPARK_VERSION}.jar && \
+    unzip -q spark-core_2.11-${SPARK_VERSION}.jar && \
     rm spark-core_2.11-${SPARK_VERSION}.jar && \
     sed -i -- 's#location.origin#location.href.replace(/executors\\\/$/, "")#g' org/apache/spark/ui/static/executorspage.js && \
     zip -r spark-core_2.11-${SPARK_VERSION}.jar . && \

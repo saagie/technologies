@@ -15,7 +15,7 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client krb5-user zip && \
+      ftp wget curl unzip -q telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
@@ -36,7 +36,7 @@ RUN set -ex && \
 
 RUN mkdir -p /tmp/spark && \
     cd /tmp/spark && \
-    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    wget -nv https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
     tar xf spark-*.tgz && \
     rm spark-*.tgz && \
     cp -R /tmp/spark/*/jars /opt/spark && \
