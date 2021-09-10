@@ -39,7 +39,7 @@ function formatDuration(milliseconds) {
 
 function formatBytes(bytes, type) {
     if (type !== 'display') return bytes;
-    if (bytes == 0) return '0.0 B';
+    if (bytes <= 0) return '0.0 B';
     var k = 1024;
     var dm = 1;
     var sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
@@ -48,129 +48,132 @@ function formatBytes(bytes, type) {
 }
 
 function padZeroes(num) {
-  return ("0" + num).slice(-2);
+    return ("0" + num).slice(-2);
 }
 
 function formatTimeMillis(timeMillis) {
-  if (timeMillis <= 0) {
-    return "-";
-  } else {
-    var dt = new Date(timeMillis);
-    return formatDateString(dt);
-  }
+    if (timeMillis <= 0) {
+        return "-";
+    } else {
+        var dt = new Date(timeMillis);
+        return formatDateString(dt);
+    }
 }
 
 function formatDateString(dt) {
     return dt.getFullYear() + "-" +
-      padZeroes(dt.getMonth() + 1) + "-" +
-      padZeroes(dt.getDate()) + " " +
-      padZeroes(dt.getHours()) + ":" +
-      padZeroes(dt.getMinutes()) + ":" +
-      padZeroes(dt.getSeconds());
+        padZeroes(dt.getMonth() + 1) + "-" +
+        padZeroes(dt.getDate()) + " " +
+        padZeroes(dt.getHours()) + ":" +
+        padZeroes(dt.getMinutes()) + ":" +
+        padZeroes(dt.getSeconds());
 }
 
 function getTimeZone() {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-  } catch(ex) {
-    // Get time zone from a string representing the date,
-    // eg. "Thu Nov 16 2017 01:13:32 GMT+0800 (CST)" -> "CST"
-    return new Date().toString().match(/\((.*)\)/)[1];
-  }
+    try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch(ex) {
+        // Get time zone from a string representing the date,
+        // e.g. "Thu Nov 16 2017 01:13:32 GMT+0800 (CST)" -> "CST"
+        return new Date().toString().match(/\((.*)\)/)[1];
+    }
 }
 
 function formatLogsCells(execLogs, type) {
-  if (type !== 'display') return Object.keys(execLogs);
-  if (!execLogs) return;
-  var result = '';
-  $.each(execLogs, function (logName, logUrl) {
-    result += '<div><a href=' + logUrl + '>' + logName + '</a></div>'
-  });
-  return result;
+    if (type !== 'display') return Object.keys(execLogs);
+    if (!execLogs) return;
+    var result = '';
+    $.each(execLogs, function (logName, logUrl) {
+        result += '<div><a href=' + logUrl + '>' + logName + '</a></div>'
+    });
+    return result;
 }
 
 function getStandAloneAppId(cb) {
-  var words = document.baseURI.split('/');
-  var ind = words.indexOf("proxy");
-  if (ind > 0) {
-    var appId = words[ind + 1];
-    cb(appId);
-    return;
-  }
-  ind = words.indexOf("history");
-  if (ind > 0) {
-    var appId = words[ind + 1];
-    cb(appId);
-    return;
-  }
-  // Looks like Web UI is running in standalone mode
-  // Let's get application-id using REST End Point
-  var url = baseUrl() + "/api/v1/applications";
-  console.log("url = ",url);
-  $.getJSON(url, function(response, status, jqXHR) {
-    if (response && response.length > 0) {
-      var appId = response[0].id;
-      cb(appId);
-      return;
+    var words = document.baseURI.split('/');
+    var ind = words.indexOf("proxy");
+    if (ind > 0) {
+        var appId = words[ind + 1];
+        cb(appId);
+        return;
     }
-  });
+    ind = words.indexOf("history");
+    if (ind > 0) {
+        var appId = words[ind + 1];
+        cb(appId);
+        return;
+    }
+    // Looks like Web UI is running in standalone mode
+    // Let's get application-id using REST End Point
+    var url = baseUrl() + "/api/v1/applications";
+    console.log("url = ",url);
+    $.getJSON(url, function(response, status, jqXHR) {
+        if (response && response.length > 0) {
+            var appId = response[0].id;
+            cb(appId);
+            return;
+        }
+    });
 }
 
 // This function is a helper function for sorting in datatable.
 // When the data is in duration (e.g. 12ms 2s 2min 2h )
 // It will convert the string into integer for correct ordering
 function ConvertDurationString(data) {
-  data = data.toString();
-  var units = data.replace(/[\d\.]/g, '' )
-                  .replace(' ', '')
-                  .toLowerCase();
-  var multiplier = 1;
+    data = data.toString();
+    var units = data.replace(/[\d\.]/g, '' )
+        .replace(' ', '')
+        .toLowerCase();
+    var multiplier = 1;
 
-  switch(units) {
-    case 's':
-      multiplier = 1000;
-      break;
-    case 'min':
-      multiplier = 600000;
-      break;
-    case 'h':
-      multiplier = 3600000;
-      break;
-    default:
-      break;
-  }
-  return parseFloat(data) * multiplier;
+    switch(units) {
+        case 's':
+            multiplier = 1000;
+            break;
+        case 'min':
+            multiplier = 600000;
+            break;
+        case 'h':
+            multiplier = 3600000;
+            break;
+        default:
+            break;
+    }
+    return parseFloat(data) * multiplier;
 }
 
 function createTemplateURI(appId, templateName) {
-  var words = document.baseURI.split('/');
-  var ind = words.indexOf("proxy");
-  if (ind > 0) {
-    var baseURI = words.slice(0, ind + 1).join('/') + '/' + appId + '/static/' + templateName + '-template.html';
-    return baseURI;
-  }
-  ind = words.indexOf("history");
-  if(ind > 0) {
-    var baseURI = words.slice(0, ind).join('/') + '/static/' + templateName + '-template.html';
-    return baseURI;
-  }
-  return baseUrl() + "/static/" + templateName + "-template.html";
+    var words = document.baseURI.split('/');
+    var ind = words.indexOf("proxy");
+    if (ind > 0) {
+        var baseURI = words.slice(0, ind + 1).join('/') + '/' + appId + '/static/' + templateName + '-template.html';
+        return baseURI;
+    }
+    ind = words.indexOf("history");
+    if(ind > 0) {
+        var baseURI = words.slice(0, ind).join('/') + '/static/' + templateName + '-template.html';
+        return baseURI;
+    }
+    return baseUrl() + "/static/" + templateName + "-template.html";
 }
 
 function setDataTableDefaults() {
-  $.extend($.fn.dataTable.defaults, {
-    stateSave: true,
-    lengthMenu: [[20, 40, 60, 100, -1], [20, 40, 60, 100, "All"]],
-    pageLength: 20
-  });
+    $.extend($.fn.dataTable.defaults, {
+        stateSave: true,
+        stateSaveParams: function(_, data) {
+            data.search.search = "";
+        },
+        lengthMenu: [[20, 40, 60, 100, -1], [20, 40, 60, 100, "All"]],
+        pageLength: 20
+    });
 }
 
 function formatDate(date) {
-  if (date <= 0) return "-";
-  else {
-     var dt = new Date(date.replace("GMT", "Z"))
-     return formatDateString(dt);
-  }
+    if (date <= 0) return "-";
+    else {
+        var dt = new Date(date.replace("GMT", "Z"));
+        return formatDateString(dt);
+    }
 }
 
 function createRESTEndPointForExecutorsPage(appId) {
@@ -197,19 +200,19 @@ function createRESTEndPointForExecutorsPage(appId) {
     return restEndpoint;
 }
 
-// This function keep the URL but remove the last part 
+// This function keep the URL but remove the last part
 // e.g. https://domain:50509/jobs/ => https://domain:50509
 // e.g. https://acme.corp/sparkui/executors/ => https://acme.corp/sparkui
 function baseUrl() {
-  console.log("location.href = " + location.href);
-  var baseUrl = location.href.split('?')[0]
-    .replace(/jobs\/$/, "")
-    .replace(/stages\/$/, "")
-    .replace(/stages\/stage\/$/, "")
-    .replace(/storage\/$/, "")
-    .replace(/environment\/$/, "")
-    .replace(/executors\/$/, "")
-    .replace(/\/$/,"");
+    console.log("location.href = " + location.href);
+    var baseUrl = location.href.split('?')[0]
+        .replace(/jobs\/$/, "")
+        .replace(/stages\/$/, "")
+        .replace(/stages\/stage\/$/, "")
+        .replace(/storage\/$/, "")
+        .replace(/environment\/$/, "")
+        .replace(/executors\/$/, "")
+        .replace(/\/$/,"");
     console.log("baseUrl = " + baseUrl);
     return baseUrl;
 }
