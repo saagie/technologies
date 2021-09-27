@@ -9,7 +9,8 @@ contexts:
     label: 2.7
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -33,7 +34,8 @@ contexts:
     available: false
     dockerImageFallback: saagie/python:2.7.15.201904.31
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -56,7 +58,8 @@ contexts:
     label: 3.5
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -79,7 +82,8 @@ contexts:
     label: 3.6
     available: true
     recommended: true
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -103,7 +107,8 @@ contexts:
     available: false
     dockerImageFallback: saagie/python:3.6.6.201904.31
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -125,7 +130,7 @@ contexts:
   - id: 3.7
     label: 3.7
     available: true
-    recommended: false
+    recommended: true
     trustLevel: stable
     job:
       features:

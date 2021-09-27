@@ -8,7 +8,7 @@ contexts:
   - id: 11
     label: 11
     available: true
-    recommended: false
+    recommended: true
     trustLevel: stable
     job:
       features:
@@ -32,7 +32,8 @@ contexts:
     label: 7
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -54,8 +55,9 @@ contexts:
   - id: 8
     label: 8
     available: true
-    recommended: true
-    trustLevel: stable
+    recommended: false
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE

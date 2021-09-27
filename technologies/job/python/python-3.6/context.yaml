@@ -1,8 +1,9 @@
 id: 3.6
 label: 3.6
 available: true
-recommended: true
-trustLevel: stable
+recommended: false
+trustLevel: deprecated
+deprecationDate: "2021-09-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE

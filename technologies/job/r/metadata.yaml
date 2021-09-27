@@ -9,7 +9,8 @@ contexts:
     label: 3.4.4
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -32,7 +33,8 @@ contexts:
     label: 3.5.3
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -57,7 +59,8 @@ contexts:
     deprecated: true
     dockerImageFallback: "saagie/r-image:3.6.2.202002.74"
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
@@ -80,7 +83,8 @@ contexts:
     label: 3.6.3
     available: true
     recommended: true
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2021-09-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE
