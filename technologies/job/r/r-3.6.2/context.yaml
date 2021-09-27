@@ -1,10 +1,10 @@
 id: 3.6.2
 label: 3.6.2
 available: true
-deprecated: true
 dockerImageFallback: "saagie/r-image:3.6.2.202002.74"
 recommended: false
 trustLevel: stable
+deprecationDate: "2021-09-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE
