@@ -45,10 +45,6 @@ config {
         inceptionYear = "2019"
         vendor = "Saagie"
 
-        scm {
-            url = "https://github.com/saagie/technologies"
-        }
-
         links {
             website = "https://www.saagie.com"
             scm = "https://github.com/saagie/technologies"
