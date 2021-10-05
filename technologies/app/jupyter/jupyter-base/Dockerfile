@@ -93,7 +93,7 @@ RUN . activate py36 \
     && conda deactivate
 ########################## SDKTECHNO-117 END ##########################
 
-# Should run as $NB_USER ...  but ...
+# Should run as $NB_USER  but ...
 # USER $NB_USER
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root
