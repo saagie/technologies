@@ -87,6 +87,12 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
     && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 ########################## CUDA PART END ##########################
 
+########################## SDKTECHNO-117 BEGIN ##########################
+RUN . activate py36 \
+    && python -m pip install --no-cache-dir -U jedi==0.17.2 \
+    && conda deactivate
+########################## SDKTECHNO-117 END ##########################
+
 # Should run as $NB_USER  ... but ...
 # USER $NB_USER
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
