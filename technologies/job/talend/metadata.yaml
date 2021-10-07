@@ -6,6 +6,29 @@ available: true
 icon: talend
 mainClass: __TALEND_SH_FILENAME__
 contexts:
+  - id: Use_Java_11
+    label: Use_Java_11
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: sh {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/talend
+      baseTag: Use_Java_11
+      version: Use_Java_11-1.90.0_SDKTECHNO-119
   - id: Use_Java_8
     label: Use_Java_8
     available: true
@@ -29,27 +52,4 @@ contexts:
     dockerInfo:
       image: saagie/talend
       baseTag: Use_Java_8
-      version: Use_Java_8-1.44.0
-  - id: Use_Java_11
-      label: Use_Java_11
-      available: true
-      recommended: true
-      trustLevel: stable
-      job:
-        features:
-          - type: COMMAND_LINE
-            label: Command line
-            mandatory: true
-            comment: Linux shell command to launch the job.
-            defaultValue: sh {file} arg1 arg2
-          - type: ARTIFACT
-            label: Package
-            mandatory: true
-            comment: "Compatible upload file : .zip"
-          - type: SCHEDULER
-            label: Scheduled
-            mandatory: true
-      dockerInfo:
-        image: saagie/talend
-        baseTag: Use_Java_11
-        version: Use_Java_11-1.44.0
+      version: Use_Java_8-1.90.0_SDKTECHNO-119
