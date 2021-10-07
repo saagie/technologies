@@ -9,8 +9,8 @@ icon: mlflow
 backgroundColor: "#092241"
 customFlags: []
 contexts:
-  - id: mlflow-server
-    label: MLFlow Server
+  - id: mlflow-server-1.20
+    label: MLFlow Server 1.20
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -21,5 +21,5 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/mlflow-server
-      baseTag: 1.16
-      version: 1.16-1.83.0
+      baseTag: 1.20
+      version: 1.20-1.90.0_SDKTECHNO-120

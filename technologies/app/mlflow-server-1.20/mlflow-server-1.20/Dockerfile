@@ -27,13 +27,12 @@ ENV HADOOP_HOME=/app/hadoop-2.6.0
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.0
 
 RUN pip install --upgrade pip
-RUN pip install mlflow==1.16
+RUN pip install mlflow==1.20.2
 
 RUN pip install SQLAlchemy mysqlclient pyarrow psycopg2-binary==2.8.5
 
+COPY resources/entrypoint.sh entrypoint.sh
+
 EXPOSE 5000
 
-CMD mlflow server \
-    --backend-store-uri ${MLFLOW_BACKEND_STORE_URI} \
-    --default-artifact-root ${MLFLOW_DEFAULT_ARTIFACTORY_ROOT} \
-    --host 0.0.0.0
+ENTRYPOINT [ "./entrypoint.sh" ]
