@@ -3,7 +3,7 @@ schemaVersion: "2.0.0"
 metadataTest:
   env:
     - key: "HADOOP_CONF_DIR"
-      value: "/etc/hadoop/conf"
+      value: "/app/hadoop-2.6.0/etc/hadoop-2.6.0"
 
 fileExistenceTests:
 
