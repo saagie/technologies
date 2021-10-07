@@ -1,0 +1,51 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+
+fileContentTests:
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/"]
+
+  - name: "python version"
+    command: "python"
+    args: ["-V"]
+    expectedOutput: ["Python 3.7*"]
+  
+  - name: "mlflow version"
+    command: "mlflow"
+    args: ["--version"]
+    expectedOutput: ["mlflow, version 1.20.2"]
+
+  - name: "pip mlflow"
+    command: "pip"
+    args: ["show","mlflow"]
+    expectedOutput: ["Name: mlflow"]
+
+  - name: "pip SQLAlchemy"
+    command: "pip"
+    args: ["show","SQLAlchemy"]
+    expectedOutput: ["Name: SQLAlchemy"]
+
+  - name: "pip mysqlclient"
+    command: "pip"
+    args: ["show","mysqlclient"]
+    expectedOutput: ["Name: mysqlclient"]
+
+  - name: "pip pyarrow"
+    command: "pip"
+    args: ["show","pyarrow"]
+    expectedOutput: ["Name: pyarrow"]
+
+  - name: "pip psycopg2-binary"
+    command: "pip"
+    args: ["show","psycopg2-binary"]
+    expectedOutput: ["Name: psycopg2-binary"]
+
