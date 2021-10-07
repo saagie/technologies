@@ -33,7 +33,7 @@ commandTests:
   - name: "java installation"
     command: "which"
     args: ["java"]
-    expectedOutput: ["-it  --entrypoint /bin/bash"]
+    expectedOutput: ["/usr/local/openjdk-11/bin/java"]
     exitCode: 0
 
   - name: "unzip ok"
