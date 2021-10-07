@@ -1,0 +1,4 @@
+image: saagie/talend
+baseTag: Use_Java_11
+dynamicVersion: 1.44.0_SDKPLUGIN-9
+version: Use_Java_11-1.44.0
