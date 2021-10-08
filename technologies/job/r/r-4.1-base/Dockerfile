@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.1.0
+FROM rocker/tidyverse:4.1
 
 LABEL author="Cleyrop <yann.petit@cleyrop.com>"
 

@@ -1,4 +1,4 @@
 image: saagie/r-image
 baseTag: 4.1-base
-dynamicVersion: 1.83.0_R-4.1
+dynamicVersion: 1.83.0_R-4.1-base
 version: 4.1-base-1.83.0
