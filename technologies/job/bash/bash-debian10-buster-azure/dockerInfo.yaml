@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian10-buster-azure
+dynamicVersion: 1.80.0_security-fix-2
+version: debian10-buster-azure-1.80.0
