@@ -19,11 +19,11 @@ fileExistenceTests:
   - name: "grafana.ini"
     path: "/etc/grafana/grafana.ini"
     shouldExist: true
-    permissions: "-rwxr-xr-x"
+    permissions: "-rw-r--r--"
   - name: "server.conf"
     path: "/etc/nginx/sites-enabled/grafana.conf"
     shouldExist: true
-    permissions: "-rwxr-xr-x"
+    permissions: "-rw-r--r--"
 
 fileContentTests:
     - name: "Nginx conf"
