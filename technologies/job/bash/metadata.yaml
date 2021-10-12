@@ -5,6 +5,98 @@ label: Bash
 available: true
 icon: bash
 contexts:
+  - id: debian10-buster
+    label: debian10-buster
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: echo "Saagie Bash"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/bash
+      baseTag: debian10-buster
+      version: debian10-buster-1.90.0_bash-debian-10
+  - id: debian10-buster-aws
+    label: debian10-buster-aws
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: "# To configure AWS credential don't forget to set:\n# \tAWS_ACCESS_KEY_ID\n# \tAWS_SECRET_ACCESS_KEY\n# For other ways to log into aws please refer to aws documentation.\n# If done right you can issue your AWS commands as usual e.g. :\n\naws s3 ls"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/bash
+      baseTag: debian10-buster-aws
+      version: debian10-buster-aws-1.90.0_bash-debian-10
+  - id: debian10-buster-azure
+    label: debian10-buster-azure
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: "# Pre-requisite: you must have created a user in Azure with the right subscriptions\n# You can then use ENV Variables to save your AZ_LOGIN and AZ_PASSWD\n# (don't forget to check the password box for security reasons)\n\naz login -u $AZ_LOGIN -p $AZ_PASSWD\n\n# For other ways to log into azure please refer to azure documentation.\n# After that you can type your azure commands as usual e.g. :\n\naz vm list"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted. For example your cert file for authentication.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/bash
+      baseTag: debian10-buster-azure
+      version: debian10-buster-azure-1.90.0_bash-debian-10
+  - id: debian10-buster-gcp
+    label: debian10-buster-gcp
+    available: true
+    recommended: false
+    trustLevel: "stable"
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: "# To configure GCloud authentication you should use a service account\n# and can either upload the configuration file (using artefact)\n# and issue the authentication command :\n\ngcloud auth activate-service-account --key-file={file}\n\n# Or you can set the followinf ENV Variable GOOGLE_APPLICATION_CREDENTIALS\n# to reference the path to the configuration file (uploaded artefact subfolder for example)\n# For other ways to log into gcloud please refer to gcloud documentation."
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted. For example your key file for authentication.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/bash
+      baseTag: debian10-buster-gcp
+      version: debian10-buster-gcp-1.90.0_bash-debian-10
   - id: debian8-jessie
     label: debian8-jessie
     available: false
