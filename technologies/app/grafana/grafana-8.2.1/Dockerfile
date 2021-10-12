@@ -6,7 +6,7 @@ RUN apt-get update \
   && apt-get install -y nginx \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/ \
-  && rm /etc/nginx/sites-enabled/default \
+  && rm /etc/nginx/sites-enabled/default
 
 RUN mkdir /opt/grafana && \
     mkdir /opt/plugins && \
