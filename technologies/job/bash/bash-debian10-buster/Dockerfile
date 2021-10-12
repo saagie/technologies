@@ -25,9 +25,7 @@ RUN apt-get update -qq && \
     apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main' && \
     apt-get update && \
     apt-get install -yqq --no-install-recommends openjdk-8-jdk && \
-    rm -rf /var/lib/apt/lists/* \
-
-
+    rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=${PATH}:${JAVA_HOME}/bin
