@@ -31,7 +31,6 @@ fileContentTests:
       expectedContents:
         [
             "listen 80 default_server;",
-            "listen \\[::\\]:80 default_server",
             "location SAAGIE_BASE_PATH {",
             "proxy_pass http://localhost:3000;",
         ]
@@ -42,5 +41,5 @@ commandTests:
     expectedOutput: ["/usr/share/grafana"]
   - name: "nginx"
     command: "nginx"
-    args: ["-h"]
+    args: ["-v"]
     expectedOutput: ["nginx version:*"]
