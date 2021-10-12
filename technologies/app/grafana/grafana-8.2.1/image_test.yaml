@@ -42,4 +42,4 @@ commandTests:
   - name: "nginx"
     command: "nginx"
     args: ["-v"]
-    expectedOutput: ["nginx version:*"]
+    expectedError: ["nginx version:*"]
