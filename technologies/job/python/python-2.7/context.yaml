@@ -3,6 +3,7 @@ label: 2.7
 available: true
 recommended: false
 trustLevel: stable
+deprecationDate: "2021-09-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE

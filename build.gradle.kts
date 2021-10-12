@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2019 Pierre Leresteux.
+ * Copyright 2019-2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ val buildDockerTaskName = "buildDockerImage"
 plugins {
     id("net.thauvin.erik.gradle.semver").version("1.0.4")
     id("com.bmuschko.docker-remote-api") version "6.1.1"
-    id("org.kordamp.gradle.project") version "0.38.0"
+    id("org.kordamp.gradle.project") version "0.46.0"
 }
 
 buildscript {
@@ -33,7 +33,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.saagie:technologiesplugin:1.2.13")
+        classpath("com.saagie:technologiesplugin:1.3.1")
     }
 }
 apply<SaagieTechnologiesPackageGradlePlugin>()
@@ -44,10 +44,6 @@ config {
         description = "All technologies for Saagie"
         inceptionYear = "2019"
         vendor = "Saagie"
-
-        scm {
-            url = "https://github.com/saagie/technologies"
-        }
 
         links {
             website = "https://www.saagie.com"
@@ -62,19 +58,9 @@ config {
             }
         }
 
-        people {
-            person {
-                id = "pierre"
-                name = "Pierre Leresteux"
-                email = "pierre@saagie.com"
-                roles = listOf("author", "developer")
-            }
-            person {
-                id = "yann"
-                name = "Yann Petit"
-                email = "yann.petit@saagie.com"
-                roles = listOf("developer")
-            }
+        organization {
+            name = "Saagie"
+            url = "http://www.saagie.com"
         }
     }
 }

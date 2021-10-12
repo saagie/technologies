@@ -4,6 +4,7 @@ available: false
 dockerImageFallback: saagie/bash:debian8-jessie.201903.26
 recommended: false
 trustLevel: stable
+deprecationDate: "2021-09-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE
