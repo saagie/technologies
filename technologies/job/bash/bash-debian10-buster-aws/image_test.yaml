@@ -121,7 +121,7 @@ commandTests:
     expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
     exitCode: 1
 
-  - name: "awscli"
+  - name: "aws"
     args: ["help"]
     command: "aws"
     exitCode: 0

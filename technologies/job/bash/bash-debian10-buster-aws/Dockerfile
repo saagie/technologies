@@ -4,20 +4,20 @@ FROM ${base_img} AS BASE_IMG
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# INSTALL AWS CLI via pip3 START
-RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
-      apt-utils python3-setuptools python3-pip groff \
+# INSTALL AWS CLI START
+RUN apt-get update -qq && apt-get install -qqy --no-install-recommends less groff \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && pip3 --no-cache-dir install wheel \
-    && pip3 --no-cache-dir install awscli --upgrade --user \
-    && rm -rf /root/.cachex \
-    && rm -rf /boot/.cache/pip \
-    && rm -rf ~/.cache/pip
-ENV AWSCLI_HOME=/root/.local
-ENV PATH=$PATH:$AWSCLI_HOME/bin
-# INSTALL AWS CLI via pip3 END
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.2.45.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && rm awscliv2.zip \
+    && ./aws/install
+# INSTALL AWS CLI END
 
 WORKDIR /sandbox
 
 ENTRYPOINT  ["bash","/entrypoint"]
+
+
+
+
