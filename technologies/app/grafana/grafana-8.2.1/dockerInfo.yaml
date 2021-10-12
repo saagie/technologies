@@ -1,0 +1,4 @@
+image: saagie/grafana
+baseTag: 8.2.1
+dynamicVersion: 1.76.0
+version: 8.2.1-1.76.0
