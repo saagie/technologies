@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian10-buster
-dynamicVersion: 1.80.0_security-fix-2
-version: debian10-buster-1.80.0
+dynamicVersion: 1.90.0_bash-debian-10
+version: debian10-buster-1.90.0_bash-debian-10
