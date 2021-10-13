@@ -27,7 +27,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian10-buster
-      version: debian10-buster-1.90.0_bash-debian-10
+      version: debian10-buster-1.92.0_bash-debian-10
   - id: debian10-buster-aws
     label: debian10-buster-aws
     available: true
@@ -50,7 +50,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian10-buster-aws
-      version: debian10-buster-aws-1.90.0_bash-debian-10
+      version: debian10-buster-aws-1.92.0_bash-debian-10
   - id: debian10-buster-azure
     label: debian10-buster-azure
     available: true
@@ -73,7 +73,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian10-buster-azure
-      version: debian10-buster-azure-1.90.0_bash-debian-10
+      version: debian10-buster-azure-1.92.0_bash-debian-10
   - id: debian10-buster-gcp
     label: debian10-buster-gcp
     available: true
@@ -96,7 +96,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian10-buster-gcp
-      version: debian10-buster-gcp-1.90.0_bash-debian-10
+      version: debian10-buster-gcp-1.92.0_bash-debian-10
   - id: debian8-jessie
     label: debian8-jessie
     available: false
