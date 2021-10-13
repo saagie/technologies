@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian10-buster-aws
 dynamicVersion: 1.92.0_bash-debian-10
-version: debian10-buster-aws-1.92.0_bash-debian-10
+version: debian10-buster-aws-1.92.0
