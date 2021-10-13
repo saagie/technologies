@@ -125,7 +125,7 @@ contexts:
   - id: debian9-stretch
     label: debian9-stretch
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
