@@ -17,8 +17,8 @@
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
-import com.saagie.technologies.readDockerInfo
 import com.saagie.technologies.getVersionForDocker
+import com.saagie.technologies.readDockerInfo
 
 
 apply<DockerRemoteApiPlugin>()
@@ -27,13 +27,9 @@ apply<SaagieTechnologiesGradlePlugin>()
 val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":spark-2.4:testImage")
+    dependsOn(":bash-debian10-buster:testImage")
     this.buildArgs.put(
-        "base_img",
-        "saagie/python:2.7-1.46.0"
-    )
-    this.buildArgs.put(
-        "spark_base_img",
-        "${dockerInfo?.image}:2.4-${this.project.getVersionForDocker()}"
+            "base_img",
+            "${dockerInfo?.image}:debian10-buster-${this.project.getVersionForDocker()}"
     )
 }

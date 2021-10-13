@@ -1,15 +1,32 @@
 schemaVersion: "2.0.0"
 
+metadataTest:
+  env:
+    - key: JAVA_HOME
+      value: "/usr/lib/jvm/java-8-openjdk-amd64"
+    - key: "HADOOP_PREFIX"
+      value: "/usr/lib/hadoop"
+    - key: "HADOOP_COMMON_HOME"
+      value: "/usr/lib/hadoop"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+    - key: "HIVE_HOME"
+      value: "/apache-hive-1.1.0-bin"
+
 fileExistenceTests:
   - name: "entrypoint"
     path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "kinit"
+    path: "/usr/bin/kinit"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
 fileContentTests:
   - name: "entrypoint"
     path: "/entrypoint"
-    expectedContents: ["sh ./main_script"]
+    expectedContents: ["bash ./main_script"]
 
 commandTests:
   - name: "Workdir"
@@ -82,3 +99,29 @@ commandTests:
     args: ["--help"]
     command: "sleep"
     exitCode: 0
+
+  - name: "java"
+    args: ["-version"]
+    command: "java"
+    exitCode: 0
+
+  - name: "beeline"
+    args: ["--help"]
+    command: "beeline"
+    exitCode: 0
+
+  - name: "hadoop"
+    args: ["--help"]
+    command: "hadoop"
+    exitCode: 0
+
+  - name: "ps"
+    args: ["--help"]
+    command: "ps"
+    exitCode: 0
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+
