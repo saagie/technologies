@@ -22,4 +22,4 @@ contexts:
     dockerInfo:
       image: saagie/mlflow-server
       baseTag: 1.16
-      version: 1.16-1.91.0_SDKTECHNO-120
+      version: 1.16-1.91.0
