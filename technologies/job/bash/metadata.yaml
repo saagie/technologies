@@ -97,31 +97,6 @@ contexts:
       image: saagie/bash
       baseTag: debian10-buster-gcp
       version: debian10-buster-gcp-1.92.0_bash-debian-10
-  - id: debian8-jessie
-    label: debian8-jessie
-    available: false
-    dockerImageFallback: saagie/bash:debian8-jessie.201903.26
-    recommended: false
-    trustLevel: stable
-    deprecationDate: "2021-09-01T00:00:00Z"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command
-          defaultValue: echo "Saagie Bash"
-        - type: ARTIFACT
-          label: Package
-          mandatory: false
-          comment: All files are accepted.
-        - type: SCHEDULER
-          label: Scheduled
-          mandatory: true
-    dockerInfo:
-      image: saagie/bash
-      baseTag: debian8-jessie
-      version: debian8-jessie-1.45.0
   - id: debian9-stretch
     label: debian9-stretch
     available: true
