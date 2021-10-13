@@ -1,4 +1,4 @@
-FROM python:3.7.0
+FROM python:3.7.11-stretch
 
 RUN mkdir /mlflow/
 
@@ -9,13 +9,13 @@ RUN apt-get update && \
 RUN cd / \
     && mkdir app \
     && cd app \
-    && wget https://archive.apache.org/dist/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
-    && tar xvf hadoop-2.6.0.tar.gz \
-    && rm hadoop-2.6.0.tar.gz \
-    && rm -rf hadoop-2.6.0/etc/hadoop \
-    && ln -s /etc/hadoop/conf hadoop-2.6.0/etc/hadoop;
+    && wget https://archive.apache.org/dist/hadoop/common/hadoop-2.6.5/hadoop-2.6.5.tar.gz \
+    && tar xvf hadoop-2.6.5.tar.gz \
+    && rm hadoop-2.6.5.tar.gz \
+    && rm -rf hadoop-2.6.5/etc/hadoop \
+    && ln -s /etc/hadoop/conf hadoop-2.6.5/etc/hadoop;
 
-ENV PATH "/app/hadoop-2.6.0/bin:${PATH}"
+ENV PATH "/app/hadoop-2.6.5/bin:${PATH}"
 
 RUN apt-get update && \
     apt-get install ca-certificates-java && \
@@ -23,8 +23,8 @@ RUN apt-get update && \
     update-ca-certificates -f;
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-ENV HADOOP_HOME=/app/hadoop-2.6.0
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.0
+ENV HADOOP_HOME=/app/hadoop-2.6.5
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.5
 
 RUN pip install --upgrade pip
 RUN pip install mlflow==1.20.2
