@@ -50,7 +50,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian10-buster-aws
-      version: debian10-buster-aws-1.92.0
+      version: debian10-buster-aws-1.93.0_SDKTECHNO-118
   - id: debian10-buster-azure
     label: debian10-buster-azure
     available: true
