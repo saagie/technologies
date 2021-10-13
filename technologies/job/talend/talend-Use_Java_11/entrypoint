@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+talend_project_name=$(compgen -G "*.zip" | sed "s/_[0-9.]\+.zip//")
+unzip -q *.zip
+
+if test -f main_script;
+then
+    sed "s/__TALEND_SH_FILENAME__/$(find . -name "*.sh" | sed "s#/#\\\/#g")/" main_script > real_main_script
+    sh ./real_main_script;
+else exec "$@"
+fi;
