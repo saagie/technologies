@@ -28,4 +28,4 @@ contexts:
     dockerInfo:
       image: saagie/talend
       baseTag: Use_Java_8
-      version: Use_Java_8-1.44.0
+      version: Use_Java_8-1.90.0_SDKTECHNO-120
