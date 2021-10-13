@@ -1,0 +1,11 @@
+name: test
+
+conda_env: conda.yaml
+# docker_env:
+#    image:  mlflow-docker-example
+
+entry_points:
+  main:
+    parameters:
+      nb_estimator: {type: int, default: 20}
+    command: "python __main__.py {nb_estimator}"
