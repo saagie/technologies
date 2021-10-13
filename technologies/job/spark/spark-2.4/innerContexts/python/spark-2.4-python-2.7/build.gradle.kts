@@ -15,3 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+import com.saagie.technologies.SaagieTechnologiesGradlePlugin
+import com.saagie.technologies.readDockerInfo
+import com.saagie.technologies.getVersionForDocker
+
+
+apply<DockerRemoteApiPlugin>()
+apply<SaagieTechnologiesGradlePlugin>()
+
+val dockerInfo = readDockerInfo(projectDir)
+
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    dependsOn(":spark-2.4:testImage")
+    this.buildArgs.put(
+        "base_img",
+        "saagie/python:2.7-1.46.0"
+    )
+    this.buildArgs.put(
+        "spark_base_img",
+        "${dockerInfo?.image}:2.4-${this.project.getVersionForDocker()}"
+    )
+}
