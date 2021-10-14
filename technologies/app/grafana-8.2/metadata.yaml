@@ -1,0 +1,26 @@
+version: v1
+type: APP
+id: grafana-8.2
+label: Grafana 8.2
+baseline: "The open-source platform for monitoring and observability. Default admin login is `admin`. Default admin password must be set with the GRAFANA_ADMIN_PASSWORD environment variable."
+description: "Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data driven culture."
+available: true
+icon: grafana
+backgroundColor: "#1857B8"
+customFlags: []
+contexts:
+  - id: grafana-8.2
+    label: Grafana 8.2
+    releaseNotes:
+    available: true
+    trustLevel: stable
+    ports:
+        - port: 80
+          name: Grafana
+          rewriteUrl: false
+          basePath: SAAGIE_BASE_PATH
+    volumes: [ "/opt/grafana", /opt/plugins ]
+    dockerInfo:
+      image: saagie/grafana
+      baseTag: 8.2
+      version: 8.2-1.90.0
