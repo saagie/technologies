@@ -85,7 +85,7 @@ commandTests:
   - name: "python version"
     command: "python"
     args: ["-V"]
-    expectedOutput: ["Python 3.10*"]
+    expectedOutput: ["Python 3.9*"]
 
   - name: "krb5-user installation"
     command: "kinit"
