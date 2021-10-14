@@ -16,7 +16,6 @@ boto3>=1.18,<1.19
 #Datamart dependencies
 pymongo>=3.12,<3.13
 mysql-connector-python>=8.0,<8.1
-elasticsearch>=7.1,<7.2
 psycopg2-binary>=2.9,<2.10
 #Data lib dependencies
 cython>=0.29,<3

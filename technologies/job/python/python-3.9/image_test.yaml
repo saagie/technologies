@@ -198,13 +198,6 @@ commandTests:
         "import cython;"]
     exitCode: 0
 
-  - name: import_elasticsearch
-    command: "python"
-    args: [
-        "-c",
-        "import elasticsearch;"]
-    exitCode: 0
-
   - name: import_psycopg2
     command: "python"
     args: [
