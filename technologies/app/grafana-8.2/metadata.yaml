@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/grafana
       baseTag: 8.2
-      version: 8.2-1.94.0_SDKTECHNO-152
+      version: 8.2-1.94.0
