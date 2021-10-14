@@ -163,13 +163,6 @@ commandTests:
     expectedOutput: ["thrift-sasl==0.4.3"]
     exitCode: 0
 
-  - name: import_sasl
-    command: "python"
-    args: [
-        "-c",
-        "import sasl;"]
-    exitCode: 0
-
   - name: import_sqlalchemy.create_engine
     command: "python"
     args: [
