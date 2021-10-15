@@ -29,7 +29,7 @@ RUN cd / \
 
 # Fix Locale
 RUN sed -i '/^#.* en_US.* /s/^#//' /etc/locale.gen \
-    && locale-gen \
+    && locale-gen
 
 # Fix certificate issues
 RUN update-ca-certificates -f;
@@ -38,6 +38,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 ENV HADOOP_HOME=/app/hadoop-2.6.0
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/app/hadoop-2.6.5/lib/native:/usr/lib/jvm/java-11-openjdk-amd64/lib"
+ENV CLASSPATH="/etc/hadoop/conf:/app/hadoop-2.6.5/share/hadoop/common/lib/*:/app/hadoop-2.6.5/share/hadoop/common/*:/app/hadoop-2.6.5/share/hadoop/hdfs:/app/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/app/hadoop-2.6.5/share/hadoop/hdfs/*:/app/hadoop-2.6.5/share/hadoop/yarn/lib/*:/app/hadoop-2.6.5/share/hadoop/yarn/*:/app/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/app/hadoop-2.6.5/share/hadoop/mapreduce/*"
 ENV PATH "/app/hadoop-2.6.5/bin:${PATH}"
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
