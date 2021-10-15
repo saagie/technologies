@@ -12,6 +12,8 @@ metadataTest:
       value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
+    - key: "JAVA_HOME"
+      value: "/usr/lib/jvm/java-11-openjdk-amd64/"
 
 fileExistenceTests:
   - name: "unzip"
@@ -40,6 +42,11 @@ fileContentTests:
       ]
 
 commandTests:
+  - name: "java version"
+    command: "java"
+    args: [ "-version" ]
+    expectedError: [ 'openjdk version "11.*' ]
+
   - name: "ftp"
     args: ["-h"]
     command: "ftp"
