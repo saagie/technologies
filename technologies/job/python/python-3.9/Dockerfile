@@ -22,25 +22,6 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       swig \
       python3-matplotlib \
       python3-lxml \
-    # xvfb \ # What for?
-     #tesseract-ocr \ # To validate
-     #libtesseract-dev \ # To validate
-     #qt5-default \ # What for?
-     #libqt5webkit5-dev \ # What for?
-     #python-pil \ #Remove DEEP LEARNING
-     #leptonica-progs \ #Remove DEEP LEARNING
-     #libmagickwand-dev \ #Remove DEEP LEARNING
-     #libpng-dev \ #Remove DEEP LEARNING
-     #libjpeg62-turbo-dev \  #Remove DEEP LEARNING
-     #libtiff5-dev \  #Remove DEEP LEARNING
-     #libwebp-dev \  #Remove DEEP LEARNING
-     #libopenjp2-7-dev \  #Remove DEEP LEARNING
-     #libgif-dev \  #Remove DEEP LEARNING
-    # pulseaudio \ #Remove DEEP LEARNING
-    # libpulse-dev \ #Remove DEEP LEARNING
-     #lame \  #Remove DEEP LEARNING
-     #ffmpeg \  #Remove DEEP LEARNING
-     #flac \  #Remove DEEP LEARNING
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
 
