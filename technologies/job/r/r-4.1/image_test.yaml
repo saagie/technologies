@@ -168,10 +168,10 @@ commandTests:
     command: "bash"
     args: [ "-c", "Rscript -e 'library(kernlab)'"]
     exitCode: 0
-  - name: check lib kknn
-    command: "bash"
-    args: [ "-c", "Rscript -e 'library(kknn)'"]
-    exitCode: 0
+#  - name: check lib kknn
+#    command: "bash"
+#    args: [ "-c", "Rscript -e 'library(kknn)'"]
+#    exitCode: 0
   - name: check lib knitr
     command: "bash"
     args: [ "-c", "Rscript -e 'library(knitr)'"]
