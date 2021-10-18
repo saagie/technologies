@@ -11,7 +11,7 @@ metadataTest:
     - key: PATH
       value: "/app/hadoop-2.6.5/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     - key: "HADOOP_CONF_DIR"
-      value: "/etc/hadoop/conf"
+      value: "/app/hadoop-2.6.5/etc/hadoop-2.6.5"
 
 fileExistenceTests:
   - name: "unzip"
@@ -217,5 +217,12 @@ commandTests:
     args: [
         "-c",
         "from requests_kerberos import *;"]
+    exitCode: 0
+
+  - name: import_pyarrow
+    command: "python"
+    args: [
+        "-c",
+        "from pyarrow import *;" ]
     exitCode: 0
 
