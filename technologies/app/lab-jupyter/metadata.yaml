@@ -1,0 +1,26 @@
+version: v1
+type: APP
+id: jupyterlab
+label: JupyterLab Notebook
+baseline: Data Science Notebook
+description: "The JupyterLab Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
+available: true
+icon: jupyter
+backgroundColor: "#E87A35"
+customFlags: []
+contexts:
+  - id: 3.8-3.9
+    label: Jupyter Lab Notebook with Python 3.8 and 3.9
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8888
+        name: Notebook
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/notebooks-dir"]
+    dockerInfo:
+      image: saagie/jupyterlab
+      baseTag: 3.8-3.9-base
+      version: 3.8-3.9-base-1.73.0
