@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: mlflow-server
+label: MLFlow Server 1.16
+baseline: "An open source platform for the end-to-end machine learning lifecycle"
+description: "MLflow tracking server is used for logging parameters, code versions, metrics, and output files when running your machine learning code and for later visualizing the results."
+available: true
+icon: mlflow
+backgroundColor: "#092241"
+customFlags: []

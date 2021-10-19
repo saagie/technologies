@@ -1,7 +1,7 @@
 id: 3.7
 label: 3.7
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:

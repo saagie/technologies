@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian10-buster-gcp
+dynamicVersion: 1.92.0_bash-debian-10
+version: debian10-buster-gcp-1.92.0

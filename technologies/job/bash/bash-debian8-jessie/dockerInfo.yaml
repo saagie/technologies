@@ -1,4 +1,0 @@
-image: saagie/bash
-baseTag: debian8-jessie
-dynamicVersion: 1.45.0_SDKTECHNO-59
-version: debian8-jessie-1.45.0

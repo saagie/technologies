@@ -1,4 +1,4 @@
 image: saagie/talend
 baseTag: Use_Java_8
-dynamicVersion: 1.44.0_SDKPLUGIN-9
-version: Use_Java_8-1.44.0
+dynamicVersion: 1.90.0_SDKTECHNO-119
+version: Use_Java_8-1.90.0
