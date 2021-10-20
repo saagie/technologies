@@ -11,7 +11,7 @@ metadataTest:
     - key: PATH
       value: "/app/hadoop-2.6.5/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     - key: "HADOOP_CONF_DIR"
-      value: "/app/hadoop-2.6.5/etc/hadoop-2.6.5"
+      value: "/etc/hadoop/conf"
 
 fileExistenceTests:
   - name: "unzip"
