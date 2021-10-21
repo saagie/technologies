@@ -1,10 +1,8 @@
-id: 2.7.15
-label: 2.7.15
-available: false
-dockerImageFallback: saagie/python:2.7.15.201904.31
-recommended: false
+id: 3.9
+label: 3.9
+available: true
+recommended: true
 trustLevel: stable
-deprecationDate: "2021-09-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE

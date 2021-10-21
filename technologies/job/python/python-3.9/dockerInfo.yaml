@@ -1,0 +1,4 @@
+image: saagie/python
+baseTag: 3.9
+dynamicVersion: 1.96.0_SDKTECHNO-101-PYTHON-3.9
+version: 3.9-1.96.0
