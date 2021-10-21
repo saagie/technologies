@@ -100,6 +100,29 @@ contexts:
       image: saagie/python
       baseTag: 3.7
       version: 3.7-1.46.0
+  - id: 3.8
+    label: 3.8
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      baseTag: 3.8
+      version: 3.8-1.97.0_SDKTECHNO-100-PYTHON-3.8
   - id: 3.9
     label: 3.9
     available: true
@@ -123,26 +146,3 @@ contexts:
       image: saagie/python
       baseTag: 3.9
       version: 3.9-1.96.0
-  - id: 3.8
-    label: 3.8
-    available: true
-    recommended: false
-    trustLevel: stable
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command to launch the job.
-          defaultValue: python {file} arg1 arg2
-        - type: ARTIFACT
-          label: Package
-          mandatory: true
-          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
-        - type: SCHEDULER
-          label: Scheduled
-          mandatory: true
-    dockerInfo:
-      image: saagie/python
-      baseTag: 3.8
-      version: 3.8-1.96.0_SDKTECHNO-100-PYTHON-3.8
