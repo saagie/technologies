@@ -1,1 +1,0 @@
-FROM saagie/python:2.7.15.201904.31
