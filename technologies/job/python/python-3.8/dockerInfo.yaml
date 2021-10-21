@@ -1,0 +1,4 @@
+image: saagie/python
+baseTag: 3.8
+dynamicVersion: 1.97.0_SDKTECHNO-100-PYTHON-3.8
+version: 3.8-1.97.0_SDKTECHNO-100-PYTHON-3.8
