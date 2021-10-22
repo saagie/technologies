@@ -1,0 +1,11 @@
+id: jupyterlab-3.8-3.9
+label: JupyterLab Notebook
+releaseNotes: ""
+available: true
+trustLevel: stable
+ports:
+  - port: 8888
+    name: Notebook
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/notebooks-dir"]
