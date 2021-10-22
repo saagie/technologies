@@ -1,4 +1,4 @@
 image: saagie/jupyterlab-python-nbk
 baseTag: 3.8-3.9-base
 dynamicVersion: 1.98.0_JUPYTERLAB
-version: 3.8-3.9-base-1.98.0_JUPYTERLAB
+version: 3.8-3.9-base-1.98.0
