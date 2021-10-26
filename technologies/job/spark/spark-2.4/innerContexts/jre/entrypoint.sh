@@ -36,19 +36,6 @@ if [ -z "$uidentry" ] ; then
     fi
 fi
 
-SPARK_K8S_CMD="$1"
-case "$SPARK_K8S_CMD" in
-    driver | driver-py | driver-r | executor)
-      shift 1
-      ;;
-    "")
-      ;;
-    *)
-      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-      exec /sbin/tini -s -- "$@"
-      ;;
-esac
-
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
 env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n | sed 's/[^=]*=\(.*\)/\1/g' > /tmp/java_opts.txt
 readarray -t SPARK_EXECUTOR_JAVA_OPTS < /tmp/java_opts.txt
@@ -83,8 +70,9 @@ elif [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
     export PYSPARK_DRIVER_PYTHON="python3"
 fi
 
-case "$SPARK_K8S_CMD" in
+case "$1" in
   driver)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -93,6 +81,7 @@ case "$SPARK_K8S_CMD" in
     )
     ;;
   driver-py)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -100,7 +89,8 @@ case "$SPARK_K8S_CMD" in
       "$@" $PYSPARK_PRIMARY $PYSPARK_ARGS
     )
     ;;
-    driver-r)
+  driver-r)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -109,6 +99,7 @@ case "$SPARK_K8S_CMD" in
     )
     ;;
   executor)
+    shift 1
     CMD=(
       ${JAVA_HOME}/bin/java
       "${SPARK_EXECUTOR_JAVA_OPTS[@]}"
@@ -125,8 +116,18 @@ case "$SPARK_K8S_CMD" in
     ;;
 
   *)
-    echo "Unknown command: $SPARK_K8S_CMD" 1>&2
-    exit 1
+    cd /sandbox
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode...TOTO"
+      CMD=("$@")
+    fi;
+    ;;
 esac
 
 # Execute the container CMD under tini for better hygiene
