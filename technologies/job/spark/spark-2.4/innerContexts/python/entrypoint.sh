@@ -151,6 +151,7 @@ case "$SPARK_K8S_CMD" in
     ;;
 
   *)
+    #TODO change code
     echo "Unknown command: $SPARK_K8S_CMD" 1>&2
     exit 1
 esac
