@@ -86,7 +86,17 @@ case "$1" in
 
   *)
     echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-    CMD=("$@")
+    cd /sandbox
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode...TOTO"
+      CMD=("$@")
+    fi;
     ;;
 esac
 

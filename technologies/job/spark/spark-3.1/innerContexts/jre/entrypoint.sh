@@ -44,8 +44,6 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
-
-
 # If HADOOP_HOME is set and SPARK_DIST_CLASSPATH is not set, set it here so Hadoop jars are available to the executor.
 # It does not set SPARK_DIST_CLASSPATH if already set, to avoid overriding customizations of this value from elsewhere e.g. Docker/K8s.
 if [ -n "${HADOOP_HOME}"  ] && [ -z "${SPARK_DIST_CLASSPATH}"  ]; then
@@ -91,8 +89,17 @@ case "$1" in
     ;;
 
   *)
-    echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-    CMD=("$@")
+    cd /sandbox
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode...TOTO"
+      CMD=("$@")
+    fi;
     ;;
 esac
 

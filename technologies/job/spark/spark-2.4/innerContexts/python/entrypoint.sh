@@ -36,19 +36,6 @@ if [ -z "$uidentry" ] ; then
     fi
 fi
 
-SPARK_K8S_CMD="$1"
-case "$SPARK_K8S_CMD" in
-    driver | driver-py | driver-r | executor)
-      shift 1
-      ;;
-    "")
-      ;;
-    *)
-      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-      exec /sbin/tini -s -- "$@"
-      ;;
-esac
-
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
 env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n | sed 's/[^=]*=\(.*\)/\1/g' > /tmp/java_opts.txt
 readarray -t SPARK_EXECUTOR_JAVA_OPTS < /tmp/java_opts.txt
@@ -57,10 +44,16 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
+cd /sandbox
+ # parse content and if pyfiles extract minio url and inject it
+if [ -f main_script ] && grep -q "\--py-files" main_script;
+then
+  PYSPARK_FILES="`grep -Po '.*--py-files=\K[^ ]+' main_script`"
+fi;
+
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
     #Copy and unzip pyfiles
-    cd /sandbox
     if [[ $PYSPARK_FILES == *[,]* ]];then
       echo "PYSPARK_FILES contains comma"
       pyfiles=$(echo $PYSPARK_FILES | tr "," "\n")
@@ -108,8 +101,9 @@ elif [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
     export PYSPARK_DRIVER_PYTHON="python3"
 fi
 
-case "$SPARK_K8S_CMD" in
+case "$1" in
   driver)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -118,6 +112,7 @@ case "$SPARK_K8S_CMD" in
     )
     ;;
   driver-py)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -126,7 +121,8 @@ case "$SPARK_K8S_CMD" in
       "$@" $PYSPARK_PRIMARY $PYSPARK_ARGS
     )
     ;;
-    driver-r)
+  driver-r)
+    shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
@@ -135,6 +131,7 @@ case "$SPARK_K8S_CMD" in
     )
     ;;
   executor)
+    shift 1
     CMD=(
       ${JAVA_HOME}/bin/java
       "${SPARK_EXECUTOR_JAVA_OPTS[@]}"
@@ -151,8 +148,17 @@ case "$SPARK_K8S_CMD" in
     ;;
 
   *)
-    echo "Unknown command: $SPARK_K8S_CMD" 1>&2
-    exit 1
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
+      CMD=("$@")
+    fi;
+    ;;
 esac
 
 # Execute the container CMD under tini for better hygiene

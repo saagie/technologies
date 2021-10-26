@@ -37,10 +37,16 @@ if [ -z "$uidentry" ] ; then
 fi
 
 # BEGIN SAAGIE SPECIFIC CODE
+cd /sandbox
+ # parse content and if pyfiles extract minio url and inject it
+if [ -f main_script ] && grep -q "\--py-files" main_script;
+then
+  PYSPARK_FILES="`grep -Po '.*--py-files=\K[^ ]+' main_script`"
+fi;
+
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
     #Copy and unzip pyfiles
-    cd /sandbox
     if [[ $PYSPARK_FILES == *[,]* ]];then
       echo "PYSPARK_FILES contains comma"
       pyfiles=$(echo $PYSPARK_FILES | tr "," "\n")
@@ -129,8 +135,16 @@ case "$1" in
     ;;
 
   *)
-    echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-    CMD=("$@")
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
+      CMD=("$@")
+    fi;
     ;;
 esac
 
