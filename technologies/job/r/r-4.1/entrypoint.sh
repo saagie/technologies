@@ -1,6 +1,17 @@
 #!/bin/bash
 
 set -euo pipefail
+
+R_HOME=$(Rscript -e 'Sys.getenv("R_HOME")' | sed -rn 's/^\[[[:digit:]]+\] "(.*)"/\1/p')
+
+# Change default CRAN to ENV VAR if present
+if [[ -z "${R_CUSTOM_CRAN}" ]]; then
+    echo "No custom CRAN defined, using default, you can configure one using R_CUSTOM_CRAN env var"
+else
+    echo "Custom CRAN used: ${R_CUSTOM_CRAN}"
+    sed -ri "s#(CRAN = ')[^']*#\1${R_CUSTOM_CRAN}#g" "${R_HOME}/etc/Rprofile.site"
+fi
+
 if compgen -G "*.zip" > /dev/null; then
     echo "Zip file detected ... unzipping ..."
     unzip -qo *.zip
