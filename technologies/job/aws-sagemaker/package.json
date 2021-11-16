@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@saagie/sdk": "^0.11.4",
-    "aws-sdk": "^2.684.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.19.2"
   }
 }
