@@ -1,0 +1,4 @@
+image: saagie/r-image
+baseTag: 4.1
+dynamicVersion: 1.99.0_SDKTECHNO-122
+version: 4.1-1.99.0_SDKTECHNO-122
