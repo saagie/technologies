@@ -47,7 +47,7 @@ jobs:
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  title: '[${{ steps.create_jira_issue.outputs.issue }}] ${{ env.ISSUE_TITLE }}'
+                  title: '[${{ steps.create_jira_issue.outputs.issue }}] ' + process.env.ISSUE_TITLE 
                 })
 
           - name: Add comment after sync
