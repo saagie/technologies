@@ -43,7 +43,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-jre-11
-              version: 2.4-jre-11-1.100.0_PRODUCT-3089
+              version: 2.4-jre-11-1.100.0
           - id: 8
             label: 8
             available: true
@@ -52,7 +52,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-jre-8
-              version: 2.4-jre-8-1.100.0_PRODUCT-3089
+              version: 2.4-jre-8-1.100.0
       - id: python
         label: Python
         available: true
@@ -80,7 +80,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-2.7
-              version: 2.4-py-2.7-1.100.0_PRODUCT-3089
+              version: 2.4-py-2.7-1.100.0
           - id: 3.5
             label: 3.5
             available: true
@@ -89,7 +89,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-3.5
-              version: 2.4-py-3.5-1.100.0_PRODUCT-3089
+              version: 2.4-py-3.5-1.100.0
           - id: 3.6
             label: 3.6
             available: true
@@ -98,7 +98,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-3.6
-              version: 2.4-py-3.6-1.100.0_PRODUCT-3089
+              version: 2.4-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
@@ -106,7 +106,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-3.7
-              version: 2.4-py-3.7-1.100.0_PRODUCT-3089
+              version: 2.4-py-3.7-1.100.0
   - id: 3.0
     label: 3.0
     available: true
@@ -143,7 +143,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-jre-11
-              version: 3.0-jre-11-1.100.0_PRODUCT-3089
+              version: 3.0-jre-11-1.100.0
           - id: 8
             label: 8
             available: true
@@ -152,7 +152,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-jre-8
-              version: 3.0-jre-8-1.100.0_PRODUCT-3089
+              version: 3.0-jre-8-1.100.0
       - id: python
         label: Python
         available: true
@@ -180,7 +180,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.5
-              version: 3.0-py-3.5-1.100.0_PRODUCT-3089
+              version: 3.0-py-3.5-1.100.0
           - id: 3.6
             label: 3.6
             available: true
@@ -189,7 +189,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.6
-              version: 3.0-py-3.6-1.100.0_PRODUCT-3089
+              version: 3.0-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
@@ -197,7 +197,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.7
-              version: 3.0-py-3.7-1.100.0_PRODUCT-3089
+              version: 3.0-py-3.7-1.100.0
   - id: 3.1
     label: 3.1
     available: true
@@ -206,7 +206,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.1
-      version: 3.1-1.100.0_PRODUCT-3089
+      version: 3.1-1.100.0
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -235,7 +235,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-11
-              version: 3.1-jre-11-1.100.0_PRODUCT-3089
+              version: 3.1-jre-11-1.100.0
           - id: 8
             label: 8
             available: true
@@ -244,7 +244,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-8
-              version: 3.1-jre-8-1.100.0_PRODUCT-3089
+              version: 3.1-jre-8-1.100.0
       - id: python
         label: Python
         available: true
@@ -272,7 +272,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.6
-              version: 3.1-py-3.6-1.100.0_PRODUCT-3089
+              version: 3.1-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
@@ -281,4 +281,4 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.100.0_PRODUCT-3089
+              version: 3.1-py-3.7-1.100.0

@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.0-jre-8
 dynamicVersion: 1.100.0_PRODUCT-3089
-version: 3.0-jre-8-1.100.0_PRODUCT-3089
+version: 3.0-jre-8-1.100.0
