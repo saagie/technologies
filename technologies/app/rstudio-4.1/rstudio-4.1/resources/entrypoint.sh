@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ -z ${$RSTUDIO_ADMIN_PASSWORD} || -z ${$RSTUDIO_PASSWORD} ]]; then
+  echo "ERROR : Missing environment variables. In order to work, this app needs the following environment variables set : "
+  echo "RSTUDIO_ADMIN_PASSWORD : Password for the user admin, with root permissions"
+  echo "RSTUDIO_PASSWORD : Password for the user rstudio"
+  exit 1
+fi
+
 R_HOME=$(Rscript -e 'Sys.getenv("R_HOME")' | sed -rn 's/^\[[[:digit:]]+\] "(.*)"/\1/p')
 
 # Change default CRAN to ENV VAR if present
