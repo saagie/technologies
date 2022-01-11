@@ -3,3 +3,8 @@ label: "[Lab] Dash"
 releaseNotes: First port of Dash into Saagie
 available: true
 trustLevel: experimental
+ports:
+  - port: 8050
+    name: Dash
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH

@@ -14,6 +14,11 @@ contexts:
     releaseNotes: First port of Dash into Saagie
     available: true
     trustLevel: experimental
+    ports:
+      - port: 8050
+        name: Dash
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/dash
       baseTag: 2.0.0
