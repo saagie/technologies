@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z ${$RSTUDIO_ADMIN_PASSWORD} || -z ${$RSTUDIO_PASSWORD} ]]; then
+if [[ -z ${RSTUDIO_ADMIN_PASSWORD} || -z ${RSTUDIO_PASSWORD} ]]; then
   echo "ERROR : Missing environment variables. In order to work, this app needs the following environment variables set : "
   echo "RSTUDIO_ADMIN_PASSWORD : Password for the user admin, with root permissions"
   echo "RSTUDIO_PASSWORD : Password for the user rstudio"
