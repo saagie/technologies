@@ -1,6 +1,6 @@
 id: 3.6
 label: 3.6
-available: true
+available: false
 recommended: false
 trustLevel: stable
 deprecationDate: "2021-09-01T00:00:00Z"

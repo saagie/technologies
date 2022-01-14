@@ -1,6 +1,6 @@
 id: debian9-stretch
 label: debian9-stretch
-available: true
+available: false
 recommended: false
 trustLevel: stable
 deprecationDate: "2021-11-01T00:00:00Z"
