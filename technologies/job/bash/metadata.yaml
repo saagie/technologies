@@ -99,7 +99,7 @@ contexts:
       version: debian10-buster-gcp-1.92.0
   - id: debian9-stretch
     label: debian9-stretch
-    available: true
+    available: false
     recommended: false
     trustLevel: stable
     deprecationDate: "2021-11-01T00:00:00Z"
@@ -123,7 +123,7 @@ contexts:
       version: debian9-stretch-1.80.0
   - id: debian9-stretch-aws
     label: debian9-stretch-aws
-    available: true
+    available: false
     recommended: false
     trustLevel: stable
     deprecationDate: "2021-11-01T00:00:00Z"
@@ -147,7 +147,7 @@ contexts:
       version: debian9-stretch-aws-1.80.0
   - id: debian9-stretch-azure
     label: debian9-stretch-azure
-    available: true
+    available: false
     recommended: false
     trustLevel: stable
     deprecationDate: "2021-11-01T00:00:00Z"
@@ -171,7 +171,7 @@ contexts:
       version: debian9-stretch-azure-1.80.0
   - id: debian9-stretch-gcp
     label: debian9-stretch-gcp
-    available: true
+    available: false
     recommended: false
     trustLevel: "stable"
     deprecationDate: "2021-11-01T00:00:00Z"

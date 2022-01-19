@@ -46,7 +46,7 @@ contexts:
               version: 2.4-jre-11-1.100.0
           - id: 8
             label: 8
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -74,7 +74,7 @@ contexts:
         innerContexts:
           - id: 2.7
             label: 2.7
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -83,7 +83,7 @@ contexts:
               version: 2.4-py-2.7-1.100.0
           - id: 3.5
             label: 3.5
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -92,7 +92,7 @@ contexts:
               version: 2.4-py-3.5-1.100.0
           - id: 3.6
             label: 3.6
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -146,7 +146,7 @@ contexts:
               version: 3.0-jre-11-1.100.0
           - id: 8
             label: 8
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -174,7 +174,7 @@ contexts:
         innerContexts:
           - id: 3.5
             label: 3.5
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -183,7 +183,7 @@ contexts:
               version: 3.0-py-3.5-1.100.0
           - id: 3.6
             label: 3.6
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -238,7 +238,7 @@ contexts:
               version: 3.1-jre-11-1.100.0
           - id: 8
             label: 8
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
@@ -266,7 +266,7 @@ contexts:
         innerContexts:
           - id: 3.6
             label: 3.6
-            available: true
+            available: false
             trustLevel: stable
             deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
