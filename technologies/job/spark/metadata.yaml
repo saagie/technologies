@@ -48,7 +48,6 @@ contexts:
             label: 8
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-jre-8
@@ -76,7 +75,6 @@ contexts:
             label: 2.7
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-2.7
@@ -85,7 +83,6 @@ contexts:
             label: 3.5
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-3.5
@@ -94,7 +91,6 @@ contexts:
             label: 3.6
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 2.4-py-3.6
@@ -148,7 +144,6 @@ contexts:
             label: 8
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-jre-8
@@ -176,7 +171,6 @@ contexts:
             label: 3.5
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.5
@@ -185,7 +179,6 @@ contexts:
             label: 3.6
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.6
@@ -240,7 +233,6 @@ contexts:
             label: 8
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-8
@@ -268,7 +260,6 @@ contexts:
             label: 3.6
             available: false
             trustLevel: stable
-            deprecationDate: "2021-09-01T00:00:00Z"
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.6

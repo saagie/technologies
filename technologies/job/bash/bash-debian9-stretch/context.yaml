@@ -3,7 +3,6 @@ label: debian9-stretch
 available: false
 recommended: false
 trustLevel: stable
-deprecationDate: "2021-11-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE
