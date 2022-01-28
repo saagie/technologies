@@ -1,16 +1,17 @@
 version: v1
 type: APP
-id: kibana-7.6.2
-label: Kibana 7.6.2
+id: kibana-7.15.1
+label: Kibana 7.15.1
 baseline: Your window into the Elastic Stack
 description: Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack. Do anything from tracking query load to understanding the way requests flow through your apps.
 available: true
 icon: kibana
 backgroundColor: "#40BEB0"
 customFlags: []
+
 contexts:
-  - id: 7.6.2
-    label: Kibana 7.6.2
+  - id: 7.15.1
+    label: Kibana 7.15.1
     releaseNotes: First iteration post migration
     available: true
     trustLevel: stable
@@ -21,5 +22,5 @@ contexts:
         basePath: SERVER_BASEPATH
     dockerInfo:
       image: saagie/kibana
-      baseTag: 7.6.2
-      version: 7.6.2-1.76.0
+      baseTag: 7.15.1
+      version: 7.15.1-1.106.0_SDKTECHNO-162
