@@ -2,6 +2,7 @@ id: 7.15.1
 label: Kibana 7.15.1
 releaseNotes: First iteration post migration
 available: true
+deprecationDate: "2023-03-22T00:00:00Z"
 trustLevel: stable
 ports:
   - port: 5601
