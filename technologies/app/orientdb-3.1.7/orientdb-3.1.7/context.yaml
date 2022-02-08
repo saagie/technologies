@@ -1,7 +1,7 @@
-id: orientdb-3.1.7
-label: "[Lab] OrientDB 3.1.7"
+id: odb-3.1.7
+label: OrientDB 3.1.7
 releaseNotes: First iteration
-available: true
+available: false
 trustLevel: experimental
 ports:
   - port: 9480

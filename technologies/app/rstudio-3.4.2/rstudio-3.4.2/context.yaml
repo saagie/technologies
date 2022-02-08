@@ -1,7 +1,7 @@
-id: 3.4.2
+id: rs-3.4.2
 label: RStudio 3.4.2
 releaseNotes: First iteration post migration for branch v2-app
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 80

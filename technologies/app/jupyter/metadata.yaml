@@ -9,8 +9,8 @@ icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
 contexts:
-  - id: v2-app
-    label: Jupyter Notebook
+  - id: jupyter-notebook-v2
+    label: v2
     releaseNotes: "First iteration post migration"
     available: true
     trustLevel: stable

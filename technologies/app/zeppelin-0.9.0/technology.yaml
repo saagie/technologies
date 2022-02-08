@@ -4,7 +4,7 @@ id: zeppelin-0.9.0
 label: Zeppelin Notebook 0.9.0
 baseline: Data Science Notebook
 description: Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
-available: true
+available: false
 icon: zeppelin
 backgroundColor: "#0099CC"
 customFlags: []

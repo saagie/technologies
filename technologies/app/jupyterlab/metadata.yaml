@@ -10,10 +10,11 @@ backgroundColor: "#E87A35"
 customFlags: []
 contexts:
   - id: jupyterlab-3.8-3.9
-    label: JupyterLab Notebook
+    label: 3.8-3.9
     releaseNotes: ""
     available: true
     trustLevel: stable
+    recommended: true
     ports:
       - port: 8888
         name: Notebook

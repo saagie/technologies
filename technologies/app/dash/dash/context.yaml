@@ -1,5 +1,5 @@
-id: dash
-label: "[Lab] Dash"
+id: dash-2.0.0
+label: 2.0.0
 releaseNotes: First port of Dash into Saagie
 available: true
 trustLevel: experimental

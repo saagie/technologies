@@ -1,7 +1,7 @@
-id: 0.7.3
+id: zep-0.7.3
 label: Zeppelin 0.7.3
 releaseNotes: "First iteration post migration for branch v2-app"
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 8080

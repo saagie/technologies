@@ -1,7 +1,7 @@
-id: 7.4.0
+id: kib-7.4.0
 label: Kibana 7.4.0
 releaseNotes: First iteration post migration
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 5601

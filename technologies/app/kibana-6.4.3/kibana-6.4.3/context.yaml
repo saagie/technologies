@@ -1,7 +1,7 @@
-id: 6.4.3
+id: kib-6.4.3
 label: Kibana 6.4.3
 releaseNotes: First iteration post migration
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 5601

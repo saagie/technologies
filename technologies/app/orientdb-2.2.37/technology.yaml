@@ -1,10 +1,10 @@
 version: v1
 type: APP
 id: orientdb-2.2.37
-label: "[Lab] OrientDB 2.2.37"
+label: OrientDB 2.2.37
 baseline: baseline
 description: description
-available: true
+available: false
 icon: orientdb
 backgroundColor: "#3374BA"
 customFlags: []

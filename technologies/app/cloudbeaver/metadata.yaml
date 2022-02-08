@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: cloudbeaver
-label: "[Lab] CloudBeaver"
+label: CloudBeaver
 baseline: Free Universal Database Tool
 description: CloudBeaver is free and open source. As an open-source product it already supports the most popular open source databases, such us PostgreSQL, MySQL, MariaDB, SQLite and Firebird.
 available: true
@@ -9,10 +9,10 @@ icon: cloudbeaver
 backgroundColor: "#6e98bf"
 customFlags: []
 contexts:
-  - id: 1.2.0
-    label: "[Lab] CloudBeaver 1.2.0"
+  - id: cloudbeaver-1.2.0
+    label: 1.2.0
     releaseNotes: First version 
-    available: false
+    available: true
     trustLevel: experimental
     ports:
       - port: 80

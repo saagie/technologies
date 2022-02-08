@@ -4,15 +4,15 @@ id: rstudio-3.4.2
 label: RStudio 3.4.2
 baseline: IDE for R
 description: RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
-available: true
+available: false
 icon: rstudio
 backgroundColor: "#3374BA"
 customFlags: []
 contexts:
-  - id: 3.4.2
+  - id: rs-3.4.2
     label: RStudio 3.4.2
     releaseNotes: First iteration post migration for branch v2-app
-    available: true
+    available: false
     trustLevel: stable
     ports:
       - port: 80

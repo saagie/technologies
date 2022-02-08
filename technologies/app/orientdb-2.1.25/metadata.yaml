@@ -1,18 +1,18 @@
 version: v1
 type: APP
 id: orientdb-2.1.25
-label: "[Lab] OrientDB 2.1.25"
+label: OrientDB 2.1.25
 baseline: baseline
 description: description
-available: true
+available: false
 icon: orientdb
 backgroundColor: "#3374BA"
 customFlags: []
 contexts:
-  - id: orientdb-2.1.25
-    label: "[Lab] OrientDB 2.1.25"
+  - id: odb-2.1.25
+    label: OrientDB 2.1.25
     releaseNotes: First iteration
-    available: true
+    available: false
     trustLevel: experimental
     ports:
       - port: 9480
