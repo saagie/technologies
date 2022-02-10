@@ -28,11 +28,13 @@ USER root
 # https://github.com/apache/zeppelin/pull/3755
 # correcting issue :  https://issues.apache.org/jira/browse/ZEPPELIN-4783
 # and once docker image will be rebuild
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
-    && apt-get -qq update && apt-get -qq install -y --no-install-recommends \
+RUN apt-get -qq update && apt-get -qq install -y gnupg \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
+    && apt-get -qq install -y --no-install-recommends \
       jq \
       vim \
       krb5-user \
+      cron \
     && rm -rf /var/lib/apt/lists/*
 ########################## LIBS PART END ##########################
 
@@ -50,8 +52,8 @@ RUN mkdir -p ${SPARK_BASE_DIR} \
 ########################## Install Spark END ##########################
 
 # Add a startup script that will setup Spark conf before running Zeppelin
-COPY resources/saagie-zeppelin.sh /zeppelin
-COPY resources/saagie-zeppelin-config.sh /zeppelin
+COPY resources/saagie-zeppelin.sh /zeppelin/
+COPY resources/saagie-zeppelin-config.sh /zeppelin/
 RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh \
     && mkdir ${ZEPPELIN_NOTEBOOK_DIR} \
 # Add CRON to copy interpreter.json to persisted folder
