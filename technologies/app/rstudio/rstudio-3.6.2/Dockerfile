@@ -18,7 +18,7 @@ ENV APACHE_SPARK_VERSION 2.1.0
 ENV SPARK_HADOOP_VERSION 2.7
 
 # Install system libraries required by R packages
-RUN apt-get update -qq \
+RUN apt-get --allow-releaseinfo-change update -qq \
     && apt-get install -yqq --no-install-recommends \
         curl \
         krb5-user \
