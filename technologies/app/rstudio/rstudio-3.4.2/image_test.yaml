@@ -17,7 +17,7 @@ metadataTest:
     - key: JAVA_HOME
       value: /usr/lib/jvm/java-8-openjdk-amd64
     - key: HADOOP_HOME
-      value: /usr/local/hadoop
+      value: /hadoop/hadoop-2.6.0
     - key: HIVE_HOME
       value: /apache-hive-1.2.2-bin
 
@@ -110,7 +110,7 @@ commandTests:
   - name: "Hadoop installation"
     command: "which"
     args: ["hadoop"]
-    expectedOutput: ["/usr/local/hadoop/bin/hadoop"]
+    expectedOutput: ["/hadoop/hadoop-2.6.0/bin/hadoop"]
   - name: "Beeline installation"
     command: "which"
     args: ["beeline"]
@@ -132,8 +132,6 @@ commandTests:
         Rscript -e 'library(aws.s3)' &&
         Rscript -e 'library(betareg)' &&
         Rscript -e 'library(breakpoint)' &&
-        Rscript -e 'library(caret)' &&
-        Rscript -e 'library(caretEnsemble)' &&
         Rscript -e 'library(cartography)' &&
         Rscript -e 'library(changepoint)' &&
         Rscript -e 'library(classInt)' &&
@@ -188,7 +186,6 @@ commandTests:
         Rscript -e 'library(mlogit)' &&
         Rscript -e 'library(mvoutlier)' &&
         Rscript -e 'library(networkD3)' &&
-        Rscript -e 'library(odbc)' &&
         Rscript -e 'library(packrat)' &&
         Rscript -e 'library(plotly)' &&
         Rscript -e 'library(pls)' &&
@@ -229,7 +226,6 @@ commandTests:
         Rscript -e 'library(SnowballC)' &&
         Rscript -e 'library(sp)' &&
         Rscript -e 'library(sparklyr)' &&
-        Rscript -e 'library(sqldf)' &&
         Rscript -e 'library(stringi)' &&
         Rscript -e 'library(stringr)' &&
         Rscript -e 'library(syuzhet)' &&

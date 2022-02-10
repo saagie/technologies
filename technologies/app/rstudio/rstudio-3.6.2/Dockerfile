@@ -28,13 +28,16 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Hadoop client installation
-# TODO use oneline curl/wget with env var to simplify
-RUN wget --no-verbose http://archive.cloudera.com/cdh${CDH_MAIN_VERSION}/cdh/${CDH_MAIN_VERSION}/hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
-    && tar -xzf hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
-    && rm hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION}.tar.gz \
-    && mv hadoop-${HADOOP_VERSION}-cdh${CDH_VERSION} /usr/local/hadoop
-ENV HADOOP_HOME=/usr/local/hadoop
+# Add hdfs command line
+RUN cd / \
+    && mkdir hadoop \
+    && cd hadoop \
+    && wget --no-verbose https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+    && tar xf hadoop-${HADOOP_VERSION}.tar.gz \
+    && rm hadoop-${HADOOP_VERSION}.tar.gz \
+    && rm -rf hadoop-${HADOOP_VERSION}/etc/hadoop/ \
+    && ln -s /etc/hadoop/conf hadoop-${HADOOP_VERSION}/etc/hadoop
+ENV HADOOP_HOME=/hadoop/hadoop-${HADOOP_VERSION}
 ENV PATH=$PATH:$HADOOP_HOME/bin
 
 # Hive client installation
