@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xeo pipefail
+set -eo pipefail
 
 if [[ -z "${MLFLOW_BACKEND_STORE_URI}" ]]; then
   echo "ERROR : MLFLOW_BACKEND_STORE_URI environment variable must be set"

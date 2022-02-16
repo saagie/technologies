@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xeuo pipefail
+set -euo pipefail
 
 DASH_GIT_BRANCH=${DASH_GIT_BRANCH:-master}
 echo "Setting DASH_GIT_BRANCH to $DASH_GIT_BRANCH..."
