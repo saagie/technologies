@@ -4,12 +4,12 @@
 sleep 10
 
 # Configure Spark interpreter to run Per Note in Isolated mode
-if [ -f "/zeppelin/conf/interpreter.json" ]
+if [ -f "/opt/zeppelin/conf/interpreter.json" ]
 then
   echo "INFO: Configuring Spark interpreter to run per Note in isolated mode."
 
   # get the JSON block to update
-  block=`jq '.interpreterSettings | .. | objects | select(.name == "spark") | select(.group == "spark")' /zeppelin/conf/interpreter.json`
+  block=`jq '.interpreterSettings | .. | objects | select(.name == "spark") | select(.group == "spark")' /opt/zeppelin/conf/interpreter.json`
   # grab data from this JSON
   interpreterId=`echo $block | jq -r '.id'`
   dependencies=`echo $block | jq '.dependencies'`

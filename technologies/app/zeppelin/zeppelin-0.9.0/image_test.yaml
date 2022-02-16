@@ -23,11 +23,11 @@ metadataTest:
 
 fileExistenceTests:
   - name: "saagie zeppelin launcher"
-    path: "/zeppelin/saagie-zeppelin.sh"
+    path: "/opt/zeppelin/saagie-zeppelin.sh"
     shouldExist: true
     permissions: "-rwxr--r--"
   - name: "saagie zeppelin config"
-    path: "/zeppelin/saagie-zeppelin-config.sh"
+    path: "/opt/zeppelin/saagie-zeppelin-config.sh"
     shouldExist: true
     permissions: "-rwxr--r--"
 

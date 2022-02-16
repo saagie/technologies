@@ -26,7 +26,7 @@ while true ; do
   esac
 done
 
-echo "" > /zeppelin/conf/zeppelin-env.sh
+echo "" > /opt/zeppelin/conf/zeppelin-env.sh
 if [ -z $PORT ]
 then
   echo "WARNING: no port given. Zeppelin will run on default port."
@@ -38,7 +38,7 @@ else
     export PORT0=$(( $PORT+1 ))
     echo "WARNING: no PORT0 environment variable provided. $PORT0 will be used..."
   fi
-  echo "export ZEPPELIN_PORT=$PORT" >> /zeppelin/conf/zeppelin-env.sh
+  echo "export ZEPPELIN_PORT=$PORT" >> /opt/zeppelin/conf/zeppelin-env.sh
 fi
 
 if [ -z $DEBUG ]
@@ -46,7 +46,7 @@ then
   echo "INFO: Zeppelin will log with default log level."
 else
   echo "INFO: Zeppelin will log with $DEBUG log level."
-  sed -i -e "s/INFO/$DEBUG/g" /zeppelin/conf/log4j.properties
+  sed -i -e "s/INFO/$DEBUG/g" /opt/zeppelin/conf/log4j.properties
 fi
 
 # As volumes are mounted at container startup,
@@ -75,23 +75,23 @@ then
     unset SPARK_HOME
   else
     echo "INFO: Using the following Spark master: $MASTER"
-    echo "export MASTER=$MASTER" >> /zeppelin/conf/zeppelin-env.sh
+    echo "export MASTER=$MASTER" >> /opt/zeppelin/conf/zeppelin-env.sh
   fi
 else
   echo "WARNING: no spark-default.conf provided. Using default in-memory Spark."
   echo "Use SPARK_HOME=$SPARK_HOME"
-  echo "export SPARK_HOME=$SPARK_HOME" >> /zeppelin/conf/zeppelin-env.sh
+  echo "export SPARK_HOME=$SPARK_HOME" >> /opt/zeppelin/conf/zeppelin-env.sh
 fi
 
 
 
 # Run another script to upgrade Spark interpreter config after Zeppelin boot
-/zeppelin/saagie-zeppelin-config.sh &
+/opt/zeppelin/saagie-zeppelin-config.sh &
 
 # Copy interpreter.json from persisted folder if exists
 if [ -f "/notebook/interpreter.json" ]
 then
-  cp -f /notebook/interpreter.json /zeppelin/conf/interpreter.json
+  cp -f /notebook/interpreter.json /opt/zeppelin/conf/interpreter.json
 fi
 
 #Launch cron
@@ -99,4 +99,4 @@ cron
 
 # Run Zeppelin
 echo "Running Apache Zeppelin..."
-/zeppelin/bin/zeppelin.sh
+/opt/zeppelin/bin/zeppelin.sh

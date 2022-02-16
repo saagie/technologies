@@ -52,14 +52,14 @@ RUN mkdir -p ${SPARK_BASE_DIR} \
 ########################## Install Spark END ##########################
 
 # Add a startup script that will setup Spark conf before running Zeppelin
-COPY resources/saagie-zeppelin.sh /zeppelin/
-COPY resources/saagie-zeppelin-config.sh /zeppelin/
-RUN chmod 744 /zeppelin/saagie-zeppelin.sh /zeppelin/saagie-zeppelin-config.sh \
+COPY resources/saagie-zeppelin.sh /opt/zeppelin
+COPY resources/saagie-zeppelin-config.sh /opt/zeppelin
+RUN chmod 744 /opt/zeppelin/saagie-zeppelin.sh /opt/zeppelin/saagie-zeppelin-config.sh \
     && mkdir ${ZEPPELIN_NOTEBOOK_DIR} \
 # Add CRON to copy interpreter.json to persisted folder
-    && echo "* * * * * cp -f /zeppelin/conf/interpreter.json ${ZEPPELIN_NOTEBOOK_DIR}/" >> mycron \
+    && echo "* * * * * cp -f /opt/zeppelin/conf/interpreter.json ${ZEPPELIN_NOTEBOOK_DIR}/" >> mycron \
     && crontab mycron \
     && rm mycron
 
 # Keep default ENTRYPOINT as apache/zeppelin is using Tini, which is great.
-CMD ["/zeppelin/saagie-zeppelin.sh"]
+CMD ["/opt/zeppelin/saagie-zeppelin.sh"]
