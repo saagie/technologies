@@ -1,6 +1,6 @@
 id: jupyter-notebook-v2
 label: v2
-releaseNotes: "First iteration post migration"
+releaseNotes: First version of Jupyter Notebook into Saagie.
 available: true
 trustLevel: stable
 ports:

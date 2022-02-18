@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: r-studio
 label: RStudio
-baseline: "RStudio is an integrated development environment (IDE) for R."
-description: "It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management."
+baseline: IDE for R.
+description: RStudio is an integrated development environment (IDE) for R.
 available: true
 icon: rstudio
 backgroundColor: "#75aadb"
@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: rstudio-3.4.2
     label: 3.4.2
-    releaseNotes: First iteration post migration for branch v2-app
+    releaseNotes: First version of RStudio 3.4.2 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -26,7 +26,7 @@ contexts:
       version: 3.4.2-1.77.0
   - id: rstudio-3.6.2
     label: 3.6.2
-    releaseNotes: First iteration post migration for branch v2-app_3.6.2
+    releaseNotes: First version of RStudio 3.6.2 into Saagie.
     available: true
     trustLevel: stable
     deprecationDate: "2022-01-01T00:00:00Z"
@@ -42,7 +42,7 @@ contexts:
       version: 3.6.2-1.77.0
   - id: rstudio-4.1
     label: 4.1
-    releaseNotes: ""
+    releaseNotes: First version of RStudio 4.1 into Saagie.
     available: true
     trustLevel: stable
     recommended: true

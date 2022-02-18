@@ -1,6 +1,6 @@
 id: kibana-6.8.1
 label: 6.8.1
-releaseNotes: First iteration post migration
+releaseNotes: First version of Kibana 6.8.1 into Saagie.
 available: false
 trustLevel: stable
 ports:

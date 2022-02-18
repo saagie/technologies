@@ -1,6 +1,6 @@
 id: rstudio-3.6.2
 label: 3.6.2
-releaseNotes: First iteration post migration for branch v2-app_3.6.2
+releaseNotes: First version of RStudio 3.6.2 into Saagie.
 available: true
 trustLevel: stable
 deprecationDate: "2022-01-01T00:00:00Z"

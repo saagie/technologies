@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: jupyspark
 label: Jupyter Notebook with Spark
-baseline: Data Science Notebook
-description: "The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
+baseline: Data Science Notebook.
+description: The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text.
 available: true
 icon: jupyter
 backgroundColor: "#E87A35"
@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: jupyter-spark-2.4.5_python-3.6
     label: pyspark
-    releaseNotes: "Runs Python 3.6 with Spark 2.4.5"
+    releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
     available: true
     trustLevel: experimental
     ports:

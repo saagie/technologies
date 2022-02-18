@@ -1,6 +1,6 @@
 id: kibana-7.4.0
 label: 7.4.0
-releaseNotes: First iteration post migration
+releaseNotes: First version of Kibana 7.4.0 into Saagie.
 available: false
 trustLevel: stable
 ports:

@@ -1,6 +1,6 @@
 id: jupyterlab-3.8-3.9
 label: 3.8-3.9
-releaseNotes: ""
+releaseNotes: First version of JupyterLab with Python 3.8 & 3.9 into Saagie.
 available: true
 trustLevel: stable
 recommended: true

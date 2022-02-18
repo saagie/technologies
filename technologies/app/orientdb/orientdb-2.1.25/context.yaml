@@ -1,6 +1,6 @@
 id: orientdb-2.1.25
 label: 2.1.25
-releaseNotes: First iteration
+releaseNotes: First version of OrientDB 2.1.25 into Saagie.
 available: false
 trustLevel: experimental
 ports:

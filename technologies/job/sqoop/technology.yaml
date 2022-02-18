@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: sqoop
 label: SQOOP
+description: Sqoop is a command-line interface application for transferring data between relational databases and Hadoop.
 available: true
 icon: sqoop

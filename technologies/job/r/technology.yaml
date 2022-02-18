@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: r
 label: R
+description: R is a programming language and a statistic data analysis environment.
 available: true
 icon: r

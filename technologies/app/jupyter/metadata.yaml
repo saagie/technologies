@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: jupyter
 label: Jupyter Notebook
-baseline: Data Science Notebook
-description: "The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning and much more."
+baseline: Data Science Notebook.
+description: The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text.
 available: true
 icon: jupyter
 backgroundColor: "#E87A35"
@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: jupyter-notebook-v2
     label: v2
-    releaseNotes: "First iteration post migration"
+    releaseNotes: First version of Jupyter Notebook into Saagie.
     available: true
     trustLevel: stable
     ports:

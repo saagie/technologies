@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: bash
 label: Bash
+description: Bash is a command processor that typically runs in a text window where the user types commands that cause actions.
 available: true
 icon: bash

@@ -1,6 +1,6 @@
 id: zeppelin-0.7.3
 label: 0.7.3
-releaseNotes: "First iteration post migration for branch v2-app"
+releaseNotes: First version of Zeppelin 0.7.3 into Saagie.
 available: false
 trustLevel: stable
 ports:

@@ -1,6 +1,6 @@
 id: orientdb-3.0.35
 label: 3.0.35
-releaseNotes: First iteration
+releaseNotes: First version of OrientDB 3.0.35 into Saagie.
 available: false
 trustLevel: experimental
 ports:

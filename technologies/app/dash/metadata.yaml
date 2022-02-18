@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: dash-2.0.0
     label: 2.0.0
-    releaseNotes: First port of Dash into Saagie
+    releaseNotes: First version of Dash 2.0.0 into Saagie.
     available: true
     trustLevel: experimental
     ports:

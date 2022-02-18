@@ -2,16 +2,31 @@ version: v1
 type: APP
 id: kibana
 label: Kibana
-baseline: Your window into the Elastic Stack
-description: Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack. Do anything from tracking query load to understanding the way requests flow through your apps.
+baseline: Your window into the Elastic Stack.
+description: Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack.
 available: true
 icon: kibana
 backgroundColor: "#40BEB0"
 customFlags: []
+
 contexts:
+  - id: kibana-5.6.16
+    label: 5.6.16
+    releaseNotes: First version of Kibana 5.6.16 into Saagie.
+    available: false
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewriteUrl: true
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 5.6.16
+      version: 5.6.16-1.76.0
   - id: kibana-5.6.3
     label: 5.6.3
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 5.6.3 into Saagie.
     available: true
     trustLevel: stable
     deprecationDate: "2022-01-01T00:00:00Z"
@@ -24,23 +39,9 @@ contexts:
       image: saagie/kibana
       baseTag: 5.6.3
       version: 5.6.3-1.76.0
-  - id: kibana-5.6.16
-      label: 5.6.16
-      releaseNotes: First iteration post migration
-      available: false
-      trustLevel: stable
-      ports:
-        - port: 5601
-          name: Kibana
-          rewriteUrl: true
-          basePath: SERVER_BASEPATH
-      dockerInfo:
-        image: saagie/kibana
-        baseTag: 5.6.16
-        version: 5.6.16-1.76.0
   - id: kibana-6.4.1
     label: 6.4.1
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 6.4.1 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -54,7 +55,7 @@ contexts:
       version: 6.4.1-1.76.0
   - id: kibana-6.4.3
     label: 6.4.3
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 6.4.3 into Saagie.
     available: true
     trustLevel: stable
     deprecationDate: "2022-01-01T00:00:00Z"
@@ -69,7 +70,7 @@ contexts:
       version: 6.4.3-1.76.0
   - id: kibana-6.8.1
     label: 6.8.1
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 6.8.1 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -83,7 +84,7 @@ contexts:
       version: 6.8.1-1.76.0
   - id: kibana-6.8.4
     label: 6.8.4
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 6.8.4 into Saagie.
     available: true
     trustLevel: stable
     deprecationDate: "2022-01-01T00:00:00Z"
@@ -96,9 +97,23 @@ contexts:
       image: saagie/kibana
       baseTag: 6.8.4
       version: 6.8.4-1.76.0
+  - id: kibana-7.15.1
+    label: 7.15.1
+    releaseNotes: First version of Kibana 7.15.1 into Saagie.
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5601
+        name: Kibana
+        rewriteUrl: false
+        basePath: SERVER_BASEPATH
+    dockerInfo:
+      image: saagie/kibana
+      baseTag: 7.15.1
+      version: 7.15.1-1.106.0
   - id: kibana-7.4.0
     label: 7.4.0
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 7.4.0 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -112,7 +127,7 @@ contexts:
       version: 7.4.0-1.76.0
   - id: kibana-7.4.1
     label: 7.4.1
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 7.4.1 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -126,7 +141,7 @@ contexts:
       version: 7.4.1-1.76.0
   - id: kibana-7.4.2
     label: 7.4.2
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 7.4.2 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -140,7 +155,7 @@ contexts:
       version: 7.4.2-1.76.0
   - id: kibana-7.5.1
     label: 7.5.1
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 7.5.1 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -154,7 +169,7 @@ contexts:
       version: 7.5.1-1.76.0
   - id: kibana-7.6.2
     label: 7.6.2
-    releaseNotes: First iteration post migration
+    releaseNotes: First version of Kibana 7.6.2 into Saagie.
     available: true
     trustLevel: stable
     ports:
@@ -166,17 +181,3 @@ contexts:
       image: saagie/kibana
       baseTag: 7.6.2
       version: 7.6.2-1.76.0
-  - id: kibana-7.15.1
-      label: 7.15.1
-      releaseNotes: First iteration post migration
-      available: true
-      trustLevel: stable
-      ports:
-        - port: 5601
-          name: Kibana
-          rewriteUrl: false
-          basePath: SERVER_BASEPATH
-      dockerInfo:
-        image: saagie/kibana
-        baseTag: 7.15.1
-        version: 7.15.1-1.106.0

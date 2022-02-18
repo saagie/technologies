@@ -1,6 +1,6 @@
 id: rstudio-3.4.2
 label: 3.4.2
-releaseNotes: First iteration post migration for branch v2-app
+releaseNotes: First version of RStudio 3.4.2 into Saagie.
 available: false
 trustLevel: stable
 ports:

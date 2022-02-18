@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: zeppelin
 label: Zeppelin Notebook
-baseline: Data Science Notebook
-description: Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
+baseline: Data Science Notebook.
+description: Zeppelin is a web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
 available: true
 icon: zeppelin
 backgroundColor: "#0099CC"
@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: zeppelin-0.7.3
     label: 0.7.3
-    releaseNotes: "First iteration post migration for branch v2-app"
+    releaseNotes: First version of Zeppelin 0.7.3 into Saagie.
     available: false
     trustLevel: stable
     ports:
@@ -26,7 +26,7 @@ contexts:
       version: 0.7.3-1.76.0
   - id: zeppelin-0.9.0
     label: 0.9.0
-    releaseNotes: "First iteration post migration for branch v2-app"
+    releaseNotes: First version of Zeppelin 0.9.0 into Saagie.
     available: true
     trustLevel: stable
     ports:

@@ -1,6 +1,6 @@
 id: kibana-5.6.16
 label: 5.6.16
-releaseNotes: First iteration post migration
+releaseNotes: First version of Kibana 5.6.16 into Saagie.
 available: false
 trustLevel: stable
 ports:

@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: orientdb
 label: OrientDB
-baseline: baseline
-description: description
+baseline: The first multi-model open source NoSQL database management system.
+description: OrientDB is an open source NoSQL database management system supporting graph, document, key/value, and object models,...
 available: true
 icon: orientdb
 backgroundColor: "#3374BA"
@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: orientdb-2.1.25
     label: 2.1.25
-    releaseNotes: First iteration
+    releaseNotes: First version of OrientDB 2.1.25 into Saagie.
     available: false
     trustLevel: experimental
     ports:
@@ -30,7 +30,7 @@ contexts:
       version: 2.1.25-1.82.0
   - id: orientdb-2.2.37
     label: 2.2.37
-    releaseNotes: First iteration
+    releaseNotes: First version of OrientDB 2.2.37 into Saagie.
     available: false
     trustLevel: experimental
     ports:
@@ -49,7 +49,7 @@ contexts:
       version: 2.2.37-1.82.0
   - id: orientdb-3.0.35
     label: 3.0.35
-    releaseNotes: First iteration
+    releaseNotes: First version of OrientDB 3.0.35 into Saagie.
     available: false
     trustLevel: experimental
     ports:
@@ -68,7 +68,7 @@ contexts:
       version: 3.0.35-1.82.0
   - id: orientdb-3.1.7
     label: 3.1.7
-    releaseNotes: First iteration
+    releaseNotes: First version of OrientDB 3.1.7 into Saagie.
     available: true
     trustLevel: stable
     recommended: true

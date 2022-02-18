@@ -1,6 +1,6 @@
 id: orientdb-3.1.7
 label: 3.1.7
-releaseNotes: First iteration
+releaseNotes: First version of OrientDB 3.1.7 into Saagie.
 available: true
 trustLevel: stable
 recommended: true
