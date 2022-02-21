@@ -1,4 +1,4 @@
 image: saagie/kibana
 baseTag: 7.4.2
 dynamicVersion: 1.108.0_SDKTECHNO-165
-version: 7.4.2-1.108.0_SDKTECHNO-165
+version: 7.4.2-1.108.0
