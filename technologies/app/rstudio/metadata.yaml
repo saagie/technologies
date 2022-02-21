@@ -1,0 +1,58 @@
+version: v1
+type: APP
+id: r-studio
+label: RStudio
+baseline: IDE for R.
+description: RStudio is an integrated development environment (IDE) for R.
+available: true
+icon: rstudio
+backgroundColor: "#75aadb"
+customFlags: []
+contexts:
+  - id: rstudio-3.4.2
+    label: 3.4.2
+    releaseNotes: First version of RStudio 3.4.2 into Saagie.
+    available: false
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: RStudio
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    dockerInfo:
+      image: saagie/rstudio
+      baseTag: 3.4.2
+      version: 3.4.2-1.108.0_SDKTECHNO-165
+  - id: rstudio-3.6.2
+    label: 3.6.2
+    releaseNotes: First version of RStudio 3.6.2 into Saagie.
+    available: true
+    trustLevel: stable
+    deprecationDate: "2022-01-01T00:00:00Z"
+    ports:
+      - port: 80
+        name: RStudio
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    dockerInfo:
+      image: saagie/rstudio
+      baseTag: 3.6.2
+      version: 3.6.2-1.108.0_SDKTECHNO-165
+  - id: rstudio-4.1
+    label: 4.1
+    releaseNotes: First version of RStudio 4.1 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 80
+        name: Rstudio
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    dockerInfo:
+      image: saagie/rstudio
+      baseTag: 4.1
+      version: 4.1-1.108.0_SDKTECHNO-165

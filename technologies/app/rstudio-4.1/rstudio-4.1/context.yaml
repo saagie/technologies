@@ -1,7 +1,7 @@
-id: rstudio-4.1
+id: rs-4.1
 label: Rstudio 4.1
 releaseNotes: ""
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 80

@@ -1,7 +1,7 @@
-id: 6.8.1
+id: kib-6.8.1
 label: Kibana 6.8.1
 releaseNotes: First iteration post migration
-available: true
+available: false
 trustLevel: stable
 ports:
   - port: 5601

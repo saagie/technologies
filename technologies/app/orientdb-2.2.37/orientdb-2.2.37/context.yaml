@@ -1,7 +1,7 @@
-id: orientdb-2.2.37
-label: "[Lab] OrientDB 2.2.37"
+id: odb-2.2.37
+label: OrientDB 2.2.37
 releaseNotes: First iteration
-available: true
+available: false
 trustLevel: experimental
 ports:
   - port: 9480

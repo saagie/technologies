@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: generic
 label: Generic
+description: A generic Docker image that can be used to execute code in a Docker container.
 available: true
 icon: docker

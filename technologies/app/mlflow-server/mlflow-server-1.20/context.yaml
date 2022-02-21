@@ -1,0 +1,11 @@
+id: mlflow-server-1.20
+label: "1.20"
+releaseNotes: First version of MLFlow Server 1.20 into Saagie.
+available: true
+trustLevel: stable
+recommended: true
+ports:
+  - port: 5000
+    name: Mlflow Server
+    rewriteUrl: true
+    basePath: SAAGIE_BASE_PATH

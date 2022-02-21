@@ -1,6 +1,6 @@
-id: 1.9.2
-label: "[Lab] Nifi 1.9.2"
-releaseNotes: First iteration post migration for apache nifi 1.9.2
+id: nifi-1.9.2
+label: 1.9.2
+releaseNotes: First version of Nifi 1.9.2 into Saagie.
 available: true
 trustLevel: experimental
 ports:

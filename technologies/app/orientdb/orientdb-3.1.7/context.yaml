@@ -1,0 +1,16 @@
+id: orientdb-3.1.7
+label: 3.1.7
+releaseNotes: First version of OrientDB 3.1.7 into Saagie.
+available: true
+trustLevel: stable
+recommended: true
+ports:
+  - port: 9480
+    name: Http
+    rewriteUrl: false
+    basePath: ORIENTDB_WEB_PATH
+  - port: 9424
+    name: Binary
+    rewriteUrl: false
+    basePath: ORIENTDB_BINARY_PATH
+volumes: ["/orientdb/databases"]

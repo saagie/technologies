@@ -1,8 +1,9 @@
 id: jupyterlab-3.8-3.9
-label: JupyterLab Notebook
-releaseNotes: ""
+label: 3.8-3.9
+releaseNotes: First version of JupyterLab with Python 3.8 & 3.9 into Saagie.
 available: true
 trustLevel: stable
+recommended: true
 ports:
   - port: 8888
     name: Notebook

@@ -1,8 +1,8 @@
 version: v1
 type: APP
 id: nifi
-label: "[Lab] Nifi"
-baseline: Apache Nifi
+label: Nifi
+baseline: A software project designed to automate the flow of data between software systems.
 description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
 icon: nifi
@@ -10,9 +10,9 @@ backgroundColor: "#728E9B"
 customFlags: []
 
 contexts:
-  - id: 1.9.2
-    label: "[Lab] Nifi 1.9.2"
-    releaseNotes: First iteration post migration for apache nifi 1.9.2
+  - id: nifi-1.9.2
+    label: 1.9.2
+    releaseNotes: First version of Nifi 1.9.2 into Saagie.
     available: true
     trustLevel: experimental
     ports:

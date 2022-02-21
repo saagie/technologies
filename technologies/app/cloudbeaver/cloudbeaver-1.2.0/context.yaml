@@ -1,7 +1,7 @@
-id: 1.2.0
-label: "[Lab] CloudBeaver 1.2.0"
-releaseNotes: First version 
-available: false
+id: cloudbeaver-1.2.0
+label: 1.2.0
+releaseNotes: First version of CloudBeaver 1.2.0 into Saagie.
+available: true
 trustLevel: experimental
 ports:
   - port: 80

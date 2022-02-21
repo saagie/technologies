@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: java-scala
 label: Java/Scala
+description: Java and Scala jobs offer the ability to process content in the JVM.
 available: true
 icon: java-scala

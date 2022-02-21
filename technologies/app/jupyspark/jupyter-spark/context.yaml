@@ -1,6 +1,6 @@
 id: jupyter-spark-2.4.5_python-3.6
-label: "[Lab] Jupyter Notebook with Spark"
-releaseNotes: "Runs Python 3.6 with Spark 2.4.5"
+label: pyspark
+releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
 available: true
 trustLevel: experimental
 ports:

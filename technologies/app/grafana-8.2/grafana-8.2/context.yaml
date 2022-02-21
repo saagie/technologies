@@ -1,11 +1,11 @@
-id: grafana-8.2
+id: graf-8.2
 label: Grafana 8.2
 releaseNotes:
-available: true
+available: false
 trustLevel: stable
 ports:
-    - port: 80
-      name: Grafana
-      rewriteUrl: false
-      basePath: SAAGIE_BASE_PATH
-volumes: [ "/opt/grafana", /opt/plugins ]
+  - port: 80
+    name: Grafana
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: [ "/opt/grafana", "/opt/plugins" ]

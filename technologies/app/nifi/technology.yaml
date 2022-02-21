@@ -1,8 +1,8 @@
 version: v1
 type: APP
 id: nifi
-label: "[Lab] Nifi"
-baseline: Apache Nifi
+label: Nifi
+baseline: A software project designed to automate the flow of data between software systems.
 description: An easy to use, powerful, and reliable system to process and distribute data.
 available: true
 icon: nifi

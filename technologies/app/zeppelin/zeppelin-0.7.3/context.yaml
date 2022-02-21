@@ -1,0 +1,11 @@
+id: zeppelin-0.7.3
+label: 0.7.3
+releaseNotes: First version of Zeppelin 0.7.3 into Saagie.
+available: false
+trustLevel: stable
+ports:
+  - port: 8080
+    name: Zeppelin
+    rewriteUrl: false
+    basePath: ZEPPELIN_SERVER_CONTEXT_PATH
+volumes: ["/notebook"]

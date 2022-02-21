@@ -1,0 +1,10 @@
+id: kibana-7.15.1
+label: 7.15.1
+releaseNotes: First version of Kibana 7.15.1 into Saagie.
+available: true
+trustLevel: stable
+ports:
+  - port: 5601
+    name: Kibana
+    rewriteUrl: false
+    basePath: SERVER_BASEPATH

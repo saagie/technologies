@@ -1,7 +1,7 @@
-id: mlflow-server
+id: mlfs-1.16
 label: MLFlow Server 1.16
 releaseNotes: ""
-available: true
+available: false
 trustLevel: experimental
 ports:
   - port: 5000

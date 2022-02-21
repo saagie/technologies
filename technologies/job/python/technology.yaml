@@ -2,5 +2,6 @@ version: "v1"
 type: JOB
 id: python
 label: Python
+description: Python is an interpreted high-level general-purpose programming language.
 available: true
 icon: python

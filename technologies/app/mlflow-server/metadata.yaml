@@ -1,0 +1,41 @@
+version: v1
+type: APP
+id: mlflow
+label: MLFlow Server
+baseline: An open source platform for the end-to-end machine learning lifecycle.
+description: MLflow tracking server is used for logging parameters, code versions, metrics, and output files when running your machine learning code and for later visualizing the results.
+available: true
+icon: mlflow
+backgroundColor: "#092241"
+customFlags: []
+contexts:
+  - id: mlflow-server-1.16
+    label: 1.16
+    releaseNotes: First version of MLFlow Server 1.16 into Saagie.
+    available: true
+    trustLevel: experimental
+    deprecationDate: "2022-01-01T00:00:00Z"
+    ports:
+      - port: 5000
+        name: Mlflow Server
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/mlflow-server
+      baseTag: 1.16
+      version: 1.16-1.108.0_SDKTECHNO-165
+  - id: mlflow-server-1.20
+    label: "1.20"
+    releaseNotes: First version of MLFlow Server 1.20 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 5000
+        name: Mlflow Server
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/mlflow-server
+      baseTag: 1.20
+      version: 1.20-1.108.0_SDKTECHNO-165
