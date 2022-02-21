@@ -22,4 +22,4 @@ contexts:
     dockerInfo:
       image: saagie/dash
       baseTag: 2.0.0
-      version: 2.0.0-1.79.0
+      version: 2.0.0-1.108.0_SDKTECHNO-165

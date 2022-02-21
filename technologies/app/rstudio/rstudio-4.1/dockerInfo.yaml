@@ -1,4 +1,4 @@
 image: saagie/rstudio
 baseTag: 4.1
-dynamicVersion: 1.103.0_SDKTECHNO-157
-version: 4.1-1.103.0
+dynamicVersion: 1.108.0_SDKTECHNO-165
+version: 4.1-1.108.0_SDKTECHNO-165
