@@ -29,6 +29,29 @@ contexts:
       image: saagie/python
       baseTag: 2.7
       version: 2.7-1.46.0
+  - id: 3.10
+    label: 3.10
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      baseTag: 3.10
+      version: 3.10-1.109.0_SDKTECHNO-147
   - id: 3.5
     label: 3.5
     available: false
