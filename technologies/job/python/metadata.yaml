@@ -32,7 +32,7 @@ contexts:
   - id: 3.10
     label: 3.10
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
