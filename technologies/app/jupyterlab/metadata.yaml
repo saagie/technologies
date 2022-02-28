@@ -10,8 +10,8 @@ backgroundColor: "#E87A35"
 customFlags: []
 contexts:
   - id: jupyterlab-3.8-3.9
-    label: 3.8-3.9
-    releaseNotes: First version of JupyterLab with Python 3.8 & 3.9 into Saagie.
+    label: Kernels Python 3.8/3.9/3.10
+    releaseNotes: Adding Python 3.10 kernel
     available: true
     trustLevel: stable
     recommended: true
@@ -24,4 +24,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyterlab-python-nbk
       baseTag: 3.8-3.9
-      version: 3.8-3.9-1.98.0
+      version: 3.8-3.9-1.110.0_SDKTECHNO-151
