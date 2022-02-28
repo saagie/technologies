@@ -1,6 +1,6 @@
 id: jupyterlab-3.8-3.9
-label: 3.8-3.9
-releaseNotes: First version of JupyterLab with Python 3.8 & 3.9 into Saagie.
+label: Kernels Python 3.8/3.9/3.10
+releaseNotes: Adding Python 3.10 kernel
 available: true
 trustLevel: stable
 recommended: true

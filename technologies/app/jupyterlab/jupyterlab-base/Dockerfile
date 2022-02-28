@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:lab-3.2.0
+FROM jupyter/minimal-notebook:lab-3.2.9
 
 LABEL Maintainer="Saagie"
 
@@ -15,9 +15,32 @@ RUN npm cache clean --force \
 USER root
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
-      curl openjdk-11-jdk \
-      ca-certificates apt-transport-https \
-      krb5-user acl freeipa-client \
+          acl \
+          apt-transport-https \
+          build-essential \
+          ca-certificates  \
+          curl  \
+          freeipa-client \
+          g++ \
+          gcc \
+          krb5-user \
+          libcurl4-openssl-dev \
+          libcurl4-openssl-dev \
+          libgeos-dev \
+          libkrb5-dev \
+          libpq-dev \
+          libsasl2-modules-ldap \
+          libsqlite3-dev \
+          libssl-dev \
+          libxml2-dev libxslt1-dev  \
+          openjdk-11-jdk \
+          python3-lxml \
+          python3-matplotlib \
+          python3-pip \
+          sasl2-bin libsasl2-2 libsasl2-dev libsasl2-modules \
+          swig \
+          unixodbc \
+          unixodbc-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Hadoop CLI
@@ -39,29 +62,6 @@ ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/app/hadoop-2.6.5/lib/native:/usr/lib/jvm/java-11-openjdk-amd64/lib"
 ENV CLASSPATH="/etc/hadoop/conf:/app/hadoop-2.6.5/share/hadoop/common/lib/*:/app/hadoop-2.6.5/share/hadoop/common/*:/app/hadoop-2.6.5/share/hadoop/hdfs:/app/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/app/hadoop-2.6.5/share/hadoop/hdfs/*:/app/hadoop-2.6.5/share/hadoop/yarn/lib/*:/app/hadoop-2.6.5/share/hadoop/yarn/*:/app/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/app/hadoop-2.6.5/share/hadoop/mapreduce/*"
 ENV PATH "/app/hadoop-2.6.5/bin:${PATH}"
-
-################ Kernels / Conda envs / requirements PART BEGIN ################
-USER $NB_USER
-
-# Update conda to latest version and install jupyterlab-git plugin
-RUN conda update -n root conda \
-    && conda install -c conda-forge jupyterlab==3.2.1 jupyterlab-git \
-    && conda clean -ay
-
-RUN conda create -n py38 python=3.8.10 \
-    && bash -c "source activate py38 && conda install notebook ipykernel -y && ipython kernel install --user --name py38  --display-name 'Python 3.8'" \
-    && conda create -n py39 python=3.9.7 \
-    && bash -c "source activate py39 && conda install notebook ipykernel -y && ipython kernel install --user --name py39  --display-name 'Python 3.9'" \
-    && conda clean -ay \
-    && rm -rf ~/.cache/pip
-
-# Updating kernels to force activating conda env whenever opening a console
-ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
-ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
-ADD resources/kernel-*.sh /
-
-# Uninstall default python3 kernel
-RUN jupyter kernelspec remove -f python3
 
 ################ Kernels / Conda envs / requirements PART ENDS #################
 

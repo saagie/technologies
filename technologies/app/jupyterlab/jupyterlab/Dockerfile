@@ -1,48 +1,44 @@
-ARG PYTHON39_IMG
+ARG PYTHON310_IMG
 ARG BASE_CONTAINER
 
-FROM $PYTHON39_IMG AS PYTHON39
+FROM $PYTHON310_IMG AS PYTHON310
 FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
 
-ENV DEBIAN_FRONTEND noninteractive
-########################## LIBS PART BEGIN ##########################
-USER root
-RUN apt-get update -qq \
-    && apt-get install -yqq --no-install-recommends \
-          python3-pip \
-          gcc \
-          g++ \
-          libsasl2-modules-ldap \
-          build-essential \
-          unixodbc \
-          unixodbc-dev \
-          libpq-dev \
-          libsqlite3-dev \
-          libkrb5-dev \
-          libssl-dev \
-          libcurl4-openssl-dev \
-          libgeos-dev \
-          swig \
-          python3-matplotlib \
-          python3-lxml \
-          libxml2-dev libxslt1-dev  \
-          sasl2-bin libsasl2-2 libsasl2-dev libsasl2-modules \
-          libcurl4-openssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-########################## LIBS PART END ##########################
-
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
+
+# Update conda to latest version and install jupyterlab-git plugin
+RUN conda update -n root conda \
+    && conda install -c conda-forge jupyterlab==3.2.9 jupyterlab-git \
+    && conda clean -ay
+
+RUN conda create -n py38 python=3.8.12 \
+    && bash -c "source activate py38 && conda install notebook ipykernel -y && ipython kernel install --user --name py38  --display-name 'Python 3.8'" \
+    && conda create -n py39 python=3.9.10 \
+    && bash -c "source activate py39 && conda install notebook ipykernel -y && ipython kernel install --user --name py39  --display-name 'Python 3.9'" \
+    && conda create -n py310 python=3.10.2 \
+    && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.10'" \
+    && conda clean -ay \
+    && rm -rf ~/.cache/pip
+
+# Updating kernels to force activating conda env whenever opening a console
+ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
+ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
+ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
+ADD resources/kernel-*.sh /
+
+# Uninstall default python3 kernel
+RUN jupyter kernelspec remove -f python3
 SHELL ["/bin/bash", "-c"]
-COPY --from=PYTHON39 /tmp/requirements.txt /home/$NB_USER/requirements_python3.txt
+COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/requirements.txt
 
 RUN sh -x \
-    && for env in py38 py39;  \
+    && for env in py38 py39 py310;  \
        do \
           . activate $env \
-          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements_python3.txt \
+          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
           && conda deactivate; \
        done \
     && conda clean -ay \
@@ -57,9 +53,6 @@ USER root
 
 # Runs Jupyter in a loop so that quitting Jupyter does not cause the container to exit.
 ENV RESTARTABLE yes
-
-# Enable JupyerLab at startup instead of Jupyter Notebook
-ENV JUPYTER_ENABLE_LAB yes
 
 
 
