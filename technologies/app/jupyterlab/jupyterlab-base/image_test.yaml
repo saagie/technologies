@@ -21,13 +21,3 @@ commandTests:
     args: ["--help"]
     command: "curl"
     exitCode: 0
-  - name: "Check conda virtual env py38"
-    command: "bash"
-    args: ["-c", "conda env list | grep py38"]
-    expectedOutput: ["/opt/conda/envs/py38"]
-    exitCode: 0
-  - name: "Check conda virtual env py39"
-    command: "bash"
-    args: ["-c", "conda env list | grep py39"]
-    expectedOutput: ["/opt/conda/envs/py39"]
-    exitCode: 0

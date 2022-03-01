@@ -33,7 +33,7 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
         "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
     )
      this.buildArgs.put(
-        "PYTHON39_IMG",
-        "saagie/python:3.9-1.96.0"
+        "PYTHON310_IMG",
+        "saagie/python:3.10-1.109.0"
     )
 }
