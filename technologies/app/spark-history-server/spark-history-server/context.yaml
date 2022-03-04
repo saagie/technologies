@@ -1,0 +1,10 @@
+id: spark-history-server
+label: Spark History Server
+releaseNotes: ""
+available: true
+trustLevel: stable
+ports:
+  - port: 80
+    name:
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
