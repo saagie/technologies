@@ -1,8 +1,9 @@
-id: jupyter-spark-2.4.5
-label: pyspark
-releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
-available: false
-trustLevel: experimental
+id: jupyter-spark-3.1
+label: JupyterLab Spark 3.1
+releaseNotes: First version of Jupyter Notebook with Spark 3.1 into Saagie.
+available: true
+trustLevel: stable
+recommended: false
 ports:
   - port: 8888
     name: Notebook

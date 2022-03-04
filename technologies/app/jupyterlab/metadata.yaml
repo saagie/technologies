@@ -4,15 +4,15 @@ id: jupyterlab
 label: JupyterLab Notebook
 baseline: Data Science Notebook.
 description: JupyterLab is a web-based interactive development environment for Jupyter notebooks, code, and data.
-available: true
+available: false
 icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
 contexts:
-  - id: jupyterlab-3.8-3.9
+  - id: lab-3.8-3.9
     label: Python 3.8 / 3.9 / 3.10
     releaseNotes: Adding Python 3.10 kernel
-    available: true
+    available: false
     trustLevel: stable
     recommended: true
     ports:
