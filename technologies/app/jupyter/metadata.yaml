@@ -10,10 +10,12 @@ backgroundColor: "#E87A35"
 customFlags: []
 contexts:
   - id: jupyter-notebook-v2
-    label: v2
+    label: Python 3.6
     releaseNotes: First version of Jupyter Notebook into Saagie.
     available: true
     trustLevel: stable
+    deprecationDate: "2022-02-01T00:00:00Z"
+    recommended: false
     ports:
       - port: 8888
         name: Notebook
@@ -24,3 +26,60 @@ contexts:
       image: saagie/jupyter-python-nbk
       baseTag: v2
       version: v2-1.95.0
+  - id: jupyter-spark-2.4.5_python-3.6
+    label: Spark 2.4
+    releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
+    available: true
+    trustLevel: stable
+    deprecationDate: "2022-03-01T00:00:00Z"
+    recommended: false
+    ports:
+      - port: 8888
+        name: Notebook
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 8080
+        name: SparkUI
+        rewriteUrl: false
+        basePath: SPARK_UI_PATH
+    volumes: ["/notebooks-dir"]
+    dockerInfo:
+      image: saagie/jupyter-python-nbk
+      baseTag: pyspark
+      version: pyspark-1.111.0_SDKTECHNO-150
+  - id: jupyter-spark-3.1
+    label: JupyterLab Spark 3.1
+    releaseNotes: First version of Jupyter Notebook with Spark 3.1 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: false
+    ports:
+      - port: 8888
+        name: Notebook
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 8080
+        name: SparkUI
+        rewriteUrl: false
+        basePath: SPARK_UI_PATH
+    volumes: ["/notebooks-dir"]
+    dockerInfo:
+      image: saagie/jupyter-python-nbk
+      baseTag: pyspark-3.1.1
+      version: pyspark-3.1.1-1.111.0_SDKTECHNO-150
+  - id: jupyterlab-3.8-3.9
+    label: JupyterLab Python 3.8 / 3.9 / 3.10
+    releaseNotes: First version of JupyterLab Notebook into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 8888
+        name: Notebook
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/notebooks-dir"]
+    dockerInfo:
+      image: saagie/jupyter-python-nbk
+      baseTag: lab-3.8-3.9
+      version: lab-3.8-3.9-1.111.0_SDKTECHNO-150

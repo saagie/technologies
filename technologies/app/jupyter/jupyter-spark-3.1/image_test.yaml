@@ -1,0 +1,78 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: PORT0
+      value: 4040
+    - key: PORT1
+      value: 20022
+    - key: SPARK_VERSION
+      value: 3.1.3
+    - key: SPARK_HOME
+      value: /usr/local/spark
+    - key: PYTHONPATH
+      value: "/usr/local/spark/python/:/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip"
+    - key: SPARK_OPTS
+      value: "--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info"
+    - key: HADOOP_CONF_DIR
+      value: /etc/hadoop/conf
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "Nginx default conf"
+    path: "/etc/nginx/sites-available/default"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "spark env configuration script"
+    path: "/usr/local/spark/conf/spark-env.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "spark install tgz"
+    path: "/tmp/spark-3.1.3-bin-without-hadoop.tgz"
+    shouldExist: false
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/notebooks-dir"]
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+  - name: "Check conda virtual env"
+    command: "bash"
+    args: [ "-c", "conda env list | grep py38" ]
+    expectedOutput: [ "/opt/conda/envs/py38" ]
+    exitCode: 0
+  - name: check pyspark
+    command: "bash"
+    args: [ "-c", ". activate py38; conda list | grep spark" ]
+    expectedOutput: [ "pyspark" ]
+    exitCode: 0
+  - name: "Check conda virtual env"
+    command: "bash"
+    args: ["-c", "conda env list | grep py39"]
+    expectedOutput: ["/opt/conda/envs/py39"]
+    exitCode: 0
+  - name: check pyspark
+    command: "bash"
+    args: ["-c", ". activate py39; conda list | grep spark"]
+    expectedOutput: [ "pyspark" ]
+    exitCode: 0
+  - name: "Check conda virtual env"
+    command: "bash"
+    args: ["-c", "conda env list | grep py310"]
+    expectedOutput: ["/opt/conda/envs/py310"]
+    exitCode: 0
+  - name: check pyspark
+    command: "bash"
+    args: ["-c", ". activate py310; conda list | grep spark"]
+    expectedOutput: [ "pyspark" ]
+    exitCode: 0

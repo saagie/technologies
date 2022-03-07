@@ -13,5 +13,3 @@ echo "spark.ui.port     $PORT0" >> $SPARK_CONF_DIR/spark-defaults.conf
 echo "spark.driver.port $PORT1" >> $SPARK_CONF_DIR/spark-defaults.conf
 echo "spark.shuffle.service.enabled               $shuffle" >> $SPARK_CONF_DIR/spark-defaults.conf
 echo "spark.dynamicAllocation.enabled             $shuffle" >> $SPARK_CONF_DIR/spark-defaults.conf
-
-export PYSPARK_PYTHON=/opt/conda/envs/py36/bin/python

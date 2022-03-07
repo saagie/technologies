@@ -23,14 +23,3 @@ import com.saagie.technologies.getVersionForDocker
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
-
-val dockerInfo = readDockerInfo(projectDir)
-
-tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":jupyter-base:testImage")
-    // Use saagie/jupyter-python-nbk:v2-<version>
-    this.buildArgs.put(
-        "BASE_CONTAINER",
-        "${dockerInfo?.image}:v2-${this.project.getVersionForDocker()}"
-    )
-}

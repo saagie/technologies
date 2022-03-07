@@ -4,7 +4,7 @@ id: jupyspark
 label: Jupyter Notebook with Spark
 baseline: Data Science Notebook.
 description: The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text.
-available: true
+available: false
 icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
