@@ -16,10 +16,10 @@ contexts:
     trustLevel: stable
     ports:
       - port: 80
-        name:
+        name: History Server
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/spark-history-server
-      baseTag: 1.3
-      version: 1.3-1.111.0_SDKTECHNO-166
+      baseTag: 1.7
+      version: 1.7-1.112.0_SDKTECHNO-166
