@@ -1,0 +1,4 @@
+image: saagie/spark-history-server
+baseTag: 1.7
+dynamicVersion: 1.111.0_SDKTECHNO-166
+version: 1.3-1.111.0_SDKTECHNO-166
