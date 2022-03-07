@@ -54,7 +54,7 @@ xgboost==0.90
 imbalanced-learn==0.5.0
 dryscrape==1.0
 lxml==4.4.1
-scrapy==1.8.0
+scrapy==1.8.2
 bs4==0.0.1
 pydotplus==2.0.2
 elasticsearch==7.1.0
