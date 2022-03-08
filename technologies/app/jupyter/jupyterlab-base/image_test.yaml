@@ -21,3 +21,4 @@ commandTests:
     args: ["--help"]
     command: "curl"
     exitCode: 0
+
