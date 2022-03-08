@@ -104,9 +104,3 @@ commandTests:
                                               from pyarrow import *;
                                               '"]
     exitCode: 0
-
-
-
-
-
-
