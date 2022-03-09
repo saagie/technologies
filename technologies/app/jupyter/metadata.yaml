@@ -80,6 +80,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/notebooks-dir"]
     dockerInfo:
-      image: saagie/jupyter-python-nbk
-      baseTag: lab-3.8-3.9
-      version: lab-3.8-3.9-1.111.0
+      image: saagie/jupyterlab-python-nbk
+      baseTag: 3.8-3.9
+      version: 3.8-3.9-1.113.0

@@ -2,8 +2,10 @@ name: PROMOTE
 on:
   pull_request:
     types: [closed]
+
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: [self-hosted, technologies]
     steps:
       - name: Dump GitHub context
