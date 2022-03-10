@@ -6,13 +6,13 @@ fileExistenceTests:
     shouldExist: true
     permissions: "-rwxr-xr-x"
   - name: "server.conf"
-    path: "/etc/nginx/conf.d/server.conf"
+    path: "/etc/nginx/http.d/server.conf"
     shouldExist: true
     permissions: "-rw-r--r--"
 
 fileContentTests:
     - name: "Nginx conf"
-      path: "/etc/nginx/conf.d/server.conf"
+      path: "/etc/nginx/http.d/server.conf"
       expectedContents:
         [
             "listen 80 default_server;",
