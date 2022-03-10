@@ -14,8 +14,6 @@ RUN apk update && \
     apk --no-cache add openjdk11
 
 ADD server.conf /etc/nginx/conf.d/server.conf
-RUN rm /etc/nginx/conf.d/default.conf && \
-    mkdir /run/nginx
 
 ENV SPARK_NO_DAEMONIZE TRUE
 EXPOSE 80
