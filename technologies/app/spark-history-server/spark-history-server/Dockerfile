@@ -1,6 +1,6 @@
 FROM saagie/spark:3.1-1.100.0 as builder
 
-FROM alpine:3.10
+FROM alpine:3.15
 
 WORKDIR /opt/
 COPY --from=builder /opt/spark /opt/spark

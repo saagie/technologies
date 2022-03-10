@@ -1,5 +1,5 @@
-id: spark-history-server
-label: Spark History Server
+id: shs-3.1
+label: 3.1
 releaseNotes: ""
 available: true
 trustLevel: stable
