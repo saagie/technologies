@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/conf.d/server.conf
+sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/http.d/server.conf
 
 if [[ -z "${SPARK_HISTORY_EVENT_LOG_DIR}" ]]; then
   echo "INFO: SPARK_HISTORY_EVENT_LOG_DIR is not set in Saagie environment variables, using the default directory hdfs://cluster/tmp/spark-events"
