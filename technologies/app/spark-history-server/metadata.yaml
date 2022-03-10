@@ -9,8 +9,8 @@ icon: spark
 backgroundColor: "#e25a1c"
 customFlags: []
 contexts:
-  - id: spark-history-server
-    label: Spark History Server
+  - id: shs-3.1
+    label: 3.1
     releaseNotes: ""
     available: true
     trustLevel: stable
@@ -21,5 +21,5 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/spark-history-server
-      baseTag: 1.7
-      version: 1.7-1.114.0_SDKTECHNO-166
+      baseTag: 3.1
+      version: 3.1-1.114.0_SDKTECHNO-166
