@@ -1,6 +1,6 @@
 id: shs-3.1
 label: 3.1
-releaseNotes: ""
+releaseNotes: First version of Spark History Server into Saagie.
 available: true
 trustLevel: stable
 ports:
