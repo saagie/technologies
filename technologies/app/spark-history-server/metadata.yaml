@@ -22,4 +22,4 @@ contexts:
     dockerInfo:
       image: saagie/spark-history-server
       baseTag: 3.1.1
-      version: 3.1.1-1.114.0_SDKTECHNO-166
+      version: 3.1.1-1.114.0
