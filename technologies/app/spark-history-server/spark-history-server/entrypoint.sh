@@ -11,4 +11,3 @@ fi
 
 export SPARK_HISTORY_OPTS='-Dspark.ui.proxyBase='"$SAAGIE_BASE_PATH"' -Dspark.history.fs.logDirectory='"$logDirectory"
 nginx && /opt/spark/sbin/start-history-server.sh
-
