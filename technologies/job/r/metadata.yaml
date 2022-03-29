@@ -138,6 +138,7 @@ contexts:
         - type: ARTIFACT
           label: Package
           mandatory: false
+          defaultValue: true
           comment: "Compatible upload file: .r, .tar(.gz), .zip"
         - type: SCHEDULER
           label: Scheduled
@@ -145,4 +146,4 @@ contexts:
     dockerInfo:
       image: saagie/r-image
       baseTag: 4.1
-      version: 4.1-1.99.0
+      version: 4.1-1.115.0_SDKTECHNO-168
