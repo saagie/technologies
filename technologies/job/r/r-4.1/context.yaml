@@ -13,7 +13,6 @@ job:
     - type: ARTIFACT
       label: Package
       mandatory: false
-      defaultValue: "true"
       comment: "Compatible upload file: .r, .tar(.gz), .zip"
     - type: SCHEDULER
       label: Scheduled
