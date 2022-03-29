@@ -1,11 +1,11 @@
 #!/bin/bash
 
-set -eo pipefail
+set -euo pipefail
 
 R_HOME=$(Rscript -e 'Sys.getenv("R_HOME")' | sed -rn 's/^\[[[:digit:]]+\] "(.*)"/\1/p')
 
 # Change default CRAN to ENV VAR if present
-if [[ -z "${R_CUSTOM_CRAN}" ]]; then
+if [[ "${R_CUSTOM_CRAN:-empty}" == "empty" ]]; then
     echo "No custom CRAN defined, using default, you can configure one using R_CUSTOM_CRAN env var"
 else
     echo "Custom CRAN used: ${R_CUSTOM_CRAN}"
