@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eo pipefail
 
 R_HOME=$(Rscript -e 'Sys.getenv("R_HOME")' | sed -rn 's/^\[[[:digit:]]+\] "(.*)"/\1/p')
 
