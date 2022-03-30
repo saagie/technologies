@@ -145,4 +145,4 @@ contexts:
     dockerInfo:
       image: saagie/r-image
       baseTag: 4.1
-      version: 4.1-1.115.0_SDKTECHNO-168
+      version: 4.1-1.115.0
