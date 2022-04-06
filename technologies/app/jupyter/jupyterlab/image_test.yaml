@@ -13,6 +13,14 @@ fileExistenceTests:
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    expectedContents:
+      [
+        "export CLASSPATH=`hadoop classpath --glob`"
+      ]
+
 commandTests:
   - name: "Workdir"
     command: "pwd"
