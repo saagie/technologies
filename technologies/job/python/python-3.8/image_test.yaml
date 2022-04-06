@@ -37,6 +37,7 @@ fileContentTests:
         "unzip -q \\*.zip",
         "pip install -r requirements.txt",
         "sh ./main_script",
+        "export CLASSPATH=`hadoop classpath --glob`"
       ]
 
 commandTests:
