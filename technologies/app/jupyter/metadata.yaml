@@ -82,4 +82,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyterlab-python-nbk
       baseTag: 3.8-3.9
-      version: 3.8-3.9-1.113.0
+      version: 3.8-3.9-1.116.0_SDKTECHNO-169
