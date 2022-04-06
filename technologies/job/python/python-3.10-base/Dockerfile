@@ -42,7 +42,6 @@ ENV PATH "/app/hadoop-2.6.5/bin:${PATH}"
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-# Move scripts and frequently changing directive to the end of the build
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
 
