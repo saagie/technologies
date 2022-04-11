@@ -3,62 +3,43 @@ label: Data Integration V2
 description: "Informatica Cloud Platform Data Integration V2"
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: URL
-      name: url
-      label: Endpoint URL
-      required: true
-      helper: e.g. use https://dm-em.informaticacloud.com
-    - type: TEXT
-      name: username
-      label: Username
-    - type: PASSWORD
-      name: password
-      label: Password
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: taskType
-      label: Task type
-      required: true
-      options:
-        - id: DMASK
-          label: DMASK. Masking task.
-        - id: DRS
-          label: DRS. Replication task.
-        - id: DSS
-          label : DSS. Synchronization task.
-        - id: MTT
-          label : MTT. Mapping task.
-        - id: PCS
-          label : PCS. PowerCenter task.
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: task
-      label: Task
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getTasks
-      dependsOn:
-        - taskType
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: informatica-cloud
+parameters:
+  - type: STATIC_SELECT
+    id: taskType
+    label: Task type
+    mandatory: true
+    staticValues:
+      - id: DMASK
+        label: DMASK. Masking task.
+      - id: DRS
+        label: DRS. Replication task.
+      - id: DSS
+        label : DSS. Synchronization task.
+      - id: MTT
+        label : MTT. Mapping task.
+      - id: PCS
+        label : PCS. PowerCenter task.
+  - type: DYNAMIC_SELECT
+    id: task
+    label: Task
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getTasks
+    dependsOn:
+      - taskType
+actions:
+  start:
+    script: ../dist/module.js
+    function: start
+  stop:
+    script: ../dist/module.js
+    function: stop
+  getStatus:
+    script: ../dist/module.js
+    function: getStatus
+  getLogs:
+    script: ../dist/module.js
+    function: getLogs

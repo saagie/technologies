@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: trifacta
 label: Trifacta
 description: "Trifacta Wrangler"
@@ -12,60 +12,30 @@ contexts:
     description: "Trifacta flows gestion with user authentication by credentials"
     recommended: true
     trustLevel: stable
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://cloud.trifacta.com
-        - type: TEXT
-          name: email
-          label: Email address
-          required: true
-        - type: PASSWORD
-          name: password
-          label: Password
-          required: true
-        - type: SELECT
-          name: ignoreSslIssues
-          label: SSL issues
-          required: false
-          helper: (Don't ignore it by default)
-          options:
-          - id: true
-            label: Ignore SSL issues
-          - id: false
-            label: Don't ignore SSL issues
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: flow
-          label: Flow
-          required: true
-          options:
-            script: ../flows-jobForm.js
-            function: getFlows
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: dataset
-          label: Wrangled dataset
-          required: true
-          options:
-            script: ../flows-jobForm.js
-            function: getDatasets
-          dependsOn:
-            - flow
-        - type: SELECT
-          name: execution
-          label: Job execution
-          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
-          options:
+    available: true
+    connectionTypeId: trifacta-login
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: flow
+        label: Flow
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getFlows
+      - type: DYNAMIC_SELECT
+        id: dataset
+        label: Wrangled dataset
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getDatasets
+        dependsOn:
+          - flow
+      - type: STATIC_SELECT
+        id: execution
+        label: Job execution
+        comment: (required, if first time running the job) Indicates the running environment on which the job is executed.
+        staticValues:
           - id: photon
             label: photon - running environment on Trifacta node
           - id: spark
@@ -74,125 +44,98 @@ contexts:
             label: emrSpark - Spark on AWS EMR
           - id: databricksSpark
             label: databricksSpark - Spark on Azure Databricks
-          dependsOn:
-            - dataset
-        - type: SELECT
-          name: profiler
-          label: Profiler
-          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
-          options:
+        dependsOn:
+          - dataset
+      - type: STATIC_SELECT
+        id: profiler
+        label: Profiler
+        comment: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+        staticValues:
           - id: true
             label: Enabled (true)
           - id: false
             label: Disabled (false)
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: writeSettings
-          label: Write settings (JSON)
-          helper: (required, if first time running the job) These settings define the publishing options for the job.
-          dependsOn:
-            - dataset
-        - type: SELECT
-          name: writeSettingsSave
-          label: Save write settings
-          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
-          options:
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: writeSettings
+        label: Write settings (JSON)
+        comment: (required, if first time running the job) These settings define the publishing options for the job.
+        dependsOn:
+          - dataset
+      - type: STATIC_SELECT
+        id: writeSettingsSave
+        label: Save write settings
+        comment: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+        staticValues:
           - id: true
             label: Save inserted write settings into output object (true)
           - id: false
             label: Only overwrite current job write settings (false)
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: first_parameter_key
-          label: First parameter key
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: first_parameter_value
-          label: First parameter value
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: second_parameter_key
-          label: Second parameter key
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: second_parameter_value
-          label: Second parameter value
-          dependsOn:
-            - dataset
-    instance:
-      actions:
-        onStart:
-          script: ../flows-instanceActions.js
-          function: start
-        onStop:
-          script: ../flows-instanceActions.js
-          function: stop
-        getStatus:
-          script: ../flows-instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ../flows-instanceActions.js
-          function: getLogs
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: first_parameter_key
+        label: First parameter key
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: first_parameter_value
+        label: First parameter value
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: second_parameter_key
+        label: Second parameter key
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: second_parameter_value
+        label: Second parameter value
+        dependsOn:
+          - dataset
+    actions:
+      start:
+        script: .//dist/flows-actions.js
+        function: start
+      stop:
+        script: .//dist/flows-actions.js
+        function: stop
+      getStatus:
+        script: .//dist/flows-actions.js
+        function: getStatus
+      getLogs:
+        script: .//dist/flows-actions.js
+        function: getLogs
   - id: flows-token-auth
     label: Flows gestion with token auth (+v6.4.2)
     description: "Trifacta flows gestion with user authentication by access token"
     recommended: true
     trustLevel: stable
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://cloud.trifacta.com
-        - type: TEXT
-          name: access_token
-          label: Access token
-          required: true
-        - type: SELECT
-          name: ignoreSslIssues
-          label: SSL issues
-          required: false
-          helper: (Don't ignore it by default)
-          options:
-          - id: true
-            label: Ignore SSL issues
-          - id: false
-            label: Don't ignore SSL issues
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: flow
-          label: Flow
-          required: true
-          options:
-            script: ../flows-jobForm.js
-            function: getFlows
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: dataset
-          label: Wrangled dataset
-          required: true
-          options:
-            script: ../flows-jobForm.js
-            function: getDatasets
-          dependsOn:
-            - flow
-        - type: SELECT
-          name: execution
-          label: Job execution
-          helper: (required, if first time running the job) Indicates the running environment on which the job is executed.
-          options:
+    available: true
+    connectionTypeId: trifacta-token
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: flow
+        label: Flow
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getFlows
+      - type: DYNAMIC_SELECT
+        id: dataset
+        label: Wrangled dataset
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getDatasets
+        dependsOn:
+          - flow
+      - type: STATIC_SELECT
+        id: execution
+        label: Job execution
+        comment: (required, if first time running the job) Indicates the running environment on which the job is executed.
+        staticValues:
           - id: photon
             label: photon - running environment on Trifacta node
           - id: spark
@@ -201,175 +144,116 @@ contexts:
             label: emrSpark - Spark on AWS EMR
           - id: databricksSpark
             label: databricksSpark - Spark on Azure Databricks
-          dependsOn:
-            - dataset
-        - type: SELECT
-          name: profiler
-          label: Profiler
-          helper: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
-          options:
+        dependsOn:
+          - dataset
+      - type: STATIC_SELECT
+        id: profiler
+        label: Profiler
+        comment: (required, if first time running the job) When set to true, a visual profile of the job is generated as specified by the profiling options for the platform.
+        staticValues:
           - id: true
             label: Enabled (true)
           - id: false
             label: Disabled (false)
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: writeSettings
-          label: Write settings (JSON)
-          helper: (required, if first time running the job) These settings define the publishing options for the job.
-          dependsOn:
-            - dataset
-        - type: SELECT
-          name: writeSettingsSave
-          label: Save write settings
-          helper: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
-          options:
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: writeSettings
+        label: Write settings (JSON)
+        comment: (required, if first time running the job) These settings define the publishing options for the job.
+        dependsOn:
+          - dataset
+      - type: STATIC_SELECT
+        id: writeSettingsSave
+        label: Save write settings
+        comment: (By default = false) Do you want to save inserted write settings into an output object for selected wrangled dataset ?
+        staticValues:
           - id: true
             label: Save inserted write settings into output object (true)
           - id: false
             label: Only overwrite current job write settings (false)
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: first_parameter_key
-          label: First parameter key
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: first_parameter_value
-          label: First parameter value
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: second_parameter_key
-          label: Second parameter key
-          dependsOn:
-            - dataset
-        - type: TEXT
-          name: second_parameter_value
-          label: Second parameter value
-          dependsOn:
-            - dataset
-    instance:
-      actions:
-        onStart:
-          script: ../flows-instanceActions.js
-          function: start
-        onStop:
-          script: ../flows-instanceActions.js
-          function: stop
-        getStatus:
-          script: ../flows-instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ../flows-instanceActions.js
-          function: getLogs
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: first_parameter_key
+        label: First parameter key
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: first_parameter_value
+        label: First parameter value
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: second_parameter_key
+        label: Second parameter key
+        dependsOn:
+          - dataset
+      - type: TEXT
+        id: second_parameter_value
+        label: Second parameter value
+        dependsOn:
+          - dataset
+    actions:
+      start:
+        script: .//dist/flows-actions.js
+        function: start
+      stop:
+        script: .//dist/flows-actions.js
+        function: stop
+      getStatus:
+        script: .//dist/flows-actions.js
+        function: getStatus
+      getLogs:
+        script: .//dist/flows-actions.js
+        function: getLogs
   - id: plans-login-auth
     label: Plans gestion with login auth (+v7.1)
     description: "Trifacta flows gestion with user authentication by credentials"
     recommended: true
     trustLevel: stable
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://cloud.trifacta.com
-        - type: TEXT
-          name: email
-          label: Email address
-          required: true
-        - type: PASSWORD
-          name: password
-          label: Password
-          required: true
-        - type: SELECT
-          name: ignoreSslIssues
-          label: SSL issues
-          required: false
-          helper: (Don't ignore it by default)
-          options:
-          - id: true
-            label: Ignore SSL issues
-          - id: false
-            label: Don't ignore SSL issues
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: plan
-          label: Plan
-          required: true
-          options:
-            script: ../plans-jobForm.js
-            function: getPlans
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ../plans-instanceActions.js
-          function: start
-        getStatus:
-          script: ../plans-instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ../plans-instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: trifacta-login
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: plan
+        label: Plan
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getPlans
+    actions:
+      start:
+        script: .//dist/plans-actions.js
+        function: start
+      getStatus:
+        script: .//dist/plans-actions.js
+        function: getStatus
+      getLogs:
+        script: .//dist/plans-actions.js
+        function: getLogs
   - id: plans-token-auth
     label: Plans gestion with token auth (+v7.1)
     description: "Trifacta flows gestion with user authentication by access token"
     recommended: true
     trustLevel: stable
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Endpoint URL
-          required: true
-          helper: e.g. use https://cloud.trifacta.com
-        - type: TEXT
-          name: access_token
-          label: Access token
-          required: true
-        - type: SELECT
-          name: ignoreSslIssues
-          label: SSL issues
-          required: false
-          helper: (Don't ignore it by default)
-          options:
-          - id: true
-            label: Ignore SSL issues
-          - id: false
-            label: Don't ignore SSL issues
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: plan
-          label: Plan
-          required: true
-          options:
-            script: ../plans-jobForm.js
-            function: getPlans
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ../plans-instanceActions.js
-          function: start
-        getStatus:
-          script: ../plans-instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ../plans-instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: trifacta-token
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: plan
+        label: Plan
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getPlans
+    actions:
+      start:
+        script: .//dist/plans-actions.js
+        function: start
+      getStatus:
+        script: .//dist/plans-actions.js
+        function: getStatus
+      getLogs:
+        script: .//dist/plans-actions.js
+        function: getLogs

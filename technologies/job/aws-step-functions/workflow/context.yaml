@@ -3,55 +3,34 @@ label: workflow
 description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple functions."
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: aws_access_key_id
-      label: Access Key ID
-      required: true
-    - type: PASSWORD
-      name: aws_secret_access_key
-      label: Secret Access Key
-      required: true
-    - type: TEXT
-      name: region
-      label: Region
-      helper: "AWS region. Example: us-east-1"
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true 
-    - type: SELECT
-      name: stateMachine
-      label: State Machine
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getStateMachines
-      dependsOn:
-        - endpoint
-    - type: TEXT
-      name: name
-      label: Execution Name
-      required: true
-    - type: TEXT
-      name: input
-      label: Input Data
-      required: true
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: aws
+parameters:
+  - type: DYNAMIC_SELECT
+    id: stateMachine
+    label: State Machine
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/aws/dist/job-form.js
+      function: getStateMachines
+  - type: TEXT
+    id: name
+    label: Execution Name
+    mandatory: true
+  - type: TEXT
+    id: input
+    label: Input Data
+    mandatory: true
+actions:
+  start:
+    script: ../../../scripts/aws/dist/step-functions-workflow-actions.js
+    function: start
+  stop:
+    script: ../../../scripts/aws/dist/step-functions-workflow-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/aws/dist/step-functions-workflow-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/aws/dist/step-functions-workflow-actions.js
+    function: getLogs

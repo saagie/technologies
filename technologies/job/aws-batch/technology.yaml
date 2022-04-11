@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: aws-batch
 label: aws-batch
 description: "Fully managed batch processing at any scale"
 available: true
 type: EXTERNAL_JOB
-icon: job
+icon: aws-batch

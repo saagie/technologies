@@ -3,71 +3,43 @@ label: Create Spark job
 description: ""
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: subscriptionId
-      label: Azure Subscription ID
-      required: true
-    - type: TEXT
-      name: clientId
-      label: Client ID
-      required: true
-    - type: PASSWORD
-      name: clientSecret
-      label: Client Secret
-      required: true
-    - type: TEXT
-      name: tenantId
-      label: Tenant ID
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: resourceGroup
-      label: Resource Group
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getResourceGroups
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: workspace
-      label: Workspace
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkspaces
-      dependsOn:
-        - resourceGroup
-    - type: TEXT
-      name: jobName
-      label: Spark job name
-      required: true
-      dependsOn:
-        - workspace
-    - type: TEXT
-      name: jobParameters
-      label: Spark job parameters
-      required: true
-      dependsOn:
-        - workspace
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: workspace
+    label: Workspace
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getWorkspaces
+    dependsOn:
+      - resourceGroup
+  - type: TEXT
+    id: jobName
+    label: Spark job name
+    mandatory: true
+  - type: TEXT
+    id: jobParameters
+    label: Spark job parameters
+    mandatory: true
+actions:
+  start:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: startSpark
+  stop:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getLogs

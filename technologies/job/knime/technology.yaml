@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: knime
 label: Knime
 description: "Knime Server REST API v4"

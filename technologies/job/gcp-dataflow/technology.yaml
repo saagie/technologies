@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: gcp-dataflow
 label: GCP Dataflow
 description: "GCP Dataflow Saagie implementation"

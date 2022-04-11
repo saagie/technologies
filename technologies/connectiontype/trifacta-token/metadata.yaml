@@ -1,0 +1,25 @@
+version: v2
+type: CONNECTION_TYPE
+id: trifacta-token
+label: Trifacta Connection With Token Auth
+
+parameters:
+  - type: URL
+    id: url
+    label: Endpoint URL
+    mandatory: true
+    comment: e.g. use https://cloud.trifacta.com
+  - type: TEXT
+    id: access_token
+    label: Access token
+    mandatory: true
+  - type: STATIC_SELECT
+    id: ignoreSslIssues
+    label: SSL issues
+    mandatory: false
+    comment: (Don't ignore it by default)
+    staticValues:
+      - id: true
+        label: Ignore SSL issues
+      - id: false
+        label: Don't ignore SSL issues
