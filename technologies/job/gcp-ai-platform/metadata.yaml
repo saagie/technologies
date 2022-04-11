@@ -1,8 +1,8 @@
-version: v1
+version: v2
 id: gcp-platform-ai
-label: GCP AI Platform
+label: Google Cloud AI Platform
 description: ""
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job
 
@@ -10,57 +10,42 @@ contexts:
   - id: job
     label: Job
     description: ""
-    recommended: true
+    recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Projects
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: job
-          label: Jobs
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getJobs
-          dependsOn:
-            - project
-        - type: TEXT
-          name: newJobName
-          label: New job name
-          required: true
-          helper: "New job name to re-run the selected job"
-          dependsOn:
-            - job
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Projects
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: job
+        label: Jobs
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getMLJobs
+        dependsOn:
+          - project
+      - type: TEXT
+        id: newJobName
+        label: New job name
+        mandatory: true
+        comment: New job name to re-run the selected job
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/ai-platform-job-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/gcp/dist/ai-platform-job-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/ai-platform-job-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/ai-platform-job-actions.js
+        function: getLogs

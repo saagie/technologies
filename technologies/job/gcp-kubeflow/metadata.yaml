@@ -1,8 +1,8 @@
-version: v1
+version: v2
 id: gcp-kubeflow
-label: GCP Kubeflow
+label: Kubeflow on Google Cloud Platform
 description: "Google Cloud Platform Kubeflow instance gestion"
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job
 
@@ -10,268 +10,219 @@ contexts:
   - id: clone-run
     label: Clone run
     description: "Clone run context"
-    recommended: true
+    recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-        - type: TEXT
-          name: instanceUrl
-          label: Kubeflow instance URL
-          required: true
-          helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Projects
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: pipeline
-          label: Pipeline
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelines
-          dependsOn:
-            - project
-        - type: SELECT
-          name: pipelineVersion
-          label: Pipeline version
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelineVersions
-          dependsOn:
-            - pipeline
-        - type: SELECT
-          name: experiment
-          label: Experiment
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getExperiments
-          dependsOn:
-            - pipelineVersion
-        - type: SELECT
-          name: run
-          label: Run
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRuns
-          dependsOn:
-            - experiment
-        - type: TEXT
-          name: runName
-          label: Run name
-          required: true
-          dependsOn:
-            - run
-        - type: TEXT
-          name: runDescription
-          label: Run description
-          required: false
-          dependsOn:
-            - run
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: TEXT
+        id: instanceUrl
+        label: Kubeflow instance URL
+        mandatory: true
+        comment: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Projects
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: pipeline
+        label: Pipeline
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelines
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: pipelineVersion
+        label: Pipeline version
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelineVersions
+        dependsOn:
+          - pipeline
+      - type: DYNAMIC_SELECT
+        id: experiment
+        label: Experiment
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getExperiments
+        dependsOn:
+          - pipelineVersion
+      - type: DYNAMIC_SELECT
+        id: run
+        label: Run
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getRuns
+        dependsOn:
+          - experiment
+      - type: TEXT
+        id: runName
+        label: Run name
+        mandatory: true
+      - type: TEXT
+        id: runDescription
+        label: Run description
+        mandatory: false
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: startClone
+      stop:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getLogs
   - id: new-run
     label: New run
     description: "New run context"
-    recommended: true
+    recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-        - type: TEXT
-          name: instanceUrl
-          label: Kubeflow instance URL
-          required: true
-          helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Projects
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: pipeline
-          label: Pipeline
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelines
-          dependsOn:
-            - project
-        - type: SELECT
-          name: pipelineVersion
-          label: Pipeline version
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelineVersions
-          dependsOn:
-            - pipeline
-        - type: SELECT
-          name: experiment
-          label: Experiment
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getExperiments
-          dependsOn:
-            - pipelineVersion
-        - type: TEXT
-          name: runName
-          label: Run name
-          required: true
-          dependsOn:
-            - experiment
-        - type: TEXT
-          name: runDescription
-          label: Run description
-          required: false
-          dependsOn:
-            - experiment
-        - type: TEXT
-          name: runParameters
-          label: Run parameters (JSON format)
-          helper: JSON array of objects (name and value as properties)
-          required: false
-          dependsOn:
-            - experiment
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: TEXT
+        id: instanceUrl
+        label: Kubeflow instance URL
+        mandatory: true
+        comment: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Projects
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: pipeline
+        label: Pipeline
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelines
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: pipelineVersion
+        label: Pipeline version
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelineVersions
+        dependsOn:
+          - pipeline
+      - type: DYNAMIC_SELECT
+        id: experiment
+        label: Experiment
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getExperiments
+        dependsOn:
+          - pipelineVersion
+      - type: TEXT
+        id: runName
+        label: Run name
+        mandatory: true
+      - type: TEXT
+        id: runDescription
+        label: Run description
+        mandatory: false
+      - type: TEXT
+        id: runParameters
+        label: Run parameters (JSON format)
+        comment: JSON array of objects (name and value as properties)
+        mandatory: false
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: startNew
+      stop:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getLogs
   - id: retry-run
     label: Retry run
     description: "Retry run context"
-    recommended: true
+    recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-        - type: TEXT
-          name: instanceUrl
-          label: Kubeflow instance URL
-          required: true
-          helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Projects
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: pipeline
-          label: Pipeline
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelines
-          dependsOn:
-            - project
-        - type: SELECT
-          name: pipelineVersion
-          label: Pipeline version
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getPipelineVersions
-          dependsOn:
-            - pipeline
-        - type: SELECT
-          name: experiment
-          label: Experiment
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getExperiments
-          dependsOn:
-            - pipelineVersion
-        - type: SELECT
-          name: run
-          label: Run
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRuns
-          dependsOn:
-            - experiment
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: TEXT
+        id: instanceUrl
+        label: Kubeflow instance URL
+        mandatory: true
+        comment: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Projects
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: pipeline
+        label: Pipeline
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelines
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: pipelineVersion
+        label: Pipeline version
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getPipelineVersions
+        dependsOn:
+          - pipeline
+      - type: DYNAMIC_SELECT
+        id: experiment
+        label: Experiment
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getExperiments
+        dependsOn:
+          - pipelineVersion
+      - type: DYNAMIC_SELECT
+        id: run
+        label: Run
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getRuns
+        dependsOn:
+          - experiment
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: startRetry
+      stop:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/kubeflow-actions.js
+        function: getLogs

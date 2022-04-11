@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: gcp-cloud-functions
-label: gcp-cloud-functions
+label: Google Cloud Functions
 description: ""
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job

@@ -1,108 +1,83 @@
 id: tasks
 label: Tasks
 description: "Tasks context"
-recommended: true
+recommended: false
 trustLevel: experimental
-endpoint:
-  features:
-    - type: URL
-      name: url
-      label: Web services hub URL
-      required: true
-      helper: e.g. use http://localhost:7333/wsh
-    - type: TEXT
-      name: repositoryDomainName
-      label: Repository Domain name
-      required: true
-    - type: TEXT
-      name: username
-      label: Username
-      required: true
-    - type: PASSWORD
-      name: password
-      label: Password
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: repository
-      label: Repository
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getRepositories
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: folder
-      label: Folder
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getFolders
-      dependsOn:
-        - repository
-    - type: SELECT
-      name: workflow
-      label: Workflow
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkflows
-      dependsOn:
-        - folder
-    - type: SELECT
-      name: service
-      label: Integration service
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getServices
-      dependsOn:
-        - workflow
-    - type: SELECT
-      name: requestMode
-      label: Request mode
-      required: true
-      helper: Indicates the recovery strategy for the session task
-      options:
-        - id: NORMAL
-          label: NORMAL - Restarts a session without recovery
-        - id: RECOVERY
-          label: RECOVERY - Recovers a session
-      dependsOn:
-        - workflow
-    - type: TEXT
-      name: depth
-      label: Depth for searching specific tasks
-      required: true
-      helper: The number of levels within the workflow task hierarchy from which to get information on task instances. Must be a positive integer.
-      dependsOn:
-        - workflow
-    - type: SELECT
-      name: task
-      label: Specific task
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getTasks
-      dependsOn:
-        - depth
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: informatica-powercenter-soap
+parameters:
+  - type: DYNAMIC_SELECT
+    id: repository
+    label: Repository
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getRepositories
+  - type: DYNAMIC_SELECT
+    id: folder
+    label: Folder
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getFolders
+    dependsOn:
+      - repository
+  - type: DYNAMIC_SELECT
+    id: workflow
+    label: Workflow
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getWorkflows
+    dependsOn:
+      - folder
+  - type: DYNAMIC_SELECT
+    id: service
+    label: Integration service
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getServices
+    dependsOn:
+      - workflow
+  - type: STATIC_SELECT
+    id: requestMode
+    label: Request mode
+    mandatory: true
+    comment: Indicates the recovery strategy for the session task
+    staticValues:
+      - id: NORMAL
+        label: NORMAL - Restarts a session without recovery
+      - id: RECOVERY
+        label: RECOVERY - Recovers a session
+    dependsOn:
+      - workflow
+  - type: TEXT
+    id: depth
+    label: Depth for searching specific tasks
+    mandatory: true
+    comment: The number of levels within the workflow task hierarchy from which to get information on task instances. Must be a positive integer.
+    dependsOn:
+      - workflow
+  - type: DYNAMIC_SELECT
+    id: task
+    label: Specific task
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getTasks
+    dependsOn:
+      - depth
+actions:
+  start:
+    script: ../dist/module.js
+    function: start
+  stop:
+    script: ../dist/module.js
+    function: stop
+  getStatus:
+    script: ../dist/module.js
+    function: getStatus
+  getLogs:
+    script: ../dist/module.js
+    function: getLogs

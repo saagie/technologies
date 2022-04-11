@@ -1,94 +1,70 @@
 id: pipelines
 label: Pipelines
 description: "Azure ML pipelines"
-recommended: true
+recommended: false
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: subscriptionId
-      label: Azure Subscription ID
-      required: true
-    - type: TEXT
-      name: clientId
-      label: Client ID
-      required: true
-    - type: PASSWORD
-      name: clientSecret
-      label: Client Secret
-      required: true
-    - type: TEXT
-      name: tenantId
-      label: Tenant ID
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: resourceGroup
-      label: Resource Group
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getResourceGroups
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: workspace
-      label: Workspace
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkspaces
-      dependsOn:
-        - resourceGroup
-    - type: SELECT
-      name: pipelineRun
-      label: Pipelines runs
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelinesRuns
-      dependsOn:
-        - workspace
-    - type: SELECT
-      name: targetExperiment
-      label: New run experiment
-      helper: Target experiment for new run of pipeline run
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getExperiments
-      dependsOn:
-        - pipelineRun
-    - type: TEXT
-      name: description
-      label: New run description
-      helper: Description for new run of pipeline run
-      required: true
-      dependsOn:
-        - pipelineRun
-    - type: TEXT
-      name: parameters
-      label: New run parameters
-      helper: JSON containing run parameters
-      required: false
-      dependsOn:
-        - pipelineRun
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: workspace
+    label: Workspace
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getWorkspaces
+    dependsOn:
+      - resourceGroup
+  - type: DYNAMIC_SELECT
+    id: pipelineRun
+    label: Pipelines runs
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getMLPipelinesRuns
+    dependsOn:
+      - workspace
+  - type: DYNAMIC_SELECT
+    id: targetExperiment
+    label: New run experiment
+    comment: Target experiment for new run of pipeline run
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getExperiments
+    dependsOn:
+      - pipelineRun
+  - type: TEXT
+    id: description
+    label: New run description
+    comment: Description for new run of pipeline run
+    mandatory: true
+    dependsOn:
+      - pipelineRun
+  - type: TEXT
+    id: parameters
+    label: New run parameters
+    comment: JSON containing run parameters
+    mandatory: false
+    dependsOn:
+      - pipelineRun
+actions:
+  start:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: startPipeline
+  stop:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: stopPipeline
+  getStatus:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: getLogs

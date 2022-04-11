@@ -1,52 +1,25 @@
 id: plans-token-auth
 label: Plans gestion with token auth (+v7.1)
 description: "Trifacta flows gestion with user authentication by access token"
-recommended: true
-trustLevel: stable
-endpoint:
-  features:
-    - type: URL
-      name: url
-      label: Endpoint URL
-      required: true
-      helper: e.g. use https://cloud.trifacta.com
-    - type: TEXT
-      name: access_token
-      label: Access token
-      required: true
-    - type: SELECT
-      name: ignoreSslIssues
-      label: SSL issues
-      required: false
-      helper: (Don't ignore it by default)
-      options:
-      - id: true
-        label: Ignore SSL issues
-      - id: false
-        label: Don't ignore SSL issues
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: plan
-      label: Plan
-      required: true
-      options:
-        script: ../plans-jobForm.js
-        function: getPlans
-      dependsOn:
-        - endpoint
-instance:
-  actions:
-    onStart:
-      script: ../plans-instanceActions.js
-      function: start
-    getStatus:
-      script: ../plans-instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ../plans-instanceActions.js
-      function: getLogs
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: trifacta-token
+parameters:
+  - type: DYNAMIC_SELECT
+    id: plan
+    label: Plan
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getPlans
+actions:
+  start:
+    script: ../dist/plans-actions.js
+    function: start
+  getStatus:
+    script: ../dist/plans-actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/plans-actions.js
+    function: getLogs

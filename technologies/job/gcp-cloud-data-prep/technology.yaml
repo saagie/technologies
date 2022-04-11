@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: gcp-cloud-data-prep
-label: gcp-cloud-data-prep
+label: Google Cloud Data Prep
 description: "GCP Cloud Data Prep"
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job

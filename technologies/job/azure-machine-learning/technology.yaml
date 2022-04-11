@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: azure-machine-learning
 label: Azure Machine Learning
 description: ""
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job

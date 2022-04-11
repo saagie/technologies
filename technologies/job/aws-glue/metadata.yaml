@@ -1,150 +1,87 @@
-version: v1
+version: v2
 id: aws-glue
-label: aws-glue
-description: "AWS Simple, flexible, and cost-effective ETL. Api Version: 2017-03-31 "
+label: AWS Glue
+description: "AWS Simple, flexible, and cost-effective ETL"
 available: true
 type: EXTERNAL_JOB
 icon: job
 
 contexts:
   - id: crawler
-    label: crawler
+    label: Crawler
     description: "A crawler connects to a data store, progresses through a prioritized list of classifiers to determine the schema for your data, and then creates metadata tables in your data catalog."
     recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: aws_access_key_id
-          label: Access Key ID
-          required: true
-        - type: PASSWORD
-          name: aws_secret_access_key
-          label: Secret Access Key
-          required: true
-        - type: TEXT
-          name: region
-          label: Region
-          helper: "AWS region. Example: us-east-1"
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: crawler
-          label: Crawler
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getCrawlers
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: aws
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: crawler
+        label: Crawler
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/aws/dist/job-form.js
+          function: getCrawlers
+    actions:
+      start:
+        script: .//../../scripts/aws/dist/glue-crawler-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/aws/dist/glue-crawler-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/aws/dist/glue-crawler-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/aws/dist/glue-crawler-actions.js
+        function: getLogs
   - id: job
-    label: job
+    label: Job
     description: "A job is your business logic required to perform extract, transform and load (ETL) work. Job runs are initiated by triggers which can be scheduled or driven by events."
-    recommended: true
+    recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: aws_access_key_id
-          label: Access Key ID
-          required: true
-        - type: PASSWORD
-          name: aws_secret_access_key
-          label: Secret Access Key
-          required: true
-        - type: TEXT
-          name: region
-          label: Region
-          helper: "AWS region. Example: us-east-1"
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: job
-          label: Job
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getJobs
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: aws
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: job
+        label: Job
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/aws/dist/job-form.js
+          function: getGlueJobs
+    actions:
+      start:
+        script: .//../../scripts/aws/dist/glue-job-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/aws/dist/glue-job-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/aws/dist/glue-job-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/aws/dist/glue-job-actions.js
+        function: getLogs
   - id: workflow
-    label: workflow
+    label: Workflow
     description: "A workflow is an orchestration used to visualize and manage the relationship and execution of multiple triggers, jobs and crawlers."
     recommended: false
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: aws_access_key_id
-          label: Access Key ID
-          required: true
-        - type: PASSWORD
-          name: aws_secret_access_key
-          label: Secret Access Key
-          required: true
-        - type: TEXT
-          name: region
-          label: Region
-          helper: "AWS region. Example: us-east-1"
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: workflow
-          label: Workflow
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getWorkflows
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
+    available: true
+    connectionTypeId: aws
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: workflow
+        label: Workflow
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/aws/dist/job-form.js
+          function: getWorkflows
+    actions:
+      start:
+        script: .//../../scripts/aws/dist/glue-workflow-actions.js
+        function: start
+      getStatus:
+        script: .//../../scripts/aws/dist/glue-workflow-actions.js
+        function: getStatus

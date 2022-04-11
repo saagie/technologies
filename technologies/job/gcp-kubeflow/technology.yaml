@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: gcp-kubeflow
-label: GCP Kubeflow
+label: Kubeflow on Google Cloud Platform
 description: "Google Cloud Platform Kubeflow instance gestion"
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job

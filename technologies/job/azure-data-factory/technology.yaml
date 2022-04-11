@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: azure-data-factory
 label: Azure Data Factory
 description: ""
-available: true
+available: false
 type: EXTERNAL_JOB
 icon: job

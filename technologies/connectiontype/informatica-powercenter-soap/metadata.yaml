@@ -1,0 +1,23 @@
+version: v2
+type: CONNECTION_TYPE
+id: informatica-powercenter-soap
+label: Informatica Powercenter SOAP Connection
+
+parameters:
+  - type: TEXT
+    id: url
+    label: Web services hub URL
+    mandatory: true
+    comment: e.g. use http://localhost:7333/wsh
+  - type: TEXT
+    id: repositoryDomainName
+    label: Repository Domain name
+    mandatory: true
+  - type: TEXT
+    id: username
+    label: Username
+    mandatory: true
+  - type: PASSWORD
+    id: password
+    label: Password
+    mandatory: true

@@ -1,64 +1,45 @@
 id: login-auth
 label: Login auth (REST API v4)
 description: ""
-recommended: true
+recommended: false
 trustLevel: experimental
-endpoint:
-  features:
-    - type: URL
-      name: url
-      label: Endpoint URL
-      required: true
-      helper: e.g. use http://knimer-server.com/knime
-    - type: TEXT
-      name: username
-      label: Username
-    - type: PASSWORD
-      name: password
-      label: Password
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: workflowGroup
-      label: Workflow Group
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkflowGroups
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: workflow
-      label: Workflow
-      helper: The workflow is the collection of nodes, setup to perform your data analysis task
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkflows
-      dependsOn:
-        - workflowGroup
-    - type: SELECT
-      name: job
-      label: Job
-      helper: On the KNIME Server, a Job is created whenever a workflow is executed
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getJobs
-      dependsOn:
-        - workflow
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: knime
+parameters:
+  - type: DYNAMIC_SELECT
+    id: workflowGroup
+    label: Workflow Group
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getWorkflowGroups
+  - type: DYNAMIC_SELECT
+    id: workflow
+    label: Workflow
+    comment: The workflow is the collection of nodes, setup to perform your data analysis task
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getWorkflows
+    dependsOn:
+      - workflowGroup
+  - type: DYNAMIC_SELECT
+    id: job
+    label: Job
+    comment: On the KNIME Server, a Job is created whenever a workflow is executed
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getJobs
+    dependsOn:
+      - workflow
+actions:
+  start:
+    script: ../dist/actions.js
+    function: start
+  getStatus:
+    script: ../dist/actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/actions.js
+    function: getLogs

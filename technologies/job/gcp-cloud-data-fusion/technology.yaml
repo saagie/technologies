@@ -1,7 +1,7 @@
-version: v1
+version: v2
 id: gcp-cloud-data-fusion
-label: GCP Cloud Data Fusion
-description: "GCP Cloud Data Fusion pipelines"
-available: true
+label: Google Cloud Data Fusion
+description: "Google Cloud Data Fusion pipelines"
+available: false
 type: EXTERNAL_JOB
 icon: job
