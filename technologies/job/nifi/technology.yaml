@@ -1,6 +1,6 @@
-version: v1
+version: v2
 id: nifi
-label: nifi
+label: NiFi
 description: "Nifi is an easy to use, powerful, and reliable system to process and distribute data."
 available: true
 type: EXTERNAL_JOB

@@ -3,80 +3,67 @@ label: Retry run
 description: "Retry run context"
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: jsonKey
-      label: JSON key
-      required: true
-      helper: "Full JSON document"
-    - type: TEXT
-      name: instanceUrl
-      label: Kubeflow instance URL
-      required: true
-      helper: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: project
-      label: Projects
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getProjects
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: pipeline
-      label: Pipeline
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelines
-      dependsOn:
-        - project
-    - type: SELECT
-      name: pipelineVersion
-      label: Pipeline version
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelineVersions
-      dependsOn:
-        - pipeline
-    - type: SELECT
-      name: experiment
-      label: Experiment
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getExperiments
-      dependsOn:
-        - pipelineVersion
-    - type: SELECT
-      name: run
-      label: Run
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getRuns
-      dependsOn:
-        - experiment
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: gcp
+parameters:
+  - type: TEXT
+    id: instanceUrl
+    label: Kubeflow instance URL
+    mandatory: true
+    comment: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Projects
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Pipeline
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getPipelines
+    dependsOn:
+      - project
+  - type: DYNAMIC_SELECT
+    id: pipelineVersion
+    label: Pipeline version
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getPipelineVersions
+    dependsOn:
+      - pipeline
+  - type: DYNAMIC_SELECT
+    id: experiment
+    label: Experiment
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getExperiments
+    dependsOn:
+      - pipelineVersion
+  - type: DYNAMIC_SELECT
+    id: run
+    label: Run
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getRuns
+    dependsOn:
+      - experiment
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: startRetry
+  stop:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: getLogs

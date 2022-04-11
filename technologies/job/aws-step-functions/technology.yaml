@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: aws-step-functions
 label: aws-step-functions
 description: "Coordinate multiple AWS services into serverless workflows"

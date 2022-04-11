@@ -3,86 +3,65 @@ label: Clone run
 description: "Clone run context"
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: instanceUrl
-      label: Kubeflow instance url
-      required: true
-      helper: "Example : http://10.64.140.43.xip.io"
-    - type: TEXT
-      name: login
-      label: Login
-      required: true
-    - type: PASSWORD
-      name: password
-      label: Password
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: pipeline
-      label: Pipeline
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelines
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: pipelineVersion
-      label: Pipeline version
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelineVersions
-      dependsOn:
-        - pipeline
-    - type: SELECT
-      name: experiment
-      label: Experiment
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getExperiments
-      dependsOn:
-        - pipelineVersion
-    - type: SELECT
-      name: run
-      label: Run
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getRuns
-      dependsOn:
-        - experiment
-    - type: TEXT
-      name: runName
-      label: Run name
-      required: true
-      dependsOn:
-        - run
-    - type: TEXT
-      name: runDescription
-      label: Run description
-      required: false
-      dependsOn:
-        - run
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: kubeflow
+parameters:
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Pipeline
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getPipelines
+  - type: DYNAMIC_SELECT
+    id: pipelineVersion
+    label: Pipeline version
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getPipelineVersions
+    dependsOn:
+      - pipeline
+  - type: DYNAMIC_SELECT
+    id: experiment
+    label: Experiment
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getExperiments
+    dependsOn:
+      - pipelineVersion
+  - type: DYNAMIC_SELECT
+    id: run
+    label: Run
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getRuns
+    dependsOn:
+      - experiment
+  - type: TEXT
+    id: runName
+    label: Run name
+    mandatory: true
+    dependsOn:
+      - run
+  - type: TEXT
+    id: runDescription
+    label: Run description
+    mandatory: false
+    dependsOn:
+      - run
+actions:
+  start:
+    script: ../dist/clone-actions.js
+    function: start
+  stop:
+    script: ../dist/actions.js
+    function: stop
+  getStatus:
+    script: ../dist/actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/actions.js
+    function: getLogs

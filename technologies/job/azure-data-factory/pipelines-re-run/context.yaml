@@ -3,77 +3,50 @@ label: Pipelines re-run
 description: "Context for re-run a run of a pipeline"
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: subscriptionId
-      label: Azure Subscription ID
-      required: true
-    - type: TEXT
-      name: clientId
-      label: Client ID
-      required: true
-    - type: PASSWORD
-      name: clientSecret
-      label: Client Secret
-      required: true
-    - type: TEXT
-      name: tenantId
-      label: Tenant ID
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: resourceGroup
-      label: Resource Group
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getResourceGroups
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: factory
-      label: Data factory
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getFactories
-      dependsOn:
-        - resourceGroup
-    - type: SELECT
-      name: pipeline
-      label: Pipeline
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelines
-      dependsOn:
-        - factory
-    - type: SELECT
-      name: pipelineRun
-      label: Pipeline Run
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getPipelinesRuns
-      dependsOn:
-        - pipeline
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: factory
+    label: Data factory
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getFactories
+    dependsOn:
+      - resourceGroup
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Pipeline
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getPipelines
+    dependsOn:
+      - factory
+  - type: DYNAMIC_SELECT
+    id: pipelineRun
+    label: Pipeline Run
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getPipelinesRuns
+    dependsOn:
+      - pipeline
+actions:
+  start:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: reRun
+  stop:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: getStatus

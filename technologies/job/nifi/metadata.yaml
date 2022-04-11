@@ -1,6 +1,6 @@
-version: v1
+version: v2
 id: nifi
-label: nifi
+label: NiFi
 description: "Nifi is an easy to use, powerful, and reliable system to process and distribute data."
 available: true
 type: EXTERNAL_JOB
@@ -12,39 +12,26 @@ contexts:
     description: "Tested with NiFi Rest Api 1.11.3."
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: URL
-          name: url
-          label: Root endpoint URL (nifi-api will be added)
-          required: true
-          helper: e.g. use http://nifi.company.com:8080
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: processgroups
-          label: Process Groups
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProcessGroups
-          dependsOn:
-            - endpoint
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: nifi
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: processgroups
+        label: Process Groups
+        mandatory: true
+        dynamicValues:
+          script: .//dist/job-form.js
+          function: getProcessGroups
+    actions:
+      start:
+        script: .//dist/actions.js
+        function: start
+      stop:
+        script: .//dist/actions.js
+        function: stop
+      getStatus:
+        script: .//dist/actions.js
+        function: getStatus
+      getLogs:
+        script: .//dist/actions.js
+        function: getLogs

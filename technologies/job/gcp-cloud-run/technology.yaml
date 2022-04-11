@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: gcp-cloud-run
 label: GCP Cloud Run
 description: "GCP Cloud Run services"

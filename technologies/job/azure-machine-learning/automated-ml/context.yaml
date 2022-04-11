@@ -3,122 +3,98 @@ label: Automated ML
 description: "Azure ML automated ML runs"
 recommended: true
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: subscriptionId
-      label: Azure Subscription ID
-      required: true
-    - type: TEXT
-      name: clientId
-      label: Client ID
-      required: true
-    - type: PASSWORD
-      name: clientSecret
-      label: Client Secret
-      required: true
-    - type: TEXT
-      name: tenantId
-      label: Tenant ID
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: resourceGroup
-      label: Resource Group
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getResourceGroups
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: workspace
-      label: Workspace
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getWorkspaces
-      dependsOn:
-        - resourceGroup
-    - type: SELECT
-      name: experiment
-      label: Experiment
-      helper: Experiment for new run.
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getExperiments
-      dependsOn:
-        - workspace
-    - type: SELECT
-      name: compute
-      label: Compute cluster
-      helper: A training cluster is required to execute the run in Azure.
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getComputes
-      dependsOn:
-        - workspace
-    - type: SELECT
-      name: dataset
-      label: Dataset
-      helper: Dataset for new run.
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getDatasets
-      dependsOn:
-        - workspace
-    - type: SELECT
-      name: targetColumn
-      label: Target column
-      helper: This is what the model will be trained to predict.
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getDatasetColumns
-      dependsOn:
-        - dataset
-    - type: SELECT
-      name: taskType
-      label: Task type
-      required: true
-      options:
-        - id: classification
-          label: Classification
-        - id: regression
-          label: Regression
-        - id: time-series-forecasting
-          label: Time series forecasting
-      dependsOn:
-        - dataset
-    - type: SELECT
-      name: timeColumn
-      label: Time column
-      helper: The column which holds the timestamp for time series data. Only required for Time series forecasting task type.
-      required: false
-      options:
-        script: ./jobForm.js
-        function: getDatasetColumns
-      dependsOn:
-        - taskType
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: workspace
+    label: Workspace
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getWorkspaces
+    dependsOn:
+      - resourceGroup
+  - type: DYNAMIC_SELECT
+    id: experiment
+    label: Experiment
+    comment: Experiment for new run.
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getExperiments
+    dependsOn:
+      - workspace
+  - type: DYNAMIC_SELECT
+    id: compute
+    label: Compute cluster
+    comment: A training cluster is required to execute the run in Azure.
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getComputes
+    dependsOn:
+      - workspace
+  - type: DYNAMIC_SELECT
+    id: dataset
+    label: Dataset
+    comment: Dataset for new run.
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getDatasets
+    dependsOn:
+      - workspace
+  - type: DYNAMIC_SELECT
+    id: targetColumn
+    label: Target column
+    comment: This is what the model will be trained to predict.
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getDatasetColumns
+    dependsOn:
+      - dataset
+  - type: STATIC_SELECT
+    id: taskType
+    label: Task type
+    mandatory: true
+    staticValues:
+      - id: classification
+        label: Classification
+      - id: regression
+        label: Regression
+      - id: time-series-forecasting
+        label: Time series forecasting
+    dependsOn:
+      - dataset
+  - type: DYNAMIC_SELECT
+    id: timeColumn
+    label: Time column
+    comment: The column which holds the timestamp for time series data. Only required for Time series forecasting task type.
+    mandatory: false
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getDatasetColumns
+    dependsOn:
+      - taskType
+actions:
+  start:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: startAutomatedML
+  stop:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: stopAutomatedML
+  getStatus:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/azure/dist/machine-learning-actions.js
+    function: getLogs

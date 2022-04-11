@@ -6,32 +6,31 @@ trustLevel: stable
 endpoint:
   features:
     - type: URL
-      name: url
+      id: url
       label: Endpoint URL
-      required: true
-      helper: e.g. use https://api.clouddataprep.com
+      mandatory: true
+      comment: e.g. use https://api.clouddataprep.com
     - type: TEXT
-      name: access_token
+      id: access_token
       label: Access token
-      required: true
+      mandatory: true
 
 job:
   features:
     - type: ENDPOINT
-      name: endpoint
+      id: endpoint
       label: Endpoint
-      required: true
+      mandatory: true
     - type: TEXT
-      name: datasetID
+      id: datasetID
       label: Wrangled dataset ID
-      required: true
-      helper:  In Dataprep Flow View, click the icon for the recipe whose outputs you wish to generate. Acquire the numeric value for the recipe from the URL.
+      mandatory: true
+      comment:  In Dataprep Flow View, click the icon for the recipe whose outputs you wish to generate. Acquire the numeric value for the recipe from the URL.
 
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/cloud-data-prep-actions.js
+    function: start
+  getStatus:
+    script: ../../../scripts/gcp/dist/cloud-data-prep-actions.js
+    function: getStatus

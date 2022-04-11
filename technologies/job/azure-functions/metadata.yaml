@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: azure-functions
 label: Azure Functions
 description: "Azure App Service REST API"
@@ -12,72 +12,48 @@ contexts:
     description: ""
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: subscriptionId
-          label: Azure Subscription ID
-          required: true
-        - type: TEXT
-          name: clientId
-          label: Client ID
-          required: true
-        - type: PASSWORD
-          name: clientSecret
-          label: Client Secret
-          required: true
-        - type: TEXT
-          name: tenantId
-          label: Tenant ID
-          required: true
-        - type: TEXT
-          name: insightsAppId
-          label: Application Insights ID
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: resourceGroup
-          label: Resource Group
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getResourceGroups
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: functionApp
-          label: Function App
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getFunctionApps
-          dependsOn:
-            - resourceGroup
-        - type: SELECT
-          name: function
-          label: Function
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getFunctions
-          dependsOn:
-            - functionApp
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: azure
+    parameters:
+      - type: TEXT
+        id: insightsAppId
+        label: Application Insights ID
+        mandatory: true
+      - type: DYNAMIC_SELECT
+        id: resourceGroup
+        label: Resource Group
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getResourceGroups
+      - type: DYNAMIC_SELECT
+        id: functionApp
+        label: Function App
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getFunctionApps
+        dependsOn:
+          - resourceGroup
+      - type: DYNAMIC_SELECT
+        id: function
+        label: Function
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getFunctions
+        dependsOn:
+          - functionApp
+    actions:
+      start:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: getLogs

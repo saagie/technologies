@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: gcp-cloud-functions
 label: gcp-cloud-functions
 description: ""
@@ -12,51 +12,38 @@ contexts:
     description: "Google API V1"
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: region
-          label: Region
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRegions
-          dependsOn:
-            - project
-        - type: SELECT
-          name: function
-          label: Cloud Function
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getFunctions
-          dependsOn:
-            - region
-    instance:
-      actions:
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: region
+        label: Region
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getFunctionsRegions
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: function
+        label: Cloud Function
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getFunctions
+        dependsOn:
+          - region
+    actions:
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-functions-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/cloud-functions-actions.js
+        function: getLogs

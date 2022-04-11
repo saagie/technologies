@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: aws-sagemaker
 label: aws-sagemaker
 description: "Easily train your models using template based approach"
@@ -12,75 +12,40 @@ contexts:
     description: "Clone an existing Training Job."
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: aws_access_key_id
-          label: Access Key ID
-          required: true
-        - type: PASSWORD
-          name: aws_secret_access_key
-          label: Secret Access Key
-          required: true
-        - type: TEXT
-          name: region
-          label: Region
-          helper: "AWS region. Example: us-east-1"
-          required: true
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: trainingjobs
-          label: Select Training Job to use as template
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getTrainingJobs
-          dependsOn:
-            - endpoint
-        - type: TEXT
-          name: trainingjobname
-          label: New Training Job Name
-          required: true
-          helper: "Specify the Name for the New training Job to be created using Template attributes."
-          dependsOn:
-            - trainingjobs
-        - type: TEXT
-          name: trainingjobinput
-          label: Job Input S3 Location
-          required: true
-          helper: "S3 Location containing input data to train the model. "
-          value:
-            script: ./jobForm.js
-            function: getJobInput
-          dependsOn:
-            - trainingjobs
-        - type: TEXT
-          name: trainingjoboutput
-          label: Job Output S3 Location
-          required: true
-          helper: "S3 Location to store the output of the training job. "
-          value:
-            script: ./jobForm.js
-            function: getJobOutput
-          dependsOn:
-            - trainingjobs
+    available: true
+    connectionTypeId: aws
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: trainingjobs
+        label: Select Training Job to use as template
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/aws/dist/job-form.js
+          function: getTrainingJobs
+      - type: TEXT
+        id: trainingjobname
+        label: New Training Job Name
+        mandatory: true
+        comment: Specify the Name for the New training Job to be created using Template attributes
+      - type: TEXT
+        id: trainingjobinput
+        label: Job Input S3 Location
+        comment: S3 Location containing input data to train the model
+      - type: TEXT
+        id: trainingjoboutput
+        label: Job Output S3 Location
+        comment: S3 Location to store the output of the training job
     
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    actions:
+      start:
+        script: .//../../scripts/aws/dist/sagemaker-clone-trainingjob-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/aws/dist/sagemaker-clone-trainingjob-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/aws/dist/sagemaker-clone-trainingjob-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/aws/dist/sagemaker-clone-trainingjob-actions.js
+        function: getLogs

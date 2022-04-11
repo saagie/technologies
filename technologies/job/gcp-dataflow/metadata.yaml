@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: gcp-dataflow
 label: GCP Dataflow
 description: "GCP Dataflow Saagie implementation"
@@ -12,133 +12,107 @@ contexts:
     description: "Clone existing Dataflow job context"
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: region
-          label: Region
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRegions
-          dependsOn:
-            - project
-        - type: SELECT
-          name: job
-          label: Job
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getJobs
-          dependsOn:
-            - region
-        - type: TEXT
-          name: clonedJobName
-          label: Cloned job name
-          required: false
-          dependsOn:
-            - job
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: region
+        label: Region
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getFunctionsRegions
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: job
+        label: Job
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getJobs
+        dependsOn:
+          - region
+      - type: TEXT
+        id: clonedJobName
+        label: Cloned job name
+        mandatory: false
+        dependsOn:
+          - job
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: startClone
+      stop:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: getLogs
   - id: new-job
     label: New job
     description: "New Dataflow job creation context"
     recommended: true
     trustLevel: experimental
-    endpoint:
-      features:
-        - type: TEXT
-          name: jsonKey
-          label: JSON key
-          required: true
-          helper: "Full JSON document"
-    job:
-      features:
-        - type: ENDPOINT
-          name: endpoint
-          label: Endpoint
-          required: true
-        - type: SELECT
-          name: project
-          label: Project
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getProjects
-          dependsOn:
-            - endpoint
-        - type: SELECT
-          name: region
-          label: Region
-          required: true
-          options:
-            script: ./jobForm.js
-            function: getRegions
-          dependsOn:
-            - project
-        - type: TEXT
-          name: templatePath
-          label: Template path
-          required: true
-          helper: "A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'"
-          dependsOn:
-            - region
-        - type: TEXT
-          name: jobName
-          label: Job name
-          required: true
-          dependsOn:
-            - region
-        - type: TEXT
-          name: jsonParameters
-          label: Parameters JSON
-          required: false
-          helper: "Parameters for job"
-          dependsOn:
-            - region
-    instance:
-      actions:
-        onStart:
-          script: ./instanceActions.js
-          function: start
-        onStop:
-          script: ./instanceActions.js
-          function: stop
-        getStatus:
-          script: ./instanceActions.js
-          function: getStatus
-        getLogs:
-          script: ./instanceActions.js
-          function: getLogs
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: region
+        label: Region
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getFunctionsRegions
+        dependsOn:
+          - project
+      - type: TEXT
+        id: templatePath
+        label: Template path
+        mandatory: true
+        comment: "A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'"
+        dependsOn:
+          - region
+      - type: TEXT
+        id: jobName
+        label: Job name
+        mandatory: true
+        dependsOn:
+          - region
+      - type: TEXT
+        id: jsonParameters
+        label: Parameters JSON
+        mandatory: false
+        comment: "Parameters for job"
+        dependsOn:
+          - region
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: startNew
+      stop:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/dataflow-actions.js
+        function: getLogs

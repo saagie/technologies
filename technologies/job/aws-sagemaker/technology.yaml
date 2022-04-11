@@ -1,4 +1,4 @@
-version: v1
+version: v2
 id: aws-sagemaker
 label: aws-sagemaker
 description: "Easily train your models using template based approach"
