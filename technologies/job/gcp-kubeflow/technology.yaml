@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: gcp-kubeflow
 label: Kubeflow on Google Cloud Platform
 description: "Google Cloud Platform Kubeflow instance gestion"

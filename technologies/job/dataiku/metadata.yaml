@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: dataiku
 label: Dataiku DSS
 description: "Dataiku API Version 7.0"

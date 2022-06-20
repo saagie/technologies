@@ -1,6 +1,6 @@
 version: v2
 id: aws-emr
-label: Amazon EMR
+label: AWS EMR
 description: "Easily run and scale Apache Spark, Hadoop, HBase, Presto, Hive, and other big data frameworks"
 available: true
 type: EXTERNAL_JOB

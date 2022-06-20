@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: gcp-cloud-data-prep
 label: Google Cloud Data Prep
 description: "Google Cloud Data Prep"

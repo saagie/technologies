@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: informatica-cloud
 label: Informatica Cloud Platform
 description: "Informatica Cloud Platform - Data integration"

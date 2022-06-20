@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: gcp-cloud-data-transfer
 label: Google Cloud Data Transfer
 description: "Google Cloud Data Transfer service"

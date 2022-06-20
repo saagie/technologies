@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: azure-functions
 label: Azure Functions
 description: "Azure App Service REST API"

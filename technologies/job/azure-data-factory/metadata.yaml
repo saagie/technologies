@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: azure-data-factory
 label: Azure Data Factory
 description: ""

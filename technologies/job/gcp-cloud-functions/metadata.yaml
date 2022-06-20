@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: gcp-cloud-functions
 label: Google Cloud Functions
 description: ""

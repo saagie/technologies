@@ -1,4 +1,4 @@
-version: v2
+version: v1
 id: kubeflow
 label: Kubeflow
 description: "Kubeflow instance gestion"
