@@ -126,7 +126,7 @@ contexts:
   - id: 4.1
     label: 4.1
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
