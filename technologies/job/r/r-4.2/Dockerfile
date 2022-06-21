@@ -85,4 +85,3 @@ RUN chmod 755 /entrypoint.sh
 WORKDIR /sandbox
 
 CMD ["/bin/bash", "-c", "/entrypoint.sh"]
-#CMD ["R"]
