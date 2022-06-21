@@ -73,7 +73,7 @@ ENV PATH=$PATH:$HADOOP_HOME/bin
 
 # Packages install
 RUN install2.r --error --skipinstalled \
-    aws.s3 \
+    aws.s3  \
     arrow \
     openxlsx \
     odbc
