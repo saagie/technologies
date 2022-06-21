@@ -8,7 +8,6 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends nginx \
     && rm -rf /var/lib/apt/lists/ \
     && rm /etc/nginx/sites-enabled/default
 COPY resources/server.conf /etc/nginx/sites-enabled/rstudio.conf
-
 COPY resources/userconf /etc/cont-init.d/userconf
 COPY resources/init_rstudio.sh /init_rstudio.sh
 
