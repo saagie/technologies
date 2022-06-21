@@ -26,6 +26,6 @@ apply<SaagieTechnologiesGradlePlugin>()
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
      this.buildArgs.put(
         "base_img",
-        "saagie/r-image:4.2-1.118.0_refs-pull-436-merge"
+        "saagie/r-image:4.2-1.118.0_SDKTECHNO-175"
     )
 }
