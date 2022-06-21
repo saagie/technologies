@@ -71,4 +71,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 4.2
-      version: 4.2-1.117.0
+      version: 4.2-1.118.0_SDKTECHNO-175
