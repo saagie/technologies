@@ -34,6 +34,6 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     )
     this.buildArgs.put(
         "spark_base_img",
-        "${dockerInfo?.image}:3.1-${this.project.getVersionForDocker()}"
+        "${dockerInfo?.image}:3.2-${this.project.getVersionForDocker()}"
     )
 }
