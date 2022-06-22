@@ -20,3 +20,10 @@ import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
+
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    this.buildArgs.put(
+        "grafana_base_img",
+        "grafana/grafana:9.0.1-ubuntu"
+    )
+}
