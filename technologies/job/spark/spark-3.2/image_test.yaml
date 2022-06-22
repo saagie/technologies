@@ -10,26 +10,12 @@ metadataTest:
       value: "/opt/spark"
 
 fileExistenceTests:
-  - name: "entrypoint.sh"
-    path: "/opt/entrypoint.sh"
-    shouldExist: true
-    permissions: "-rwxr-xr-x"
 
   - name: "kinit"
     path: "/usr/bin/kinit"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
-fileContentTests:
-  - name: "entrypoint.sh"
-    path: "/opt/entrypoint.sh"
-    expectedContents:
-      [
-        'mkdir -p /opt/spark/conf/',
-        'cat conf/\*\.conf > /opt/spark/conf/spark-defaults.conf',
-        'echo "spark\.kubernetes\.driver\.label\.io\.saagie/spark-submit-pod-uid \$SPARK_SUBMIT_POD_UID" >> /opt/spark/conf/spark-defaults.conf',
-        'sh \./main_script',
-      ]
 
 commandTests:
   - name: "java installation"
