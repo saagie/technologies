@@ -47,9 +47,4 @@ RUN mkdir -p /tmp/spark && \
     rm -Rf /tmp/spark
 # SPARK INSTALL END
 
-COPY entrypoint.sh /opt/
-RUN chmod 755 /opt/entrypoint.sh
-
 WORKDIR /sandbox/
-
-ENTRYPOINT [ "/opt/entrypoint.sh" ]
