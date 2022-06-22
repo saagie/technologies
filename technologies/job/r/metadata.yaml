@@ -126,7 +126,7 @@ contexts:
   - id: 4.1
     label: 4.1
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
@@ -168,4 +168,4 @@ contexts:
     dockerInfo:
       image: saagie/r-image
       baseTag: 4.2
-      version: 4.2-1.117.0
+      version: 4.2-1.118.0_SDKTECHNO-175
