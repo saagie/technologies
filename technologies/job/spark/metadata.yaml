@@ -274,3 +274,77 @@ contexts:
               image: saagie/spark
               baseTag: 3.1-py-3.7
               version: 3.1-py-3.7-1.100.0
+  - id: 3.2
+    label: 3.2
+    available: true
+    recommended: true
+    trustLevel: stable
+    dockerInfo:
+      image: saagie/spark
+      baseTag: 3.2
+      version: 3.2-1.119.0_SDKTECHNO-177
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --class=Main {file} arg1 arg2
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 11
+            label: 11
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-jre-11
+              version: 3.2-jre-11-1.119.0_SDKTECHNO-177
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --py-files={file} local://__main__.py
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 3.8
+            label: 3.8
+            available: false
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-py-3.8
+              version: 3.2-py-3.8-1.119.0_SDKTECHNO-177
+          - id: 3.9
+            label: 3.9
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-py-3.9
+              version: 3.2-py-3.9-1.119.0_SDKTECHNO-177
