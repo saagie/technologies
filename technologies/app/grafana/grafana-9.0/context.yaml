@@ -1,0 +1,12 @@
+id: grafana-9.0
+label: 9.0
+releaseNotes: First version of Grafana 9.0 into Saagie.
+available: true
+trustLevel: stable
+recommended: true
+ports:
+  - port: 80
+    name: Grafana
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/opt/grafana", "/opt/plugins"]
