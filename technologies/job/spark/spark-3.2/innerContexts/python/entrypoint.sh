@@ -124,14 +124,13 @@ case "$1" in
       -Xms$SPARK_EXECUTOR_MEMORY
       -Xmx$SPARK_EXECUTOR_MEMORY
       -cp "$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH"
-      org.apache.spark.scheduler.cluster.k8s.KubernetesExecutorBackend
+    org.apache.spark.executor.CoarseGrainedExecutorBackend
       --driver-url $SPARK_DRIVER_URL
       --executor-id $SPARK_EXECUTOR_ID
       --cores $SPARK_EXECUTOR_CORES
       --app-id $SPARK_APPLICATION_ID
       --hostname $SPARK_EXECUTOR_POD_IP
       --resourceProfileId $SPARK_RESOURCE_PROFILE_ID
-      --podName $SPARK_EXECUTOR_POD_NAME
     )
     ;;
 
