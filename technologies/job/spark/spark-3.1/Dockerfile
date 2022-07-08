@@ -47,6 +47,11 @@ RUN mkdir -p /tmp/spark && \
     rm -Rf /tmp/spark
 # SPARK INSTALL END
 
+COPY assets/hive_1.1.0_jars_download.sh /tmp/
+
+RUN chmod +x /tmp/hive_1.1.0_jars_download.sh && \
+    /tmp/hive_1.1.0_jars_download.sh
+
 COPY entrypoint.sh /opt/
 RUN chmod 755 /opt/entrypoint.sh
 
