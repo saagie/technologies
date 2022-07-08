@@ -200,7 +200,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.1
-      version: 3.1-1.119.0_SDKTECHNO-178
+      version: 3.1-1.119.0
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -229,7 +229,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-11
-              version: 3.1-jre-11-1.119.0_SDKTECHNO-178
+              version: 3.1-jre-11-1.119.0
           - id: 8
             label: 8
             available: false
@@ -237,7 +237,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-8
-              version: 3.1-jre-8-1.119.0_SDKTECHNO-178
+              version: 3.1-jre-8-1.119.0
       - id: python
         label: Python
         available: true
@@ -273,7 +273,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.119.0_SDKTECHNO-178
+              version: 3.1-py-3.7-1.119.0
           - id: 3.8
             label: 3.8
             available: true
@@ -282,7 +282,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.8
-              version: 3.1-py-3.8-1.119.0_SDKTECHNO-178
+              version: 3.1-py-3.8-1.119.0
           - id: 3.9
             label: 3.9
             available: true
@@ -291,4 +291,4 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.9
-              version: 3.1-py-3.9-1.119.0_SDKTECHNO-178
+              version: 3.1-py-3.9-1.119.0
