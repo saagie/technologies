@@ -1,7 +1,7 @@
 ARG jre_major=8
 FROM openjdk:${jre_major}-slim-buster
 
-ARG SPARK_VERSION=3.1.2
+ARG SPARK_VERSION=3.1.3
 ARG HADOOP_VERSION=2.7
 ARG TINI_VERSION="v0.18.0"
 
@@ -43,6 +43,11 @@ RUN mkdir -p /tmp/spark && \
     cp -R /tmp/spark/*/bin /opt/spark && \
     cp -R /tmp/spark/*/sbin /opt/spark && \
     rm -Rf /tmp/spark
+
+COPY assets/hive_1.1.0_jars_download.sh /tmp/
+
+RUN chmod +x /tmp/hive_1.1.0_jars_download.sh && \
+    /tmp/hive_1.1.0_jars_download.sh
 
 COPY entrypoint.sh /opt/
 RUN chmod 755 /opt/entrypoint.sh

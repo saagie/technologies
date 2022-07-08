@@ -124,7 +124,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --class=Main {file} arg1 arg2
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--class=Main {file} arg1 arg2"
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -159,7 +159,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --py-files={file} __main__.py
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} __main__.py"
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -200,7 +200,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.1
-      version: 3.1-1.100.0
+      version: 3.1-1.119.0
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -212,7 +212,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --class=Main {file} arg1 arg2
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--class=Main {file} arg1 arg2"
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -229,7 +229,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-11
-              version: 3.1-jre-11-1.100.0
+              version: 3.1-jre-11-1.119.0
           - id: 8
             label: 8
             available: false
@@ -237,7 +237,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-jre-8
-              version: 3.1-jre-8-1.100.0
+              version: 3.1-jre-8-1.119.0
       - id: python
         label: Python
         available: true
@@ -248,7 +248,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --py-files={file} local://__main__.py
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} local://__main__.py"
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -273,4 +273,22 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.100.0
+              version: 3.1-py-3.7-1.119.0
+          - id: 3.8
+            label: 3.8
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-py-3.8
+              version: 3.1-py-3.8-1.119.0
+          - id: 3.9
+            label: 3.9
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-py-3.9
+              version: 3.1-py-3.9-1.119.0
