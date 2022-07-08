@@ -132,11 +132,6 @@ contexts:
             - type: SCHEDULER
               label: Scheduled
               mandatory: true
-        
-        
-        
-        
-        
         innerContexts:
           - id: 11
             label: 11
@@ -295,5 +290,5 @@ contexts:
             recommended: true
             dockerInfo:
               image: saagie/spark
-              baseTag: 3.1-py-3.8
-              version: 3.1-py-3.8-1.119.0_SDKTECHNO-178
+              baseTag: 3.1-py-3.9
+              version: 3.1-py-3.9-1.119.0_SDKTECHNO-178
