@@ -1,6 +1,4 @@
-ARG grafana_base_img
-
-FROM ${grafana_base_img}
+FROM grafana/grafana:8.2.1-ubuntu
 
 USER root
 
@@ -15,13 +13,13 @@ RUN mkdir /opt/grafana && \
     chown grafana /opt/grafana && \
     chown grafana /opt/plugins
 
-COPY assets/server.conf /etc/nginx/sites-enabled/grafana.conf
-COPY assets/grafana.ini /etc/grafana/grafana.ini
+COPY server.conf /etc/nginx/sites-enabled/grafana.conf
+COPY grafana.ini /etc/grafana/grafana.ini
 
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
 
-ADD assets/entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
