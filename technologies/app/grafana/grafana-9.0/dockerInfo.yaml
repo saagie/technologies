@@ -1,4 +1,4 @@
 image: saagie/grafana
 baseTag: 9.0
-dynamicVersion: 1.118.0_SDKTECHNO-176
-version: 9.0-1.118.0_SDKTECHNO-176
+dynamicVersion: 1.119.0_SDKTECHNO-176
+version: 9.0-1.119.0_SDKTECHNO-176
