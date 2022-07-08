@@ -8,7 +8,7 @@ job:
       label: Command line
       mandatory: true
       comment: Linux shell command to launch the job.
-      defaultValue: spark-submit --py-files={file} __main__.py
+      defaultValue: "spark-submit \\ \n--conf spark.executor.memory=1G \\ \n--conf spark.executor.cores=1 \\ \n--conf spark.kubernetes.executor.limit.cores=1 \\ \n--conf spark.executor.instances=2 \\ \n--py-files={file} __main__.py"
     - type: ARTIFACT
       label: Package
       mandatory: true
