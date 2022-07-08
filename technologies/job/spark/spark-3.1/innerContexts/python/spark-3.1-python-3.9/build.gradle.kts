@@ -30,7 +30,7 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     dependsOn(":spark-3.1:testImage")
     this.buildArgs.put(
         "base_img",
-        "saagie/python:3.8-1.116.0"
+        "saagie/python:3.9-1.116.0"
     )
     this.buildArgs.put(
         "spark_base_img",

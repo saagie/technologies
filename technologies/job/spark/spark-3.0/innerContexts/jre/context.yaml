@@ -16,8 +16,3 @@ job:
     - type: SCHEDULER
       label: Scheduled
       mandatory: true
-
-
-
-
-
