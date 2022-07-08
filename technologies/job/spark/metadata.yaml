@@ -273,7 +273,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.100.0
+              version: 3.1-py-3.7-1.119.0_SDKTECHNO-178
           - id: 3.8
             label: 3.8
             available: true
