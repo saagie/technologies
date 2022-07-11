@@ -1,4 +1,4 @@
-FROM dbeaver/cloudbeaver:22.1.&
+FROM dbeaver/cloudbeaver:22.1.1
 
 ENV DEBIAN_FRONTEND noninteractive
 
