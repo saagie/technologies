@@ -7,5 +7,5 @@ ports:
   - port: 80
     name: Grafana
     rewriteUrl: false
-    basePath: SAAGIE_BASE_PATH
+    basePath: GF_SERVER_DOMAIN
 volumes: ["/opt/grafana", "/opt/plugins"]
