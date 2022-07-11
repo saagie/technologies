@@ -24,3 +24,18 @@ contexts:
       image: saagie/cloudbeaver
       baseTag: 1.2.0
       version: 1.2.0-1.75.0
+  - id: cloudbeaver-22.1.1
+    label: 22.1.1
+    releaseNotes: First version of CloudBeaver 22.1.1 into Saagie.
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: CloudBeaver
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/opt/cloudbeaver/workspace"]
+    dockerInfo:
+      image: saagie/cloudbeaver
+      baseTag: 22.1.1
+      version: 22.1.1-1.120.0_cloudbeader-icon
