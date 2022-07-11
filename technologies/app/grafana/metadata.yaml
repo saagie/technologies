@@ -22,8 +22,8 @@ contexts:
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
       image: saagie/grafana
-      baseTag: 8.2
-      version: 8.2-1.120.0_SDKTECHNO-176
+      baseTag: 8.2.1
+      version: 8.2.1-1.120.0_SDKTECHNO-176
   - id: grafana-9.0
     label: 9.0
     releaseNotes: First version of Grafana 9.0 into Saagie.
@@ -38,5 +38,5 @@ contexts:
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
       image: saagie/grafana
-      baseTag: 9.0
-      version: 9.0-1.120.0_SDKTECHNO-176
+      baseTag: 9.0.1
+      version: 9.0.1-1.120.0_SDKTECHNO-176
