@@ -7,6 +7,6 @@ else
   sed -i 's:GRAFANA_ADMIN_PASSWORD:'"$GRAFANA_ADMIN_PASSWORD"':g' /etc/grafana/grafana.ini
 fi
 
-sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/grafana.conf
+sed -i 's:SAAGIE_BASE_PATH:'"$GF_SERVER_DOMAIN"':g' /etc/nginx/sites-enabled/grafana.conf
 
 nginx && /run.sh

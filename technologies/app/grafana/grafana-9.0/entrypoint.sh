@@ -5,6 +5,6 @@ if [[ -z "${GF_SECURITY_ADMIN_PASSWORD}" ]]; then
   exit 1
 fi
 
-sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/grafana.conf
+sed -i 's:SAAGIE_BASE_PATH:'"$GF_SERVER_DOMAIN"':g' /etc/nginx/sites-enabled/grafana.conf
 
 nginx && /run.sh
