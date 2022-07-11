@@ -1,0 +1,11 @@
+id: cloudbeaver-22.1.1
+label: 22.1.1
+releaseNotes: First version of CloudBeaver 22.1.1 into Saagie.
+available: true
+trustLevel: experimental
+ports:
+  - port: 80
+    name: CloudBeaver
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/opt/cloudbeaver/workspace"]
