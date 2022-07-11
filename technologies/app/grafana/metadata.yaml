@@ -18,12 +18,12 @@ contexts:
       - port: 80
         name: Grafana
         rewriteUrl: false
-        basePath: SAAGIE_BASE_PATH
+        basePath: GF_SERVER_DOMAIN
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
       image: saagie/grafana
       baseTag: 8.2
-      version: 8.2-1.108.0
+      version: 8.2-1.120.0_SDKTECHNO-176
   - id: grafana-9.0
     label: 9.0
     releaseNotes: First version of Grafana 9.0 into Saagie.
@@ -34,7 +34,7 @@ contexts:
       - port: 80
         name: Grafana
         rewriteUrl: false
-        basePath: SAAGIE_BASE_PATH
+        basePath: GF_SERVER_DOMAIN
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
       image: saagie/grafana
