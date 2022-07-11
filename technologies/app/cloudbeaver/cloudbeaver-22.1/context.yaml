@@ -1,6 +1,6 @@
-id: cloudbeaver-22.1.1
-label: 22.1.1
-releaseNotes: First version of CloudBeaver 22.1.1 into Saagie.
+id: cloudbeaver-22.1
+label: 22.1
+releaseNotes: First version of CloudBeaver 22.1 into Saagie.
 available: true
 trustLevel: experimental
 ports:
