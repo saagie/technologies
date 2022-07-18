@@ -1,8 +1,9 @@
-id: grafana-8.2
-label: 8.2
-releaseNotes: First version of Grafana 8.2 into Saagie.
+id: grafana-9.0
+label: 9.0
+releaseNotes: First version of Grafana 9.0 into Saagie.
 available: true
 trustLevel: stable
+recommended: true
 ports:
   - port: 80
     name: Grafana
