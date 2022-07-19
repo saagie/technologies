@@ -18,9 +18,6 @@ fileExistenceTests:
     permissions: "-rw-r--r--"
 
 commandTests:
-  - name: "Workdir"
-    command: "pwd"
-    expectedOutput: ["/usr/share/grafana"]
   - name: "nginx"
     command: "nginx"
     args: ["-v"]
