@@ -4,7 +4,8 @@ USER root
 
 #Nginx
 RUN apk update \
-  && apk add nginx
+  && apk add nginx \
+  && rm -rf /var/cache/apk/*
 
 RUN rm /etc/nginx/http.d/default.conf
 COPY server.conf /etc/nginx/http.d/pgadmin.conf
