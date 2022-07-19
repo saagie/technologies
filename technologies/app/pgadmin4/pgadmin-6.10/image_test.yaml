@@ -12,6 +12,7 @@ fileExistenceTests:
     permissions: "-rw-r--r--"
 
 commandTests:
+  - name: "nginx"
     command: "nginx"
     args: ["-v"]
     expectedError: ["nginx version:*"]
