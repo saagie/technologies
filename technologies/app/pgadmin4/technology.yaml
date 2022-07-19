@@ -1,0 +1,10 @@
+version: v1
+type: APP
+id: pgadmin4
+label: PGAdmin 4
+baseline: "pgAdmin4"
+description: "pgAdmin4 is a postgresql browser. \nCreate an environment variable named 'PGADMIN_DEFAULT_EMAIL' to set a user mail and PGADMIN_DEFAULT_PASSWORD for his password."
+available: true
+icon: pgadmin4
+backgroundColor: "#326690"
+customFlags: []

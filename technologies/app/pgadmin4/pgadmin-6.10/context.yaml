@@ -1,0 +1,11 @@
+id: pgAdmin4-6.10
+releaseNotes: First version of PGAdmin4 into Saagie.
+label: 6.10
+available: true
+trustLevel: stable
+ports:
+  - port: 80
+    name: pgadmin4
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/var/lib/pgadmin"]
