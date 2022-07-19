@@ -11,8 +11,7 @@ RUN rm /etc/nginx/http.d/default.conf
 COPY server.conf /etc/nginx/http.d/pgadmin.conf
 
 #Entrypoint
-ADD entrypoint_saagie.sh /
-RUN chmod 777 /entrypoint_saagie.sh
+COPY entrypoint_saagie.sh /
 
 #PGadmin conf
 ENV PGADMIN_LISTEN_PORT=92
