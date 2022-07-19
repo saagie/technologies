@@ -1,0 +1,29 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: "MB_DB_FILE"
+      value: "/metabase-data"
+    - key: "MB_PLUGINS_DIR"
+      value: "/app/plugins"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "server.conf"
+    path: "/etc/nginx/http.d/metabase.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/usr/share/grafana"]
+  - name: "nginx"
+    command: "nginx"
+    args: ["-v"]
+    expectedError: ["nginx version:*"]
+
+
