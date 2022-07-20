@@ -1,0 +1,11 @@
+id: metabase-0.43
+label: 0.43
+releaseNotes: First version of Metabase 0.43 into Saagie.
+available: true
+trustLevel: stable
+ports:
+    - port: 80
+      name: Metabase
+      rewriteUrl: false
+      basePath: SAAGIE_BASE_PATH
+volumes: ["/metabase-data"]

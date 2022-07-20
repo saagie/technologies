@@ -1,0 +1,29 @@
+version: v1
+type: APP
+id: metabase
+label: Metabase
+available: true
+baseline: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
+description: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
+icon: metabase
+backgroundColor: "#5ea4e3"
+customFlags: []
+
+
+
+contexts:
+  - id: metabase-0.43
+    label: 0.43
+    releaseNotes: First version of Metabase 0.43 into Saagie.
+    available: true
+    trustLevel: stable
+    ports:
+        - port: 80
+          name: Metabase
+          rewriteUrl: false
+          basePath: SAAGIE_BASE_PATH
+    volumes: ["/metabase-data"]
+    dockerInfo:
+      image: saagie/metabase
+      baseTag: 0.43.4
+      version: 0.43.4-1.122.0_SDKTECHNO-179

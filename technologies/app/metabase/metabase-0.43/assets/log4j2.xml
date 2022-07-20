@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %p %c{2} :: %m%n">
+        <replace regex=":basic-auth \\[.*\\]" replacement=":basic-auth [redacted]"/>
+      </PatternLayout>
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="metabase" level="WARN"/>
+    <Logger name="metabase-enterprise" level="WARN"/>
+    <Logger name="metabase.plugins" level="WARN"/>
+    <Logger name="metabase.core" level="INFO"/>
+    <Logger name="metabase.server.middleware" level="WARN"/>
+    <Logger name="metabase.query-processor.async" level="WARN"/>
+    <Logger name="com.mchange" level="ERROR"/>
+
+    <Root level="WARN">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>
