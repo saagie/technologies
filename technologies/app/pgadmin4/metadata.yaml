@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: pgAdmin4-6.10
     releaseNotes: First version of PGAdmin4 into Saagie.
-    label: 6.10
+    label: "6.10"
     available: true
     trustLevel: stable
     ports:
@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/pgadmin4
       baseTag: 6.10
-      version: 6.10-1.122.0_SDKTECHNO-180
+      version: 6.10-1.123.0_SDKTECHNO-180
