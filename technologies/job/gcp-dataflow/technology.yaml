@@ -1,7 +1,0 @@
-version: v1
-id: gcp-dataflow
-label: GCP Dataflow
-description: "GCP Dataflow Saagie implementation"
-available: true
-type: EXTERNAL_JOB
-icon: job

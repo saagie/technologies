@@ -1,7 +1,0 @@
-version: v1
-id: informatica-powercenter-soap
-label: Informatica Powercenter SOAP
-description: "Powercenter with web services hub (SOAP API)"
-available: true
-type: EXTERNAL_JOB
-icon: job

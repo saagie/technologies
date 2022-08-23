@@ -1,7 +1,0 @@
-version: v1
-id: kubeflow
-label: Kubeflow
-description: "Kubeflow instance gestion"
-available: true
-type: EXTERNAL_JOB
-icon: job

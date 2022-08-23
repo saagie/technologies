@@ -1,7 +1,0 @@
-version: v1
-id: azure-databricks
-label: Azure Databricks
-description: ""
-available: true
-type: EXTERNAL_JOB
-icon: job

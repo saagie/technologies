@@ -11,3 +11,15 @@ tmp-zip
 node_modules/
 .cache/
 .bundle/
+yarn-error.log
+
+# AWS, GCP and Azure technology scripts are in 'scripts'. If there are some package.json, it is to debug the SDK.
+# In a normal work environement, 'npx @saagie/sdk' should be used in this projects.
+technologies/job/aws-*/package.json
+technologies/job/aws-*/yarn.lock
+technologies/job/azure-*/package.json
+technologies/job/azure-*/yarn.lock
+technologies/job/gcp-*/package.json
+technologies/job/gcp-*/yarn.lock
+
+technologies/scripts/*/dist/*.LICENSE.txt

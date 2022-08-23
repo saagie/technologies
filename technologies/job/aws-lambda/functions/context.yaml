@@ -1,50 +1,28 @@
 id: functions
-label: functions
-description: "Only lambda with Kinesis, SQS and DynamoDB Stream."
-recommended: true
+label: Functions
+description: AWS Lambda Functions
+recommended: false
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: aws_access_key_id
-      label: Access Key ID
-      required: true
-    - type: PASSWORD
-      name: aws_secret_access_key
-      label: Secret Access Key
-      required: true
-    - type: TEXT
-      name: region
-      label: Region
-      helper: "AWS region. Example: us-east-1"
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: functions
-      label: Functions
-      helper: Only lambda with Kinesis, SQS and DynamoDB Stream.
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getFunctions
-      dependsOn:
-        - endpoint
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: aws
+parameters:
+  - type: DYNAMIC_SELECT
+    id: functions
+    label: Functions
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/aws/dist/job-form.js
+      function: getFunctions
+  - type: TEXT
+    id: payload
+    label: The JSON that you want to provide to your Lambda function as input
+actions:
+  start:
+    script: ../../../scripts/aws/dist/lambda-functions-actions.js
+    function: start
+  getStatus:
+    script: ../../../scripts/aws/dist/lambda-functions-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/aws/dist/lambda-functions-actions.js
+    function: getLogs
