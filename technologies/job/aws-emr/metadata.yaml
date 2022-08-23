@@ -4,7 +4,7 @@ label: AWS EMR
 description: "Easily run and scale Apache Spark, Hadoop, HBase, Presto, Hive, and other big data frameworks"
 available: true
 type: EXTERNAL_JOB
-icon: job
+icon: aws-emr
 
 contexts:
   - id: clone-step

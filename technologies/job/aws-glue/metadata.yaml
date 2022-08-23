@@ -1,10 +1,10 @@
 version: v2
 id: aws-glue
 label: AWS Glue
-description: "AWS Simple, flexible, and cost-effective ETL"
+description: "AWS Simple, flexible, and cost-effective ETL. Api Version: 2017-03-31 "
 available: true
 type: EXTERNAL_JOB
-icon: job
+icon: aws-glue
 
 contexts:
   - id: crawler

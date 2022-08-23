@@ -4,7 +4,7 @@ label: AWS Batch
 description: "Fully managed batch processing at any scale"
 available: true
 type: EXTERNAL_JOB
-icon: job
+icon: aws-batch
 
 contexts:
   - id: job
