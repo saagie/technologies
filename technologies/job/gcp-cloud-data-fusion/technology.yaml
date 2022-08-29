@@ -1,0 +1,7 @@
+version: v1
+id: gcp-cloud-data-fusion
+label: Google Cloud Data Fusion
+description: "Google Cloud Data Fusion pipelines"
+available: false
+type: EXTERNAL_JOB
+icon: job

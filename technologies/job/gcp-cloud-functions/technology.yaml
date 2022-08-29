@@ -1,0 +1,7 @@
+version: v2
+id: gcp-cloud-functions
+label: Google Cloud Functions
+description: ""
+available: true
+type: EXTERNAL_JOB
+icon: job
