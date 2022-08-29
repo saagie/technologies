@@ -1,0 +1,38 @@
+version: v1
+id: gcp-cloud-data-prep
+label: Google Cloud Data Prep
+description: "Google Cloud Data Prep"
+available: false
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: token-auth
+    label: Token auth
+    description: "Google Cloud Dataprep user authentication by access token"
+    recommended: false
+    trustLevel: experimental
+    connectionTypeId: gcp
+    parameters:
+      - type: TEXT
+        id: url
+        label: Endpoint URL
+        mandatory: true
+        comment: e.g. use https://api.clouddataprep.com
+      - type: TEXT
+        id: access_token
+        label: Access token
+        mandatory: true
+      - type: TEXT
+        id: datasetID
+        label: Wrangled dataset ID
+        mandatory: true
+        comment:  In Dataprep Flow View, click the icon for the recipe whose outputs you wish to generate. Acquire the numeric value for the recipe from the URL.
+
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-data-prep-actions.js
+        function: start
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-data-prep-actions.js
+        function: getStatus

@@ -1,0 +1,43 @@
+id: default
+label: Default
+description: "Google API V1"
+recommended: true
+trustLevel: experimental
+available: true
+connectionTypeId: gcp
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: region
+    label: Region
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getFunctionsRegions
+    dependsOn:
+      - project
+  - type: DYNAMIC_SELECT
+    id: function
+    label: Cloud Function
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getFunctions
+    dependsOn:
+      - region
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/cloud-functions-actions.js
+    function: start
+  getStatus:
+    script: ../../../scripts/gcp/dist/cloud-functions-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/gcp/dist/cloud-functions-actions.js
+    function: getLogs
