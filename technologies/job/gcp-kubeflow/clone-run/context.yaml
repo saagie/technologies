@@ -1,0 +1,77 @@
+id: clone-run
+label: Clone run
+description: "Clone run context"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: gcp
+parameters:
+  - type: TEXT
+    id: instanceUrl
+    label: Kubeflow instance URL
+    mandatory: true
+    comment: "Example : https://5c591fbc910180f6-dot-us-central2.pipelines.googleusercontent.com"
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Projects
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Pipeline
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getPipelines
+    dependsOn:
+      - project
+  - type: DYNAMIC_SELECT
+    id: pipelineVersion
+    label: Pipeline version
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getPipelineVersions
+    dependsOn:
+      - pipeline
+  - type: DYNAMIC_SELECT
+    id: experiment
+    label: Experiment
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getExperiments
+    dependsOn:
+      - pipelineVersion
+  - type: DYNAMIC_SELECT
+    id: run
+    label: Run
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getRuns
+    dependsOn:
+      - experiment
+  - type: TEXT
+    id: runName
+    label: Run name
+    mandatory: true
+  - type: TEXT
+    id: runDescription
+    label: Run description
+    mandatory: false
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: startClone
+  stop:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/gcp/dist/kubeflow-actions.js
+    function: getLogs
