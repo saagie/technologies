@@ -1,0 +1,224 @@
+version: v2
+id: gcp-cloud-data-transfer
+label: Google Cloud Data Transfer
+description: "Google Cloud Data Transfer service"
+available: true
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: azure-transfer-jobs
+    label: Azure transfer jobs
+    description: "Azure storage account transfer jobs context"
+    recommended: true
+    trustLevel: experimental
+    available: false
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: TEXT
+        id: storageAccountName
+        label: Azure storage account name
+        mandatory: true
+      - type: TEXT
+        id: containerName
+        label: Azure container name
+        mandatory: true
+      - type: TEXT
+        id: sapToken
+        label: Shared access signature (SAP)
+        mandatory: true
+      - type: DYNAMIC_SELECT
+        id: destinationBucket
+        label: GCS Destination bucket
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getBuckets
+        dependsOn:
+          - project
+      - type: TEXT
+        id: description
+        label: Description
+        mandatory: false
+      - type: TEXT
+        id: dailyExecutionHour
+        label: Daily execution hour
+        mandatory: false
+        comment: Insert an hour to create a daily job (HH:mm format)
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: startTransferAzure
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getLogs
+  - id: s3-transfer-jobs
+    label: Amazon S3 transfer jobs
+    description: "Amazon AWS S3 transfer jobs context"
+    recommended: true
+    trustLevel: experimental
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: TEXT
+        id: S3bucketName
+        label: Amazon S3 bucket name
+        mandatory: true
+      - type: TEXT
+        id: accessKeyID
+        label: Access key ID
+        mandatory: true
+      - type: TEXT
+        id: secretKeyID
+        label: Secret access key ID
+        mandatory: true
+      - type: DYNAMIC_SELECT
+        id: destinationBucket
+        label: GCS Destination bucket
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getBuckets
+        dependsOn:
+          - project
+      - type: TEXT
+        id: description
+        label: Description
+        mandatory: false
+      - type: TEXT
+        id: dailyExecutionHour
+        label: Daily execution hour
+        mandatory: false
+        comment: Insert an hour to create a daily job (HH:mm format)
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: startTransferS3
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getStatus
+  - id: transfer-jobs
+    label: GCS transfer jobs
+    description: "Google Cloud Storage transfer jobs gestion context"
+    recommended: true
+    trustLevel: experimental
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: sourceBucket
+        label: GCS Source bucket
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getBuckets
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: destinationBucket
+        label: GCS Destination bucket
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getBuckets
+        dependsOn:
+          - project
+      - type: TEXT
+        id: description
+        label: Description
+        mandatory: false
+      - type: TEXT
+        id: dailyExecutionHour
+        label: Daily execution hour
+        mandatory: false
+        comment: Insert an hour to create a daily job (HH:mm format)
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: startTransferGCS
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getStatus
+  - id: tsv-transfer-jobs
+    label: TSV file transfer jobs
+    description: "TSV file transfer jobs context"
+    recommended: true
+    trustLevel: experimental
+    available: false
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: TEXT
+        id: tsvFileURL
+        label: TSV file URL
+        mandatory: true
+      - type: DYNAMIC_SELECT
+        id: destinationBucket
+        label: GCS Destination bucket
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getBuckets
+        dependsOn:
+          - project
+      - type: TEXT
+        id: description
+        label: Description
+        mandatory: false
+      - type: TEXT
+        id: dailyExecutionHour
+        label: Daily execution hour
+        mandatory: false
+        comment: Insert an hour to create a daily job (HH:mm format)
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: startTransferTSV
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
+        function: getLogs

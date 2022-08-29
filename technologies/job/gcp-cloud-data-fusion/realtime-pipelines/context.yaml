@@ -1,0 +1,55 @@
+id: realtime-pipelines
+label: Real-time pipelines
+description: "Google Cloud Data Fusion real-time pipelines context"
+recommended: true
+trustLevel: experimental
+available: true
+connectionTypeId: gcp
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: region
+    label: Region
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getDatafusionRegions
+    dependsOn:
+      - project
+  - type: DYNAMIC_SELECT
+    id: instance
+    label: Instance
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getDatafusionInstances
+    dependsOn:
+      - region
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Real-time pipelines
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getRealtimePipelines
+    dependsOn:
+      - instance
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/cloud-data-fusion-actions.js
+    function: startRealtime
+  stop:
+    script: ../../../scripts/gcp/dist/cloud-data-fusion-actions.js
+    function: stopRealtime
+  getStatus:
+    script: ../../../scripts/gcp/dist/cloud-data-fusion-actions.js
+    function: getStatusRealtime
+  getLogs:
+    script: ../../../scripts/gcp/dist/cloud-data-fusion-actions.js
+    function: getLogsRealtime

@@ -1,0 +1,7 @@
+version: v1
+id: gcp-platform-ai
+label: Google Cloud AI Platform
+description: ""
+available: false
+type: EXTERNAL_JOB
+icon: job
