@@ -15,16 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.github.gradle.node.NodeExtension
+import com.github.gradle.node.NodePlugin
+import com.github.gradle.node.yarn.task.YarnTask
 import com.saagie.technologies.SaagieTechnologiesPackageGradlePlugin
 import com.saagie.technologies.TYPE
 import com.saagie.technologies.modifiedProjects
 import net.thauvin.erik.gradle.semver.SemverIncrementBuildMetaTask
 
-val buildDockerTaskName = "buildDockerImage"
-
 plugins {
-    id("net.thauvin.erik.gradle.semver").version("1.0.4")
+    id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("com.bmuschko.docker-remote-api") version "6.1.1"
+    id("com.github.node-gradle.node") version "3.2.1"
     id("org.kordamp.gradle.project") version "0.46.0"
 }
 
@@ -33,7 +35,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.saagie:technologiesplugin:1.3.1")
+        classpath("com.saagie:technologiesplugin:1.3.11")
     }
 }
 apply<SaagieTechnologiesPackageGradlePlugin>()
@@ -69,17 +71,34 @@ config {
     }
 }
 
+configure(subprojects) {
+    apply<NodePlugin>()
+
+    configure<NodeExtension> {
+        download.set(true)
+        version.set("16.14.2")
+        npmVersion.set("8.5.0")
+        yarnVersion.set("1.22.18")
+    }
+
+    tasks {
+        val yarn_install by getting {
+            (this as YarnTask).args.addAll("--cache-folder", File(File(project.projectDir, ".cache"), "yarn").toString())
+        }
+    }
+}
+
 tasks.register("buildModifiedJobs") {
     group = "technologies"
     description = "Build only modified jobs"
 
-    val modifiedProjects = modifiedProjects(TYPE.JOB, subprojects)
+    val modifiedProjects = modifiedProjects(TYPE.CONNECTION_TYPE, subprojects) + modifiedProjects(TYPE.JOB, subprojects)
 
     logger.info(this.description)
     dependsOn("incrementBuildMeta")
     logger.debug("$modifiedProjects")
     modifiedProjects.forEach {
-        dependsOn("${it.path}:$buildDockerTaskName")
+        dependsOn("${it.path}:buildTechnology")
     }
     finalizedBy(":packageAllVersions")
 }
@@ -94,28 +113,28 @@ tasks.register("buildModifiedApps") {
     dependsOn("incrementBuildMeta")
     logger.debug("$modifiedProjects")
     modifiedProjects.forEach {
-        dependsOn("${it.path}:$buildDockerTaskName")
+        dependsOn("${it.path}:buildTechnology")
     }
     finalizedBy(":packageAllVersions")
 }
 
 tasks.register("localBuildModifiedJobs") {
     group = "technologies"
-    description = "Local Build only modified jobs without push"
+    description = "Local build only modified jobs without push"
 
-    val modifiedProjects = modifiedProjects(TYPE.JOB, subprojects)
+    val modifiedProjects = modifiedProjects(TYPE.CONNECTION_TYPE, subprojects) + modifiedProjects(TYPE.JOB, subprojects)
 
     logger.info(this.description)
     dependsOn("incrementBuildMeta")
     logger.debug("$modifiedProjects")
     modifiedProjects.forEach {
-        dependsOn("${it.path}:testImage")
+        dependsOn("${it.path}:testTechnology")
     }
 }
 
 tasks.register("localBuildModifiedApps") {
     group = "technologies"
-    description = "Local Build only modified apps without push"
+    description = "Local build only modified apps without push"
 
     val modifiedProjects = modifiedProjects(TYPE.APP, subprojects)
 
@@ -123,7 +142,7 @@ tasks.register("localBuildModifiedApps") {
     dependsOn("incrementBuildMeta")
     logger.debug("$modifiedProjects")
     modifiedProjects.forEach {
-        dependsOn("${it.path}:testImage")
+        dependsOn("${it.path}:testTechnology")
     }
 }
 
@@ -134,7 +153,7 @@ tasks.register("buildAllTechnologies") {
     logger.info(this.description)
     dependsOn("incrementBuildMeta")
     subprojects.forEach {
-        dependsOn("${it.path}:$buildDockerTaskName")
+        dependsOn("${it.path}:buildTechnology")
     }
     finalizedBy(":packageAllVersions")
 }

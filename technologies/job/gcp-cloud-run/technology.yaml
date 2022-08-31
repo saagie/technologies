@@ -1,7 +1,0 @@
-version: v1
-id: gcp-cloud-run
-label: GCP Cloud Run
-description: "GCP Cloud Run services"
-available: true
-type: EXTERNAL_JOB
-icon: job

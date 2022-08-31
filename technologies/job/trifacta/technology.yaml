@@ -1,7 +1,0 @@
-version: v1
-id: trifacta
-label: Trifacta
-description: "Trifacta Wrangler"
-available: true
-type: EXTERNAL_JOB
-icon: job

@@ -1,64 +1,41 @@
 id: clone-step
-label: clone-step
+label: Clone Step
 description: "Clone an existing EMR Step."
-recommended: true
+recommended: false
 trustLevel: experimental
-endpoint:
-  features:
-    - type: TEXT
-      name: aws_access_key_id
-      label: Access Key ID
-      required: true
-    - type: PASSWORD
-      name: aws_secret_access_key
-      label: Secret Access Key
-      required: true
-    - type: TEXT
-      name: region
-      label: Region
-      helper: "AWS region. Example: us-east-1"
-      required: true
-job:
-  features:
-    - type: ENDPOINT
-      name: endpoint
-      label: Endpoint
-      required: true
-    - type: SELECT
-      name: clusters
-      label: Clusters
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getClusters
-      dependsOn:
-        - endpoint
-    - type: SELECT
-      name: steps
-      label: Step to clone
-      required: true
-      options:
-        script: ./jobForm.js
-        function: getSteps
-      dependsOn:
-        - clusters
-    - type: TEXT
-      name: name
-      label: New Name
-      required: true
-      dependsOn:
-        - steps
-instance:
-  actions:
-    onStart:
-      script: ./instanceActions.js
-      function: start
-    onStop:
-      script: ./instanceActions.js
-      function: stop
-    getStatus:
-      script: ./instanceActions.js
-      function: getStatus
-    getLogs:
-      script: ./instanceActions.js
-      function: getLogs
+available: true
+connectionTypeId: aws
+parameters:
+  - type: DYNAMIC_SELECT
+    id: clusters
+    label: Clusters
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/aws/dist/job-form.js
+      function: getClusters
+  - type: DYNAMIC_SELECT
+    id: steps
+    label: Step to clone
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/aws/dist/job-form.js
+      function: getSteps
+    dependsOn:
+      - clusters
+  - type: TEXT
+    id: name
+    label: New Name
+    mandatory: true
+actions:
+  start:
+    script: ../../../scripts/aws/dist/emr-clone-step-actions.js
+    function: start
+  stop:
+    script: ../../../scripts/aws/dist/emr-clone-step-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/aws/dist/emr-clone-step-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/aws/dist/emr-clone-step-actions.js
+    function: getLogs

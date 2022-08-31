@@ -24,84 +24,62 @@ It also contains some experimental technologies before being certified.
 
 For information about using these technologies with your Saagie platform, refer to [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
 
-## CONTENTS
-
-This repository contains all job and application technologies.
- 
-### Job technologies
-
-A job technologie can be launch as a job in Saagie. It has :
-- a name
-- an icon
-- some features to create a job
-- one or more versions (each can be active/deprecated/inactive for the same technologie)
-
-See "How to create a new job technologie" for more details
-
-### Application technologies
-
-
-An application technologie can be launch as an application in Saagie. It has : 
-- a name
-- an icon
-- a description
-- some default properties to create the application (ports, volumes, ...)
-
-
-See "How to create a new application technologie" for more details 
-
-
 ## CONTRIBUTING
 
+All contributions are made via Github Pull Requests.
 
-All contributions are made with the pull-request system.
+### Build
 
-### How to create a new job technologie
+The build is using [Gradle](https://gradle.org/)
 
+Launch the Gradle task `localBuildModifiedJobs` or `localBuildModifiedApps` to build locally the technology modified locally:
 
-You create an issue and a pull-request associated. 
+    ./gradlew localBuildModifiedJobs
+    ./gradlew localBuildModifiedApps
+
+### CI
 
 The build is running using a Github Action workflow (build only modified). It builds only technologies modified and generate a pre release containing assets. The name of the pre release = current version + name of the branch.
 
-When you create a new technologie or a new version for a job, you need to specify some needed files (see current for inspiration).
+### Structure
 
-Tree directories are strict :   
-![tree_directory](./readme_assets/folder_directory.png)
+The build is using the [Gradle plugin for Saagie technologies repository](https://github.com/saagie/technologies-plugin). It expects a specific directory structure:
+- `technologies`: the required base directory. It contains sub directories for each type of technology metadata: 
+-- `app`: contains folders of each app technology
+-- `job`: contains folders of each job technology
+-- `connectiontype`: contains folders of each connection type
+-- `scripts` is a sub directory dedicated to external technologies which share the same javascript files
 
-two main root folders : "certified" and "experimental", then you need to specified if the technology is for a job or an application.
-So you'll have : `certified/job` for a certified job technology.
+Each metadata folder must then contain a `metadata.yaml` file. For `job` and `app` technology metadata, the build is automatically generating them from the `technology.yaml` file and each `context.yaml` found in the sub folders.
 
-Inside, each technology is under a folder (here : "java"), then each sub directories represents a version of this technology (here : 7,8 and 11 which was for all versions of java.)
+NOTE: Generated files (metadata.yaml, js files, etc..) need to be checked in git, since the build is trying to avoid rebuilding technologies which didn't change.
 
-filename | scope | description
---- | --- | ---
-techno.yml | technology directory | this file describes the technology (the name, the icon, the availability, the reference to the docker repository)
-version.yml | version directory | this file describes all informations about the version (features used, name of the version, the availability)
-build.gradle.kts | version directory | build in this repository is made with gradle plugins. So you just need to apply theses plugins (just need a Dockerfile and a image_test.yml). You can also declare dependencies between build if you need to build this version from another in this repository (gradle will do the build using this dependency)
-settings.gradle.kts | version directory | to set a name of the build version (need to be uniq in this repository)
-Dockerfile | version directory | The Dockerfile of the version
-image_test.yml | version directory | Each build need to be tested ... So we use [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test) to test the generated image.
-metadata.yml | version directory | This is a generated file, no need to have it, it will be created during the first build. It just a concatenation of the techno.yml and version.yml file with a correct docker image version.
+#### Docker based technologies
 
+For each context of a job (non external, based on an Docker image) or of an app technology, the folder dedicated to the context must then contain:
+- `build.gradle.kts` which apply the `SaagieTechnologiesGradlePlugin` and the `DockerRemoteApiPlugin`. 
+- `Dockerfile` which declares how to build the Docker image
+- `image_test.yml`: if present, the generated Docker image will be tested with the [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test)
 
-### How to create a new application technologie
+#### External technologies
 
+For contexts of an external job technology, the `context.yaml` file will reference javascript files, relatively to its location. The referenced javascript files should be generated by a dedicated javascript build.
 
-Work in progress
+The build of such javascript files can be setup anywhere in the directory structure, as long as the relative path is proprely filled in the `context.yaml` file.
 
-## Build
+The Saagie Gradle plugin can be used to trigger the build of the javascript file in the CI. It needs:
+- a `build.gradle.kts` which apply the `SaagieTechnologiesGradlePlugin` and the `NodePlugin`.
+- a `package.json` with a `build` and `test` scripts.
 
+The Saagie Gradle plugin will launch [Yarn](https://yarnpkg.com/) to install depednencies and run the scripts to build and test the javascript files.
 
-All was made with Github actions for this repository, but the main work was done by gradle (to be run in every CI).  
+### Developping an External Job Technology
 
-### Local
+It is highly recommended to use the [Saagie SDK](https://github.com/saagie/sdk) when developping an external job technology.
 
-Just run `./gradlew localBuildModifiedJobs --parallel -Dversion.buildmeta=local`  
-and it will build all modified images without push it with the "_local" suffix.
+In technologies which doesn't share scripts with other technologies, it should be already setup. For instance, in the technology folder of `dataiku`, just run `yarn dev` and the build of the javascript files will be running with the watch mode, and the SDK webapp will start.
 
-### Github Action
-
-The workflow started at each push on the branch ... and it will generated docker images for modified technologies and generate a pre release in Github containing all assets.
+For technologies which share javascript files, like `aws`, `gcp` or `azure`, the setup is split in two parts. In the folder dedicated to the shared scripts, run `yarn dev` to run the build with the watch mode. Then in the folder dedicated to the technology to develop, like `aws-lambda`, run `npx @saagie/sdk start` to start the SDK webapp.
 
 ### Promotion
 
