@@ -4,4 +4,4 @@ label: Google Cloud Run
 description: "Google Cloud Run services"
 available: true
 type: EXTERNAL_JOB
-icon: job
+iconPath: ./gcp-cloud-run.png

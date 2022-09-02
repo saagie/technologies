@@ -4,4 +4,4 @@ label: Google Cloud Dataflow
 description: "Google Cloud Dataflow Saagie implementation"
 available: false
 type: EXTERNAL_JOB
-icon: job
+iconPath: ./gcp-dataflow.png
