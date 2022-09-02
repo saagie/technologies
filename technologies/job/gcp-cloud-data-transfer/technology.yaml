@@ -4,4 +4,4 @@ label: Google Cloud Data Transfer
 description: "Google Cloud Data Transfer service"
 available: true
 type: EXTERNAL_JOB
-icon: job
+iconPath: ./gcp-cloud-data-transfer.png

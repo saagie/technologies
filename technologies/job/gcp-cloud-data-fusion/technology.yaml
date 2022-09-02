@@ -4,4 +4,4 @@ label: Google Cloud Data Fusion
 description: "Google Cloud Data Fusion pipelines"
 available: false
 type: EXTERNAL_JOB
-icon: job
+iconPath: ./gcp-cloud-data-fusion.png
