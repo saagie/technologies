@@ -202,90 +202,6 @@ contexts:
       baseTag: 3.1
       version: 3.1-1.119.0
     innerContexts:
-  - id: 3.1-aws
-    label: 3.1 for AWS
-    available: true
-    recommended: true
-    trustLevel: stable
-    dockerInfo:
-      image: saagie/spark
-      baseTag: 3.1-aws
-      version: 3.1-aws-1.125.0_SDKTECHNO-182
-    innerContexts:
-      - id: java-scala
-        label: Java/Scala
-        available: true
-        trustLevel: stable
-        job:
-          features:
-            - type: COMMAND_LINE
-              label: Command line
-              mandatory: true
-              comment: Linux shell command to launch the job.
-              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--class=Main {file} arg1 arg2"
-            - type: ARTIFACT
-              label: Package
-              mandatory: true
-              comment: "Compatible upload file : .jar"
-            - type: SCHEDULER
-              label: Scheduled
-              mandatory: true
-        innerContexts:
-          - id: 11
-            label: 11
-            available: true
-            trustLevel: stable
-            recommended: true
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-jre-11
-              version: 3.1-aws-jre-11-1.125.0_SDKTECHNO-182
-      - id: python
-        label: Python
-        available: true
-        trustLevel: stable
-        job:
-          features:
-            - type: COMMAND_LINE
-              label: Command line
-              mandatory: true
-              comment: Linux shell command to launch the job.
-              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} local://__main__.py"
-            - type: ARTIFACT
-              label: Package
-              mandatory: true
-              comment: "Compatible upload file : .py or .zip"
-            - type: SCHEDULER
-              label: Scheduled
-              mandatory: true
-        innerContexts:
-          - id: 3.7
-            label: 3.7
-            available: true
-            trustLevel: stable
-            recommended: true
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.7
-              version: 3.1-aws-py-3.7-1.125.0_SDKTECHNO-182
-          - id: 3.8
-            label: 3.8
-            available: true
-            trustLevel: stable
-            recommended: true
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.8
-              version: 3.1-aws-py-3.8-1.125.0_SDKTECHNO-182
-          - id: 3.9
-            label: 3.9
-            available: true
-            trustLevel: stable
-            recommended: true
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.9
-              version: 3.1-aws-py-3.9-1.125.0_SDKTECHNO-182
       - id: java-scala
         label: Java/Scala
         available: true
@@ -376,3 +292,87 @@ contexts:
               image: saagie/spark
               baseTag: 3.1-py-3.9
               version: 3.1-py-3.9-1.125.0_SDKTECHNO-182
+  - id: 3.1-aws
+    label: 3.1 for AWS
+    available: true
+    recommended: true
+    trustLevel: stable
+    dockerInfo:
+      image: saagie/spark
+      baseTag: 3.1-aws
+      version: 3.1-aws-1.125.0_SDKTECHNO-182
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--class=Main {file} arg1 arg2"
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 11
+            label: 11
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-aws-jre-11
+              version: 3.1-aws-jre-11-1.125.0_SDKTECHNO-182
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} local://__main__.py"
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 3.7
+            label: 3.7
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-aws-py-3.7
+              version: 3.1-aws-py-3.7-1.125.0_SDKTECHNO-182
+          - id: 3.8
+            label: 3.8
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-aws-py-3.8
+              version: 3.1-aws-py-3.8-1.125.0_SDKTECHNO-182
+          - id: 3.9
+            label: 3.9
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.1-aws-py-3.9
+              version: 3.1-aws-py-3.9-1.125.0_SDKTECHNO-182
