@@ -1,0 +1,18 @@
+id: python
+label: Python
+available: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch the job.
+      defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} local://__main__.py"
+    - type: ARTIFACT
+      label: Package
+      mandatory: true
+      comment: "Compatible upload file : .py or .zip"
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
