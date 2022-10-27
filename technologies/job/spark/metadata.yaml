@@ -45,14 +45,6 @@ contexts:
               image: saagie/spark
               baseTag: 2.4-jre-11
               version: 2.4-jre-11-1.100.0
-          - id: 8
-            label: 8
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-jre-8
-              version: 2.4-jre-8-1.100.0
       - id: python
         label: Python
         available: true
@@ -72,30 +64,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 2.7
-            label: 2.7
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-py-2.7
-              version: 2.4-py-2.7-1.100.0
-          - id: 3.5
-            label: 3.5
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-py-3.5
-              version: 2.4-py-3.5-1.100.0
-          - id: 3.6
-            label: 3.6
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-py-3.6
-              version: 2.4-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
@@ -141,14 +109,6 @@ contexts:
               image: saagie/spark
               baseTag: 3.0-jre-11
               version: 3.0-jre-11-1.100.0
-          - id: 8
-            label: 8
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-jre-8
-              version: 3.0-jre-8-1.100.0
       - id: python
         label: Python
         available: true
@@ -168,22 +128,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.5
-            label: 3.5
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-py-3.5
-              version: 3.0-py-3.5-1.100.0
-          - id: 3.6
-            label: 3.6
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-py-3.6
-              version: 3.0-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
@@ -230,14 +174,6 @@ contexts:
               image: saagie/spark
               baseTag: 3.1-jre-11
               version: 3.1-jre-11-1.125.0
-          - id: 8
-            label: 8
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-jre-8
-              version: 3.1-jre-8-1.119.0
       - id: python
         label: Python
         available: true
@@ -257,14 +193,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.6
-            label: 3.6
-            available: false
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-py-3.6
-              version: 3.1-py-3.6-1.100.0
           - id: 3.7
             label: 3.7
             available: true
