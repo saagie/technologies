@@ -1,4 +1,4 @@
 image: saagie/python
 baseTag: 3.10-base
-dynamicVersion: 1.116.0_SDKTECHNO-169
-version: 3.10-base-1.116.0
+dynamicVersion: 1.125.0_SDKTECHNO-183
+version: 3.10-base-1.125.0_SDKTECHNO-183
