@@ -1,4 +1,0 @@
-image: saagie/bash
-baseTag: debian9-stretch-azure
-dynamicVersion: 1.80.0_security-fix-2
-version: debian9-stretch-azure-1.80.0
