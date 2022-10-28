@@ -1,4 +1,0 @@
-image: saagie/kibana
-baseTag: 6.4.1
-dynamicVersion: 1.128.0_SDKTECHNO-184
-version: 6.4.1-1.128.0_SDKTECHNO-184
