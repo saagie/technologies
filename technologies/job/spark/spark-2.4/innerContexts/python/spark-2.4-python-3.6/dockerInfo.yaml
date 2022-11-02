@@ -1,4 +1,0 @@
-image: saagie/spark
-baseTag: 2.4-py-3.6
-dynamicVersion: 1.100.0_PRODUCT-3089
-version: 2.4-py-3.6-1.100.0
