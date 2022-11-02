@@ -227,3 +227,10 @@ commandTests:
         "from pyarrow import *;" ]
     exitCode: 0
 
+  - name: import_pyarrow
+    command: "python"
+    args: [
+      "-c",
+      "import mlflow;" ]
+    exitCode: 0
+
