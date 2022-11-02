@@ -34,6 +34,6 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     )
      this.buildArgs.put(
         "PYTHON310_IMG",
-        "saagie/python:3.10-1.109.0"
+        "saagie/3.10-1.128.0_SDKTECHNO-184"
     )
 }
