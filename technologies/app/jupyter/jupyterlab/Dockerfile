@@ -38,7 +38,7 @@ RUN sh -x \
     && for env in py38 py39 py310;  \
        do \
           . activate $env \
-          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
+          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt -U \
           && conda deactivate; \
        done \
     && conda clean -ay \
