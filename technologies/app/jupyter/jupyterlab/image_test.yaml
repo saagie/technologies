@@ -91,7 +91,7 @@ commandTests:
                                               '"]
   - name: check Python 3.10 libs
     command: "bash"
-    args: ["-c", ". activate py310; python -c 'import numpy;
+    args: ["-c", ". activate py310; python -c 'import numpy;print(numpy.__version__);print(numpy.__file__);
                                               import pandas;
                                               import matplotlib;
                                               import scipy;
