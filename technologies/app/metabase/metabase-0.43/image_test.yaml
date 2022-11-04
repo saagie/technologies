@@ -1,7 +1,7 @@
 schemaVersion: "2.0.0"
 
 metadataTest:
-  env:
+  envVars:
     - key: "MB_DB_FILE"
       value: "/metabase-data"
     - key: "MB_PLUGINS_DIR"
