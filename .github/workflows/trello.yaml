@@ -1,0 +1,25 @@
+name: Create Trello card on opened issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create_trello_card_job:
+    runs-on: ubuntu-latest
+    name: Create Trello Card
+    steps:
+      - name: Call trello-github-actions
+        uses: Yleisradio/github-action-trello-integration@v1.1.0
+        with:
+          action: issue_opened_create_card
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
+          TRELLO_API_TOKEN: ${{ secrets.TRELLO_API_TOKEN }}
+          # TRELLO_BOARD_ID must match a board. GH repo should connect
+          # to exactly one board, but Trello board may connect to multiple
+          # GH repositories.
+          TRELLO_BOARD_ID: 5d0ba943706cfb3ac28ef7eb
+          # Backlog list ID
+          TRELLO_LIST_ID: 5d0ba951915cfd4bb7085960
