@@ -38,7 +38,9 @@ RUN sh -x \
     && for env in py38 py39 py310;  \
        do \
           . activate $env \
-          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt -U \
+          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
+          && python -m pip uninstall matplotlib -y \
+          && grep matplotlib* /home/$NB_USER/requirements.txt | xargs python -m pip install --no-cache \
           && conda deactivate; \
        done \
     && conda clean -ay \
