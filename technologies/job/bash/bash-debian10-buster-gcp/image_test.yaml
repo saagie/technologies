@@ -1,7 +1,7 @@
 schemaVersion: "2.0.0"
 
 metadataTest:
-  env:
+  envVars:
     - key: JAVA_HOME
       value: "/usr/lib/jvm/java-8-openjdk-amd64"
     - key: "HADOOP_PREFIX"

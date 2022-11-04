@@ -1,6 +1,6 @@
 schemaVersion: "2.0.0"
 
 metadataTest:
-  env:
+  envVars:
     - key: SERVER_REWRITEBASEPATH
       value: true

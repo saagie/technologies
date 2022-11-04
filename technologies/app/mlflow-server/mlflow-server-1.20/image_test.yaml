@@ -1,7 +1,7 @@
 schemaVersion: "2.0.0"
 
 metadataTest:
-  env:
+  envVars:
     - key: "HADOOP_CONF_DIR"
       value: "/app/hadoop-2.6.5/etc/hadoop-2.6.5"
 

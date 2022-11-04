@@ -1,7 +1,7 @@
 schemaVersion: "2.0.0"
 
 metadataTest:
-  env:
+  envVars:
     - key: "GF_PATHS_DATA"
       value: "/opt/grafana"
     - key: "GF_PATHS_PLUGINS"
