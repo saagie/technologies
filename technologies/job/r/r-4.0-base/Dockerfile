@@ -68,7 +68,7 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/" >> /e
 
 # Install system libraries required by R packages
 RUN apt update -qq && apt install -qqy --no-install-recommends \
-      libcups2 libcups2-dev openjdk-11-jdk systemd \
+      libcups2 libcups2-dev libfontconfig1-dev openjdk-11-jdk systemd \
       unixodbc-dev libbz2-dev libgsl-dev odbcinst libx11-dev mesa-common-dev libglu1-mesa-dev \
       gdal-bin proj-bin libgdal-dev libproj-dev libudunits2-dev libtcl8.6 libtk8.6 libgtk2.0-dev \
       libgit2-dev \
