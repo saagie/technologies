@@ -26,6 +26,6 @@ val dockerInfo = com.saagie.technologies.readDockerInfo(projectDir)
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     this.buildArgs.put(
         "base_img",
-        "saagie/bash:debian10-buster-${this.project.getVersionForDocker()}"
+        "saagie/bash:debian10-buster-1.92.0"
     )
 }
