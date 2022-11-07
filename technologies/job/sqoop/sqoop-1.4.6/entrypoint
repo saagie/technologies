@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+echo "Start job execution : "
 if test -f main_script;
 then ln -s $HIVE_CONF_DIR/hive-site.xml; sh ./main_script;
 else exec "$@"

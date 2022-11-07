@@ -1,70 +1,32 @@
-FROM debian:stretch
+ARG base_img
 
-ARG HADOOP_VERSION="2.6.0"
-ARG HIVE_VERSION="1.1.0"
-ARG SQOOP_VERSION="1.4.6"
-ARG CDH_MAJOR="5"
-ARG CDH_MINOR="13.0"
-ARG CDH_VERSION="$CDH_MAJOR.$CDH_MINOR"
-ARG CDH_URL="https://archive.cloudera.com/cdh$CDH_MAJOR/cdh/$CDH_MAJOR"
+FROM ${base_img} AS BASE_IMG
+
+LABEL maintainer="Saagie"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# LIGHT DEPENDENCIES START
-RUN apt update -qq && apt install -qqy --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client git procps krb5-user \
-    && rm -rf /var/lib/apt/lists/*
-# LIGHT DEPENDENCIES END
+ENV SQOOP_VERSION=1.4.6
+ARG SQOOP_FILE="sqoop-${SQOOP_VERSION}.bin__hadoop-2.0.4-alpha"
+ARG SQOOP_URL="${APACHE_URL}/sqoop/${SQOOP_VERSION}"
+ENV SQOOP_HOME="/usr/lib/sqoop-${SQOOP_VERSION}"
 
-# INSTALL JAVA & BEELINE START
-# INSTALL JDK8
-RUN apt update -qq && apt install -qqy --no-install-recommends \
-      openjdk-8-jdk \
-    && rm -rf /var/lib/apt/lists/*
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH=$PATH:$JAVA_HOME/bin
-
-# Hadoop client installation
-ARG HADOOP_NAME=hadoop-$HADOOP_VERSION-cdh$CDH_VERSION
-RUN wget --no-verbose $CDH_URL/$HADOOP_NAME.tar.gz \
-    && tar -xzf $HADOOP_NAME.tar.gz \
-    && rm $HADOOP_NAME.tar.gz \
-    && mv $HADOOP_NAME /usr/lib/hadoop
-ENV HADOOP_PREFIX=/usr/lib/hadoop
-ENV PATH=$PATH:$HADOOP_PREFIX/bin
-ENV HADOOP_COMMON_HOME=$HADOOP_PREFIX
-ENV HADOOP_CONF_DIR=/etc/hadoop/conf
-
-# Hive client installation
-ARG HIVE_NAME=hive-$HIVE_VERSION-cdh$CDH_VERSION
-RUN wget --no-verbose $CDH_URL/$HIVE_NAME.tar.gz \
-    && tar -xvzf $HIVE_NAME.tar.gz \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# Install Sqoop, ass hive libs and remove old/conflicting libs
+RUN curl -sL "${SQOOP_URL}/${SQOOP_FILE}.tar.gz" | tar xzf - -C "/" \
+    && mv "/${SQOOP_FILE}" "${SQOOP_HOME}" \
+    && cp ${HIVE_HOME}/lib/*.jar ${SQOOP_HOME}/lib/ \
+    && rm ${SQOOP_HOME}/lib/commons-io-1.4.jar \
+    && rm ${SQOOP_HOME}/lib/commons-logging-1.1.1.jar \
     && mkdir -p /usr/lib/hive-hcatalog/share/hcatalog/ \
-    && ln -s /$HIVE_NAME/hcatalog/share/hcatalog/hive-hcatalog-core-$HIVE_VERSION-cdh$CDH_VERSION.jar /usr/lib/hive-hcatalog/share/hcatalog/hive-hcatalog-core.jar \
-    && rm $HIVE_NAME.tar.gz
-ENV HIVE_HOME=/$HIVE_NAME
-ENV PATH=$PATH:$HIVE_HOME/bin
-ENV HIVE_CONF_DIR=/etc/hive/conf
-# INSTALL JAVA & BEELINE END
+    && ln -s ${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-core-${HIVE_VERSION}.jar $_/hive-hcatalog-core.jar
 
-# Sqoop client installation
-ARG SQOOP_NAME=sqoop-$SQOOP_VERSION-cdh$CDH_VERSION
-RUN wget --no-verbose $CDH_URL/$SQOOP_NAME.tar.gz \
-    && tar -xvzf $SQOOP_NAME.tar.gz \
-    && rm $SQOOP_NAME.tar.gz \
-    && cp /$HIVE_NAME/lib/*.jar /$SQOOP_NAME/lib/
-ENV SQOOP_HOME=/$SQOOP_NAME
-ENV PATH=$PATH:$SQOOP_HOME/bin
-ENV HADOOP_HOME=$HADOOP_PREFIX
+ENV PATH "${PATH}:${SQOOP_HOME}/bin"
 
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
+ENV HADOOP_HOME "${HADOOP_PREFIX}"
+COPY lib/*.jar /${SQOOP_HOME}/lib/
 
-COPY lib/*.jar /$SQOOP_NAME/lib/
-
-# Move scripts and frequently changing directive to the end of the build
 COPY entrypoint /entrypoint
 RUN chmod 755 /entrypoint
-
-WORKDIR /sandbox
 
 ENTRYPOINT  ["bash","/entrypoint"]
