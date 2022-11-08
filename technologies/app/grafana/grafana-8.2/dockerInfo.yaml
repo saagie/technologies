@@ -1,4 +1,4 @@
 image: saagie/grafana
 baseTag: 8.2.1
-dynamicVersion: 1.121.0_SDKTECHNO-176
-version: 8.2.1-1.121.0
+dynamicVersion: 1.128.0_SDKTECHNO-184-3
+version: 8.2.1-1.128.0_SDKTECHNO-184-3

@@ -28,4 +28,4 @@ contexts:
     dockerInfo:
       image: saagie/sqoop
       baseTag: 1.4.6
-      version: 1.4.6-1.44.0
+      version: 1.4.6-1.128.0_SDKTECHNO-184-3

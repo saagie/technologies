@@ -10,20 +10,6 @@ backgroundColor: "#40BEB0"
 customFlags: []
 
 contexts:
-  - id: kibana-5.6.16
-    label: 5.6.16
-    releaseNotes: First version of Kibana 5.6.16 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: true
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 5.6.16
-      version: 5.6.16-1.108.0
   - id: kibana-5.6.3
     label: 5.6.3
     releaseNotes: First version of Kibana 5.6.3 into Saagie.
@@ -38,21 +24,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 5.6.3
-      version: 5.6.3-1.108.0
-  - id: kibana-6.4.1
-    label: 6.4.1
-    releaseNotes: First version of Kibana 6.4.1 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 6.4.1
-      version: 6.4.1-1.108.0
+      version: 5.6.3-1.128.0_SDKTECHNO-184-3
   - id: kibana-6.4.3
     label: 6.4.3
     releaseNotes: First version of Kibana 6.4.3 into Saagie.
@@ -67,21 +39,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.4.3
-      version: 6.4.3-1.108.0
-  - id: kibana-6.8.1
-    label: 6.8.1
-    releaseNotes: First version of Kibana 6.8.1 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 6.8.1
-      version: 6.8.1-1.108.0
+      version: 6.4.3-1.128.0_SDKTECHNO-184-3
   - id: kibana-6.8.4
     label: 6.8.4
     releaseNotes: First version of Kibana 6.8.4 into Saagie.
@@ -96,7 +54,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.8.4
-      version: 6.8.4-1.108.0
+      version: 6.8.4-1.128.0_SDKTECHNO-184-3
   - id: kibana-7.15.1
     label: 7.15.1
     releaseNotes: First version of Kibana 7.15.1 into Saagie.
@@ -110,63 +68,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.15.1
-      version: 7.15.1-1.108.0
-  - id: kibana-7.4.0
-    label: 7.4.0
-    releaseNotes: First version of Kibana 7.4.0 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 7.4.0
-      version: 7.4.0-1.108.0
-  - id: kibana-7.4.1
-    label: 7.4.1
-    releaseNotes: First version of Kibana 7.4.1 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 7.4.1
-      version: 7.4.1-1.108.0
-  - id: kibana-7.4.2
-    label: 7.4.2
-    releaseNotes: First version of Kibana 7.4.2 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 7.4.2
-      version: 7.4.2-1.108.0
-  - id: kibana-7.5.1
-    label: 7.5.1
-    releaseNotes: First version of Kibana 7.5.1 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 5601
-        name: Kibana
-        rewriteUrl: false
-        basePath: SERVER_BASEPATH
-    dockerInfo:
-      image: saagie/kibana
-      baseTag: 7.5.1
-      version: 7.5.1-1.108.0
+      version: 7.15.1-1.128.0_SDKTECHNO-184-3
   - id: kibana-7.6.2
     label: 7.6.2
     releaseNotes: First version of Kibana 7.6.2 into Saagie.
@@ -180,4 +82,4 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.6.2
-      version: 7.6.2-1.108.0
+      version: 7.6.2-1.128.0_SDKTECHNO-184-3

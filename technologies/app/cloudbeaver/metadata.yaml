@@ -23,4 +23,4 @@ contexts:
     dockerInfo:
       image: saagie/cloudbeaver
       baseTag: 1.2.0
-      version: 1.2.0-1.75.0
+      version: 1.2.0-1.128.0_SDKTECHNO-184-3
