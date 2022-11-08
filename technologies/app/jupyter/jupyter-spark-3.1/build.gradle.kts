@@ -24,6 +24,7 @@ import com.saagie.technologies.getVersionForDocker
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
 
+/*
 val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
@@ -33,3 +34,4 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
         "${dockerInfo?.image}:lab-3.8-3.9-${this.project.getVersionForDocker()}"
     )
 }
+*/
