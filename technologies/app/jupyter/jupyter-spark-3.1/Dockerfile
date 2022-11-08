@@ -1,5 +1,5 @@
 # This is a deprecated image which will ne longer be maintained by Saagie.
-FROM saagie/pyspark-3.1.1-1.111.0
+FROM saagie/jupyter-python-nbk:pyspark-3.1.1-1.111.0
 
 #ARG BASE_CONTAINER="saagie/jupyter-python-nbk:lab-3.8-3.9-1.110.0"
 #
