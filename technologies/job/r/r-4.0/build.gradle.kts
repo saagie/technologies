@@ -23,3 +23,14 @@
 
  apply<DockerRemoteApiPlugin>()
  apply<SaagieTechnologiesGradlePlugin>()
+ /*
+  val dockerInfo = readDockerInfo(projectDir)
+
+  tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+      dependsOn(":${this.project.name}-base:testImage")
+      this.buildArgs.put(
+              "base_img",
+              "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
+      )
+  }
+ */
