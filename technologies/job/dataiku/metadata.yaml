@@ -1,10 +1,10 @@
-version: v2
+version: v1
 id: dataiku
 label: Dataiku DSS
 description: "Dataiku API Version 11.0"
 available: true
 type: EXTERNAL_JOB
-iconPath: ./dataiku.png
+icon: job
 
 contexts:
   - id: datasets
@@ -78,6 +78,3 @@ contexts:
       getStatus:
         script: .//dist/scenario-actions.js
         function: getStatus
-      getLogs:
-        script: .//dist/scenario-actions.js
-        function: getLogs
