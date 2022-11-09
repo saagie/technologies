@@ -1,0 +1,7 @@
+version: v1
+id: aws-step-functions
+label: AWS Step Functions
+description: "Coordinate multiple AWS services into serverless workflows"
+available: false
+type: EXTERNAL_JOB
+icon: aws-step-functions
