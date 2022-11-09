@@ -1,0 +1,59 @@
+version: v1
+id: azure-functions
+label: Azure Functions
+description: "Azure App Service REST API"
+available: false
+type: EXTERNAL_JOB
+icon: job
+
+contexts:
+  - id: client-id-auth
+    label: Client ID auth
+    description: ""
+    recommended: false
+    trustLevel: experimental
+    available: true
+    connectionTypeId: azure
+    parameters:
+      - type: TEXT
+        id: insightsAppId
+        label: Application Insights ID
+        mandatory: true
+      - type: DYNAMIC_SELECT
+        id: resourceGroup
+        label: Resource Group
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getResourceGroups
+      - type: DYNAMIC_SELECT
+        id: functionApp
+        label: Function App
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getFunctionApps
+        dependsOn:
+          - resourceGroup
+      - type: DYNAMIC_SELECT
+        id: function
+        label: Function
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/azure/dist/job-form.js
+          function: getFunctions
+        dependsOn:
+          - functionApp
+    actions:
+      start:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: start
+      stop:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/azure/dist/functions-actions.js
+        function: getLogs

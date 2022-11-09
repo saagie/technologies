@@ -1,0 +1,45 @@
+id: create-spark-job
+label: Create Spark job
+description: ""
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: workspace
+    label: Workspace
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getWorkspaces
+    dependsOn:
+      - resourceGroup
+  - type: TEXT
+    id: jobName
+    label: Spark job name
+    mandatory: true
+  - type: TEXT
+    id: jobParameters
+    label: Spark job parameters
+    mandatory: true
+actions:
+  start:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: startSpark
+  stop:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getLogs

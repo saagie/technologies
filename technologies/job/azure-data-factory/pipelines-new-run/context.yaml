@@ -1,0 +1,44 @@
+id: pipelines-new-run
+label: Pipelines new run
+description: "Context for running new a run of a pipeline"
+recommended: true
+trustLevel: experimental
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: factory
+    label: Data factory
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getFactories
+    dependsOn:
+      - resourceGroup
+  - type: DYNAMIC_SELECT
+    id: pipeline
+    label: Pipeline
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getPipelines
+    dependsOn:
+      - factory
+
+actions:
+  start:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: start
+  stop:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/azure/dist/data-factory-actions.js
+    function: getStatus

@@ -1,0 +1,58 @@
+id: create-notebook-job
+label: Create Notebook job
+description: ""
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: azure
+parameters:
+  - type: DYNAMIC_SELECT
+    id: resourceGroup
+    label: Resource Group
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getResourceGroups
+  - type: DYNAMIC_SELECT
+    id: workspace
+    label: Workspace
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getWorkspaces
+    dependsOn:
+      - resourceGroup
+  - type: DYNAMIC_SELECT
+    id: notebook
+    label: Notebook
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/azure/dist/job-form.js
+      function: getNotebooks
+    dependsOn:
+      - workspace
+  - type: TEXT
+    id: jobName
+    label: Notebook job name
+    mandatory: true
+    dependsOn:
+      - workspace
+  - type: TEXT
+    id: jobParameters
+    label: Notebook job parameters
+    mandatory: false
+    dependsOn:
+      - workspace
+actions:
+  start:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: startNotebook
+  stop:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/azure/dist/databricks-actions.js
+    function: getLogs
