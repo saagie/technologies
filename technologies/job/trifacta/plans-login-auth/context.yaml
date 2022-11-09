@@ -1,0 +1,25 @@
+id: plans-login-auth
+label: Plans gestion with login auth (+v7.1)
+description: "Trifacta flows gestion with user authentication by credentials"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: trifacta-login
+parameters:
+  - type: DYNAMIC_SELECT
+    id: plan
+    label: Plan
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getPlans
+actions:
+  start:
+    script: ../dist/plans-actions.js
+    function: start
+  getStatus:
+    script: ../dist/plans-actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/plans-actions.js
+    function: getLogs

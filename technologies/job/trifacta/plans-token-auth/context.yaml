@@ -1,0 +1,25 @@
+id: plans-token-auth
+label: Plans gestion with token auth (+v7.1)
+description: "Trifacta flows gestion with user authentication by access token"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: trifacta-token
+parameters:
+  - type: DYNAMIC_SELECT
+    id: plan
+    label: Plan
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getPlans
+actions:
+  start:
+    script: ../dist/plans-actions.js
+    function: start
+  getStatus:
+    script: ../dist/plans-actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/plans-actions.js
+    function: getLogs
