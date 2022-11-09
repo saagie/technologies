@@ -1,0 +1,63 @@
+id: tasks-v3
+label: Data Integration V3
+description: "Informatica Cloud Platform Data Integration V3"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: informatica-cloud
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: folder
+    label: Folder
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getFolders
+    dependsOn:
+      - project
+  - type: STATIC_SELECT
+    id: taskType
+    label: Task type
+    mandatory: true
+    staticValues:
+      - id: DMASK
+        label: DMASK. Masking task.
+      - id: DRS
+        label: DRS. Replication task.
+      - id: DSS
+        label : DSS. Synchronization task.
+      - id: MTT
+        label : MTT. Mapping task.
+      - id: PCS
+        label : PCS. PowerCenter task.
+    dependsOn:
+      - folder
+  - type: DYNAMIC_SELECT
+    id: task
+    label: Task
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getTasks
+    dependsOn:
+      - taskType
+actions:
+  start:
+    script: ../dist/module.js
+    function: start
+  stop:
+    script: ../dist/module.js
+    function: stop
+  getStatus:
+    script: ../dist/module.js
+    function: getStatus
+  getLogs:
+    script: ../dist/module.js
+    function: getLogs

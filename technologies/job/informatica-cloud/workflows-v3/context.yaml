@@ -1,0 +1,46 @@
+id: workflows-v3
+label: Data Integration with workflows V3
+description: "Informatica Cloud Platform Data Integration with workflows V3"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: informatica-cloud
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: folder
+    label: Folder
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getFolders
+    dependsOn:
+      - project
+  - type: DYNAMIC_SELECT
+    id: workflow
+    label: Workflow
+    mandatory: true
+    dynamicValues:
+      script: ../dist/module.js
+      function: getWorkflows
+    dependsOn:
+      - folder
+actions:
+  start:
+    script: ../dist/module.js
+    function: start
+  stop:
+    script: ../dist/module.js
+    function: stop
+  getStatus:
+    script: ../dist/module.js
+    function: getStatus
+  getLogs:
+    script: ../dist/module.js
+    function: getLogs
