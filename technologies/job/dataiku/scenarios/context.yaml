@@ -1,0 +1,34 @@
+id: scgenarios
+label: Scenarios v11.0
+description: "Scenarios v11.0"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: dataiku
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: scenario
+    label: Scenario
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getScenarios
+    dependsOn:
+      - project
+actions:
+  start:
+    script: ../dist/scenario-actions.js
+    function: start
+  stop:
+    script: ../dist/scenario-actions.js
+    function: stop
+  getStatus:
+    script: ../dist/scenario-actions.js
+    function: getStatus
