@@ -1,0 +1,37 @@
+id: datasets
+label: Datasets v11.0
+description: "Datasets v11.0"
+recommended: false
+trustLevel: experimental
+available: true
+connectionTypeId: dataiku
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: dataset
+    label: Dataset
+    mandatory: true
+    dynamicValues:
+      script: ../dist/job-form.js
+      function: getDatasets
+    dependsOn:
+      - project
+actions:
+  start:
+    script: ../dist/datasets-actions.js
+    function: start
+  stop:
+    script: ../dist/datasets-actions.js
+    function: stop
+  getStatus:
+    script: ../dist/datasets-actions.js
+    function: getStatus
+  getLogs:
+    script: ../dist/datasets-actions.js
+    function: getLogs
