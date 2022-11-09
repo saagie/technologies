@@ -20,7 +20,7 @@ import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
-
+/*
 val dockerInfo = com.saagie.technologies.readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
@@ -29,3 +29,4 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
         "saagie/bash:debian10-buster-1.92.0"
     )
 }
+*/
