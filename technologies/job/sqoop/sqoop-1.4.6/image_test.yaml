@@ -7,13 +7,13 @@ metadataTest:
     - key: "HADOOP_HOME"
       value: "/usr/lib/hadoop"
     - key: "HIVE_HOME"
-      value: "/apache-hive-1.1.0-bin"
+      value: "/hive-1.1.0-cdh5.13.0"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
     - key: "HIVE_CONF_DIR"
       value: "/etc/hive/conf"
     - key: "SQOOP_HOME"
-      value: "/usr/lib/sqoop-1.4.6"
+      value: "/sqoop-1.4.6-cdh5.13.0"
 
 fileExistenceTests:
   - name: "entrypoint"
@@ -131,11 +131,10 @@ commandTests:
   - name: "lib"
     args: ["-c", "ls ${SQOOP_HOME}/lib/*.jar | wc -l"]
     command: "sh"
-    expectedOutput: ["133"]
+    expectedOutput: ["161"]
     exitCode: 0
 
   - name: "krb5-user installation"
     command: "kinit"
     expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
     exitCode: 1
-
