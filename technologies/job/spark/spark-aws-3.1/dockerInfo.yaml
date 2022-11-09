@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.1-aws
-dynamicVersion: 1.128.0_SDKTECHNO-184-3
-version: 3.1-aws-1.128.0_SDKTECHNO-184-3
+dynamicVersion: 1.129.0_SDKTECHNO-184-3
+version: 3.1-aws-1.129.0_SDKTECHNO-184-3

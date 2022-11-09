@@ -24,7 +24,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 5.6.3
-      version: 5.6.3-1.128.0_SDKTECHNO-184-3
+      version: 5.6.3-1.129.0_SDKTECHNO-184-3
   - id: kibana-6.4.3
     label: 6.4.3
     releaseNotes: First version of Kibana 6.4.3 into Saagie.
@@ -39,7 +39,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.4.3
-      version: 6.4.3-1.128.0_SDKTECHNO-184-3
+      version: 6.4.3-1.129.0_SDKTECHNO-184-3
   - id: kibana-6.8.4
     label: 6.8.4
     releaseNotes: First version of Kibana 6.8.4 into Saagie.
@@ -54,7 +54,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 6.8.4
-      version: 6.8.4-1.128.0_SDKTECHNO-184-3
+      version: 6.8.4-1.129.0_SDKTECHNO-184-3
   - id: kibana-7.15.1
     label: 7.15.1
     releaseNotes: First version of Kibana 7.15.1 into Saagie.
@@ -68,7 +68,7 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.15.1
-      version: 7.15.1-1.128.0_SDKTECHNO-184-3
+      version: 7.15.1-1.129.0_SDKTECHNO-184-3
   - id: kibana-7.6.2
     label: 7.6.2
     releaseNotes: First version of Kibana 7.6.2 into Saagie.
@@ -82,4 +82,4 @@ contexts:
     dockerInfo:
       image: saagie/kibana
       baseTag: 7.6.2
-      version: 7.6.2-1.128.0_SDKTECHNO-184-3
+      version: 7.6.2-1.129.0_SDKTECHNO-184-3

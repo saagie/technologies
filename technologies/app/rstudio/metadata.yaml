@@ -24,7 +24,7 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 3.6.2
-      version: 3.6.2-1.128.0_SDKTECHNO-184-3
+      version: 3.6.2-1.129.0_SDKTECHNO-184-3
   - id: rstudio-4.1
     label: 4.1
     releaseNotes: First version of RStudio 4.1 into Saagie.
@@ -40,7 +40,7 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 4.1
-      version: 4.1-1.128.0_SDKTECHNO-184-3
+      version: 4.1-1.129.0_SDKTECHNO-184-3
   - id: rstudio-4.2
     label: 4.2
     releaseNotes: First version of RStudio 4.2 into Saagie.
@@ -56,4 +56,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 4.2
-      version: 4.2-1.128.0_SDKTECHNO-184-3
+      version: 4.2-1.129.0_SDKTECHNO-184-3

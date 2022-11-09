@@ -25,7 +25,7 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: v2
-      version: v2-1.128.0_SDKTECHNO-184-3
+      version: v2-1.129.0_SDKTECHNO-184-3
   - id: jupyter-spark-2.4.5_python-3.6
     label: Spark 2.4
     releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
@@ -46,7 +46,7 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: pyspark
-      version: pyspark-1.128.0_SDKTECHNO-184-3
+      version: pyspark-1.129.0_SDKTECHNO-184-3
   - id: jupyter-spark-3.1
     label: JupyterLab Spark 3.1
     releaseNotes: First version of Jupyter Notebook with Spark 3.1 into Saagie.
@@ -66,7 +66,7 @@ contexts:
     dockerInfo:
       image: saagie/jupyter-python-nbk
       baseTag: pyspark-3.1.1
-      version: pyspark-3.1.1-1.128.0_SDKTECHNO-184-3
+      version: pyspark-3.1.1-1.129.0_SDKTECHNO-184-3
   - id: jupyterlab-3.8-3.9
     label: JupyterLab Python 3.8 / 3.9 / 3.10
     releaseNotes: First version of JupyterLab Notebook into Saagie.
@@ -82,4 +82,4 @@ contexts:
     dockerInfo:
       image: saagie/jupyterlab-python-nbk
       baseTag: 3.8-3.9
-      version: 3.8-3.9-1.128.0_SDKTECHNO-184-3
+      version: 3.8-3.9-1.129.0_SDKTECHNO-184-3

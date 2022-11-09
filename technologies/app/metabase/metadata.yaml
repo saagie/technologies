@@ -26,4 +26,4 @@ contexts:
     dockerInfo:
       image: saagie/metabase
       baseTag: 0.43.4
-      version: 0.43.4-1.128.0_SDKTECHNO-184-3
+      version: 0.43.4-1.129.0_SDKTECHNO-184-3
