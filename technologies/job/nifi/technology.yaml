@@ -1,0 +1,7 @@
+version: v1
+id: nifi-extjob
+label: NiFi
+description: "Nifi is an easy to use, powerful, and reliable system to process and distribute data."
+available: false
+type: EXTERNAL_JOB
+icon: job
