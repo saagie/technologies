@@ -62,9 +62,6 @@ contexts:
       getStatus:
         script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
         function: getStatus
-      getLogs:
-        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
-        function: getLogs
   - id: s3-transfer-jobs
     label: Amazon S3 transfer jobs
     description: "Amazon AWS S3 transfer jobs context"
@@ -219,6 +216,3 @@ contexts:
       getStatus:
         script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
         function: getStatus
-      getLogs:
-        script: .//../../scripts/gcp/dist/cloud-data-transfer-actions.js
-        function: getLogs
