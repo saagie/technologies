@@ -10,7 +10,7 @@ contexts:
   - id: Use_Java_11
     label: Use_Java_11
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
