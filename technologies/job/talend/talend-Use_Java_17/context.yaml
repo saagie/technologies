@@ -1,9 +1,8 @@
-id: Use_Java_8
-label: Use_Java_8
-available: false
-recommended: false
+id: Use_Java_17
+label: Use_Java_17
+available: true
+recommended: true
 trustLevel: stable
-deprecationDate: "2021-11-01T00:00:00Z"
 job:
   features:
     - type: COMMAND_LINE

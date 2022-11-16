@@ -5,7 +5,7 @@ metadataTest:
     - key: LANG
       value: "C.UTF-8"
     - key: JAVA_HOME
-      value: "/usr/local/openjdk-8"
+      value: "/usr/local/openjdk-17"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
 
@@ -33,7 +33,7 @@ commandTests:
   - name: "java installation"
     command: "which"
     args: ["java"]
-    expectedOutput: ["/usr/local/openjdk-8/bin/java"]
+    expectedOutput: ["/usr/local/openjdk-17/bin/java"]
     exitCode: 0
 
   - name: "unzip ok"
@@ -51,7 +51,7 @@ commandTests:
   - name: "java version"
     command: "java"
     args: ["-version"]
-    expectedError: ['openjdk version "1.8*']
+    expectedError: ['openjdk version "17.*']
 
   - name: "Workdir"
     command: "pwd"
