@@ -10,7 +10,7 @@ backgroundColor: "#00d1c1"
 customFlags: []
 contexts:
   - id: apache-superset-2.0
-    label: Apache Superset 2.0
+    label: 2.0
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -22,4 +22,5 @@ contexts:
     volumes: ["/app/superset_home"]
     dockerInfo:
       image: saagie/superset
-      version: 2.0.0
+      baseTag: 2.0.0
+      version: 2.0.0-1.130.0_SDKTECHNO-196
