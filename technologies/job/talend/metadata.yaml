@@ -30,9 +30,32 @@ contexts:
       image: saagie/talend
       baseTag: Use_Java_11
       version: Use_Java_11-1.90.0
+  - id: Use_Java_17
+    label: Use_Java_17
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: sh {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/talend
+      baseTag: Use_Java_17
+      version: Use_Java_17-1.129.0_SDKTECHNO-195
   - id: Use_Java_8
     label: Use_Java_8
-    available: true
+    available: false
     recommended: false
     trustLevel: stable
     deprecationDate: "2021-11-01T00:00:00Z"
@@ -53,4 +76,4 @@ contexts:
     dockerInfo:
       image: saagie/talend
       baseTag: Use_Java_8
-      version: Use_Java_8-1.90.0
+      version: Use_Java_8-1.129.0_SDKTECHNO-195
