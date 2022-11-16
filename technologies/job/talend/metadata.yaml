@@ -52,7 +52,7 @@ contexts:
     dockerInfo:
       image: saagie/talend
       baseTag: Use_Java_17
-      version: Use_Java_17-1.129.0_SDKTECHNO-195
+      version: Use_Java_17-1.130.0_SDKTECHNO-195
   - id: Use_Java_8
     label: Use_Java_8
     available: false
@@ -76,4 +76,4 @@ contexts:
     dockerInfo:
       image: saagie/talend
       baseTag: Use_Java_8
-      version: Use_Java_8-1.129.0_SDKTECHNO-195
+      version: Use_Java_8-1.130.0_SDKTECHNO-195
