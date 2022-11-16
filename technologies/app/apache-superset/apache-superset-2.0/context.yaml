@@ -1,0 +1,14 @@
+id: apache-superset-2.0
+label: 2.0
+releaseNotes: ""
+available: true
+trustLevel: experimental
+ports:
+  - port: 80
+    name: Apache Superset
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/app/superset_home"]
+dockerInfo:
+  image: saagie/superset
+  version: 2.0.0

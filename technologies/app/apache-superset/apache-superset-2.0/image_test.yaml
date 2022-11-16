@@ -1,0 +1,29 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/app/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "server.conf"
+    path: "/etc/nginx/sites-enabled/superset.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+fileContentTests:
+    - name: "Nginx conf"
+      path: "/etc/nginx/sites-enabled/grafana.conf"
+      expectedContents:
+        [
+            "listen 80 default_server;",
+            "location SAAGIE_BASE_PATH {",
+            "proxy_pass http://localhost:8088;",
+        ]
+
+commandTests:
+  - name: "nginx"
+    command: "nginx"
+    args: ["-v"]
+    expectedError: ["nginx version:*"]
+
+
