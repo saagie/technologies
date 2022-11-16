@@ -12,7 +12,7 @@ fileExistenceTests:
 
 fileContentTests:
     - name: "Nginx conf"
-      path: "/etc/nginx/sites-enabled/grafana.conf"
+      path: "/etc/nginx/sites-enabled/superset.conf"
       expectedContents:
         [
             "listen 80 default_server;",
