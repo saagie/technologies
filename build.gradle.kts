@@ -35,7 +35,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.saagie:technologiesplugin:1.3.11")
+        classpath("com.saagie:technologiesplugin:1.3.13")
     }
 }
 apply<SaagieTechnologiesPackageGradlePlugin>()
