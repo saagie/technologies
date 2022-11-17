@@ -34,5 +34,5 @@ commandTests:
     command: "python"
     args: [
         "-c",
-        "import Dash;"]
+        "import dash;"]
     exitCode: 0
