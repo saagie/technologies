@@ -26,7 +26,7 @@ contexts:
       version: 2.0.0-1.130.0_SDKTECHNO-199
   - id: dash-2.7.0
     label: 2.7.0
-    releaseNotes: First version of Dash 2.0.0 into Saagie.
+    releaseNotes: First version of Dash 2.7.0 into Saagie.
     available: true
     trustLevel: stable
     recommended: true
