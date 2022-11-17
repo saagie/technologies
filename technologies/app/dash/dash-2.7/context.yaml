@@ -2,7 +2,8 @@ id: dash-2.7.0
 label: 2.7.0
 releaseNotes: First version of Dash 2.0.0 into Saagie.
 available: true
-trustLevel: experimental
+trustLevel: stable
+recommended: true
 ports:
   - port: 8050
     name: Dash
