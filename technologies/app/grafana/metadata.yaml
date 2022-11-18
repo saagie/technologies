@@ -2,7 +2,7 @@ version: v1
 type: APP
 id: grafana
 label: Grafana
-baseline: The open-source platform for monitoring and observability. Default admin login is `admin`. Default admin password must be set with the GF_SECURITY_ADMIN_PASSWORD environment variable.
+baseline: The open-source platform for monitoring and observability. Default admin login is `admin`. Default admin password must be set with the GRAFANA_ADMIN_PASSWORD environment variable.
 description: Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored.
 available: true
 icon: grafana
@@ -55,4 +55,4 @@ contexts:
     dockerInfo:
       image: saagie/grafana
       baseTag: 9.2.3
-      version: 9.2.3-1.121.0
+      version: 9.2.3-1.130.0_SDKTECHNO-192
