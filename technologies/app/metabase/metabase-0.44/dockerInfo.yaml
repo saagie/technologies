@@ -1,0 +1,4 @@
+image: saagie/metabase
+baseTag: 0.44.6
+dynamicVersion:
+version:
