@@ -1,0 +1,26 @@
+version: v1
+type: APP
+id: apache-superset
+label: Apache Superset
+baseline: "Apache Superset is a modern data exploration and visualization platform"
+description: "Superset is fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts"
+available: true
+icon: superset
+backgroundColor: "#00d1c1"
+customFlags: []
+contexts:
+  - id: apache-superset-2.0
+    label: 2.0
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Apache Superset
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/app/superset_home"]
+    dockerInfo:
+      image: saagie/superset
+      baseTag: 2.0.0
+      version: 2.0.0-1.131.0_SDKTECHNO-196
