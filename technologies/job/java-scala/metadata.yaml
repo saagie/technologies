@@ -9,7 +9,7 @@ contexts:
   - id: 11
     label: 11
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
@@ -29,3 +29,26 @@ contexts:
       image: saagie/java-scala
       baseTag: 11
       version: 11-1.44.0
+  - id: 17
+    label: 17
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: java -jar {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .jar"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/java-scala
+      baseTag: 17
+      version: 17-1.130.0_SDKTECHNO-195

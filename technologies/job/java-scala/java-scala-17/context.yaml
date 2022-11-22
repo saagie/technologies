@@ -1,7 +1,7 @@
-id: Use_Java_11
-label: Use_Java_11
+id: 17
+label: 17
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:
@@ -9,11 +9,11 @@ job:
       label: Command line
       mandatory: true
       comment: Linux shell command to launch the job.
-      defaultValue: sh {file} arg1 arg2
+      defaultValue: java -jar {file} arg1 arg2
     - type: ARTIFACT
       label: Package
       mandatory: true
-      comment: "Compatible upload file : .zip"
+      comment: "Compatible upload file : .jar"
     - type: SCHEDULER
       label: Scheduled
       mandatory: true

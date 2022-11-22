@@ -1,7 +1,7 @@
-id: Use_Java_11
-label: Use_Java_11
+id: Use_Java_17
+label: Use_Java_17
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:
