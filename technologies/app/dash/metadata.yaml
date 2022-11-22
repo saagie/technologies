@@ -23,7 +23,7 @@ contexts:
     dockerInfo:
       image: saagie/dash
       baseTag: 2.0.0
-      version: 2.0.0-1.132.0_SDKTECHNO-201
+      version: 2.0.0-1.132.0
   - id: dash-2.7.0
     label: 2.7.0
     releaseNotes: First version of Dash 2.7.0 into Saagie.
@@ -38,4 +38,4 @@ contexts:
     dockerInfo:
       image: saagie/dash
       baseTag: 2.7.0
-      version: 2.7.0-1.132.0_SDKTECHNO-201
+      version: 2.7.0-1.132.0

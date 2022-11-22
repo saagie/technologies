@@ -1,4 +1,4 @@
 image: saagie/dash
 baseTag: 2.7.0
 dynamicVersion: 1.132.0_SDKTECHNO-201
-version: 2.7.0-1.132.0_SDKTECHNO-201
+version: 2.7.0-1.132.0
