@@ -25,5 +25,6 @@ ENV MB_DB_CONNECTION_TIMEOUT_MS 30000
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
