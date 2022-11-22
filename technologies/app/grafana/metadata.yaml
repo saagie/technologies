@@ -40,3 +40,19 @@ contexts:
       image: saagie/grafana
       baseTag: 9.0.1
       version: 9.0.1-1.121.0
+  - id: grafana-9.2
+    label: 9.2
+    releaseNotes: First version of Grafana 9.2 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 80
+        name: Grafana
+        rewriteUrl: false
+        basePath: GF_SERVER_DOMAIN
+    volumes: ["/opt/grafana", "/opt/plugins"]
+    dockerInfo:
+      image: saagie/grafana
+      baseTag: 9.2.3
+      version: 9.2.3-1.130.0_SDKTECHNO-192
