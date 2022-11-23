@@ -1,0 +1,30 @@
+version: "v1"
+type: JOB
+id: dbt-cli
+label: dbt
+description: dbt-cli is a transformation workflow that lets teams quickly and collaboratively deploy analytics code following software engineering best practices like modularity, portability, CI/CD, and documentation.
+available: true
+icon: dbt
+contexts:
+  - id: dbt-cli
+    label: dbt-cli 1.2
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch your dbt project (dbt run, dbt test...).
+          defaultValue: dbt run --profiles-dir .
+        - type: ARTIFACT
+          label: Package containing your dbt project
+          mandatory: true
+          comment: "Compatible upload file : .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/dbt
+      version: 1.2
