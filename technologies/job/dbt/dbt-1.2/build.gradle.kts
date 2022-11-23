@@ -20,3 +20,7 @@ import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
+
+tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+    environment("DOCKER_BUILDKIT", "1")
+}
