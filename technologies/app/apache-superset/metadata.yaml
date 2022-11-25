@@ -21,6 +21,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/app/superset_home"]
     dockerInfo:
-      image: saagie/superset
-      baseTag: 2.0.0
-      version: 2.0.0-1.132.0
+      image: "saagie/superset"
+      baseTag: "2.0.0"
+      version: "2.0.0-1.132.0"

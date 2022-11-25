@@ -21,6 +21,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
     dockerInfo:
-      image: saagie/rstudio
-      baseTag: 3.4.2
-      version: 3.4.2-1.77.0
+      image: "saagie/rstudio"
+      baseTag: "3.4.2"
+      version: "3.4.2-1.77.0"

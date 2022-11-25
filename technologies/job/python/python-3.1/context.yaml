@@ -1,8 +1,9 @@
-id: "3.7"
-label: "3.7"
-available: true
+id: "3.1"
+label: "3.10"
+desciption: "This technology is deprecated for a technical reason. Please switch to the other Python 3.10 version"
+available: false
 recommended: false
-trustLevel: stable
+trustLevel: deprecated
 job:
   features:
     - type: COMMAND_LINE

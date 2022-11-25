@@ -22,6 +22,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/opt/nifi/nifi-current/conf"]
     dockerInfo:
-      image: saagie/nifi
-      baseTag: 1.9.2
-      version: 1.9.2-1.76.0
+      image: "saagie/nifi"
+      baseTag: "1.9.2"
+      version: "1.9.2-1.76.0"

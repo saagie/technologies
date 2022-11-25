@@ -21,9 +21,9 @@ contexts:
         basePath: GF_SERVER_DOMAIN
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
-      image: saagie/grafana
-      baseTag: 8.2.1
-      version: 8.2.1-1.121.0
+      image: "saagie/grafana"
+      baseTag: "8.2.1"
+      version: "8.2.1-1.121.0"
   - id: grafana-9.0
     label: 9.0
     releaseNotes: First version of Grafana 9.0 into Saagie.
@@ -37,9 +37,9 @@ contexts:
         basePath: GF_SERVER_DOMAIN
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
-      image: saagie/grafana
-      baseTag: 9.0.1
-      version: 9.0.1-1.121.0
+      image: "saagie/grafana"
+      baseTag: "9.0.1"
+      version: "9.0.1-1.121.0"
   - id: grafana-9.2
     label: 9.2
     releaseNotes: First version of Grafana 9.2 into Saagie.
@@ -53,6 +53,6 @@ contexts:
         basePath: GF_SERVER_DOMAIN
     volumes: ["/opt/grafana", "/opt/plugins"]
     dockerInfo:
-      image: saagie/grafana
-      baseTag: 9.2.3
-      version: 9.2.3-1.132.0
+      image: "saagie/grafana"
+      baseTag: "9.2.3"
+      version: "9.2.3-1.132.0"

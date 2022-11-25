@@ -26,9 +26,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/java-scala
-      baseTag: 11
-      version: 11-1.44.0
+      image: "saagie/java-scala"
+      baseTag: "11"
+      version: "11-1.44.0"
   - id: 17
     label: 17
     available: true
@@ -49,6 +49,6 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/java-scala
-      baseTag: 17
-      version: 17-1.132.0
+      image: "saagie/java-scala"
+      baseTag: "17"
+      version: "17-1.132.0"

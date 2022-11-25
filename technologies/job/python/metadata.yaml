@@ -6,7 +6,31 @@ description: Python is an interpreted high-level general-purpose programming lan
 available: true
 icon: python
 contexts:
-  - id: 3.10
+  - id: "3.1"
+    label: "3.10"
+    desciption: "This technology is deprecated for a technical reason. Please switch to the other Python 3.10 version"
+    available: false
+    recommended: false
+    trustLevel: deprecated
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: "saagie/python"
+      baseTag: "3.10"
+      version: "3.10-1.132.0"
+  - id: "3.10"
     label: "3.10"
     available: true
     recommended: false
@@ -26,11 +50,11 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/python
-      baseTag: 3.10
-      version: 3.10-1.137.0
-  - id: 3.7
-    label: 3.7
+      image: "saagie/python"
+      baseTag: "3.10"
+      version: "3.10-1.137.0"
+  - id: "3.7"
+    label: "3.7"
     available: true
     recommended: false
     trustLevel: stable
@@ -49,11 +73,11 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/python
-      baseTag: 3.7
-      version: 3.7-1.46.0
-  - id: 3.8
-    label: 3.8
+      image: "saagie/python"
+      baseTag: "3.7"
+      version: "3.7-1.46.0"
+  - id: "3.8"
+    label: "3.8"
     available: true
     recommended: false
     trustLevel: stable
@@ -72,11 +96,11 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/python
-      baseTag: 3.8
-      version: 3.8-1.137.0
-  - id: 3.9
-    label: 3.9
+      image: "saagie/python"
+      baseTag: "3.8"
+      version: "3.8-1.137.0"
+  - id: "3.9"
+    label: "3.9"
     available: true
     recommended: true
     trustLevel: stable
@@ -95,6 +119,6 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/python
-      baseTag: 3.9
-      version: 3.9-1.137.0
+      image: "saagie/python"
+      baseTag: "3.9"
+      version: "3.9-1.137.0"

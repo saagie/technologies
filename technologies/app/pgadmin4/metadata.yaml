@@ -21,6 +21,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/var/lib/pgadmin"]
     dockerInfo:
-      image: saagie/pgadmin4
-      baseTag: 6.10
-      version: 6.10-1.123.0
+      image: "saagie/pgadmin4"
+      baseTag: "6.10"
+      version: "6.10-1.123.0"

@@ -10,7 +10,7 @@ backgroundColor: "#092241"
 customFlags: []
 contexts:
   - id: mlflow-server-1.16
-    label: 1.16
+    label: "1.16"
     releaseNotes: First version of MLFlow Server 1.16 into Saagie.
     available: true
     trustLevel: experimental
@@ -21,9 +21,9 @@ contexts:
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/mlflow-server
-      baseTag: 1.16
-      version: 1.16-1.108.0
+      image: "saagie/mlflow-server"
+      baseTag: "1.16"
+      version: "1.16-1.108.0"
   - id: mlflow-server-1.20
     label: "1.20"
     releaseNotes: First version of MLFlow Server 1.20 into Saagie.
@@ -36,9 +36,9 @@ contexts:
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/mlflow-server
-      baseTag: 1.20
-      version: 1.20-1.108.0
+      image: "saagie/mlflow-server"
+      baseTag: "1.20"
+      version: "1.20-1.108.0"
   - id: mlflow-server-2.0
     label: "2.0"
     releaseNotes: First version of MLFlow Server 2.0 into Saagie.
@@ -51,6 +51,6 @@ contexts:
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/mlflow-server
-      baseTag: 2.0
-      version: 2.0-1.135.0
+      image: "saagie/mlflow-server"
+      baseTag: "2.0"
+      version: "2.0-1.135.0"

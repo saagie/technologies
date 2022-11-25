@@ -8,15 +8,15 @@ icon: spark
 customFlags: [Spark]
 
 contexts:
-  - id: 2.4
-    label: 2.4
+  - id: "2.4"
+    label: "2.4"
     available: true
     recommended: false
     trustLevel: stable
     dockerInfo:
-      image: saagie/spark
-      baseTag: 2.4
-      version: 2.4-1.89.0
+      image: "saagie/spark"
+      baseTag: "2.4"
+      version: "2.4-1.89.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -42,9 +42,9 @@ contexts:
             available: true
             trustLevel: stable
             dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-jre-11
-              version: 2.4-jre-11-1.100.0
+              image: "saagie/spark"
+              baseTag: "2.4-jre-11"
+              version: "2.4-jre-11-1.100.0"
       - id: python
         label: Python
         available: true
@@ -64,23 +64,23 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.7
-            label: 3.7
+          - id: "3.7"
+            label: "3.7"
             available: true
             trustLevel: stable
             dockerInfo:
-              image: saagie/spark
-              baseTag: 2.4-py-3.7
-              version: 2.4-py-3.7-1.100.0
-  - id: 3.0
-    label: 3.0
+              image: "saagie/spark"
+              baseTag: "2.4-py-3.7"
+              version: "2.4-py-3.7-1.100.0"
+  - id: "3.0"
+    label: "3.0"
     available: true
     recommended: false
     trustLevel: stable
     dockerInfo:
-      image: saagie/spark
-      baseTag: 3.0
-      version: 3.0-1.88.0
+      image: "saagie/spark"
+      baseTag: "3.0"
+      version: "3.0-1.88.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -106,9 +106,9 @@ contexts:
             available: true
             trustLevel: stable
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-jre-11
-              version: 3.0-jre-11-1.100.0
+              image: "saagie/spark"
+              baseTag: "3.0-jre-11"
+              version: "3.0-jre-11-1.100.0"
       - id: python
         label: Python
         available: true
@@ -128,23 +128,23 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.7
-            label: 3.7
+          - id: "3.7"
+            label: "3.7"
             available: true
             trustLevel: stable
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-py-3.7
-              version: 3.0-py-3.7-1.100.0
-  - id: 3.1
-    label: 3.1
+              image: "saagie/spark"
+              baseTag: "3.0-py-3.7"
+              version: "3.0-py-3.7-1.100.0"
+  - id: "3.1"
+    label: "3.1"
     available: true
     recommended: true
     trustLevel: stable
     dockerInfo:
-      image: saagie/spark
-      baseTag: 3.1
-      version: 3.1-1.119.0
+      image: "saagie/spark"
+      baseTag: "3.1"
+      version: "3.1-1.119.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -171,9 +171,9 @@ contexts:
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-jre-11
-              version: 3.1-jre-11-1.125.0
+              image: "saagie/spark"
+              baseTag: "3.1-jre-11"
+              version: "3.1-jre-11-1.125.0"
       - id: python
         label: Python
         available: true
@@ -193,42 +193,42 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.7
-            label: 3.7
+          - id: "3.7"
+            label: "3.7"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.125.0
-          - id: 3.8
-            label: 3.8
+              image: "saagie/spark"
+              baseTag: "3.1-py-3.7"
+              version: "3.1-py-3.7-1.125.0"
+          - id: "3.8"
+            label: "3.8"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-py-3.8
-              version: 3.1-py-3.8-1.125.0
-          - id: 3.9
-            label: 3.9
+              image: "saagie/spark"
+              baseTag: "3.1-py-3.8"
+              version: "3.1-py-3.8-1.125.0"
+          - id: "3.9"
+            label: "3.9"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-py-3.9
-              version: 3.1-py-3.9-1.125.0
+              image: "saagie/spark"
+              baseTag: "3.1-py-3.9"
+              version: "3.1-py-3.9-1.125.0"
   - id: 3.1-aws
     label: 3.1 AWS
     available: true
     recommended: true
     trustLevel: stable
     dockerInfo:
-      image: saagie/spark
-      baseTag: 3.1-aws
-      version: 3.1-aws-1.125.0
+      image: "saagie/spark"
+      baseTag: "3.1-aws"
+      version: "3.1-aws-1.125.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -255,9 +255,9 @@ contexts:
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-jre-11
-              version: 3.1-aws-jre-11-1.125.0
+              image: "saagie/spark"
+              baseTag: "3.1-aws-jre-11"
+              version: "3.1-aws-jre-11-1.125.0"
       - id: python
         label: Python
         available: true
@@ -277,30 +277,30 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.7
-            label: 3.7
+          - id: "3.7"
+            label: "3.7"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.7
-              version: 3.1-aws-py-3.7-1.125.0
-          - id: 3.8
-            label: 3.8
+              image: "saagie/spark"
+              baseTag: "3.1-aws-py-3.7"
+              version: "3.1-aws-py-3.7-1.125.0"
+          - id: "3.8"
+            label: "3.8"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.8
-              version: 3.1-aws-py-3.8-1.125.0
-          - id: 3.9
-            label: 3.9
+              image: "saagie/spark"
+              baseTag: "3.1-aws-py-3.8"
+              version: "3.1-aws-py-3.8-1.125.0"
+          - id: "3.9"
+            label: "3.9"
             available: true
             trustLevel: stable
             recommended: true
             dockerInfo:
-              image: saagie/spark
-              baseTag: 3.1-aws-py-3.9
-              version: 3.1-aws-py-3.9-1.125.0
+              image: "saagie/spark"
+              baseTag: "3.1-aws-py-3.9"
+              version: "3.1-aws-py-3.9-1.125.0"
