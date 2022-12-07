@@ -79,12 +79,6 @@ commandTests:
     expectedOutput: ["/usr/bin/scp"]
     exitCode: 0
 
-  - name: "ping"
-    command: "which"
-    args: ["ping"]
-    expectedOutput: ["/bin/ping"]
-    exitCode: 0
-
   - name: "wc"
     command: "wc"
     args: ["--help"]
