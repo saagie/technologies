@@ -1,5 +1,5 @@
-id: debian10-buster
-label: debian10-buster
+id: debian11-bullseye-aws
+label: debian11-bullseye-aws
 available: true
 recommended: false
 trustLevel: stable
@@ -9,7 +9,7 @@ job:
       label: Command line
       mandatory: true
       comment: Linux shell command
-      defaultValue: echo "Saagie Bash"
+      defaultValue: "# To configure AWS credential don't forget to set:\n# \tAWS_ACCESS_KEY_ID\n# \tAWS_SECRET_ACCESS_KEY\n# For other ways to log into aws please refer to aws documentation.\n# If done right you can issue your AWS commands as usual e.g. :\n\naws s3 ls"
     - type: ARTIFACT
       label: Package
       mandatory: false

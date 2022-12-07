@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian11-bullseye
+dynamicVersion: 1.136.0_SDKTECHNO-204
+version: debian11-bullseye-1.136.0_SDKTECHNO-204
