@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian11-bullseye
+dynamicVersion: 1.92.0_bash-debian-10
+version: debian11-bullseye-1.92.0

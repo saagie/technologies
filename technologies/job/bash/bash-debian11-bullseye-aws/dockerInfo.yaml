@@ -1,0 +1,4 @@
+image: saagie/bash
+baseTag: debian11-bullseye-aws
+dynamicVersion: 1.93.0_SDKTECHNO-118-AWS-CLI
+version: debian11-bullseye-aws-1.93.0

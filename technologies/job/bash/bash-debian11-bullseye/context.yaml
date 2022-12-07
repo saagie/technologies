@@ -1,7 +1,7 @@
-id: debian10-buster
-label: debian10-buster
+id: debian11-bullseye
+label: debian11-bullseye
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:
