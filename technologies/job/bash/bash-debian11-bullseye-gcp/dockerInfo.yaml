@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian11-bullseye-gcp
-dynamicVersion: 1.92.0_bash-debian-10
-version: debian11-bullseye-gcp-1.92.0
+dynamicVersion: 1.136.0_SDKTECHNO-204
+version: debian11-bullseye-gcp-1.136.0_SDKTECHNO-204
