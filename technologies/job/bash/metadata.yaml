@@ -120,7 +120,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian11-bullseye
-      version: debian11-bullseye-1.136.0_SDKTECHNO-204
+      version: debian11-bullseye-1.136.0
   - id: debian11-bullseye-aws
     label: debian11-bullseye-aws
     available: true
@@ -143,7 +143,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian11-bullseye-aws
-      version: debian11-bullseye-aws-1.136.0_SDKTECHNO-204
+      version: debian11-bullseye-aws-1.136.0
   - id: debian11-bullseye-azure
     label: debian11-bullseye-azure
     available: true
@@ -166,7 +166,7 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian11-bullseye-azure
-      version: debian11-bullseye-azure-1.136.0_SDKTECHNO-204
+      version: debian11-bullseye-azure-1.136.0
   - id: debian11-bullseye-gcp
     label: debian11-bullseye-gcp
     available: true
@@ -189,4 +189,4 @@ contexts:
     dockerInfo:
       image: saagie/bash
       baseTag: debian11-bullseye-gcp
-      version: debian11-bullseye-gcp-1.136.0_SDKTECHNO-204
+      version: debian11-bullseye-gcp-1.136.0

@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian11-bullseye-azure
 dynamicVersion: 1.136.0_SDKTECHNO-204
-version: debian11-bullseye-azure-1.136.0_SDKTECHNO-204
+version: debian11-bullseye-azure-1.136.0
