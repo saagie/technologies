@@ -634,29 +634,6 @@ commandTests:
         "from requests_kerberos import *;"]
     exitCode: 0
 
-  - name: import_kafka-python
-    command: "python"
-    args: [
-        "-c",
-        "from kafka import KafkaConsumer;"]
-    exitCode: 0
-
-  - name: import_confluent-kafka
-    command: "python"
-    args: [
-        "-c",
-        "from confluent_kafka import Producer;"]
-    exitCode: 0
-
-  - name: import_PyTorch
-    command: "python"
-    args: [
-        "-c",
-        "from __future__ import print_function; \
-        import torch; \
-        x = torch.rand(5, 3); \
-        print(x)"]
-    exitCode: 0
 
   - name: import_beautifulsoup4
     command: "python"
@@ -671,16 +648,3 @@ commandTests:
         "import six;"]
     exitCode: 0
 
-  - name: import_torch
-    command: "python"
-    args: [
-        "-c",
-        "import torch;"]
-    exitCode: 0
-
-  - name: import_torchvision
-    command: "python"
-    args: [
-        "-c",
-        "import torchvision;"]
-    exitCode: 0
