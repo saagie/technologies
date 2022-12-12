@@ -12,7 +12,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       leptonica-progs libmagickwand-dev libpng-dev libjpeg62-turbo-dev libtiff5-dev libwebp-dev libopenjp2-7-dev libgif-dev \
       build-essential python3-lxml python3-pip xvfb \
       libgeos-dev \
-      qtbase5-dev qt5-qmake qtbase5-dev-tools swig pulseaudio libpulse-dev lame ffmpeg flac \
+      qtbase5-dev qt5-qmake qtbase5-dev-tools libqtwebkit-dev swig pulseaudio libpulse-dev lame ffmpeg flac \
       libssl-dev libcurl4-openssl-dev libhdf5-dev gfortran libopenblas-dev liblapack-dev \
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
