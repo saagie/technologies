@@ -13,7 +13,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       build-essential python3-lxml python3-pip xvfb \
       libgeos-dev \
       swig pulseaudio libpulse-dev lame ffmpeg flac \
-      libssl-dev libcurl4-openssl-dev \
+      libssl-dev libcurl4-openssl-dev libhdf5-dev \
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
 
