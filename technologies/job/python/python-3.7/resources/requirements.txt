@@ -2,7 +2,8 @@
 beautifulsoup4==4.8.0
 # force six version for compatibility textract
 six==1.12.0
-
+# Cython must be installed before thrift-sasl because of an error on ThriftPy and python 3.7 : https://github.com/Thriftpy/thriftpy/issues/333
+cython>=0.29,<0.30
 # LIBS PART BEGIN
 numpy>=1.17,<1.18
 h5py>=2.10,<2.11
@@ -29,8 +30,7 @@ networkx>=2.4,<2.5
 fiona>=1.8,<1.9
 folium>=0.10,<0.11
 shapely>=1.6,<1.7
-# Cython must be installed before thrift-sasl because of an error on ThriftPy and python 3.7 : https://github.com/Thriftpy/thriftpy/issues/333
-cython>=0.29,<0.30
+
 # Thrift-Sasl should have no errors with Ibis Impala connection (0.2.1 is OK but >0.3 is KO until 0.4.1 at least)
 # https://github.com/cloudera/thrift_sasl/issues/12 - corrected since 20180601 (https://github.com/cloudera/thrift_sasl/archive/8c52f65.zip)
 # but other prolems remaining since then
