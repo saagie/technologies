@@ -22,7 +22,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
 # (ConfigSace install required by auto-sklearn will fail without that before the other install)
 # Keep a copy of requirements.txt for depending images (jupyter...)
 COPY resources/requirements.txt /tmp/requirements.txt
-#RUN grep -v '^#' /tmp/requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
-#    && rm -rf /root/.cachex \
-#    && rm -rf /boot/.cache/pip \
-#    && rm -rf ~/.cache/pip
+RUN grep -v '^#' /tmp/requirements.txt | xargs -n 1 -L 1 pip --no-cache-dir install \
+    && rm -rf /root/.cachex \
+    && rm -rf /boot/.cache/pip \
+    && rm -rf ~/.cache/pip
