@@ -11,7 +11,7 @@ RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
     && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
     && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
     && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
-      google-cloud-sdk \
+      google-cloud-cli=411.0.0-0 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 ENV GCP_HOME=/google-cloud-sdk
