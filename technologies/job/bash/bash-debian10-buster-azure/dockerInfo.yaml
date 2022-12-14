@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian10-buster-azure
-dynamicVersion: 1.137.0_SDKTECHNO-208
-version: debian10-buster-azure-1.137.0_SDKTECHNO-208
+dynamicVersion: 1.138.0_SDKTECHNO-208
+version: debian10-buster-azure-1.138.0_SDKTECHNO-208
