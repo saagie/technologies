@@ -9,7 +9,7 @@ metadataTest:
     - key: LD_RUN_PATH
       value: "/usr/local/lib"
     - key: PATH
-      value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      value: "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin"
     - key: "HADOOP_CONF_DIR"
       value: "/etc/hadoop/conf"
 
