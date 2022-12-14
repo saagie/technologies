@@ -17,11 +17,6 @@ fileExistenceTests:
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
-  - name: "kinit"
-    path: "/usr/bin/kinit"
-    shouldExist: true
-    permissions: "-rwxr-xr-x"
-
 fileContentTests:
   - name: "entrypoint.sh"
     path: "/opt/entrypoint.sh"
@@ -48,11 +43,6 @@ commandTests:
     command: "which"
     args: ["python"]
     expectedOutput: ["/usr/local/bin/python"]
-
-  - name: "krb5-user installation"
-    command: "kinit"
-    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
-    exitCode: 1
 
   - name: "ftp"
     args: ["-h"]
