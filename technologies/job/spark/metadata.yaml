@@ -80,7 +80,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.0
-      version: 3.0-1.88.0
+      version: 3.0-1.139.0_SDKTECHNO-207
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -135,7 +135,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-py-3.7
-              version: 3.0-py-3.7-1.100.0
+              version: 3.0-py-3.7-1.139.0_SDKTECHNO-207
   - id: 3.1
     label: 3.1
     available: true
@@ -144,7 +144,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.1
-      version: 3.1-1.137.0_SDKTECHNO-207
+      version: 3.1-1.139.0_SDKTECHNO-207
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -201,7 +201,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.137.0_SDKTECHNO-207
+              version: 3.1-py-3.7-1.139.0_SDKTECHNO-207
           - id: 3.8
             label: 3.8
             available: true
@@ -210,7 +210,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.8
-              version: 3.1-py-3.8-1.137.0_SDKTECHNO-207
+              version: 3.1-py-3.8-1.139.0_SDKTECHNO-207
           - id: 3.9
             label: 3.9
             available: true
@@ -219,7 +219,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-py-3.9
-              version: 3.1-py-3.9-1.137.0_SDKTECHNO-207
+              version: 3.1-py-3.9-1.139.0_SDKTECHNO-207
   - id: 3.1-aws
     label: 3.1 AWS
     available: true
@@ -228,7 +228,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.1-aws
-      version: 3.1-aws-1.137.0_SDKTECHNO-207
+      version: 3.1-aws-1.139.0_SDKTECHNO-207
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -257,7 +257,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-aws-jre-11
-              version: 3.1-aws-jre-11-1.137.0_SDKTECHNO-207
+              version: 3.1-aws-jre-11-1.139.0_SDKTECHNO-207
       - id: python
         label: Python
         available: true
@@ -285,7 +285,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-aws-py-3.7
-              version: 3.1-aws-py-3.7-1.137.0_SDKTECHNO-207
+              version: 3.1-aws-py-3.7-1.139.0_SDKTECHNO-207
           - id: 3.8
             label: 3.8
             available: true
@@ -294,7 +294,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-aws-py-3.8
-              version: 3.1-aws-py-3.8-1.137.0_SDKTECHNO-207
+              version: 3.1-aws-py-3.8-1.139.0_SDKTECHNO-207
           - id: 3.9
             label: 3.9
             available: true
@@ -303,4 +303,4 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.1-aws-py-3.9
-              version: 3.1-aws-py-3.9-1.137.0_SDKTECHNO-207
+              version: 3.1-aws-py-3.9-1.139.0_SDKTECHNO-207
