@@ -35,7 +35,7 @@ commandTests:
   - name: "java installation"
     command: "which"
     args: ["java"]
-    expectedOutput: ["/usr/local/openjdk-8/bin/java"]
+    expectedOutput: ["/usr/local/openjdk-11/bin/java"]
 
   - name: "java version"
     command: "java"
