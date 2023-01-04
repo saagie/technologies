@@ -1,5 +1,5 @@
-id: 4.0
-label: 4.0
+id: "4.0"
+label: "4.0"
 available: true
 recommended: false
 trustLevel: stable

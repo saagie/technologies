@@ -25,6 +25,6 @@ contexts:
         basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
-      image: saagie/orientdb
-      baseTag: 2.2.37
-      version: 2.2.37-1.82.0
+      image: "saagie/orientdb"
+      baseTag: "2.2.37"
+      version: "2.2.37-1.82.0"

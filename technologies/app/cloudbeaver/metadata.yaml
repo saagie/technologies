@@ -21,6 +21,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/opt/cloudbeaver/workspace"]
     dockerInfo:
-      image: saagie/cloudbeaver
-      baseTag: 1.2.0
-      version: 1.2.0-1.75.0
+      image: "saagie/cloudbeaver"
+      baseTag: "1.2.0"
+      version: "1.2.0-1.75.0"

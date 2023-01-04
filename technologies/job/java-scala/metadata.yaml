@@ -6,8 +6,8 @@ description: Java and Scala jobs offer the ability to process content in the JVM
 available: true
 icon: java-scala
 contexts:
-  - id: 11
-    label: 11
+  - id: "11"
+    label: "11"
     available: true
     recommended: false
     trustLevel: stable
@@ -26,11 +26,11 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/java-scala
-      baseTag: 11
-      version: 11-1.44.0
-  - id: 17
-    label: 17
+      image: "saagie/java-scala"
+      baseTag: "11"
+      version: "11-1.44.0"
+  - id: "17"
+    label: "17"
     available: true
     recommended: true
     trustLevel: stable
@@ -49,6 +49,6 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/java-scala
-      baseTag: 17
-      version: 17-1.132.0
+      image: "saagie/java-scala"
+      baseTag: "17"
+      version: "17-1.132.0"

@@ -21,9 +21,9 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
     dockerInfo:
-      image: saagie/rstudio
-      baseTag: 3.4.2
-      version: 3.4.2-1.108.0
+      image: "saagie/rstudio"
+      baseTag: "3.4.2"
+      version: "3.4.2-1.108.0"
   - id: rstudio-3.6.2
     label: 3.6.2
     releaseNotes: First version of RStudio 3.6.2 into Saagie.
@@ -37,11 +37,11 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
     dockerInfo:
-      image: saagie/rstudio
-      baseTag: 3.6.2
-      version: 3.6.2-1.108.0
+      image: "saagie/rstudio"
+      baseTag: "3.6.2"
+      version: "3.6.2-1.108.0"
   - id: rstudio-4.1
-    label: 4.1
+    label: "4.1"
     releaseNotes: First version of RStudio 4.1 into Saagie.
     available: true
     trustLevel: stable
@@ -53,11 +53,11 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
     dockerInfo:
-      image: saagie/rstudio
-      baseTag: 4.1
-      version: 4.1-1.141.0_SDKTECHNO-211
+      image: "saagie/rstudio"
+      baseTag: "4.1"
+      version: "4.1-1.141.0_SDKTECHNO-211"
   - id: rstudio-4.2
-    label: 4.2
+    label: "4.2"
     releaseNotes: First version of RStudio 4.2 into Saagie.
     available: true
     trustLevel: stable
@@ -69,6 +69,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/home"]
     dockerInfo:
-      image: saagie/rstudio
-      baseTag: 4.2
-      version: 4.2-1.141.0_SDKTECHNO-211
+      image: "saagie/rstudio"
+      baseTag: "4.2"
+      version: "4.2-1.141.0_SDKTECHNO-211"

@@ -1,4 +1,4 @@
 image: saagie/spark
-baseTag: 2.4
+baseTag: "2.4"
 dynamicVersion: 1.89.0_SDKTECHNO-111
 version: 2.4-1.89.0

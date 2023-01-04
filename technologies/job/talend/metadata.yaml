@@ -27,9 +27,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/talend
-      baseTag: Use_Java_11
-      version: Use_Java_11-1.90.0
+      image: "saagie/talend"
+      baseTag: "Use_Java_11"
+      version: "Use_Java_11-1.90.0"
   - id: Use_Java_17
     label: Use_Java_17
     available: true
@@ -50,9 +50,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/talend
-      baseTag: Use_Java_17
-      version: Use_Java_17-1.132.0
+      image: "saagie/talend"
+      baseTag: "Use_Java_17"
+      version: "Use_Java_17-1.132.0"
   - id: Use_Java_8
     label: Use_Java_8
     available: false
@@ -74,6 +74,6 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/talend
-      baseTag: Use_Java_8
-      version: Use_Java_8-1.132.0
+      image: "saagie/talend"
+      baseTag: "Use_Java_8"
+      version: "Use_Java_8-1.132.0"

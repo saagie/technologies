@@ -20,6 +20,6 @@ contexts:
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/mlflow-server
-      baseTag: 1.20
-      version: 1.20-1.91.0
+      image: "saagie/mlflow-server"
+      baseTag: "1.20"
+      version: "1.20-1.91.0"

@@ -20,6 +20,6 @@ contexts:
         rewriteUrl: false
         basePath: SERVER_BASEPATH
     dockerInfo:
-      image: saagie/kibana
-      baseTag: 7.5.1
-      version: 7.5.1-1.76.0
+      image: "saagie/kibana"
+      baseTag: "7.5.1"
+      version: "7.5.1-1.76.0"

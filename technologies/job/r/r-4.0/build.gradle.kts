@@ -15,21 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
- import com.saagie.technologies.SaagieTechnologiesGradlePlugin
- import com.saagie.technologies.readDockerInfo
- import com.saagie.technologies.getVersionForDocker
+import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
-
- apply<DockerRemoteApiPlugin>()
- apply<SaagieTechnologiesGradlePlugin>()
-
- val dockerInfo = readDockerInfo(projectDir)
-
- tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-     dependsOn(":${this.project.name}-base:testImage")
-     this.buildArgs.put(
-             "base_img",
-             "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
-     )
- }
+apply<DockerRemoteApiPlugin>()
+apply<SaagieTechnologiesGradlePlugin>()

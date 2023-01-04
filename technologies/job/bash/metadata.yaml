@@ -26,9 +26,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian10-buster
-      version: debian10-buster-1.138.0
+      image: "saagie/bash"
+      baseTag: "debian10-buster"
+      version: "debian10-buster-1.138.0"
   - id: debian10-buster-aws
     label: debian10-buster-aws
     available: true
@@ -49,9 +49,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian10-buster-aws
-      version: debian10-buster-aws-1.138.0
+      image: "saagie/bash"
+      baseTag: "debian10-buster-aws"
+      version: "debian10-buster-aws-1.138.0"
   - id: debian10-buster-azure
     label: debian10-buster-azure
     available: true
@@ -72,9 +72,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian10-buster-azure
-      version: debian10-buster-azure-1.138.0
+      image: "saagie/bash"
+      baseTag: "debian10-buster-azure"
+      version: "debian10-buster-azure-1.138.0"
   - id: debian10-buster-gcp
     label: debian10-buster-gcp
     available: true
@@ -95,9 +95,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian10-buster-gcp
-      version: debian10-buster-gcp-1.138.0
+      image: "saagie/bash"
+      baseTag: "debian10-buster-gcp"
+      version: "debian10-buster-gcp-1.138.0"
   - id: debian11-bullseye
     label: debian11-bullseye
     available: true
@@ -118,9 +118,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian11-bullseye
-      version: debian11-bullseye-1.136.0
+      image: "saagie/bash"
+      baseTag: "debian11-bullseye"
+      version: "debian11-bullseye-1.136.0"
   - id: debian11-bullseye-aws
     label: debian11-bullseye-aws
     available: true
@@ -141,9 +141,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian11-bullseye-aws
-      version: debian11-bullseye-aws-1.136.0
+      image: "saagie/bash"
+      baseTag: "debian11-bullseye-aws"
+      version: "debian11-bullseye-aws-1.136.0"
   - id: debian11-bullseye-azure
     label: debian11-bullseye-azure
     available: true
@@ -164,9 +164,9 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian11-bullseye-azure
-      version: debian11-bullseye-azure-1.136.0
+      image: "saagie/bash"
+      baseTag: "debian11-bullseye-azure"
+      version: "debian11-bullseye-azure-1.136.0"
   - id: debian11-bullseye-gcp
     label: debian11-bullseye-gcp
     available: true
@@ -187,6 +187,6 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/bash
-      baseTag: debian11-bullseye-gcp
-      version: debian11-bullseye-gcp-1.136.0
+      image: "saagie/bash"
+      baseTag: "debian11-bullseye-gcp"
+      version: "debian11-bullseye-gcp-1.136.0"
