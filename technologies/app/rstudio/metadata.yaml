@@ -9,21 +9,6 @@ icon: rstudio
 backgroundColor: "#75aadb"
 customFlags: []
 contexts:
-  - id: rstudio-3.4.2
-    label: 3.4.2
-    releaseNotes: First version of RStudio 3.4.2 into Saagie.
-    available: false
-    trustLevel: stable
-    ports:
-      - port: 80
-        name: RStudio
-        rewriteUrl: false
-        basePath: SAAGIE_BASE_PATH
-    volumes: ["/home"]
-    dockerInfo:
-      image: saagie/rstudio
-      baseTag: 3.4.2
-      version: 3.4.2-1.108.0
   - id: rstudio-3.6.2
     label: 3.6.2
     releaseNotes: First version of RStudio 3.6.2 into Saagie.
