@@ -1,4 +1,0 @@
-image: saagie/zeppelin-nbk
-baseTag: 0.7.3
-dynamicVersion: 1.108.0_SDKTECHNO-165
-version: 0.7.3-1.108.0
