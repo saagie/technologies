@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim-buster
+FROM openjdk:11-jre-slim-bullseye
 
 ARG SPARK_VERSION=3.1.3
 ARG HADOOP_VERSION=3.2
@@ -14,7 +14,7 @@ ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client krb5-user zip && \
+      ftp wget curl unzip telnet openssh-client zip && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
