@@ -26,12 +26,12 @@ Once you have created your branch, you can start implementing your modifications
 
 ## Commit and push your modifications
 
-Once you have implemented your modifications, you can commit and push them. Here's the commands necessary to commit and push your modifications:
+Once you have implemented your modifications, you can commit and push them. When you push a newly created branch, you will have to specify the upstream branch. The next time, a simple `git push` in the third line will be enough. Here's the commands necessary to commit and push your modifications:
 
 ```bash
 git add .
 git commit -m "SDKTECHNO-123: Add my technology"
-git push origin SDKTECHNO-123
+git push --set-upstream origin SDKTECHNO-123
 ```
 
 When the build system will detect your modifications, it will automatically create a new unique tag for the release and build the Docker images added or modified. You can see the build status in the [Actions](https://github.com/saagie/technologies/actions) tab of the repository.
