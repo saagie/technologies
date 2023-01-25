@@ -52,7 +52,7 @@ contexts:
     dockerInfo:
       image: saagie/r-image
       baseTag: 4.1
-      version: 4.1-1.115.0
+      version: 4.1-1.140.0_SDKTECHNO-206
   - id: 4.2
     label: 4.2
     available: true
@@ -75,4 +75,4 @@ contexts:
     dockerInfo:
       image: saagie/r-image
       baseTag: 4.2
-      version: 4.2-1.120.0
+      version: 4.2-1.140.0_SDKTECHNO-206
