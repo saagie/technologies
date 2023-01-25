@@ -29,7 +29,6 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 # Hive client installation
-# TODO use oneline curl -o with env var to simplify
 RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
     && tar -xzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
     && rm apache-hive-${HIVE_VERSION}-bin.tar.gz
@@ -61,21 +60,24 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Add hdfs command line
 RUN cd / \
-    && mkdir hadoop \ 
-    && cd hadoop \ 
-    && wget --no-verbose https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
-    && tar xf hadoop-${HADOOP_VERSION}.tar.gz \ 
-    && rm hadoop-${HADOOP_VERSION}.tar.gz \ 
-    && rm -rf hadoop-${HADOOP_VERSION}/etc/hadoop/ \ 
+    && mkdir hadoop \
+    && cd hadoop \
+    && wget --no-verbose https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+    && tar xf hadoop-${HADOOP_VERSION}.tar.gz \
+    && rm hadoop-${HADOOP_VERSION}.tar.gz \
+    && rm -rf hadoop-${HADOOP_VERSION}/etc/hadoop/ \
     && ln -s /etc/hadoop/conf hadoop-${HADOOP_VERSION}/etc/hadoop
 ENV HADOOP_HOME=/hadoop/hadoop-${HADOOP_VERSION}
 ENV PATH=$PATH:$HADOOP_HOME/bin
 
 # Packages install
 RUN install2.r --error --skipinstalled \
-    aws.s3 \
     arrow \
-    openxlsx
+    openxlsx \
+    odbc
+
+# Install aws.s3 from saagie github (fix connection to OVH)
+RUN R -e "devtools::install_github('saagie/aws.s3@v0.3.22.1')"
 
 # Move scripts and frequently changing directive to the end of the build
 COPY entrypoint.sh /entrypoint.sh
@@ -84,4 +86,3 @@ RUN chmod 755 /entrypoint.sh
 WORKDIR /sandbox
 
 CMD ["/bin/bash", "-c", "/entrypoint.sh"]
-#CMD ["R"]
