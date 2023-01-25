@@ -1,5 +1,5 @@
-ARG jre_major=8
-FROM openjdk:${jre_major}-slim-buster
+ARG jre_major=11
+FROM openjdk:${jre_major}-slim-bullseye
 
 ARG SPARK_VERSION=3.1.3
 ARG HADOOP_VERSION=2.7
@@ -14,7 +14,8 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 
 # LIGHT DEPENDENCIES START
-RUN apt update -qq && apt install -yqq --no-install-recommends \
+RUN echo "deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free" |  tee /etc/apt/sources.list.d/bulleseye-backports.list && \
+    apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
