@@ -8,7 +8,7 @@ This repository has an automated build system that will automatically build the 
 
 ## Open an issue
 
-The first step to contributing is to open an issue at [this URL](https://github.com/saagie/technologies/issues/new/choose). A bot will automatically report the issue in out internal issue tracker and generate a unique issue id (for example SDKTECHNO-123).
+The first step to contributing is to open an issue at [this URL](https://github.com/saagie/technologies/issues/new/choose). A bot will automatically report the issue in our internal issue tracker and generate a unique issue id (for example SDKTECHNO-123).
 
 ## Create a branch
 
