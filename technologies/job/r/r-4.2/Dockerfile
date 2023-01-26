@@ -29,7 +29,6 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 # Hive client installation
-# TODO use oneline curl -o with env var to simplify
 RUN wget --no-verbose http://apache.mirrors.ovh.net/ftp.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
     && tar -xzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
     && rm apache-hive-${HIVE_VERSION}-bin.tar.gz
@@ -73,10 +72,12 @@ ENV PATH=$PATH:$HADOOP_HOME/bin
 
 # Packages install
 RUN install2.r --error --skipinstalled \
-    aws.s3 \
     arrow \
     openxlsx \
     odbc
+
+# Install aws.s3 from saagie github (fix connection to OVH)
+RUN R -e "devtools::install_github('saagie/aws.s3@v0.3.22.1')"
 
 # Move scripts and frequently changing directive to the end of the build
 COPY entrypoint.sh /entrypoint.sh
