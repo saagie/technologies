@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.1.1
+FROM rocker/tidyverse:4.1.3
 
 LABEL maintainer="Saagie <tony@saagie.com>"
 
