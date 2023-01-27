@@ -19,7 +19,8 @@ ENV IMPALA_ODBC_VERSION_FULL ${IMPALA_ODBC_VERSION}-2_amd64
 RUN env >> /ROOT_ENV_VAR && chmod 400 /ROOT_ENV_VAR
 
 # Install system libraries required
-RUN apt-get update -qq \
+RUN chmod 777 /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg \
+    && apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
         curl \
         krb5-user \
