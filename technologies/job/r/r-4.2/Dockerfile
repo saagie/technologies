@@ -17,10 +17,10 @@ ENV IMPALA_ODBC_VERSION_FULL ${IMPALA_ODBC_VERSION}-2_amd64
 
 # Store Root envvar to be able to exclude it at runtime when propagating envvars to every user
 RUN env >> /ROOT_ENV_VAR && chmod 400 /ROOT_ENV_VAR
-
+RUN sed -i -e 's/^APT/# APT/' -e 's/^DPkg/# DPkg/' \
+      /etc/apt/apt.conf.d/docker-clean
 # Install system libraries required
-RUN chmod 777 /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg \
-    && apt-get update -qq \
+RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
         curl \
         krb5-user \
