@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim-buster
+FROM openjdk:11-jre-slim-bullseye
 
 ARG SPARK_VERSION=3.0.3
 ARG HADOOP_VERSION=2.7

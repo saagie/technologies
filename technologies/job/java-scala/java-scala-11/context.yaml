@@ -1,7 +1,7 @@
 id: 11
 label: 11
 available: true
-recommended: true
+recommended: false
 trustLevel: stable
 job:
   features:

@@ -1,0 +1,65 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/local/openjdk-17"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents:
+      [
+        'unzip -q \*\.zip',
+        'sed "s/__TALEND_SH_FILENAME__/\$\(find . -name "\*\.sh" \| sed "s#/#\\\\\\/#g"\)/" main_script > real_main_script',
+        'sh \./real_main_script',
+      ]
+
+commandTests:
+  - name: "java installation"
+    command: "which"
+    args: ["java"]
+    expectedOutput: ["/usr/local/openjdk-17/bin/java"]
+    exitCode: 0
+
+  - name: "unzip ok"
+    command: "unzip"
+    args: ["-h"]
+    expectedOutput: ["UnZip"]
+    exitCode: 0
+
+  - name: "sed ok"
+    command: "sed"
+    args: ["--help"]
+    expectedOutput: ["sed"]
+    exitCode: 0
+
+  - name: "java version"
+    command: "java"
+    args: ["-version"]
+    expectedError: ['openjdk version "17.*']
+
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+    exitCode: 0
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+

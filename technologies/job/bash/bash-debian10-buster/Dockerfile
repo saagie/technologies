@@ -1,4 +1,4 @@
-FROM debian:buster-20210927
+FROM debian:buster-20221205
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV APACHE_URL "https://archive.apache.org/dist"

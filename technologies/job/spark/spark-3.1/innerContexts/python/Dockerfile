@@ -9,16 +9,15 @@ COPY --from=SPARK_BASE /opt/spark /opt/spark
 COPY --from=SPARK_BASE /usr/local/sbin/tini /usr/local/sbin/tini
 COPY --from=SPARK_BASE /sbin/tini /sbin/tini
 
-# Beware recent images will drop jdk 8 for jdk 11+
-COPY --from=SPARK_BASE /usr/local/openjdk-8 /usr/local/openjdk-8
+COPY --from=SPARK_BASE /usr/local/openjdk-11 /usr/local/openjdk-11
 
-ENV JAVA_HOME /usr/local/openjdk-8
+ENV JAVA_HOME /usr/local/openjdk-11
 ENV LANG C.UTF-8
 ENV SPARK_HOME /opt/spark
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 RUN pip --no-cache-dir install --upgrade pip \
-    && pip --no-cache-dir install pyspark==3.1.2 \
+    && pip --no-cache-dir install pyspark==3.1.3 \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip

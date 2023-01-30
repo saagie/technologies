@@ -27,3 +27,18 @@ contexts:
       image: saagie/metabase
       baseTag: 0.43.4
       version: 0.43.4-1.122.0
+  - id: metabase-0.44
+    label: 0.44
+    releaseNotes: First version of Metabase 0.44 into Saagie.
+    available: true
+    trustLevel: stable
+    ports:
+        - port: 80
+          name: Metabase
+          rewriteUrl: false
+          basePath: SAAGIE_BASE_PATH
+    volumes: ["/metabase-data"]
+    dockerInfo:
+      image: saagie/metabase
+      baseTag: 0.44.6
+      version: 0.44.6-1.134.0

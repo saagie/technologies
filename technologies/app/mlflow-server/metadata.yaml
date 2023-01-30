@@ -39,3 +39,18 @@ contexts:
       image: saagie/mlflow-server
       baseTag: 1.20
       version: 1.20-1.108.0
+  - id: mlflow-server-2.0
+    label: "2.0"
+    releaseNotes: First version of MLFlow Server 2.0 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: false
+    ports:
+      - port: 5000
+        name: Mlflow Server
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/mlflow-server
+      baseTag: 2.0
+      version: 2.0-1.135.0

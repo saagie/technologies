@@ -1,0 +1,4 @@
+image: saagie/java-scala
+baseTag: 17
+dynamicVersion: 1.132.0_SDKTECHNO-201
+version: 17-1.132.0

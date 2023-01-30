@@ -1,0 +1,11 @@
+id: dash-2.7.0
+label: 2.7.0
+releaseNotes: First version of Dash 2.7.0 into Saagie.
+available: true
+trustLevel: stable
+recommended: true
+ports:
+  - port: 8050
+    name: Dash
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH

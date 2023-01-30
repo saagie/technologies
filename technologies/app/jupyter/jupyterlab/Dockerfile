@@ -39,6 +39,8 @@ RUN sh -x \
        do \
           . activate $env \
           && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
+          && python -m pip uninstall matplotlib -y \
+          && grep matplotlib* /home/$NB_USER/requirements.txt | xargs python -m pip install --no-cache \
           && conda deactivate; \
        done \
     && conda clean -ay \

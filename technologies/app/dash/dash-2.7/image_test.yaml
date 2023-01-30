@@ -1,0 +1,38 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/code/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/code"]
+  - name: "python version"
+    command: "python"
+    args: [ "-V" ]
+    expectedOutput: [ "Python 3.10*" ]
+  - name: import_pandas
+    command: "python"
+    args: [
+        "-c",
+        "import pandas;"]
+    exitCode: 0
+  - name: import_psycopg2
+    command: "python"
+    args: [
+        "-c",
+        "import psycopg2;"]
+    exitCode: 0
+  - name: import_dash
+    command: "python"
+    args: [
+        "-c",
+        "import dash;"]
+    exitCode: 0
