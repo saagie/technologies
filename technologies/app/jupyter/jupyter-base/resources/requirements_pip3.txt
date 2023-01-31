@@ -1,2 +1,2 @@
-pillow==4.3.0
+pillow==9.3.0
 protobuf==3.6.1
