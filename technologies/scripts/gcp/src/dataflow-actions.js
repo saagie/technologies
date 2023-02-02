@@ -99,11 +99,14 @@ const STATUS_MAPPING = {
 
 exports.getStatus = async ({connection, parameters, payload}) => {
     const client = await buildClient(connection);
-    const {data} = await client.dataflow.projects.locations.jobs.get({
-        projectId: parameters.project,
-        location: parameters.region,
-        jobId: payload?.id,
-    });
+    const {data} = await client.dataflow.projects.locations.jobs.get(
+        parameters.project,
+        parameters.region,
+        payload?.id,
+        {
+            view: 'JOB_VIEW_SUMMARY',
+        }
+    );
 
     return STATUS_MAPPING[data.currentState] || JobStatus.AWAITING;
 };
