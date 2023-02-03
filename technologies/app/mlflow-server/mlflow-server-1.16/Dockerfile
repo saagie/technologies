@@ -24,11 +24,10 @@ RUN apt-get update && \
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 ENV HADOOP_HOME=/app/hadoop-2.6.5
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.5
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.5'
 
 RUN pip install --upgrade pip
 RUN pip install mlflow==1.16
-RUN pip install boto3
 RUN pip install SQLAlchemy mysqlclient pyarrow psycopg2-binary==2.8.5
 
 COPY resources/entrypoint.sh entrypoint.sh
