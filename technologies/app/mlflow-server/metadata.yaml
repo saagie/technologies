@@ -20,6 +20,7 @@ contexts:
         name: Mlflow Server
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
     dockerInfo:
       image: saagie/mlflow-server
       baseTag: 1.16
@@ -35,6 +36,7 @@ contexts:
         name: Mlflow Server
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
     dockerInfo:
       image: saagie/mlflow-server
       baseTag: 1.20
@@ -50,6 +52,7 @@ contexts:
         name: Mlflow Server
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
     dockerInfo:
       image: saagie/mlflow-server
       baseTag: 2.0
