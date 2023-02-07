@@ -1,0 +1,6 @@
+requests==2.26.0
+urllib3==1.26.5
+psycopg2==2.9.2
+pyarrow==6.0.1
+hdfs
+boto3==1.26.0
