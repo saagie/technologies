@@ -27,7 +27,7 @@ ENV HADOOP_HOME=/app/hadoop-2.6.5
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop-2.6.5
 
 RUN pip install --upgrade pip
-RUN pip install SQLAlchemy==1.4.45 mysqlclient pyarrow boto3 psycopg2-binary==2.8.5 protobuf==3.20.* mlflow==1.20.2
+RUN pip install SQLAlchemy==2.0.0 mysqlclient pyarrow boto3 psycopg2-binary==2.8.5 protobuf==3.20.* mlflow==1.20.2
 
 COPY resources/entrypoint.sh entrypoint.sh
 
