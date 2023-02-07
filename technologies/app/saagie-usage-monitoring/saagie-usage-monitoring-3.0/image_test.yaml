@@ -4,4 +4,4 @@ fileExistenceTests:
   - name: "entrypoint"
     path: "/entrypoint.sh"
     shouldExist: true
-    permissions: "-rw-rw-r--"
+    permissions: "-rw-r--r--"
