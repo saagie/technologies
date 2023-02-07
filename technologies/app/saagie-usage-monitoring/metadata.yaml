@@ -8,6 +8,7 @@ available: true
 icon: project-activity
 backgroundColor: "#253c5b"
 customFlags: []
+
 contexts:
   - id: saagie-usage-monitoring-3.0
     label: For Saagie 3.x
@@ -24,5 +25,6 @@ contexts:
         rewriteUrl: true
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
-      image: "saagie/saagie-usage-monitoring"
-      version: "3.0-0.4"
+      image: saagie/saagie-usage-monitoring
+      baseTag: 3.0-0.4
+      version: 3.0-0.4-1.141.0
