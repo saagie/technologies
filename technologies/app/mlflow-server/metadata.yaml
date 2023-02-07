@@ -29,7 +29,7 @@ contexts:
     releaseNotes: First version of MLFlow Server 1.20 into Saagie.
     available: true
     trustLevel: stable
-    recommended: true
+    recommended: false
     ports:
       - port: 5000
         name: Mlflow Server
@@ -44,7 +44,7 @@ contexts:
     releaseNotes: First version of MLFlow Server 2.0 into Saagie.
     available: true
     trustLevel: stable
-    recommended: false
+    recommended: true
     ports:
       - port: 5000
         name: Mlflow Server
