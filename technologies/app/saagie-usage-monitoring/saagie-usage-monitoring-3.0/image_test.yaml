@@ -5,9 +5,10 @@ fileExistenceTests:
     path: "/entrypoint.sh"
     shouldExist: true
     permissions: "-rw-r--r--"
-  - name: "script.sh"
-    path: "/app/script.sh"
+  - name: "app"
+    path: "/app"
     shouldExist: true
+    permissions: "drwxr-xr-x"
   - name: "grafana_asset_dir"
     path: "/opt/grafana"
     shouldExist: true
