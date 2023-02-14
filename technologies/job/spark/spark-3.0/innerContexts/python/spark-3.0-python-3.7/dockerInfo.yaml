@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.0-py-3.7
-dynamicVersion: 1.139.0_SDKTECHNO-207
-version: 3.0-py-3.7-1.139.0
+dynamicVersion: 1.143.0_SDKTECHNO-214
+version: 3.0-py-3.7-1.143.0
