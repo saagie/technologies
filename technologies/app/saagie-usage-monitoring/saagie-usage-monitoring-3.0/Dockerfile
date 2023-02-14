@@ -6,7 +6,7 @@ RUN apt-get update \
   && apt-get install -y software-properties-common nginx cron \
     wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java \
     postgresql postgresql-contrib postgresql-client \
-    build-essential cmake git libjson-c-dev libwebsockets-dev \
+    build-essential cmake git libjson-c-dev libwebsockets-dev sqlite\
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
   && apt-get install -y python3.9 pip \
@@ -63,6 +63,9 @@ ADD grafana/dashboards /var/lib/grafana/tmp-dashboards
 
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
+
+ADD update_sqlite.sh /
+RUN chmod +x /update_sqlite.sh
 
 ADD code /app
 ADD infra.sql infra.sql
