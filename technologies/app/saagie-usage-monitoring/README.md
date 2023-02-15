@@ -18,8 +18,18 @@ To deploy Saagie Usage Monitoring on your platform, you need to create a user wi
   - `SAAGIE_AND_S3` if you want to monitor Saagie and S3 buckets
 - IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
 - AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT and AWS_REGION_NAME (Required if MONITORING_OPT=`SAAGIE_AND_S3`)
+
+For an external Postgres database : 
 - SAAGIE_PG_HOST : Postgresql host (Default value : `localhost`)
 - SAAGIE_PG_PORT : Postgresql port (Default value : `5432`)
 - SAAGIE_PG_USER : Postgresql user (Default value : `supervision_pg_user`)
 - SAAGIE_PG_PASSWORD : Postgresql password (Default value : ``)
 - SAAGIE_PG_DATABASE : Postgresql database (Default value : `supervision_pg_db`)
+
+To enable SMTP alerts : 
+- GF_SMTP_ENABLED : To enable SMTP alerts (Default value : `false`)
+- GF_SMTP_HOST : SMTP host and port
+- GF_SMTP_USER : SMTP user
+- GF_SMTP_PASSWORD : SMTP password
+- GF_SMTP_FROM_ADDRESS : Mail sender of alerts
+- GF_SMTP_SKIP_VERIFY : Skip SSL for SMTP server (Default value : `false`)
