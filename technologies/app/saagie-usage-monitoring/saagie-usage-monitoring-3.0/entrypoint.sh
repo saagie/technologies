@@ -44,7 +44,7 @@ export SAAGIE_REALM="${arrOUT[0]}"
 echo \#!/bin/bash
 {
   echo export SAAGIE_SUPERVISION_LOGIN="$SAAGIE_SUPERVISION_LOGIN"
-  echo export SAAGIE_SUPERVISION_PASSWORD="$SAAGIE_SUPERVISION_PASSWORD"
+  echo export SAAGIE_SUPERVISION_PASSWORD=\'"$SAAGIE_SUPERVISION_PASSWORD"\'
   echo export SAAGIE_URL="$SAAGIE_URL"
   echo export SAAGIE_REALM="$SAAGIE_REALM"
   echo export SAAGIE_PLATFORM_ID="$SAAGIE_PLATFORM_ID"
@@ -54,7 +54,7 @@ echo \#!/bin/bash
   echo export SAAGIE_PG_HOST="$SAAGIE_PG_HOST"
   echo export SAAGIE_PG_PORT="$SAAGIE_PG_PORT"
   echo export SAAGIE_PG_USER="$SAAGIE_PG_USER"
-  echo export SAAGIE_PG_PASSWORD="$SAAGIE_PG_PASSWORD"
+  echo export SAAGIE_PG_PASSWORD=\'"$SAAGIE_PG_PASSWORD"\'
   echo export SAAGIE_PG_DATABASE="$SAAGIE_PG_DATABASE"
 echo python3 /app/__main__.py
 } >> /app/script.sh
