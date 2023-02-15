@@ -14,7 +14,7 @@ contexts:
     label: For Saagie 3.x
     releaseNotes: ""
     available: true
-    trustLevel: experimental
+    trustLevel: stable
     ports:
       - port: 80
         name: saagie-usgage-monitoring
