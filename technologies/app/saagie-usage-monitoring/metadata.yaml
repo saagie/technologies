@@ -17,7 +17,7 @@ contexts:
     trustLevel: stable
     ports:
       - port: 80
-        name: saagie-usgage-monitoring
+        name: saagie-usage-monitoring
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
       - port: 92
