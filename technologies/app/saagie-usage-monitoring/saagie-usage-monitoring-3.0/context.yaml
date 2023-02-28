@@ -3,6 +3,7 @@ label: For Saagie 3.x
 releaseNotes: ""
 available: true
 trustLevel: stable
+readme: /technologies/app/saagie-usage-monitoring
 ports:
   - port: 80
     name: saagie-usage-monitoring
