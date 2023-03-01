@@ -3,7 +3,7 @@ type: APP
 id: saagie-usage-monitoring
 label: Saagie Usage Monitoring 
 baseline: "Saagie Usage Monitoring let you monitor your Saagie platform"
-description: "Saagie Monitoring Tool lets you monitor your Saagie platform including jobs, apps and pipelines stats."
+description: "Saagie Usage Monitoring lets you monitor your Saagie platform including jobs, apps and pipelines stats."
 available: true
 icon: project-activity
 backgroundColor: "#253c5b"
