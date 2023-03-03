@@ -28,4 +28,4 @@ contexts:
     dockerInfo:
       image: saagie/saagie-usage-monitoring
       baseTag: 3.0-0.4
-      version: 3.0-0.4-1.149.0_SDKTECHNO-221
+      version: 3.0-0.4-1.149.0
