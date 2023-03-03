@@ -2,7 +2,7 @@ version: v1
 type: APP
 id: saagie-usage-monitoring
 label: Saagie Usage Monitoring 
-baseline: "Saagie Usage Monitoring let you monitor your Saagie platform"
+baseline: "Saagie Usage Monitoring lets you monitor your Saagie platform"
 description: "Saagie Usage Monitoring lets you monitor your Saagie platform including jobs, apps and pipelines stats."
 available: true
 icon: project-activity
@@ -28,4 +28,4 @@ contexts:
     dockerInfo:
       image: saagie/saagie-usage-monitoring
       baseTag: 3.0-0.4
-      version: 3.0-0.4-1.146.0
+      version: 3.0-0.4-1.149.0_SDKTECHNO-221
