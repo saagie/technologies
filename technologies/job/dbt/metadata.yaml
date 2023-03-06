@@ -7,7 +7,7 @@ available: true
 icon: dbt
 contexts:
   - id: dbt-cli
-    label: dbt-cli 1.2
+    label: dbt-cli 1.3
     available: true
     recommended: true
     trustLevel: stable
@@ -26,5 +26,5 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: saagie/dbt
-      version: 1.2
+      image: nicolassaagie/dbt
+      version: 1.3-0.3
