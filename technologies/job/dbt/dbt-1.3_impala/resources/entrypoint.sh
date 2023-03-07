@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -euo pipefail
 
 if compgen -G "*.zip*" > /dev/null;
