@@ -12,7 +12,7 @@ fileExistenceTests:
     permissions: "-rwxr-xr-x"
 
   - name: "entrypoint"
-    path: "/entrypoint"
+    path: "/entrypoint.sh"
     shouldExist: true
     permissions: "-rwxr-xr-x"
 
