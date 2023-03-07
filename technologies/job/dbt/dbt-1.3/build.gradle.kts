@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2019-2021.
+ * Copyright 2019 Pierre Leresteux.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,3 @@ import com.saagie.technologies.SaagieTechnologiesGradlePlugin
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
-
-tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    environment("DOCKER_BUILDKIT", "1")
-}
