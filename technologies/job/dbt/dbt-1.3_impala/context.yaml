@@ -1,0 +1,19 @@
+id: "1.3_impala"
+label: "1.3_impala"
+available: true
+recommended: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch your dbt project (dbt run, dbt test...).
+      defaultValue: dbt run --profiles-dir .
+    - type: ARTIFACT
+      label: Package containing your dbt project
+      mandatory: true
+      comment: "Compatible upload file : .zip"
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
