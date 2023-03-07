@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian10-buster-aws
-dynamicVersion: 1.93.0_SDKTECHNO-118-AWS-CLI
-version: debian10-buster-aws-1.93.0
+dynamicVersion: 1.138.0_SDKTECHNO-208
+version: debian10-buster-aws-1.138.0

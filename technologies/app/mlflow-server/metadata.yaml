@@ -20,13 +20,30 @@ contexts:
         name: Mlflow Server
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
     dockerInfo:
       image: saagie/mlflow-server
       baseTag: 1.16
-      version: 1.16-1.108.0
+      version: 1.16-1.142.0
   - id: mlflow-server-1.20
     label: "1.20"
     releaseNotes: First version of MLFlow Server 1.20 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: false
+    ports:
+      - port: 5000
+        name: Mlflow Server
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
+    dockerInfo:
+      image: saagie/mlflow-server
+      baseTag: 1.20
+      version: 1.20-1.142.0
+  - id: mlflow-server-2.0
+    label: "2.0"
+    releaseNotes: First version of MLFlow Server 2.0 into Saagie.
     available: true
     trustLevel: stable
     recommended: true
@@ -35,7 +52,8 @@ contexts:
         name: Mlflow Server
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/sqlite_directory"]
     dockerInfo:
       image: saagie/mlflow-server
-      baseTag: 1.20
-      version: 1.20-1.108.0
+      baseTag: 2.0
+      version: 2.0-1.142.0

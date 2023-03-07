@@ -1,5 +1,5 @@
-ARG jre_major=8
-FROM openjdk:${jre_major}-slim-buster
+ARG jre_major=11
+FROM openjdk:${jre_major}-slim-bullseye
 
 ARG SPARK_VERSION=3.0.3
 ARG HADOOP_VERSION=2.7

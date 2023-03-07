@@ -1,7 +1,7 @@
 id: debian10-buster
 label: debian10-buster
 available: true
-recommended: true
+recommended: false
 trustLevel: stable
 job:
   features:
