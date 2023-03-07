@@ -26,5 +26,5 @@ contexts:
           label: Scheduled
           mandatory: true
     dockerInfo:
-      image: nicolassaagie/dbt
-      version: 1.3-0.3
+      image: saagie/dbt
+      version: 1.3-0.1
