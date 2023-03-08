@@ -4,4 +4,4 @@ label: Dataiku DSS
 description: "Dataiku API Version 11.0"
 available: true
 type: EXTERNAL_JOB
-icon: job
+iconPath: ./dataiku.png
