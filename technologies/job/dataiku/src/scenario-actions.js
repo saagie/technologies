@@ -20,10 +20,11 @@ exports.stop = async ({connection, parameters, payload}) => {
 };
 
 exports.getLogs = async ({connection, parameters}) => {
-    return [{
-        log: "Get logs not available for Dataiku Scenario",
-        timestamp: new Date().getTime()
-    }]
+    return
+    {
+        timestamp: (new Date()).getTime(),
+        log: 'Get logs not available for Dataiku Scenario',
+    }
 };
 
 const STATUS_MAPPING = {
