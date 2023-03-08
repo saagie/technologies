@@ -19,11 +19,10 @@ exports.stop = async ({connection, parameters, payload}) => {
     }
 };
 
-exports.getLogs = async ({connection, parameters, payload}) => {
-    const client = await buildClient(connection);
+exports.getLogs = async ({connection, parameters}) => {
     return {
         log: "Get logs not available for Dataiku Scenario",
-        timestamp: (new Date()).getTime()})
+        timestamp: new Date().getTime()
     }
 };
 
