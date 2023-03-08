@@ -78,3 +78,6 @@ contexts:
       getStatus:
         script: .//dist/scenario-actions.js
         function: getStatus
+      getLogs:
+        script: .//dist/datasets-actions.js
+        function: getLogs
