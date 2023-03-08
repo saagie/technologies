@@ -33,5 +33,5 @@ actions:
     script: ../dist/scenario-actions.js
     function: getStatus
   getLogs:
-    script: ../dist/datasets-actions.js
+    script: ../dist/scenario-actions.js
     function: getLogs
