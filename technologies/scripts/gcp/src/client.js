@@ -278,7 +278,22 @@ export const buildClient = async (connection) => {
                 list(project) {
                     return call('storage', 'GET', 'storage/v1/b', {project});
                 },
+            },
+            bucket: {
+                getRole(name){
+                    return call('storage', 'GET', `storage/v1/b/${name}/iam`);
+                },
+                setRole(name, data){
+                    return requestHttp(client, 'PUT',
+                     `https://storage.googleapis.com/storage/v1/b/${name}/iam`,
+                     null, data, {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    });
+                }
             }
+
+
         },
         storagetransfer: {
             transferOperations: {
@@ -294,6 +309,11 @@ export const buildClient = async (connection) => {
                     return call('storagetransfer', 'POST', 'v1/transferJobs', null, data);
                 },
             },
+            serviceAccount: {
+                get(project){
+                    return call('storagetransfer', 'GET', `v1/googleServiceAccounts/${project}`);
+                }
+            }
         },
         async getLogs(data) {
             const resLogging = await this.logging.entries.list(data);

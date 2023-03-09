@@ -35,11 +35,53 @@ exports.startTransferTSV = ({connection, parameters}) => start(connection, param
     },
 });
 
+function updateBindings(existingBindinds, rolesNeed){
+    var updatedBinding = existingBindinds?.map(({role, members}) => {
+        if (rolesNeeded.includes(role)) {
+            if (!members.includes(`serviceAccount:${accountEmail}`)){
+                members.push(`serviceAccount:${accountEmail}`);
+            }
+            return {role: role, members: members}
+        }
+        else{
+            return {role: role, members: members}
+        }
+
+    }) ?? [];
+
+    rolesNeeded.forEach(function(value){
+       var found_role = updatedBinding.find(({role, members}) => role === value)
+       if (!found_role){
+        updatedBinding.push({role: value, members: [`serviceAccount:${accountEmail}`]})
+       }
+    }
+    )
+    return updatedBinding
+}
+
 const start = async (connection, parameters, customConfig) => {
     const client = await buildClient(connection);
     const currentDate = moment();
 
     const currentDayMonthYear = {day: currentDate.day(), month: currentDate.month(), year: currentDate.year()};
+    const serviceAccount = await client.storagetransfer.serviceAccount.get(parameters.project);
+    const accountEmail = serviceAccount?.data?.accountEmail;
+
+    const destIamRole = await client.storage.bucket.getRole(parameters.destinationBucket);
+    const existBindings = destIamRole?.data?.bindings;
+
+    var rolesNeeded = ['roles/storage.legacyBucketWriter', 'roles/storage.objectAdmin']
+    const updatedBinding = updateBindings(existBindings, rolesNeeded);
+    // Set IAM role for destination bucket
+    const setIamRole = await client.storage.bucket.setRole(parameters.destinationBucket, JSON.stringify({version: 3, bindings: updatedBinding}));
+
+    // if GCS to GCS, set IAM role for source bucket
+    if customConfig.hasOwnProperty("gcsDataSource"){
+        const sourceIamRole = await client.storage.bucket.getRole(customConfig.gcsDataSource.bucketName);
+        const sourceExistBindings = sourceIamRole?.data?.bindings;
+        const sourceUpdatedBinding = updateBindings(sourceExistBindings, rolesNeeded);
+        const sourceSetIamRole = await client.storage.bucket.setRole(customConfig.gcsDataSource.bucketName, JSON.stringify({version: 3, bindings: sourceUpdatedBinding}));
+    }
 
     const runObject = {
         projectId: parameters.project,
