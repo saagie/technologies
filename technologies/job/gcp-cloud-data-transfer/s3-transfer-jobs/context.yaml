@@ -53,3 +53,6 @@ actions:
   getStatus:
     script: ../../../scripts/gcp/dist/cloud-data-transfer-actions.js
     function: getStatus
+  getLogs:
+    script: ../../../scripts/gcp/dist/cloud-data-transfer-actions.js
+    function: getLogs

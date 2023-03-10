@@ -189,3 +189,9 @@ export const getStatus = async ({connection, parameters, payload}) => {
     return JobStatus.AWAITING;
 };
 
+exports.getLogs = async ({connection, parameters}) => {
+    return [{
+        timestamp: (new Date()).getTime(),
+        log: 'Get logs not available',
+    }]
+};
