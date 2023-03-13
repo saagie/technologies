@@ -1,4 +1,0 @@
-image: saagie/dbt
-baseTag: 1.3_impala
-dynamicVersion: 1.150.0_SDKTECHNO-200
-version: 1.3_impala-1.150.0_SDKTECHNO-200
