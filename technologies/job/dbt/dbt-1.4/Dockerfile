@@ -57,12 +57,14 @@ ENTRYPOINT ["dbt"]
 # dbt-core
 ##
 FROM base as dbt-core
+ARG dbt_core_ref=dbt-core@v1.4.5
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_core_ref}#egg=dbt-core&subdirectory=core"
 
 ##
 # dbt-postgres
 ##
 FROM base as dbt-postgres
+ARG dbt_postgres_ref=dbt-core@v1.4.5
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_postgres_ref}#egg=dbt-postgres&subdirectory=plugins/postgres"
 
 
@@ -70,6 +72,7 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_
 # dbt-redshift
 ##
 FROM base as dbt-redshift
+ARG dbt_redshift_ref=dbt-redshift@v1.4.0
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_redshift_ref}#egg=dbt-redshift"
 
 
@@ -77,6 +80,7 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_
 # dbt-bigquery
 ##
 FROM base as dbt-bigquery
+ARG dbt_bigquery_ref=dbt-bigquery@v1.4.0
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_bigquery_ref}#egg=dbt-bigquery"
 
 
@@ -84,12 +88,14 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_
 # dbt-snowflake
 ##
 FROM base as dbt-snowflake
+ARG dbt_snowflake_ref=dbt-snowflake@v1.4.0
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_snowflake_ref}#egg=dbt-snowflake"
 
 ##
 # dbt-spark
 ##
 FROM base as dbt-spark
+ARG dbt_spark_ref=dbt-spark@v1.4.0
 RUN apt-get update \
   && apt-get dist-upgrade -y \
   && apt-get install -y --no-install-recommends \
@@ -106,15 +112,18 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_
 
 
 ##
-# dbt-third-party
-##
-FROM dbt-core as dbt-third-party
-RUN python -m pip install --no-cache-dir "${dbt_third_party}"
-
-##
 # dbt-all
 ##
 FROM base as dbt-all
+ARG dbt_core_ref=dbt-core@v1.4.5
+ARG dbt_postgres_ref=dbt-core@v1.4.5
+ARG dbt_redshift_ref=dbt-redshift@v1.4.0
+ARG dbt_bigquery_ref=dbt-bigquery@v1.4.0
+ARG dbt_snowflake_ref=dbt-snowflake@v1.4.0
+ARG dbt_spark_ref=dbt-spark@v1.4.0
+# special case args
+ARG dbt_spark_version=all
+ARG dbt_third_party
 RUN apt-get update \
   && apt-get dist-upgrade -y \
   && apt-get install -y --no-install-recommends \
