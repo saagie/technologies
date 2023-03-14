@@ -6,14 +6,10 @@ module.exports = {
   entry: {
     'check-connection': './src/check-connection.js',
     'job-form': './src/job-form.js',
-    'ai-platform-job-actions': './src/ai-platform-job-actions.js',
-    'cloud-data-fusion-actions': './src/cloud-data-fusion-actions.js',
-    'cloud-data-prep-actions': './src/cloud-data-prep-actions.js',
     'cloud-data-transfer-actions': './src/cloud-data-transfer-actions.js',
     'cloud-functions-actions': './src/cloud-functions-actions.js',
     'cloud-run-actions': './src/cloud-run-actions.js',
-    'dataflow-actions': './src/dataflow-actions.js',
-    'kubeflow-actions': './src/kubeflow-actions.js',
+    'dataflow-actions': './src/dataflow-actions.js'
   },
   module: {
     rules: [
