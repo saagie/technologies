@@ -21,10 +21,21 @@ exports.getMLJobs = async ({connection, parameters}) => {
 exports.getDataFlowJobs = async ({connection, parameters}) => {
     const client = await buildClient(connection);
     const {data: {jobs}} = await client.dataflow.projects.locations.jobs.list(parameters.project, parameters.region);
-    return jobs?.map(({id, name}) => ({
-        id: id,
-        label: name,
-    })) ?? [];
+    const view = {view: 'JOB_VIEW_DESCRIPTION'};
+
+    // Fetch all jobs to verify if they have the templateLocation property in displayData (Only clonable jobs have it)
+    const jobsWithTemplateLocation = await Promise.all(jobs.map(async (job) => {
+        const {data: {pipelineDescription: {displayData}}} = await client.dataflow.projects.locations.jobs.get(parameters.project, parameters.region, job.id, view);
+        const templateLocation = displayData.find((data) => data.key === 'templateLocation');
+        if (templateLocation) {
+            return {
+                id: job.id,
+                label: job.name,
+            };
+        }
+    }));
+
+    return jobsWithTemplateLocation?.filter((job) => job);
 };
 
 const getRegions = async (projectLocationsClient, project) => {

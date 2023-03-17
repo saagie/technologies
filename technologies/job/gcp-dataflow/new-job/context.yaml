@@ -1,0 +1,57 @@
+id: new-job
+label: New job
+description: "New Dataflow job creation context"
+recommended: true
+trustLevel: experimental
+available: true
+connectionTypeId: gcp
+parameters:
+  - type: DYNAMIC_SELECT
+    id: project
+    label: Project
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getProjects
+  - type: DYNAMIC_SELECT
+    id: region
+    label: Region
+    mandatory: true
+    dynamicValues:
+      script: ../../../scripts/gcp/dist/job-form.js
+      function: getFunctionsRegions
+    dependsOn:
+      - project
+  - type: TEXT
+    id: templatePath
+    label: Template path
+    mandatory: true
+    comment: "A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'"
+    dependsOn:
+      - region
+  - type: TEXT
+    id: jobName
+    label: Job name
+    mandatory: true
+    dependsOn:
+      - region
+  - type: TEXT
+    id: jsonParameters
+    label: Parameters JSON
+    mandatory: false
+    comment: "Parameters for job"
+    dependsOn:
+      - region
+actions:
+  start:
+    script: ../../../scripts/gcp/dist/dataflow-actions.js
+    function: startNew
+  stop:
+    script: ../../../scripts/gcp/dist/dataflow-actions.js
+    function: stop
+  getStatus:
+    script: ../../../scripts/gcp/dist/dataflow-actions.js
+    function: getStatus
+  getLogs:
+    script: ../../../scripts/gcp/dist/dataflow-actions.js
+    function: getLogs
