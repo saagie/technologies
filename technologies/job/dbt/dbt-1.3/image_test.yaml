@@ -1,0 +1,29 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+
+fileExistenceTests:
+  - name: "unzip"
+    path: "/usr/bin/unzip"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+  - name: "dbt"
+    args: ["--help"]
+    command: "dbt"
+    exitCode: 0
+
+
