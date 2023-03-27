@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.2.0
+FROM rocker/tidyverse:4.2.1
 
 LABEL maintainer="Saagie <tony@saagie.com>"
 
@@ -25,6 +25,7 @@ RUN apt-get update -qq \
         krb5-user \
         openjdk-11-jdk \
         unixodbc-dev \
+        odbcinst \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -36,7 +37,7 @@ ENV HIVE_HOME=/apache-hive-${HIVE_VERSION}-bin
 ENV PATH=$HIVE_HOME/bin:$PATH
 
 # Install Hive ODBC driver
-RUN apt update -qq && apt install -yqq --no-install-recommends \
+RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
       libsasl2-modules-gssapi-mit \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
