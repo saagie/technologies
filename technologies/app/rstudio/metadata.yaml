@@ -55,7 +55,7 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 4.1
-      version: 4.1-1.141.0_SDKTECHNO-211
+      version: 4.1-1.153.0_SDKTECHNO-211
   - id: rstudio-4.2
     label: 4.2
     releaseNotes: First version of RStudio 4.2 into Saagie.
@@ -71,4 +71,4 @@ contexts:
     dockerInfo:
       image: saagie/rstudio
       baseTag: 4.2
-      version: 4.2-1.141.0_SDKTECHNO-211
+      version: 4.2-1.153.0_SDKTECHNO-211
