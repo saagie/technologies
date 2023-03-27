@@ -9,3 +9,4 @@ ports:
     name: Mlflow Server
     rewriteUrl: true
     basePath: SAAGIE_BASE_PATH
+volumes: ["/sqlite_directory"]

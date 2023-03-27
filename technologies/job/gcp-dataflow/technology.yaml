@@ -1,0 +1,7 @@
+version: v2
+id: gcp-dataflow
+label: Google Cloud Dataflow
+description: "Google Cloud Dataflow Saagie implementation"
+available: true
+type: EXTERNAL_JOB
+iconPath: ./gcp-dataflow.png

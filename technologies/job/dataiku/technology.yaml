@@ -1,0 +1,7 @@
+version: v2
+id: dataiku
+label: Dataiku DSS
+description: "Dataiku API Version 11.0"
+available: true
+type: EXTERNAL_JOB
+iconPath: ./dataiku.png

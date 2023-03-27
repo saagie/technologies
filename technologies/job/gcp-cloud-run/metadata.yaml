@@ -1,0 +1,125 @@
+version: v2
+id: gcp-cloud-run
+label: Google Cloud Run
+description: "Google Cloud Run services"
+available: true
+type: EXTERNAL_JOB
+iconPath: ./gcp-cloud-run.png
+
+contexts:
+  - id: copy-service
+    label: Copy service
+    description: "Google Cloud Run copy existing service context"
+    recommended: false
+    trustLevel: experimental
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: region
+        label: Region
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getRunRegions
+        dependsOn:
+          - project
+      - type: DYNAMIC_SELECT
+        id: service
+        label: Service
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getServices
+        dependsOn:
+          - region
+      - type: TEXT
+        id: serviceName
+        label: New service name
+        mandatory: true
+      - type: TEXT
+        id: containerPort
+        label: Container port
+        mandatory: false
+        comment: "Custom container port, default is 8080"
+      - type: TEXT
+        id: maxScale
+        label: Autoscaling max scale
+        mandatory: false
+        comment: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: startCopy
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: getLogs
+  - id: new-service
+    label: New service
+    description: "Google Cloud Run new service creation context"
+    recommended: false
+    trustLevel: experimental
+    available: true
+    connectionTypeId: gcp
+    parameters:
+      - type: DYNAMIC_SELECT
+        id: project
+        label: Project
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getProjects
+      - type: DYNAMIC_SELECT
+        id: region
+        label: Region
+        mandatory: true
+        dynamicValues:
+          script: .//../../scripts/gcp/dist/job-form.js
+          function: getRunRegions
+        dependsOn:
+          - project
+      - type: TEXT
+        id: serviceName
+        label: Service name
+        mandatory: true
+      - type: TEXT
+        id: containerImageUrl
+        label: Container image URL
+        mandatory: true
+        comment: "Example : gcr.io/cloudrun/hello"
+      - type: TEXT
+        id: containerPort
+        label: Container port
+        mandatory: false
+        comment: "Custom container port, default is 8080"
+      - type: TEXT
+        id: maxScale
+        label: Autoscaling max scale
+        mandatory: false
+        comment: "If the maxScale annotation is not set, there will be no upper limit for the number of pods created"
+    actions:
+      start:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: startNew
+      stop:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: stop
+      getStatus:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: getStatus
+      getLogs:
+        script: .//../../scripts/gcp/dist/cloud-run-actions.js
+        function: getLogs

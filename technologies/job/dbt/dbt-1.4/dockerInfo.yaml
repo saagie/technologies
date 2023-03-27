@@ -1,0 +1,4 @@
+image: saagie/dbt
+baseTag: 1.4
+dynamicVersion: 1.152.0_SDKTECHNO-200
+version: 1.4-1.152.0
