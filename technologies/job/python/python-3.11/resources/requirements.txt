@@ -17,12 +17,12 @@ boto3>=1.24,<1.25
 pymongo>=3.12,<3.13
 mysql-connector-python>=8.0,<8.1
 psycopg2-binary>=2.9,<2.10
-#elasticsearch lib version depends on the elasticsearch version deployed on your platform
 
 #Data Science commmon libraries
-numpy>=1.22,<1.23
-pandas>=1.4,<1.5
-matplotlib>=3.4,<3.5
-scikit-learn>=1.0,<1.1
-mlflow-saagie==1.20.5
-saagieapi>=2.2,<2.3
+numpy
+pandas
+matplotlib
+scikit-learn
+mlflow-saagie
+saagieapi
+

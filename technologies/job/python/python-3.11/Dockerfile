@@ -25,9 +25,10 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
 
+#CMD sleep 10000
 # Need to read requirements.txt file sequentially to ensure consistent installation order
-COPY resources/requirements.txt /tmp/requirements.txt
-RUN grep -v '^#' /tmp/requirements.txt | xargs -L 1 pip --no-cache-dir install \
-    && rm -rf /root/.cachex \
-    && rm -rf /boot/.cache/pip \
-    && rm -rf ~/.cache/pip
+#COPY resources/requirements.txt /tmp/requirements.txt
+#RUN grep -v '^#' /tmp/requirements.txt | xargs -L 1 pip --no-cache-dir install \
+#    && rm -rf /root/.cachex \
+#    && rm -rf /boot/.cache/pip \
+#    && rm -rf ~/.cache/pip
