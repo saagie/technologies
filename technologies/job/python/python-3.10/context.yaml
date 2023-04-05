@@ -1,7 +1,7 @@
 id: 3.10
 label: "3.10"
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:
