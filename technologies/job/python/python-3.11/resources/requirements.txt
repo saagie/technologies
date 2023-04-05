@@ -9,9 +9,6 @@ SQLAlchemy==2.0.8
 fastparquet==2023.2.0
 boto3==1.26.105
 ibis-framework[impala]==5.0.0
-#impyla==0.17.0
-#thrift-sasl==0.4.3
-#thrift==0.11.0
 
 #Datamart libraries
 pymongo==4.3.3
