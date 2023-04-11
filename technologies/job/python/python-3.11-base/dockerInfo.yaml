@@ -1,4 +1,4 @@
 image: saagie/python
 baseTag: 3.11-base
 dynamicVersion: 1.153.0_SDKTECHNO-224
-version: 3.11-base-1.153.0_SDKTECHNO-224
+version: 3.11-base-1.153.0
