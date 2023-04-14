@@ -1,7 +1,7 @@
 id: s3-transfer-jobs
 label: Amazon S3 transfer jobs
 description: "Amazon AWS S3 transfer jobs context"
-recommended: true
+recommended: false
 trustLevel: experimental
 available: true
 connectionTypeId: gcp

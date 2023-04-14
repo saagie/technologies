@@ -1,7 +1,7 @@
 id: azure-transfer-jobs
 label: Azure transfer jobs
 description: "Azure storage account transfer jobs context"
-recommended: true
+recommended: false
 trustLevel: experimental
 available: false
 connectionTypeId: gcp
