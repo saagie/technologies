@@ -1,7 +1,7 @@
 id: tsv-transfer-jobs
 label: TSV file transfer jobs
 description: "TSV file transfer jobs context"
-recommended: true
+recommended: false
 trustLevel: experimental
 available: false
 connectionTypeId: gcp

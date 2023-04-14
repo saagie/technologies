@@ -10,7 +10,7 @@ contexts:
   - id: azure-transfer-jobs
     label: Azure transfer jobs
     description: "Azure storage account transfer jobs context"
-    recommended: true
+    recommended: false
     trustLevel: experimental
     available: false
     connectionTypeId: gcp
@@ -179,7 +179,7 @@ contexts:
   - id: tsv-transfer-jobs
     label: TSV file transfer jobs
     description: "TSV file transfer jobs context"
-    recommended: true
+    recommended: false
     trustLevel: experimental
     available: false
     connectionTypeId: gcp
