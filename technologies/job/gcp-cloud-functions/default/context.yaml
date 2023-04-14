@@ -1,7 +1,7 @@
 id: default
 label: Default
 description: "Google API V1"
-recommended: true
+recommended: false
 trustLevel: experimental
 available: true
 connectionTypeId: gcp
