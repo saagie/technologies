@@ -21,6 +21,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: [ "/opt/grafana", "/opt/plugins" ]
     dockerInfo:
-      image: saagie/grafana
-      baseTag: 8.2
-      version: 8.2-1.94.0
+      image: "saagie/grafana"
+      baseTag: "8.2"
+      version: "8.2-1.94.0"

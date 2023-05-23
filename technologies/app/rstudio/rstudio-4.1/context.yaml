@@ -1,5 +1,5 @@
 id: rstudio-4.1
-label: 4.1
+label: "4.1"
 releaseNotes: First version of RStudio 4.1 into Saagie.
 available: true
 trustLevel: stable

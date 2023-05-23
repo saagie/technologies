@@ -25,9 +25,9 @@ contexts:
         basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
-      image: saagie/orientdb
-      baseTag: 2.1.25
-      version: 2.1.25-1.108.0
+      image: "saagie/orientdb"
+      baseTag: "2.1.25"
+      version: "2.1.25-1.108.0"
   - id: orientdb-2.2.37
     label: 2.2.37
     releaseNotes: First version of OrientDB 2.2.37 into Saagie.
@@ -44,9 +44,9 @@ contexts:
         basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
-      image: saagie/orientdb
-      baseTag: 2.2.37
-      version: 2.2.37-1.108.0
+      image: "saagie/orientdb"
+      baseTag: "2.2.37"
+      version: "2.2.37-1.108.0"
   - id: orientdb-3.0.35
     label: 3.0.35
     releaseNotes: First version of OrientDB 3.0.35 into Saagie.
@@ -63,9 +63,9 @@ contexts:
         basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
-      image: saagie/orientdb
-      baseTag: 3.0.35
-      version: 3.0.35-1.108.0
+      image: "saagie/orientdb"
+      baseTag: "3.0.35"
+      version: "3.0.35-1.108.0"
   - id: orientdb-3.1.7
     label: 3.1.7
     releaseNotes: First version of OrientDB 3.1.7 into Saagie.
@@ -83,6 +83,6 @@ contexts:
         basePath: ORIENTDB_BINARY_PATH
     volumes: ["/orientdb/databases"]
     dockerInfo:
-      image: saagie/orientdb
-      baseTag: 3.1.7
-      version: 3.1.7-1.108.0
+      image: "saagie/orientdb"
+      baseTag: "3.1.7"
+      version: "3.1.7-1.108.0"

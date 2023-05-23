@@ -25,6 +25,6 @@ contexts:
         basePath: SPARK_UI_PATH
     volumes: ["/notebooks-dir"]
     dockerInfo:
-      image: saagie/jupyter-python-nbk
-      baseTag: pyspark
-      version: pyspark-1.73.0
+      image: "saagie/jupyter-python-nbk"
+      baseTag: "pyspark"
+      version: "pyspark-1.73.0"

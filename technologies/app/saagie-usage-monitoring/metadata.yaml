@@ -26,6 +26,6 @@ contexts:
         rewriteUrl: true
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
-      image: saagie/saagie-usage-monitoring
-      baseTag: 3.0-0.4
-      version: 3.0-0.4-1.149.0
+      image: "saagie/saagie-usage-monitoring"
+      baseTag: "3.0-0.4"
+      version: "3.0-0.4-1.149.0"

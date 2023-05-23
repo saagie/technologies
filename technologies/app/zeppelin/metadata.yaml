@@ -21,9 +21,9 @@ contexts:
         basePath: ZEPPELIN_SERVER_CONTEXT_PATH
     volumes: ["/notebook"]
     dockerInfo:
-      image: saagie/zeppelin-nbk
-      baseTag: 0.7.3
-      version: 0.7.3-1.108.0
+      image: "saagie/zeppelin-nbk"
+      baseTag: "0.7.3"
+      version: "0.7.3-1.108.0"
   - id: zeppelin-0.9.0
     label: 0.9.0
     releaseNotes: First version of Zeppelin 0.9.0 into Saagie.
@@ -36,6 +36,6 @@ contexts:
         basePath: ZEPPELIN_SERVER_CONTEXT_PATH
     volumes: ["/notebook"]
     dockerInfo:
-      image: saagie/zeppelin-nbk
-      baseTag: 0.9.0
-      version: 0.9.0-1.108.0
+      image: "saagie/zeppelin-nbk"
+      baseTag: "0.9.0"
+      version: "0.9.0-1.108.0"

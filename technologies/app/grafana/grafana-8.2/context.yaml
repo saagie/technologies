@@ -1,5 +1,5 @@
 id: grafana-8.2
-label: 8.2
+label: "8.2"
 releaseNotes: First version of Grafana 8.2 into Saagie.
 available: true
 trustLevel: stable
