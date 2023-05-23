@@ -16,7 +16,7 @@ contexts:
     dockerInfo:
       image: "saagie/spark"
       baseTag: "2.4"
-      version: "2.4-1.155.0_SDKTECHNO-203"
+      version: "2.4-1.155.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -80,7 +80,7 @@ contexts:
     dockerInfo:
       image: "saagie/spark"
       baseTag: "3.0"
-      version: "3.0-1.155.0_SDKTECHNO-203"
+      version: "3.0-1.155.0"
     innerContexts:
       - id: java-scala
         label: Java/Scala
