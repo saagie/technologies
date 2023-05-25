@@ -1,0 +1,21 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+  - name: "nginx.conf"
+    path: "/etc/nginx/conf.d/default.conf"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "code"
+    path: "/app"
+    shouldExist: true
+    permissions: "drwxr-xr-x"
+
+commandTests:
+  - name: "nginx"
+    command: "nginx"
+    args: ["-v"]
+    expectedError: ["nginx version:*"]
