@@ -1,0 +1,23 @@
+version: v1
+type: APP
+id: airbyte
+label: Airbyte
+baseline: "Airbyte is a cloud-native, open-source data integration platform"
+description: " Airbyte is a powerful data integration tool that can help organizations streamline their data workflows and ensure the accuracy and reliability of their data."
+available: true
+icon: airbyte
+backgroundColor: "#a094cc"
+customFlags: []
+contexts:
+  - id: airbyte
+    label: Airbyte
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Airbyte
+        rewriteUrl: true
+    dockerInfo:
+      image: saagie/airbyte
+      version: 1.0
