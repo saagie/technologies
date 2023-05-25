@@ -8,8 +8,6 @@ available: true
 icon: airbyte
 backgroundColor: "#a094cc"
 customFlags: []
-readme: /technologies/app/airbyte
-
 contexts:
   - id: airbyte
     label: Airbyte
@@ -21,5 +19,6 @@ contexts:
         name: Airbyte
         rewriteUrl: true
     dockerInfo:
-      image: saagie/airbyte
-      version: "1.0"
+      image: "saagie/airbyte"
+      baseTag: "1.0"
+      version: "1.0-1.157.0_SDKTECHNO-229"
