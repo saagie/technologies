@@ -8,3 +8,4 @@ available: true
 icon: airbyte
 backgroundColor: "#a094cc"
 customFlags: []
+readme: /technologies/app/airbyte
