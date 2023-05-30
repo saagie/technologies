@@ -1,6 +1,6 @@
-FROM nginx:latest
+FROM nginx:1.25.0-bullseye
 
-RUN apt-get update && apt-get install -y nginx python3.9 pip
+RUN apt-get update && apt-get install -y python3.9 pip
 
 # Python dependencies
 ADD code/requirements.txt /tmp/requirements.txt
