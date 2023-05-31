@@ -1,0 +1,11 @@
+version: v1
+type: APP
+id: airbyte
+label: Airbyte
+baseline: "Airbyte is a cloud-native, open-source data integration platform"
+description: " Airbyte is a powerful data integration tool that can help organizations streamline their data workflows and ensure the accuracy and reliability of their data."
+available: true
+icon: airbyte
+backgroundColor: "#a094cc"
+customFlags: []
+readme: /technologies/app/airbyte
