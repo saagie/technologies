@@ -1,4 +1,4 @@
 image: saagie/airbyte
 baseTag: 1.0
 dynamicVersion: 1.157.0_SDKTECHNO-229
-version: 1.0-1.157.0_SDKTECHNO-229
+version: 1.0-1.157.0
