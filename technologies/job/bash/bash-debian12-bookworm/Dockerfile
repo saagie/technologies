@@ -13,7 +13,9 @@ ARG HIVE_FILE="apache-hive-${HIVE_VERSION}-bin"
 ENV HIVE_URL "${APACHE_URL}/hive/hive-${HIVE_VERSION}"
 
 # LIGHT DEPENDENCIES START
-RUN apt update
+RUN apt -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update && \
+    apt-get --allow-unauthenticated upgrade
+    
 RUN apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client git \
       procps krb5-user jq netcat-traditional && \
