@@ -15,20 +15,20 @@ ENV HIVE_URL "${APACHE_URL}/hive/hive-${HIVE_VERSION}"
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client git \
-      procps krb5-user jq netcat && \
+      procps krb5-user jq netcat-traditional && \
     rm -rf /var/lib/apt/lists/*
 # LIGHT DEPENDENCIES END
 
 # INSTALL JAVA & BEELINE START
-# INSTALL JDK11
+# INSTALL JDK17
 RUN apt-get update -qq && \
     apt-get -y install software-properties-common && \
     apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main' && \
     apt-get update && \
-    apt-get install -yqq --no-install-recommends openjdk-11-jdk && \
+    apt-get install -yqq --no-install-recommends openjdk-17-jdk && \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH=${PATH}:${JAVA_HOME}/bin
 
 # Hadoop client installation
