@@ -1,0 +1,4 @@
+image: saagie/vscode-server
+baseTag: python-4.1.0-10
+dynamicVersion:
+version:

@@ -1,0 +1,23 @@
+schemaVersion: "2.0.0"
+
+env:
+  - key: "HADOOP_CONF_DIR"
+    value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "vs code nginx"
+    path: "/etc/nginx/sites-enabled/nginx.conf"
+    shouldExist: true
+  - name: " No default nginx conf"
+    path: /etc/nginx/sites-enabled/default
+    shouldExist: false
+
+commandTests:
+  - name: "python installation"
+    command: "which"
+    args: [ "python" ]
+    expectedOutput: [ "/usr/local/bin/python" ]
