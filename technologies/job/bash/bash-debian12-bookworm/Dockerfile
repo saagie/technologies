@@ -12,10 +12,7 @@ ENV HIVE_VERSION 1.1.0
 ARG HIVE_FILE="apache-hive-${HIVE_VERSION}-bin"
 ENV HIVE_URL "${APACHE_URL}/hive/hive-${HIVE_VERSION}"
 
-# LIGHT DEPENDENCIES START
-RUN apt -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update && \
-    apt-get --allow-unauthenticated upgrade
-    
+# LIGHT DEPENDENCIES START    
 RUN apt update -qq && apt install -yqq --no-install-recommends \
       ftp wget curl unzip telnet openssh-client git \
       procps krb5-user jq netcat-traditional && \
@@ -53,7 +50,6 @@ ENV HIVE_CONF_DIR "/etc/hive/conf"
 # From https://cwiki.apache.org/confluence/display/Hive/Hive+on+Spark%3A+Getting+Started
 # Solves JLine version incompatibility between Hadoop and Hive
 ENV HADOOP_USER_CLASSPATH_FIRST "true"
-
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 COPY entrypoint /entrypoint
