@@ -190,3 +190,26 @@ contexts:
       image: "saagie/bash"
       baseTag: "debian11-bullseye-gcp"
       version: "debian11-bullseye-gcp-1.136.0"
+  - id: debian12-bookworm
+    label: debian11-bookworm
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command
+          defaultValue: echo "Saagie Bash"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: All files are accepted.
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: "saagie/bash"
+      baseTag: "debian12-bookworm"
+      version: "debian12-bookworm-1.158.0_SDKTECHNO-231"

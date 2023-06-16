@@ -1,4 +1,4 @@
 image: saagie/bash
 baseTag: debian12-bookworm
-dynamicVersion: 1.136.0_SDKTECHNO-204
-version: debian12-bookworm-1.136.0
+dynamicVersion: 1.158.0_SDKTECHNO-231
+version: debian12-bookworm-1.158.0_SDKTECHNO-231
