@@ -1,8 +1,9 @@
 schemaVersion: "2.0.0"
 
-env:
-  - key: "HADOOP_CONF_DIR"
-    value: "/etc/hadoop/conf"
+metadataTest:
+  env:
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
 
 fileExistenceTests:
   - name: "entrypoint"
