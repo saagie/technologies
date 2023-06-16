@@ -1,4 +1,4 @@
 image: saagie/vscode-server
-baseTag: "4.8"
+baseTag: 4.8
 dynamicVersion: 1.158.0_SDKTECHNO-197
 version: 4.8-1.158.0_SDKTECHNO-197
