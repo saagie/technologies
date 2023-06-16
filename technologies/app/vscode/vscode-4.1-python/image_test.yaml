@@ -2,7 +2,13 @@ schemaVersion: "2.0.0"
 
 metadataTest:
   env:
-    - key: "HADOOP_CONF_DIR"
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: CONDA_DIR
+      value: "/opt/conda"
+    - key: "HADOOP_HOME"
       value: "/etc/hadoop/conf"
 
 fileExistenceTests:
