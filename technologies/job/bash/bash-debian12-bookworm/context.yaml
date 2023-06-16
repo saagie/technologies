@@ -1,5 +1,5 @@
 id: debian12-bookworm
-label: debian11-bookworm
+label: debian12-bookworm
 available: true
 recommended: true
 trustLevel: stable
