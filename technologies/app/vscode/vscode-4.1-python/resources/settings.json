@@ -1,0 +1,7 @@
+{
+    "jupyter.sendSelectionToInteractiveWindow": true,
+    "jupyter.alwaysScrollOnNewCell": true,
+    "jupyter.askForKernelRestart": false,
+    "interactiveWindow.collapseCellInputCode": "never",
+    "workbench.colorTheme": "Default Dark+"
+}

@@ -1,0 +1,4 @@
+image: saagie/vscode-server
+baseTag: 4.1.0-2
+dynamicVersion:
+version:
