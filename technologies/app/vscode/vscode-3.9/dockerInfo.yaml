@@ -1,4 +1,4 @@
 image: saagie/vscode-server
 baseTag: 3.9.3
 dynamicVersion:
-version:
+version: 3.9.3
