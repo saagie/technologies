@@ -1,4 +1,4 @@
 image: saagie/vscode-server
 baseTag: python-4.1.0-10
-dynamicVersion:
-version: dockerInfo.yaml
+dynamicVersion: 1.158.0_SDKTECHNO-197
+version: python-4.1.0-10-1.158.0_SDKTECHNO-197
