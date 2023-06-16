@@ -24,7 +24,7 @@ contexts:
     volumes: ["/config/workspace"]
     dockerInfo:
       image: saagie/vscode-server
-      version: 3.9.3
+      version: 3.9.3-1.158.0_SDKTECHNO-197
   - id: vscode-4.1.0
     label: VS Code 4.1.0
     releaseNotes: ""
