@@ -25,4 +25,4 @@ commandTests:
   - name: "python installation"
     command: "which"
     args: [ "python" ]
-    expectedOutput: [ "/usr/local/bin/python" ]
+    expectedOutput: [ "/opt/conda/bin/python" ]
