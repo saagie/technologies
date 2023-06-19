@@ -1,0 +1,19 @@
+id: debian12-bookworm
+label: debian12-bookworm
+available: true
+recommended: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command
+      defaultValue: echo "Saagie Bash"
+    - type: ARTIFACT
+      label: Package
+      mandatory: false
+      comment: All files are accepted.
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
