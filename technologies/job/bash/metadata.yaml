@@ -212,4 +212,4 @@ contexts:
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian12-bookworm"
-      version: "debian12-bookworm-1.158.0_SDKTECHNO-231"
+      version: "debian12-bookworm-1.158.0"
