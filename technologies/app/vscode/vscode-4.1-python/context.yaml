@@ -1,0 +1,11 @@
+id: vscode-python-4.1.0
+label: VS Code Python 4.1.0
+releaseNotes: ""
+available: true
+trustLevel: experimental
+ports:
+  - port: 80
+    name: vscode
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/config/workspace", "/config/data/User"]
