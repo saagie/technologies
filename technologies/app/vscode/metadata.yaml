@@ -10,6 +10,7 @@ available: true
 icon: vscode
 backgroundColor: "#3EAAF2"
 customFlags: []
+readme: /technologies/app/vscode
 contexts:
   - id: vscode-4.1.0
     label: VS Code 4.1.0

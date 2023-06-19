@@ -10,3 +10,4 @@ available: true
 icon: vscode
 backgroundColor: "#3EAAF2"
 customFlags: []
+readme: /technologies/app/vscode
