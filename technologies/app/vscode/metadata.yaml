@@ -23,8 +23,9 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/config/workspace"]
     dockerInfo:
-      image: saagie/vscode-server
-      version: 3.9.3-1.158.0_SDKTECHNO-197
+      image: "saagie/vscode-server"
+      baseTag: "3.9.3"
+      version: "3.9.3-1.158.0_SDKTECHNO-197"
   - id: vscode-4.1.0
     label: VS Code 4.1.0
     releaseNotes: ""
@@ -36,9 +37,11 @@ contexts:
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     volumes: ["/config/workspace", "/config/data/User"]
+    
     dockerInfo:
-      image: saagie/vscode-server
-      version: 4.1.0-2
+      image: "saagie/vscode-server"
+      baseTag: "4.1.0-2"
+      version: "4.1.0-2-1.158.0_SDKTECHNO-197"
   - id: vscode-python-4.1.0
     label: VS Code Python 4.1.0
     releaseNotes: ""
@@ -51,8 +54,9 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
-      image: saagie/vscode-server
-      version: python-4.1.0-10
+      image: "saagie/vscode-server"
+      baseTag: "python-4.1.0-10"
+      version: "python-4.1.0-10-1.158.0_SDKTECHNO-197"
   - id: vscode-4.8.3
     label: VS Code 4.8.3
     releaseNotes: ""
@@ -65,8 +69,9 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
-      image: saagie/vscode-server
-      version: "4.8"
+      image: "saagie/vscode-server"
+      baseTag: "python-4.8"
+      version: "python-4.8-1.158.0_SDKTECHNO-197"
   - id: vscode-python-4.8.3
     label: VS Code Python 4.8.3
     releaseNotes: ""
@@ -79,5 +84,6 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
-      image: saagie/vscode-server
-      version: python-4.8
+      image: "saagie/vscode-server"
+      baseTag: "4.8"
+      version: "4.8-1.158.0_SDKTECHNO-197"
