@@ -1,1 +1,0 @@
-FROM saagie/vscode-server:3.9.3

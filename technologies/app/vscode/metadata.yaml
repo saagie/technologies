@@ -25,7 +25,7 @@ contexts:
     dockerInfo:
       image: "saagie/vscode-server"
       baseTag: "3.9.3"
-      version: "3.9.3-1.158.0_SDKTECHNO-197"
+      version: "3.9.3-1.159.0_SDKTECHNO-197"
   - id: vscode-4.1.0
     label: VS Code 4.1.0
     releaseNotes: ""
@@ -41,7 +41,7 @@ contexts:
     dockerInfo:
       image: "saagie/vscode-server"
       baseTag: "4.1.0-2"
-      version: "4.1.0-2-1.158.0_SDKTECHNO-197"
+      version: "4.1.0-2-1.159.0_SDKTECHNO-197"
   - id: vscode-python-4.1.0
     label: VS Code Python 4.1.0
     releaseNotes: ""
@@ -56,7 +56,7 @@ contexts:
     dockerInfo:
       image: "saagie/vscode-server"
       baseTag: "python-4.1.0-10"
-      version: "python-4.1.0-10-1.158.0_SDKTECHNO-197"
+      version: "python-4.1.0-10-1.159.0_SDKTECHNO-197"
   - id: vscode-4.8.3
     label: VS Code 4.8.3
     releaseNotes: ""
@@ -71,7 +71,7 @@ contexts:
     dockerInfo:
       image: "saagie/vscode-server"
       baseTag: "python-4.8"
-      version: "python-4.8-1.158.0_SDKTECHNO-197"
+      version: "python-4.8-1.159.0_SDKTECHNO-197"
   - id: vscode-python-4.8.3
     label: VS Code Python 4.8.3
     releaseNotes: ""
@@ -86,4 +86,4 @@ contexts:
     dockerInfo:
       image: "saagie/vscode-server"
       baseTag: "4.8"
-      version: "4.8-1.158.0_SDKTECHNO-197"
+      version: "4.8-1.159.0_SDKTECHNO-197"
