@@ -9,7 +9,6 @@ icon: kibana
 backgroundColor: "#40BEB0"
 customFlags: []
 readme: /technologies/app/kibana
-
 contexts:
   - id: kibana-5.6.16
     label: 5.6.16
