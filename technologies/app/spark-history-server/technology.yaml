@@ -8,3 +8,4 @@ available: true
 icon: spark
 backgroundColor: "#e25a1c"
 customFlags: []
+readme: /technologies/app/spark-history-server

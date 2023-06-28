@@ -8,3 +8,4 @@ available: true
 icon: mlflow
 backgroundColor: "#092241"
 customFlags: []
+readme: /technologies/app/mflow-server

@@ -8,6 +8,7 @@ available: true
 icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
+readme: /technologies/app/jupyter
 contexts:
   - id: jupyter-notebook-v2
     label: Python 3.6

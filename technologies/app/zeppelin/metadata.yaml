@@ -8,6 +8,7 @@ available: true
 icon: zeppelin
 backgroundColor: "#0099CC"
 customFlags: []
+readme: /technologies/app/zeppelin
 contexts:
   - id: zeppelin-0.7.3
     label: 0.7.3

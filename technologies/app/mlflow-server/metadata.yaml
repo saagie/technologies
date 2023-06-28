@@ -8,6 +8,7 @@ available: true
 icon: mlflow
 backgroundColor: "#092241"
 customFlags: []
+readme: /technologies/app/mflow-server
 contexts:
   - id: mlflow-server-1.16
     label: "1.16"

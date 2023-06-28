@@ -8,3 +8,4 @@ available: true
 icon: pgadmin4
 backgroundColor: "#326690"
 customFlags: []
+readme: /technologies/app/pgadmin4

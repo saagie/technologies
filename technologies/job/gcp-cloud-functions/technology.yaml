@@ -1,7 +1,7 @@
 version: v2
 id: gcp-cloud-functions
 label: Google Cloud Functions
-description: ""
+description: "Google Cloud Functions is a serverless compute platform provided by Google Cloud. It allows developers to write and deploy small, event-driven functions that automatically run in response to events, such as changes to data in Google Cloud Storage, incoming messages in Pub/Sub, or HTTP requests."
 available: true
 type: EXTERNAL_JOB
 iconPath: ./gcp-cloud-functions.png

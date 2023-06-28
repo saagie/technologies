@@ -8,3 +8,4 @@ available: true
 icon: grafana
 backgroundColor: "#1857B8"
 customFlags: []
+readme: /technologies/app/grafana

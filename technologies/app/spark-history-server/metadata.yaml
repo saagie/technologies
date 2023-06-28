@@ -8,6 +8,7 @@ available: true
 icon: spark
 backgroundColor: "#e25a1c"
 customFlags: []
+readme: /technologies/app/spark-history-server
 contexts:
   - id: shs-3.1
     label: "3.1"

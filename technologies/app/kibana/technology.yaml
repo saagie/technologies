@@ -8,3 +8,4 @@ available: true
 icon: kibana
 backgroundColor: "#40BEB0"
 customFlags: []
+readme: /technologies/app/kibana
