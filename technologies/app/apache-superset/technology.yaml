@@ -8,3 +8,4 @@ available: true
 icon: superset
 backgroundColor: "#00d1c1"
 customFlags: []
+readme: /technologies/app/apache-superset

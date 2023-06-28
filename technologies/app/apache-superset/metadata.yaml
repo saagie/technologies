@@ -8,6 +8,7 @@ available: true
 icon: superset
 backgroundColor: "#00d1c1"
 customFlags: []
+readme: /technologies/app/apache-superset
 contexts:
   - id: apache-superset-2.0
     label: "2.0"

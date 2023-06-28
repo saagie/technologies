@@ -8,6 +8,7 @@ available: true
 icon: dash
 backgroundColor: "#3F4F75"
 customFlags: []
+readme: /technologies/app/dash
 contexts:
   - id: dash-2.0.0
     label: 2.0.0

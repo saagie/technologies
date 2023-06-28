@@ -9,6 +9,7 @@ It relies upon a first minimal image based on Jupyter official one plus some fea
 Then it provides the Saagie base image of Jupyter using the minimal image and includes all the Python libraries from Saagie's Python image [saagie/python:3.6-1.46.0](https://hub.docker.com/r/saagie/python).
 
 
+
 ## Build the image
 
 You can build the image with either Gradle or Docker.

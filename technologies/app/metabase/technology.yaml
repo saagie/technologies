@@ -8,5 +8,5 @@ description: "Metabase is an open source business intelligence tool. This versio
 icon: metabase
 backgroundColor: "#5ea4e3"
 customFlags: []
-
+readme: /technologies/app/metabase
 

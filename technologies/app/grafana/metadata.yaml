@@ -8,6 +8,7 @@ available: true
 icon: grafana
 backgroundColor: "#1857B8"
 customFlags: []
+readme: /technologies/app/grafana
 contexts:
   - id: grafana-8.2
     label: "8.2"

@@ -8,6 +8,7 @@ available: true
 icon: rstudio
 backgroundColor: "#75aadb"
 customFlags: []
+readme: /technologies/app/rstudio
 contexts:
   - id: rstudio-3.4.2
     label: 3.4.2

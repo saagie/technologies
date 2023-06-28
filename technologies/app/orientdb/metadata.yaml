@@ -8,6 +8,7 @@ available: true
 icon: orientdb
 backgroundColor: "#3374BA"
 customFlags: []
+readme: /technologies/app/orientdb
 contexts:
   - id: orientdb-2.1.25
     label: 2.1.25

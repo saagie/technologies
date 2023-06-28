@@ -8,3 +8,4 @@ available: true
 icon: jupyter
 backgroundColor: "#E87A35"
 customFlags: []
+readme: /technologies/app/jupyter

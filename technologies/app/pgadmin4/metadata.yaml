@@ -8,6 +8,7 @@ available: true
 icon: pgadmin4
 backgroundColor: "#326690"
 customFlags: []
+readme: /technologies/app/pgadmin4
 contexts:
   - id: pgAdmin4-6.10
     releaseNotes: First version of PGAdmin4 into Saagie.
