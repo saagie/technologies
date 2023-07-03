@@ -5,3 +5,8 @@ label: Generic
 description: A generic Docker image that can be used to execute code in a Docker container.
 available: true
 icon: docker
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB

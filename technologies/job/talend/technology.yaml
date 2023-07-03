@@ -5,4 +5,9 @@ label: Talend
 description: Talend is a complete set of open source software to extract and integrate data.
 available: true
 icon: talend
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 4 GiB
 mainClass: __TALEND_SH_FILENAME__

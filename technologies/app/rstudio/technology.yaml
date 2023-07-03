@@ -6,6 +6,11 @@ baseline: IDE for R.
 description: RStudio is an integrated development environment (IDE) for R.
 available: true
 icon: rstudio
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 8 GiB
 backgroundColor: "#75aadb"
 customFlags: []
 readme: /technologies/app/rstudio
