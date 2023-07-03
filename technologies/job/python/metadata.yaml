@@ -5,6 +5,11 @@ label: Python
 description: Python is an interpreted high-level general-purpose programming language.
 available: true
 icon: python
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 contexts:
   - id: "3.10"
     label: "3.10"
