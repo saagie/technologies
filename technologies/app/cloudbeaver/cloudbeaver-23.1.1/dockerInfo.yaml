@@ -1,0 +1,4 @@
+image: saagie/cloudbeaver
+baseTag: 23.1.1-0.1
+dynamicVersion: 23.1.1-0.1
+version: 23.1.1-0.1
