@@ -42,5 +42,5 @@ contexts:
     volumes: ["/opt/cloudbeaver/workspace"]
     dockerInfo:
       image: "saagie/cloudbeaver"
-      baseTag: "23.1.1-0.1"
-      version: "23.1.1-0.1-1.163.0_SDKTECHNO-234"
+      baseTag: "23.1.1-0.2"
+      version: "23.1.1-0.2-1.163.0_SDKTECHNO-234"
