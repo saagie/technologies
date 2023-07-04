@@ -1,4 +1,4 @@
 image: saagie/cloudbeaver
 baseTag: 23.1.1-0.1
-dynamicVersion: 23.1.1-0.1
-version: 23.1.1-0.1
+dynamicVersion: 1.163.0_SDKTECHNO-234
+version: 23.1.1-0.1-1.163.0_SDKTECHNO-234

@@ -29,3 +29,18 @@ contexts:
       image: "saagie/cloudbeaver"
       baseTag: "1.2.0"
       version: "1.2.0-1.75.0"
+  - id: cloudbeaver-23.1.1
+    label: 23.1.1
+    releaseNotes: CloudBeaver is a web-based database management tool. 
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8978
+        name: CloudBeaver
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/opt/cloudbeaver/workspace"]
+    dockerInfo:
+      image: "saagie/cloudbeaver"
+      baseTag: "23.1.1-0.1"
+      version: "23.1.1-0.1-1.163.0_SDKTECHNO-234"
