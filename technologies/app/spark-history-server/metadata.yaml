@@ -6,6 +6,11 @@ baseline: "The Spark history server is a monitoring tool that displays informati
 description: "The Spark history server is a monitoring tool that displays information about completed Spark applications"
 available: true
 icon: spark
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 backgroundColor: "#e25a1c"
 customFlags: []
 readme: /technologies/app/spark-history-server

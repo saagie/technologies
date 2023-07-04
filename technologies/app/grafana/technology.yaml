@@ -6,6 +6,11 @@ baseline: The open-source platform for monitoring and observability. Default adm
 description: Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored.
 available: true
 icon: grafana
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 backgroundColor: "#1857B8"
 customFlags: []
 readme: /technologies/app/grafana

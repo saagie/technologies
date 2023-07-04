@@ -6,6 +6,11 @@ baseline: An open source platform for the end-to-end machine learning lifecycle.
 description: MLflow tracking server is used for logging parameters, code versions, metrics, and output files when running your machine learning code and for later visualizing the results.
 available: true
 icon: mlflow
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 backgroundColor: "#092241"
 customFlags: []
 readme: /technologies/app/mflow-server

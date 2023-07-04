@@ -8,6 +8,11 @@ description: "VS Code server is an IDE that supports several languages. \n
   and VSCODE_SUDO_PASSWORD to get sudo access inside the container."
 available: true
 icon: vscode
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 backgroundColor: "#3EAAF2"
 customFlags: []
 readme: /technologies/app/vscode

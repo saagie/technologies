@@ -6,6 +6,11 @@ baseline: "Saagie Usage Monitoring lets you monitor your Saagie platform"
 description: "Saagie Usage Monitoring lets you monitor your Saagie platform including jobs, apps and pipelines stats."
 available: true
 icon: project-activity
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 backgroundColor: "#253c5b"
 customFlags: []
 readme: /technologies/app/saagie-usage-monitoring

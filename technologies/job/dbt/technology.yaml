@@ -5,3 +5,8 @@ label: dbt
 description: dbt-cli is a transformation workflow that lets teams quickly and collaboratively deploy analytics code following software engineering best practices like modularity, portability, CI/CD, and documentation.
 available: true
 icon: dbt
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB

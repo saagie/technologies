@@ -6,5 +6,10 @@ baseline: Free Universal Database Tool
 description: CloudBeaver is free and open source product that already supports the most popular open source databases, such us PostgreSQL, MySQL, MariaDB, SQLite and Firebird.
 available: true
 icon: cloudbeaver
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 4 GiB
 backgroundColor: "#6e98bf"
 customFlags: []

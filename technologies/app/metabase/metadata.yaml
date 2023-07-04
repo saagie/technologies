@@ -6,6 +6,11 @@ available: true
 baseline: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
 description: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
 icon: metabase
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 8 GiB
 backgroundColor: "#5ea4e3"
 customFlags: []
 readme: /technologies/app/metabase

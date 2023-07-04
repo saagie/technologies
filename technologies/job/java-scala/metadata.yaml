@@ -5,6 +5,11 @@ label: Java/Scala
 description: Java and Scala jobs offer the ability to process content in the JVM.
 available: true
 icon: java-scala
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 contexts:
   - id: "11"
     label: "11"

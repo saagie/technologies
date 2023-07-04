@@ -5,6 +5,11 @@ label: SQOOP
 description: Sqoop is a command-line interface application for transferring data between relational databases and Hadoop.
 available: true
 icon: sqoop
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 contexts:
   - id: 1.4.6
     label: 1.4.6
