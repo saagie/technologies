@@ -5,6 +5,11 @@ label: Spark
 description: Spark is an open-source cluster computing framework developed to process large data volumes.
 available: true
 icon: spark
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 customFlags: [Spark]
 
 contexts:

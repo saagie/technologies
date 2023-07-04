@@ -5,6 +5,11 @@ label: R
 description: R is a programming language and a statistic data analysis environment.
 available: true
 icon: r
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
 contexts:
   - id: "4.0"
     label: "4.0"
