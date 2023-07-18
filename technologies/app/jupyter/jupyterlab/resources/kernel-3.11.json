@@ -1,0 +1,12 @@
+{
+ "argv": [
+  "/kernel-startup-3.11.sh",
+  "-f",
+  "{connection_file}"
+ ],
+ "display_name": "Python 3.11",
+ "language": "python",
+ "metadata": {
+  "debugger": true
+ }
+}

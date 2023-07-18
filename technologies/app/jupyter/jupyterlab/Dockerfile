@@ -20,6 +20,8 @@ RUN conda create -n py38 python=3.8.12 \
     && bash -c "source activate py39 && conda install notebook ipykernel -y && ipython kernel install --user --name py39  --display-name 'Python 3.9'" \
     && conda create -n py310 python=3.10.2 \
     && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.10'" \
+    && conda create -n py311 python=3.11.2 \
+    && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.11'" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 
@@ -27,6 +29,7 @@ RUN conda create -n py38 python=3.8.12 \
 ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
 ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
 ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
+ADD resources/kernel-3.11.json /home/$NB_USER/.local/share/jupyter/kernels/py311/kernel.json
 ADD resources/kernel-*.sh /
 
 # Uninstall default python3 kernel
@@ -35,7 +38,7 @@ SHELL ["/bin/bash", "-c"]
 COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/requirements.txt
 
 RUN sh -x \
-    && for env in py38 py39 py310;  \
+    && for env in py38 py39 py310 p311;  \
        do \
           . activate $env \
           && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
