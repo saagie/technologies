@@ -21,7 +21,7 @@ RUN conda create -n py38 python=3.8.12 \
     && conda create -n py310 python=3.10.2 \
     && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.10'" \
     && conda create -n py311 python=3.11.2 \
-    && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.11'" \
+    && bash -c "source activate py311 && conda install notebook ipykernel -y && ipython kernel install --user --name py311  --display-name 'Python 3.11'" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 
