@@ -5,6 +5,7 @@ FROM $PYTHON310_IMG AS PYTHON310
 FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
+ENV DOCKER_BUILDKIT=1
 
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
