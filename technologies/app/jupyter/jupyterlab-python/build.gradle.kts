@@ -30,7 +30,7 @@ tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     dependsOn(":jupyterlab-base:testImage")
     this.buildArgs.put(
         "BASE_CONTAINER",
-        "${dockerInfo?.image}:${dockerInfo?.baseTag}-3.6.3-base-python3-${this.project.getVersionForDocker()}"
+        "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
     )
      this.buildArgs.put(
         "PYTHON310_IMG",
