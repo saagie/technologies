@@ -5,7 +5,6 @@ FROM $PYTHON310_IMG AS PYTHON310
 FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
-ENV DOCKER_BUILDKIT=1
 
 ################ Kernels / Conda envs / requirements PART BEGIN ################
 USER $NB_USER
@@ -25,10 +24,14 @@ RUN conda create -n py38 python=3.8.12 \
     && rm -rf ~/.cache/pip
 
 # Updating kernels to force activating conda env whenever opening a console
-ADD --chmod=0755 resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
-ADD --chmod=0755 resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
-ADD --chmod=0755 resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
-ADD --chmod=0755 resources/kernel-*.sh /
+ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
+ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
+ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
+ADD resources/kernel-*.sh /
+RUN chmod +x /kernel-*.sh
+RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
+RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
+RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
 
 # Uninstall default python3 kernel
 RUN jupyter kernelspec remove -f python3
