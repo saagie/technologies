@@ -1,5 +1,5 @@
 id: jupyterlab-3.6-python-3
-label: JupyterLab 3.6 with python 3.8 / 3.9 / 3.10
+label: JupyterLab 3.6 / Python 3.8 - 3.10
 releaseNotes: Enable jupyter_ai as extension.
 available: true
 trustLevel: stable
