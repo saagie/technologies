@@ -28,10 +28,6 @@ ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/k
 ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
 ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
 ADD resources/kernel-*.sh /
-RUN chmod +x /kernel-*.sh
-RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
-RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
-RUN chmod +x /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
 
 # Uninstall default python3 kernel
 RUN jupyter kernelspec remove -f python3
@@ -59,6 +55,7 @@ RUN sh -x \
 # USER $NB_USER
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root
+RUN chmod +x /kernel-*.sh
 
 # Runs Jupyter in a loop so that quitting Jupyter does not cause the container to exit.
 ENV RESTARTABLE yes
