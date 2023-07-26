@@ -61,8 +61,8 @@ contexts:
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: "saagie/vscode-server"
-      baseTag: "python-4.15.0"
-      version: "python-4.15.0-1.163.0_SDKTECHNO-237"
+      baseTag: "4.15.0"
+      version: "4.15.0-1.163.0_SDKTECHNO-237"
   - id: vscode-4.8.3
     label: VS Code 4.8.3
     releaseNotes: ""
