@@ -96,10 +96,10 @@ RUN sh -x \
 
 
 # Install Vscode Python extension
-COPY extensions/* /config/extensions/
+COPY extensions/* /tmp/extensions/
 RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension ms-python.python
 RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension genieai.chatgpt-vscode
-RUN /app/code-server/bin/code-server --install-extension /config/extensions/GitHub.copilot-1.99.290.vsix
+RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension /tmp/extensions/GitHub.copilot-1.99.290.vsix
 
 # # # Change settings to run interactive code in jupyter
 # COPY resources/* /config/data/User/
