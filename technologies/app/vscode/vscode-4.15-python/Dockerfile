@@ -103,6 +103,7 @@ RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --inst
 # COPY resources/* /config/data/User/
 RUN rm /tmp/settings/settings.json
 COPY resources/* /tmp/settings/
+COPY extensions/* /config/extensions/
 
 ENV CONDA_DEFAULT_ENV=py310
 
