@@ -61,7 +61,7 @@ contexts:
   - id: "4.2"
     label: "4.2"
     available: true
-    recommended: true
+    recommended: false
     trustLevel: stable
     job:
       features:
@@ -81,3 +81,26 @@ contexts:
       image: "saagie/r-image"
       baseTag: "4.2"
       version: "4.2-1.155.0"
+  - id: "4.3"
+    label: "4.3"
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file}
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: "Compatible upload file: .r, .tar(.gz), .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: "saagie/r-image"
+      baseTag: "4.3"
+      version: "4.3-null"

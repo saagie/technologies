@@ -1,7 +1,7 @@
-id: "4.2"
-label: "4.2"
+id: "4.3"
+label: "4.3"
 available: true
-recommended: false
+recommended: true
 trustLevel: stable
 job:
   features:
