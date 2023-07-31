@@ -1,4 +1,4 @@
 image: saagie/vscode-server
 baseTag: python-4.15.0
 dynamicVersion: 1.163.0_SDKTECHNO-237
-version: python-4.15.0-1.163.0_SDKTECHNO-237
+version: python-4.15.0-1.163.0
