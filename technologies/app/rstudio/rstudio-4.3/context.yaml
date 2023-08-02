@@ -1,9 +1,9 @@
-id: rstudio-4.2
-label: "4.2"
-releaseNotes: First version of RStudio 4.2 into Saagie.
+id: rstudio-4.3
+label: "4.3"
+releaseNotes: First version of RStudio 4.3 into Saagie.
 available: true
 trustLevel: stable
-recommended: false
+recommended: true
 ports:
   - port: 80
     name: Rstudio
