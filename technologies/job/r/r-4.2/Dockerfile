@@ -10,7 +10,7 @@ ENV CDH_MAIN_VERSION 5
 ENV CDH_VERSION ${CDH_MAIN_VERSION}.13.0
 ENV HADOOP_VERSION 2.7.0
 ENV HIVE_VERSION 1.2.2
-ENV HIVE_ODBC_VERSION 2.6.4.1004
+ENV HIVE_ODBC_VERSION 2.6.16.1019
 ENV HIVE_ODBC_VERSION_FULL ${HIVE_ODBC_VERSION}-2_amd64
 ENV IMPALA_ODBC_VERSION 2.5.41.1029
 ENV IMPALA_ODBC_VERSION_FULL ${IMPALA_ODBC_VERSION}-2_amd64
@@ -38,13 +38,14 @@ ENV PATH=$HIVE_HOME/bin:$PATH
 
 # Install Hive ODBC driver
 RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
-      libsasl2-modules-gssapi-mit \
+      libsasl2-modules-gssapi-mit unixodbc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp \
     && wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_${HIVE_ODBC_VERSION}/Debian/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
     && dpkg -i clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini \
+    && sudo sed -i 's/ODBCInstLib=libiodbcinst.so/ODBCInstLib=\/usr\/lib\/x86_64-linux-gnu\/libodbcinst.so/g' /opt/cloudera/hiveodbc/lib/64/cloudera.hiveodbc.ini \
     && rm /tmp/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb
 
 # Install Impala ODBC dependency
