@@ -80,7 +80,7 @@ contexts:
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.2"
-      version: "4.2-1.155.0"
+      version: "4.2-1.164.0_SDKTECHNO-239"
   - id: "4.3"
     label: "4.3"
     available: true
@@ -103,4 +103,4 @@ contexts:
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.3"
-      version: "4.3-1.163.0_sdktechno-238"
+      version: "4.3-1.164.0_SDKTECHNO-239"
