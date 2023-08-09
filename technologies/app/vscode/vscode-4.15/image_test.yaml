@@ -1,0 +1,13 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "vs code nginx"
+    path: "/etc/nginx/sites-enabled/nginx.conf"
+    shouldExist: true
+  - name: " No default nginx conf"
+    path: /etc/nginx/sites-enabled/default
+    shouldExist: false
