@@ -55,7 +55,7 @@ RUN cd /tmp \
     && dpkg -i clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini \
     && rm -rf /tmp/clouderaimpalaodbc_${IMPALA_ODBC_VERSION_FULL}.deb \
-    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini
+    && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/impalaodbc/lib/64/cloudera.impalaodbc.ini 
 
 # JAVA_HOME define
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
