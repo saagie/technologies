@@ -45,7 +45,7 @@ RUN apt-get update -qq && apt-get install -yqq --no-install-recommends \
     && wget --no-verbose https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_${HIVE_ODBC_VERSION}/Debian/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
     && dpkg -i clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb \
     && odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini \
-    && sudo sed -i 's/ODBCInstLib=libiodbcinst.so/ODBCInstLib=\/usr\/lib\/x86_64-linux-gnu\/libodbcinst.so/g' /opt/cloudera/hiveodbc/lib/64/cloudera.hiveodbc.ini \
+    && sed -i 's/ODBCInstLib=libiodbcinst.so/ODBCInstLib=\/usr\/lib\/x86_64-linux-gnu\/libodbcinst.so/g' /opt/cloudera/hiveodbc/lib/64/cloudera.hiveodbc.ini \
     && sed -i 's/DriverManagerEncoding=UTF-32/DriverManagerEncoding=UTF-16/g' /opt/cloudera/hiveodbc/lib/64/cloudera.hiveodbc.ini \
     && rm /tmp/clouderahiveodbc_${HIVE_ODBC_VERSION_FULL}.deb
 
