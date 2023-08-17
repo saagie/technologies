@@ -17,3 +17,8 @@ job:
     - type: SCHEDULER
       label: Scheduled
       mandatory: true
+    - type: AI_DESCRIPTION_GENERATOR
+      label: ai description generator
+      mandatory: true
+      comment: Le commentaire de ai description generator.
+      defaultValue: "Cher GPT, peux-tu me donner la description de ce code python?"
