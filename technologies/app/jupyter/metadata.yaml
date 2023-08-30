@@ -74,7 +74,7 @@ contexts:
       baseTag: "pyspark-3.1.1"
       version: "pyspark-3.1.1-1.111.0"
   - id: jupyterlab-3.8-3.9
-    label: JupyterLab+GenAI 3.6 Python 3.10
+    label: JupyterLab+GenAI 4.0 Python 3.10
     releaseNotes: Enable jupyter_ai as extension.
     available: true
     trustLevel: stable
@@ -87,5 +87,5 @@ contexts:
     volumes: ["/notebooks-dir"]
     dockerInfo:
       image: "saagie/jupyterlab-python-nbk"
-      baseTag: "3.6.3-python3"
-      version: "3.6.3-python3-1.0.0_SDKTECHNO-236"
+      baseTag: "4.0.5-python3"
+      version: "4.0.5-python3-1.0.0_SDKTECHNO-236"
