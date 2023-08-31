@@ -11,7 +11,7 @@ USER $NB_USER
 
 # Update conda to latest version and install jupyterlab-git plugin
 RUN conda update -n root conda \
-    && conda install -c conda-forge jupyterlab==3.6.3 jupyterlab-git \
+    && conda install -c conda-forge jupyterlab==4.0.5 jupyterlab-git \
     && conda clean -ay
 
 RUN conda create -n py38 python=3.8.12 \
