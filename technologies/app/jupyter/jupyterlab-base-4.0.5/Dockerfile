@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:lab-3.2.9
+FROM jupyter/minimal-notebook:lab-4.0.5
 
 LABEL Maintainer="Saagie"
 

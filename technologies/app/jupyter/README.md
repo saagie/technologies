@@ -8,6 +8,15 @@ It is specially designed to run on Saagie's platform v2.
 It relies upon a first minimal image based on Jupyter official one plus some features required by Saagie's platform.
 Then it provides the Saagie base image of Jupyter using the minimal image and includes all the Python libraries from Saagie's Python image [saagie/python:3.6-1.46.0](https://hub.docker.com/r/saagie/python).
 
+## How to use jupyter_ai plugin
+
+In order to use the `jupyter_ai` plugin available for the context `JupyterLab+GenAI 4.0 Python 3.10`,
+based on the model that you want to use, you have to create a new environment
+variable in your Saagie project and set it to `your_credential`.
+
+For example, if you want to use the GPT model of OpenAI, you have to create a new environment variable named `OPENAI_API_KEY`.
+For all the models, you can find the name of the environment variable in this [documentation](https://jupyter-ai.readthedocs.io/en/latest/users/index.html#model-providers).
+
 
 
 ## Build the image

@@ -11,7 +11,7 @@ USER $NB_USER
 
 # Update conda to latest version and install jupyterlab-git plugin
 RUN conda update -n root conda \
-    && conda install -c conda-forge jupyterlab==3.2.9 jupyterlab-git \
+    && conda install -c conda-forge jupyterlab==4.0.5 jupyterlab-git \
     && conda clean -ay
 
 RUN conda create -n py38 python=3.8.12 \
@@ -35,16 +35,19 @@ SHELL ["/bin/bash", "-c"]
 COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/requirements.txt
 
 RUN sh -x \
+    && pip install jupyter_ai==2.1.0 \
     && for env in py38 py39 py310;  \
        do \
           . activate $env \
           && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
           && python -m pip uninstall matplotlib -y \
           && grep matplotlib* /home/$NB_USER/requirements.txt | xargs python -m pip install --no-cache \
+          && pip install jupyter_ai==2.1.0 \
           && conda deactivate; \
        done \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
+
 
 ################ Kernels / Conda envs / requirements PART ENDS #################
 
@@ -52,6 +55,7 @@ RUN sh -x \
 # USER $NB_USER
 # Saagie mounts the /notebook-dir as root so it needs to be chown in the entrypoint as root
 USER root
+RUN chmod +x /kernel-*.sh
 
 # Runs Jupyter in a loop so that quitting Jupyter does not cause the container to exit.
 ENV RESTARTABLE yes
