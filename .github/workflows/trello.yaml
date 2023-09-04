@@ -20,6 +20,6 @@ jobs:
           # TRELLO_BOARD_ID must match a board. GH repo should connect
           # to exactly one board, but Trello board may connect to multiple
           # GH repositories.
-          TRELLO_BOARD_ID: 5d0ba943706cfb3ac28ef7eb
+          TRELLO_BOARD_ID: 63b82c1cc3ab6b038df233c5
           # Backlog list ID
-          TRELLO_LIST_ID: 5d0ba951915cfd4bb7085960
+          TRELLO_LIST_ID: 63b82ce9d9892d01be1b50dc
