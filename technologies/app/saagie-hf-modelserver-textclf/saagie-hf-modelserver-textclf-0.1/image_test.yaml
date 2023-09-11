@@ -4,7 +4,7 @@ fileExistenceTests:
   - name: "app_script"
     path: "/serve.py"
     shouldExist: true
-    permissions: "drwxr-xr-x"
+    permissions: "-rw-r--r--"
   - name: "asset_dir"
     path: "/assets"
     shouldExist: true
