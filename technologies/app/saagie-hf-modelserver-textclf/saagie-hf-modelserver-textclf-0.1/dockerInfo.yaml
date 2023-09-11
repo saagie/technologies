@@ -1,0 +1,3 @@
+image: saagie/saagie-huggingface-model-server
+baseTag: "0.1"
+version: "0.1"

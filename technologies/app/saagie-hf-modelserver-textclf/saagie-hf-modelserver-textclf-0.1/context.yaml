@@ -1,0 +1,10 @@
+id: saagie-hf-modelserver-textclf
+label: Saagie HF ModelServer TextCLF
+releaseNotes: ""
+available: true
+trustLevel: experimental
+ports:
+  - port: 8080
+    name: ClickToOpenGUI
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
