@@ -31,6 +31,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.0"
@@ -54,6 +58,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.1"
@@ -77,6 +85,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.2"
@@ -100,6 +112,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.3"

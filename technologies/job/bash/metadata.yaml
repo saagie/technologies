@@ -29,7 +29,11 @@ contexts:
           comment: All files are accepted.
         - type: SCHEDULER
           label: Scheduled
+          mandatory: true 
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
           mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian10-buster"
@@ -53,6 +57,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian10-buster-aws"
@@ -76,6 +84,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian10-buster-azure"
@@ -99,6 +111,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian10-buster-gcp"
@@ -122,6 +138,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian11-bullseye"
@@ -145,6 +165,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian11-bullseye-aws"
@@ -168,6 +192,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian11-bullseye-azure"
@@ -191,6 +219,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian11-bullseye-gcp"
@@ -214,6 +246,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/bash"
       baseTag: "debian12-bookworm"
