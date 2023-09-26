@@ -1,0 +1,210 @@
+
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: HDFS usage sample
+    folder: alerts
+    interval: 60s
+
+    rules:
+      - uid: my_id_1
+        title: HDFS usage sample
+        condition: Evaluation
+        data:
+          - refId: Query
+            datasourceUid: 'my_unique_uid'
+            relativeTimeRange:
+              from: 86400
+              to: 0
+            model:
+              format: time_series
+              group: []
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              metricColumn: none
+              rawSql: "select  $__time(capacity.supervision_date),\n    round(used.supervision_value/capacity.supervision_value,4)
+                as \"hdfs_ratio\"\nFROM public.supervision_datalake as capacity\nINNER JOIN
+                \n    (SELECT supervision_date, supervision_value\n    FROM public.supervision_datalake\n
+                \   WHERE $__timeFilter(supervision_date)\n    AND supervision_label = 'total_used')
+                as used \n    ON (used.supervision_date = capacity.supervision_date)\nWHERE\n
+                \   $__timeFilter(capacity.supervision_date)\n    AND capacity.supervision_label
+                = 'total_capacity'\nORDER BY capacity.supervision_date desc"
+              refId: Query
+              select:
+              - - params:
+                  - value
+                  type: column
+              timeColumn: time
+              where:
+              - name: "$__timeFilter"
+                params: []
+                type: macro
+          - refId: Evaluation
+            queryType: ''
+            relativeTimeRange:
+              from: 86400
+              to: 0
+            datasourceUid: "-100"
+            model:
+              conditions:
+              - evaluator:
+                  params:
+                  - 0.7
+                  - 0
+                  type: gt
+                operator:
+                  type: and
+                query:
+                  params:
+                  - Query
+                reducer:
+                  params: []
+                  type: last
+                type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              downsampler: mean
+              expression: Query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: Evaluation
+              type: classic_conditions
+              upsampler: fillna
+        noDataState: NoData
+        execErrState: Error
+        for: 60s
+        annotations:
+          description: HDFS usage above 70%
+
+
+      - uid: my_id_2
+        title: Job exceeded time
+        condition: Query
+        data:
+        - refId: Query
+          queryType: ''
+          relativeTimeRange:
+            from: 604800
+            to: 0
+          datasourceUid: my_unique_uid
+          model:
+            format: table
+            group: []
+            hide: false
+            intervalMs: 1000
+            maxDataPoints: 43200
+            metricColumn: none
+            rawQuery: true
+            rawSql: "SELECT  s.project_name, \n       s.orchestration_name,\n       instance_saagie_url,\n
+              \      cast(jobs.instance_start_time as VARCHAR) as instance_start_time,\n       cast(jobs.instance_end_time
+              as VARCHAR) as instance_end_time,\n       round(jobs.instance_duration/1000)
+              as instance_duration,\n       cast(round(cv.tolerance/1000) as VARCHAR) as tolerance\nFROM
+              \n supervision_saagie_jobs as s\n \n \n INNER JOIN \n    (SELECT \n     project_name,
+              orchestration_name,\n     instance_duration,\n     instance_saagie_url,\n     instance_start_time,\n
+              \    instance_end_time,\n     DENSE_RANK () OVER ( \n\t\tPARTITION BY orchestration_name\n\t\tORDER
+              BY instance_start_time DESC) as r\n     FROM supervision_saagie) as jobs\n   ON
+              (s.project_name = jobs.project_name AND\n       s.orchestration_name = jobs.orchestration_name)\n
+              \      \n       \n INNER JOIN \n    (select project_name, orchestration_name,\n
+              \       percentile_cont(0.75) WITHIN GROUP (ORDER BY instance_duration) + \n
+              \       (1.5*\n            (percentile_cont(0.75) WITHIN GROUP (ORDER BY instance_duration)
+              - \n             percentile_cont(0.25) WITHIN GROUP (ORDER BY instance_duration)))
+              as tolerance\n    from supervision_saagie\n    GROUP BY project_name, orchestration_name\n
+              \   order by 1,2) as cv \n  ON (jobs.project_name = cv.project_name AND\n      jobs.orchestration_name
+              = cv.orchestration_name AND \n      jobs.instance_duration > cv.tolerance)\n
+              \     \n      \nWHERE jobs.r <= 10 AND \n      s.instance_count > 20 AND\n      $__timeFilter(instance_start_time)\nORDER
+              BY jobs.project_name, \n         jobs.orchestration_name, \n         instance_start_time
+              desc\n"
+            refId: Query
+            select:
+            - - params:
+                - value
+                type: column
+            timeColumn: time
+            where:
+            - name: "$__timeFilter"
+              params: []
+              type: macro
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          description: Job "{{ $labels.orchestration_name }}" exceeded time ( {{ $values.Query }}s, max tolerance {{ $labels.tolerance }}s)
+          runbook_url: "{{ $labels.instance_saagie_url }}"
+          summary: Job exceeded time duration
+
+
+      - uid: my_id_3
+        title: Jobs and apps count
+        condition: Evaluation
+        data:
+        - refId: Query
+          queryType: ''
+          relativeTimeRange:
+            from: 86400
+            to: 0
+          datasourceUid: my_unique_uid
+          model:
+            format: time_series
+            group: []
+            hide: false
+            intervalMs: 1000
+            maxDataPoints: 43200
+            metricColumn: none
+            rawQuery: true
+            rawSql: |-
+              SELECT
+                $__time(snapshot_date),
+                sum(job_count) as "job_count"
+              FROM supervision_saagie_jobs_snapshot
+              WHERE $__timeFilter(snapshot_date)
+              GROUP BY 1
+            refId: Query
+            select:
+            - - params:
+                - value
+                type: column
+            timeColumn: time
+            where:
+            - name: "$__timeFilter"
+              params: []
+              type: macro
+        - refId: Evaluation
+          queryType: ''
+          relativeTimeRange:
+            from: 600
+            to: 0
+          datasourceUid: "-100"
+          model:
+            conditions:
+            - evaluator:
+                params:
+                - 100
+                type: gt
+              operator:
+                type: and
+              query:
+                params:
+                - Query
+              reducer:
+                params: []
+                type: last
+              type: query
+            datasource:
+              type: __expr__
+              uid: "-100"
+            expression: A
+            hide: false
+            intervalMs: 1000
+            maxDataPoints: 43200
+            refId: Evaluation
+            type: classic_conditions
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          description: Jobs and apps count above 100
