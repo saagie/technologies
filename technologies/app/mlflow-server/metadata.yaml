@@ -13,7 +13,8 @@ defaultResources:
     limit: 2 GiB
 backgroundColor: "#092241"
 customFlags: []
-readme: /technologies/app/mflow-server
+readme: /technologies/app/mlflow-server
+
 contexts:
   - id: mlflow-server-1.16
     label: "1.16"
