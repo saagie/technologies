@@ -110,7 +110,12 @@ elif [ "$MONITORING_OPT" == "SAAGIE_AND_S3" ]; then
    cp /var/lib/grafana/tmp-dashboards/s3*.json /var/lib/grafana/dashboards/
 fi
 
-echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
+if [[ -z "${SAAGIE_SUM_CRON}" ]]; then
+  export SAAGIE_SUM_CRON="0 * * * *"
+fi
+
+
+echo $SAAGIE_SUM_CRON" /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
 && crontab mycron \
 && rm mycron \
 && service cron start

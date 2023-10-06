@@ -1,4 +1,4 @@
 image: saagie/saagie-usage-monitoring
-baseTag: 3.0-0.4
+baseTag: 2023.02-0.1
 dynamicVersion: 1.149.0_SDKTECHNO-221
-version: 3.0-0.4-1.149.0
+version: 2023.02-0.1-1.149.0
