@@ -115,7 +115,7 @@ if [[ -z "${SAAGIE_SUM_CRON}" ]]; then
 fi
 
 
-echo $SAAGIE_SUM_CRON" /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
+echo "$SAAGIE_SUM_CRON /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
 && crontab mycron \
 && rm mycron \
 && service cron start
