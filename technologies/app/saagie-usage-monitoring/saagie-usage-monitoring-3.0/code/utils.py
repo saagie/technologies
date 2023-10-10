@@ -117,6 +117,7 @@ class ApiUtils(object):
         """
         dict_technology = {}
         result = []
+        logging.info(f"Start getting jobs for project {project_id}")
         jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
                                            id
                                            name
@@ -132,6 +133,7 @@ class ApiUtils(object):
                                            }}
                                            }}}}"""
         jobs = self.call_api(jobs_query)
+        logging.info(f"End getting jobs for project {project_id}")
         if jobs:
             for job in jobs["jobs"]:
                 technology_id = job["technology"]["id"]
@@ -149,6 +151,7 @@ class ApiUtils(object):
         :param project_id: Saagie Project ID
         :return: a JSON containing a list of pipelines
         """
+        logging.info(f"Start getting pipelines for project {project_id}")
         pipelines_query = f"""{{ project(id: \"{project_id}\") {{
                                     pipelines {{
                                            id
@@ -163,6 +166,7 @@ class ApiUtils(object):
                                     }}
                                     }}"""
         pipelines = self.call_api(pipelines_query)
+        logging.info(f"End getting pipelines for project {project_id}")
         return pipelines["project"]['pipelines'] if pipelines["project"] is not None else []
 
     def get_apps(self, project_id):

@@ -63,9 +63,12 @@ class SaagieUtils(object):
         """
         dict_technology = {}
         result = []
+        logging.info(f"Start getting jobs for project {project_id}")
         jobs = self.saagie_auth.jobs.list_for_project(project_id=project_id, 
                                                       instances_limit = MAX_INSTANCES_FETCHED,
-                                                      versions_limit = 0)
+                                                      versions_limit = 1,
+                                                      versions_only_current = True)
+        logging.info(f"End getting jobs for project {project_id}")
         if jobs:
             for job in jobs["jobs"]:
                 technology_id = job["technology"]["id"]
@@ -83,9 +86,12 @@ class SaagieUtils(object):
         :param project_id: Saagie Project ID
         :return: a JSON containing a list of pipelines
         """
+        logging.info(f"Start getting pipelines for project {project_id}")
         pipelines = self.saagie_auth.pipelines.list_for_project(project_id=project_id,
                                                                 instances_limit = MAX_INSTANCES_FETCHED,
-                                                                versions_limit = 0)
+                                                                versions_limit = 1,
+                                                                versions_only_current = True)
+        logging.info(f"End getting pipelines for project {project_id}")
         return pipelines["project"]['pipelines'] if pipelines["project"] is not None else []
 
     def get_apps(self, project_id):
