@@ -1,10 +1,5 @@
 image: saagie/saagie-usage-monitoring
-<<<<<<< HEAD
 baseTag: 2023.02-0.1
-dynamicVersion: 1.149.0_SDKTECHNO-221
-version: 2023.02-0.1-1.149.0
-=======
-baseTag: 3.0-0.4
 dynamicVersion: 1.168.0_SDKTECHNO-244
-version: 3.0-0.4-1.168.0_SDKTECHNO-244
->>>>>>> 519f8f61e46b720802563a76e75d301bf55e925b
+version: 2023.02-0.1-1.168.0
+
