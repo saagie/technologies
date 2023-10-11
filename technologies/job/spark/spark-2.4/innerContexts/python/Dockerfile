@@ -10,9 +10,9 @@ COPY --from=SPARK_BASE /usr/local/sbin/tini /usr/local/sbin/tini
 COPY --from=SPARK_BASE /sbin/tini /sbin/tini
 
 # Beware recent images will drop jdk 8 for jdk 11+
-COPY --from=SPARK_BASE /usr/local/openjdk-8 /usr/local/openjdk-8
+COPY --from=SPARK_BASE /opt/java/openjdk /opt/java/openjdk
 
-ENV JAVA_HOME /usr/local/openjdk-8
+ENV JAVA_HOME /opt/java/openjdk
 ENV LANG C.UTF-8
 ENV SPARK_HOME /opt/spark
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf

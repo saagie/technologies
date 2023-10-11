@@ -5,7 +5,7 @@ metadataTest:
     - key: LANG
       value: "C.UTF-8"
     - key: JAVA_HOME
-      value: "/usr/local/openjdk-8"
+      value: "/opt/java/openjdk"
     - key: SPARK_HOME
       value: "/opt/spark"
 
@@ -35,7 +35,7 @@ commandTests:
   - name: "java installation"
     command: "which"
     args: ["java"]
-    expectedOutput: ["/usr/local/openjdk-8/bin/java"]
+    expectedOutput: ["/opt/java/openjdk/bin/java"]
 
   - name: "java version"
     command: "java"

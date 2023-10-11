@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim-buster
+FROM eclipse-temurin:8-jre-jammy
 
 ARG SPARK_VERSION=2.4.8
 ARG HADOOP_VERSION=2.6
@@ -6,6 +6,7 @@ ARG TINI_VERSION="v0.18.0"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+ENV LANG C.UTF-8
 ENV SPARK_HOME /opt/spark
 ENV PATH "$PATH:$SPARK_HOME/bin"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
