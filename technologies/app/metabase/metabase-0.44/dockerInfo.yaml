@@ -1,4 +1,4 @@
 image: saagie/metabase
 baseTag: 0.44.6
-dynamicVersion: 1.134.0_SDKTECHNO-193
-version: 0.44.6-1.134.0
+dynamicVersion: 1.170.0_SDKTECHNO-246
+version: 0.44.6-1.170.0_SDKTECHNO-246
