@@ -18,6 +18,7 @@ To deploy Saagie Usage Monitoring on your platform, you need to create a user wi
   - `SAAGIE_AND_S3` if you want to monitor Saagie and S3 buckets
 - IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
 - AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT and AWS_REGION_NAME (Required if MONITORING_OPT=`SAAGIE_AND_S3`)
+- SAAGIE_SUM_CRON : Cron to collect Saagie informations on API (Optionnal, Default value : `0 * * * *`)
 
 For an external Postgres database : 
 - SAAGIE_PG_HOST : Postgresql host (Default value : `localhost`)

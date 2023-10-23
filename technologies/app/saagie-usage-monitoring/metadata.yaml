@@ -16,6 +16,42 @@ customFlags: []
 readme: /technologies/app/saagie-usage-monitoring
 
 contexts:
+  - id: saagie-usage-monitoring-2023-02
+    label: For Saagie 2023.02
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: saagie-usage-monitoring
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 92
+        name: ttyd
+        rewriteUrl: true
+    volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
+    dockerInfo:
+      image: "saagie/saagie-usage-monitoring"
+      baseTag: "2023.02-0.1"
+      version: "2023.02-0.1-1.168.0_SDKTECHNO-244"
+  - id: saagie-usage-monitoring-2023-03
+    label: For Saagie 2023.03
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: saagie-usage-monitoring
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 92
+        name: ttyd
+        rewriteUrl: true
+    volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
+    dockerInfo:
+      image: "saagie/saagie-usage-monitoring"
+      baseTag: "2023.03-0.1"
+      version: "2023.03-0.1-1.168.0_SDKTECHNO-244"
   - id: saagie-usage-monitoring-3.0
     label: For Saagie 3.x
     releaseNotes: ""

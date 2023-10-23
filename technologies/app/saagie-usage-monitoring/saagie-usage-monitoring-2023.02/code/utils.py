@@ -1,17 +1,15 @@
 import logging
 import traceback
 from datetime import datetime
-import requests
 import urllib3
 import psycopg2
 import psycopg2.extras
-from urllib3.util.retry import Retry
-from requests.adapters import HTTPAdapter
 import boto3
 import botocore.exceptions
 
-import json
 import os
+
+from saagieapi import SaagieApi
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 logging.getLogger("boto3").setLevel(logging.WARNING)
@@ -34,46 +32,14 @@ saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
 MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
 
 
-class BearerAuth(requests.auth.AuthBase):
-    def __init__(self):
-        self.token = authenticate()
-
-    def __call__(self, r):
-        r.headers["authorization"] = "Bearer " + self.token
-        return r
-
-
-def authenticate():
-    """
-   Function to authenticate to Saagie given credentials in environment variables
-   :return: THE API response containing the Bearer Token
-   """
-    s = requests.session()
-    s.headers["Content-Type"] = "application/json"
-    s.headers["Saagie-Realm"] = saagie_realm
-    r = s.post(saagie_url + 'authentication/api/open/authenticate',
-               json={'login': saagie_login, 'password': saagie_password}, verify=False)
-    return r.text
-
-
-class ApiUtils(object):
+class SaagieUtils(object):
 
     def __init__(self):
-        retry_strategy = Retry(
-            total=3,
-            status_forcelist=[401],
-            backoff_factor=10,
-            method_whitelist=["POST", "GET"]
-        )
-        adapter = HTTPAdapter(max_retries=retry_strategy)
-        self._session = requests.Session()
-        self._session.mount("https://", adapter)
-        self._session.mount("http://", adapter)
-        self._session.auth = BearerAuth()
-
-        # URL Gateway
-        self.url_gateway = saagie_url + 'gateway/api/graphql'
-
+        self.saagie_auth = SaagieApi(url_saagie=saagie_url,
+                   id_platform=saagie_platform,
+                   user=saagie_login,
+                   password=saagie_password,
+                   realm=saagie_realm)
     def __enter__(self):
         return self
 
@@ -81,32 +47,12 @@ class ApiUtils(object):
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
 
-    def call_api(self, query):
-        """
-        Generic function to submit graphql queries to Saagie API
-        :param query: GraphQL query to submit
-        :return: the API response decoded in JSON
-        """
-        response = self._session.post(f"{saagie_url}projects/api/platform/{saagie_platform}/graphql",
-                                      json={"query": query}, verify=False)
-        return json.loads(response.content.decode("utf-8"))['data']
-
-    def call_gateway_api(self, query):
-        """
-        Generic function to submit graphql queries to Saagie gateway API
-        :param query: GraphQL query to submit
-        :return: the API response decoded in JSON
-        """
-        response = self._session.post(f"{self.url_gateway}", json={"query": query}, verify=False)
-        return json.loads(response.content.decode("utf-8"))['data']
-
     def get_projects(self):
         """
            Call Saagie graphql API to get the list of projects
            :return: a JSON containing the project names and ids
            """
-        projects_query = "{projects {id name}}"
-        projects = self.call_api(projects_query)
+        projects = self.saagie_auth.projects.list()
         return projects['projects'] if projects else []
 
     def get_job_instances(self, project_id):
@@ -117,23 +63,9 @@ class ApiUtils(object):
         """
         dict_technology = {}
         result = []
-        logging.info(f"Start getting jobs for project {project_id}")
-        jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
-                                           id
-                                           name
-                                           category
-                                           countJobInstance
-                                           creationDate
-                                           technology {{id}}
-                                           instances (limit : {MAX_INSTANCES_FETCHED}) {{
-                                             id
-                                             startTime
-                                             endTime
-                                             status
-                                           }}
-                                           }}}}"""
-        jobs = self.call_api(jobs_query)
-        logging.info(f"End getting jobs for project {project_id}")
+        jobs = self.saagie_auth.jobs.list_for_project(project_id=project_id, 
+                                                      instances_limit = MAX_INSTANCES_FETCHED,
+                                                      versions_limit = 0)
         if jobs:
             for job in jobs["jobs"]:
                 technology_id = job["technology"]["id"]
@@ -151,47 +83,16 @@ class ApiUtils(object):
         :param project_id: Saagie Project ID
         :return: a JSON containing a list of pipelines
         """
-        logging.info(f"Start getting pipelines for project {project_id}")
-        pipelines_query = f"""{{ project(id: \"{project_id}\") {{
-                                    pipelines {{
-                                           id
-                                           name
-                                           instances (limit : {MAX_INSTANCES_FETCHED}) {{
-                                             id
-                                             startTime
-                                             endTime
-                                             status
-                                           }}
-                                        }}
-                                    }}
-                                    }}"""
-        pipelines = self.call_api(pipelines_query)
-        logging.info(f"End getting pipelines for project {project_id}")
+        pipelines = self.saagie_auth.pipelines.list_for_project(project_id=project_id,
+                                                                instances_limit = MAX_INSTANCES_FETCHED,
+                                                                versions_limit = 0)
         return pipelines["project"]['pipelines'] if pipelines["project"] is not None else []
 
     def get_apps(self, project_id):
         dict_technology = {}
         result = []
-        apps_query = f"""
-        {{
-            project(id:\"{project_id}\"){{
-                    apps {{
-                      id
-                      name
-                      creationDate
-                      technology {{
-                        id
-                      }}
-                      history {{
-                          currentStatus
-                          startTime
-                          stopTime
-                      }}
-                    }}
-                }}
-        }}
-        """
-        apps = self.call_api(apps_query)["project"]
+        
+        apps = self.saagie_auth.apps.list_for_project(project_id=project_id)["project"]
         if apps:
             for job in apps["apps"]:
                 technology_id = job["technology"]["id"]
@@ -203,13 +104,8 @@ class ApiUtils(object):
         return result if result else []
 
     def get_technology_label(self, technology_id):
-        technology_query = f"""{{
-          technology(id: \"{technology_id}\") {{
-            label
-          }}
-        }}"""
-        technology_label = self.call_gateway_api(technology_query)
-        return technology_label["technology"]["label"] if technology_label["technology"] is not None else None
+        technology_label = self.saagie_auth.get_technology_name_by_id(technology_id)
+        return technology_label[1] if technology_label[1] is not None else None
 
 
 class S3Utils(object):
@@ -513,7 +409,7 @@ def build_saagie_url(project_id, orchestration_type, job_or_pipeline_id, instanc
     :return: the complete URL of this instance
     """
     return f"{saagie_url}projects/platform/{saagie_platform}/project/{project_id}/{orchestration_type}/" \
-           f"{job_or_pipeline_id}/instances/{instance_id} "
+           f"{job_or_pipeline_id}/instances/{instance_id}"
 
 
 def bytes_to_gb(size_in_bytes):
