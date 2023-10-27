@@ -47,7 +47,10 @@ RUN chown postgres:postgres /run/postgresql/ \
   && chmod 777 /run/postgresql
 
 # Install ttyd
-RUN apt update && apt install -y ttyd
+RUN git clone https://github.com/tsl0922/ttyd.git \
+    && cd ttyd && mkdir build && cd build \
+    && cmake .. \
+    && make && make install
 
 # Configure Grafana
 RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app && mkdir /var/lib/grafana/dashboards
