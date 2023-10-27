@@ -30,6 +30,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.10"
@@ -55,6 +59,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.10"
@@ -78,6 +86,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.11"
@@ -102,6 +114,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.7"
@@ -125,6 +141,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.8"
@@ -148,6 +168,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.9"

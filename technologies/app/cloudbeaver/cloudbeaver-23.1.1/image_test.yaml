@@ -1,0 +1,19 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: LC_ALL
+      value: en_US.UTF-8
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/opt/cloudbeaver/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/opt/cloudbeaver"]

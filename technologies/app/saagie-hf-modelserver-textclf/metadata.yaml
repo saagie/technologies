@@ -1,0 +1,26 @@
+version: v2
+type: APP
+id: saagie-hf-modelserver-textclf
+label: Saagie HF ModelServer TextCLF
+baseline: "Saagie HuggingFace Model Server for Text Classification"
+description: "Saagie-HF-ModelServer-TextCLF: Custom app based on Dash/Flask that deploys the deep learning models from HuggingFace and makes predictions for text classification via the GUI or API"
+available: true
+icon: datascience
+backgroundColor: "#253c5b"
+customFlags: []
+readme: /technologies/app/saagie-hf-modelserver-textclf
+contexts:
+  - id: saagie-hf-modelserver-textclf
+    label: Saagie HF ModelServer TextCLF
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 8080
+        name: ClickToOpenGUI
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: "saagie/saagie-huggingface-model-server"
+      baseTag: "0.1"
+      version: "0.1-1.1.0"

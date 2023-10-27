@@ -31,6 +31,10 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.0"
@@ -54,12 +58,43 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
       baseTag: "4.1"
       version: "4.1-1.155.0"
   - id: "4.2"
     label: "4.2"
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: Rscript {file}
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: "Compatible upload file: .r, .tar(.gz), .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
+    dockerInfo:
+      image: "saagie/r-image"
+      baseTag: "4.2"
+      version: "4.2-1.164.0"
+  - id: "4.3"
+    label: "4.3"
     available: true
     recommended: true
     trustLevel: stable
@@ -77,7 +112,11 @@ contexts:
         - type: SCHEDULER
           label: Scheduled
           mandatory: true
+        - type: AI_DESCRIPTION_GENERATOR
+          label: AI description generator enabled
+          mandatory: true
+          comment: Activation of the AI-based automatic description generation function.
     dockerInfo:
       image: "saagie/r-image"
-      baseTag: "4.2"
-      version: "4.2-1.155.0"
+      baseTag: "4.3"
+      version: "4.3-1.164.0"

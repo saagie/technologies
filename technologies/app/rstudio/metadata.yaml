@@ -67,7 +67,7 @@ contexts:
     releaseNotes: First version of RStudio 4.2 into Saagie.
     available: true
     trustLevel: stable
-    recommended: true
+    recommended: false
     ports:
       - port: 80
         name: Rstudio
@@ -77,4 +77,20 @@ contexts:
     dockerInfo:
       image: "saagie/rstudio"
       baseTag: "4.2"
-      version: "4.2-1.141.0_SDKTECHNO-211"
+      version: "4.2-1.164.0"
+  - id: rstudio-4.3
+    label: "4.3"
+    releaseNotes: First version of RStudio 4.3 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 80
+        name: Rstudio
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/home"]
+    dockerInfo:
+      image: "saagie/rstudio"
+      baseTag: "4.3"
+      version: "4.3-1.164.0"
