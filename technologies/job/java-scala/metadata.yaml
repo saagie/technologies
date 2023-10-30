@@ -33,7 +33,7 @@ contexts:
     dockerInfo:
       image: "saagie/java-scala"
       baseTag: "11"
-      version: "11-1.170.0_SDKTECHNO-246"
+      version: "11-1.170.0"
   - id: "17"
     label: "17"
     available: true

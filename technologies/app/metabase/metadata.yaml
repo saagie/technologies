@@ -31,7 +31,7 @@ contexts:
     dockerInfo:
       image: "saagie/metabase"
       baseTag: "0.43.4"
-      version: "0.43.4-1.170.0_SDKTECHNO-246"
+      version: "0.43.4-1.170.0"
   - id: metabase-0.44
     label: "0.44"
     releaseNotes: First version of Metabase 0.44 into Saagie.
@@ -46,4 +46,4 @@ contexts:
     dockerInfo:
       image: "saagie/metabase"
       baseTag: "0.44.6"
-      version: "0.44.6-1.170.0_SDKTECHNO-246"
+      version: "0.44.6-1.170.0"
