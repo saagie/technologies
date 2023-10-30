@@ -26,6 +26,6 @@ apply<SaagieTechnologiesGradlePlugin>()
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
      this.buildArgs.put(
         "base_img",
-        "saagie/r-image:4.1-1.141.0_SDKTECHNO-211"
+        "saagie/r-image:4.1-1.170.0_SDKTECHNO-246"
     )
 }

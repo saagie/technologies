@@ -2,10 +2,11 @@
 # Dockerfile to run an OrientDB (Graph) Container
 ############################################################
 
-FROM openjdk:8-jre-slim
+FROM eclipse-temurin:8-jre-jammy
 
 LABEL maintainer="Saagie"
 
+ENV LANG C.UTF-8
 ENV ORIENTDB_VERSION 3.1.7
 ENV ORIENTDB_DOWNLOAD_MD5 0fc8324fc463488ff5cc43ad7fad76c7
 ENV ORIENTDB_DOWNLOAD_SHA1 aeaec1cfba7c3a9eb7d8959aa23a568305c3be14
