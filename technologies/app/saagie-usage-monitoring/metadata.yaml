@@ -52,6 +52,24 @@ contexts:
       image: "saagie/saagie-usage-monitoring"
       baseTag: "2023.03-0.1"
       version: "2023.03-0.1-1.169.0"
+  - id: saagie-usage-monitoring-2023-04
+    label: For Saagie 2023.04
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: saagie-usage-monitoring
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+      - port: 92
+        name: ttyd
+        rewriteUrl: true
+    volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
+    dockerInfo:
+      image: "saagie/saagie-usage-monitoring"
+      baseTag: "2023.04-0.1"
+      version: "2023.04-0.1-1.171.0_SDKTECHNO-248"
   - id: saagie-usage-monitoring-3.0
     label: For Saagie 3.x
     releaseNotes: ""
