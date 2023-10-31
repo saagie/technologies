@@ -1,4 +1,3 @@
-#FROM grafana/grafana:9.2.3-ubuntu
 FROM grafana/grafana:10.1.2-ubuntu
 
 USER root
