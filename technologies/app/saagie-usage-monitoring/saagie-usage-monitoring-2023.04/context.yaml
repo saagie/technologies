@@ -1,0 +1,14 @@
+id: saagie-usage-monitoring-2023-03
+label: For Saagie 2023.03
+releaseNotes: ""
+available: true
+trustLevel: stable
+ports:
+  - port: 80
+    name: saagie-usage-monitoring
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+  - port: 92
+    name: ttyd
+    rewriteUrl: true
+volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
