@@ -1,7 +1,7 @@
-ARG PYTHON310_IMG
+ARG PYTHON311_IMG
 ARG BASE_CONTAINER
 
-FROM $PYTHON310_IMG AS PYTHON310
+FROM $PYTHON311_IMG AS PYTHON311
 FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
@@ -35,7 +35,7 @@ ADD resources/kernel-*.sh /
 # Uninstall default python3 kernel
 RUN jupyter kernelspec remove -f python3
 SHELL ["/bin/bash", "-c"]
-COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/requirements.txt
+COPY --from=PYTHON311 /tmp/requirements.txt /home/$NB_USER/requirements.txt
 
 RUN sh -x \
     && pip install jupyter_ai==2.1.0 \
