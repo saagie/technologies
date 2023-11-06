@@ -1,8 +1,10 @@
 id: cloudbeaver-1.2.0
 label: 1.2.0
-releaseNotes: First version of CloudBeaver 1.2.0 into Saagie.
+releaseNotes: Deprecation of CloudBeaver 1.2.0.
 available: true
 trustLevel: experimental
+recommended: false
+deprecationDate: "2023-12-01T00:00:00Z"
 ports:
   - port: 80
     name: CloudBeaver
