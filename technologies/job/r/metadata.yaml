@@ -44,6 +44,7 @@ contexts:
     available: true
     recommended: false
     trustLevel: stable
+    deprecationDate: "2023-12-01T00:00:00Z"
     job:
       features:
         - type: COMMAND_LINE

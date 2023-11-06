@@ -48,10 +48,11 @@ contexts:
       version: "3.6.2-1.108.0"
   - id: rstudio-4.1
     label: "4.1"
-    releaseNotes: First version of RStudio 4.1 into Saagie.
+    releaseNotes: Deprecation of Rstudio 4.1
     available: true
     trustLevel: stable
     recommended: false
+    deprecationDate: "2023-12-01T00:00:00Z"
     ports:
       - port: 80
         name: Rstudio
