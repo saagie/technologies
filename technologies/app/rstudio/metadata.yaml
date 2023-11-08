@@ -52,7 +52,7 @@ contexts:
     available: true
     trustLevel: stable
     recommended: false
-    deprecationDate: "2023-12-01T00:00:00Z"
+    deprecationDate: "2023-11-01T00:00:00Z"
     ports:
       - port: 80
         name: Rstudio
