@@ -22,6 +22,9 @@ DATA_CACHE_CONFIG = {
     'CACHE_DEFAULT_TIMEOUT': 3600,
 }
 
+FEATURE_FLAGS = {
+    'ENABLE_TEMPLATE_PROCESSING': True
+}
 
 class ReverseProxied(object):
 
