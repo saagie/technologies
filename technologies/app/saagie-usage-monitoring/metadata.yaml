@@ -86,8 +86,8 @@ contexts:
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
       image: "saagie/saagie-usage-monitoring"
-      baseTag: "2023.04-0.1"
-      version: "2023.04-0.1-1.175.0_SDKTECHNO-252"
+      baseTag: "2023.05-0.1"
+      version: "2023.05-0.1-1.175.0_SDKTECHNO-252"
   - id: saagie-usage-monitoring-3.0
     label: For Saagie 3.x
     releaseNotes: ""
