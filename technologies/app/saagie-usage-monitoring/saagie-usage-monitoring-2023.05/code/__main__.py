@@ -3,6 +3,7 @@ import sys
 import os
 import pyarrow as pa
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from hdfs import InsecureClient
 import utils
 import croniter
@@ -159,7 +160,8 @@ def get_saagie_jobs_metrics(database_utils):
                     
                     #Get average duration 
                     avg = database_utils.supervision_saagie_avg_duration(pipeline["id"], 'pipeline')
-                    for i in range(10):
+                    next_run = datetime.now()
+                    while (next_run < datetime.today()+ relativedelta(months=1)):
                         next_run = cron.get_next(datetime)
                         all_pipelines.append({
                             'project_id': project["id"],

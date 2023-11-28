@@ -1,0 +1,325 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "FAILED": {
+                  "color": "red",
+                  "index": 1
+                },
+                "KILLED": {
+                  "color": "yellow",
+                  "index": 2
+                },
+                "NEXT_SCHEDULE": {
+                  "color": "blue",
+                  "index": 4
+                },
+                "SUCCEEDED": {
+                  "color": "green",
+                  "index": 0
+                },
+                "UNKNOWN": {
+                  "color": "text",
+                  "index": 3
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": false,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  instance_status as \" \"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_end_time)\n  and orchestration_type='job'\n  and project_name in (${Project})\nUNION ALL\nSELECT\n  instance_end_time AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  null as \" \"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_end_time)\n  and orchestration_type='job'\n  and project_name in (${Project})\nUNION ALL\nSELECT \n  next_instance_start AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  'NEXT_SCHEDULE' as \" \"\nFROM supervision_saagie_predict\nWHERE \n  $__timeFilter(next_instance_start)\n  and orchestration_type='job'\n  and project_name in (${Project})\nUNION ALL \nSELECT \n  next_instance_end AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  null as \" \"\nFROM supervision_saagie_predict\nWHERE\n  $__timeFilter(next_instance_end)\n  and orchestration_type='job'\n  and project_name in (${Project})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Jobs Timeline",
+      "transformations": [
+        {
+          "id": "partitionByValues",
+          "options": {
+            "fields": [
+              "metric"
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "FAILED": {
+                  "color": "red",
+                  "index": 1
+                },
+                "KILLED": {
+                  "color": "yellow",
+                  "index": 2
+                },
+                "NEXT_SCHEDULE": {
+                  "color": "blue",
+                  "index": 4
+                },
+                "SUCCEEDED": {
+                  "color": "green",
+                  "index": 0
+                },
+                "UNKNOWN": {
+                  "color": "text",
+                  "index": 3
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 2,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": false,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  instance_status as \" \"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_end_time)\n  and orchestration_type='pipeline'\n  and project_name in (${Project})\nUNION ALL\nSELECT\n  instance_end_time AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  null as \" \"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_end_time)\n  and orchestration_type='pipeline'\n  and project_name in (${Project})\nUNION ALL\nSELECT \n  next_instance_start AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  'NEXT_SCHEDULE' as \" \"\nFROM supervision_saagie_predict\nWHERE \n  $__timeFilter(next_instance_start)\n  and orchestration_type='pipeline'\n  and project_name in (${Project})\nUNION ALL \nSELECT \n  next_instance_end AS \"time\",\n  project_name || ' - '|| orchestration_name  as metric,\n  null as \" \"\nFROM supervision_saagie_predict\nWHERE\n  $__timeFilter(next_instance_end)\n  and orchestration_type='pipeline'\n  and project_name in (${Project})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Pipelines Timeline",
+      "transformations": [
+        {
+          "id": "partitionByValues",
+          "options": {
+            "fields": [
+              "metric"
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "state-timeline"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
+        "description": "Project",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Project",
+        "multi": true,
+        "name": "Project",
+        "options": [],
+        "query": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-12h",
+    "to": "now+12h"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Next scheduling",
+  "uid": "e87690ef-5207-42fd-ad79-449d83c2e237",
+  "version": 4,
+  "weekStart": ""
+}
