@@ -161,8 +161,10 @@ def get_saagie_jobs_metrics(database_utils):
                     #Get average duration 
                     avg = database_utils.supervision_saagie_avg_duration(pipeline["id"], 'pipeline')
                     next_run = datetime.now()
+                    i = 0
                     while (next_run < datetime.today()+ relativedelta(months=1)):
                         next_run = cron.get_next(datetime)
+                        i = i + 1
                         all_pipelines.append({
                             'project_id': project["id"],
                             'project_name': project["name"],
