@@ -151,7 +151,7 @@ def get_saagie_jobs_metrics(database_utils):
             for pipeline in pipeline_list:
                 log_instance_metrics(database_utils, pipeline["instances"], pipeline, "pipeline", project["id"],
                                      project['name'])
-                
+
             #Predict for pipeline
             now = datetime.now()
             all_pipelines = []
