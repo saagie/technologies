@@ -1,0 +1,245 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "FAILED": {
+                  "color": "red",
+                  "index": 1
+                },
+                "KILLED": {
+                  "color": "yellow",
+                  "index": 2
+                },
+                "NEXT_SCHEDULE": {
+                  "color": "blue",
+                  "index": 4
+                },
+                "SUCCEEDED": {
+                  "color": "green",
+                  "index": 0
+                },
+                "UNKNOWN": {
+                  "color": "text",
+                  "index": 3
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": false,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT * \nFROM\n  (SELECT\n    ss.instance_start_time AS \"time\",\n    ss.orchestration_type || ' - '|| ss.project_name || ' - '|| ss.orchestration_name  as metric,\n    ss.instance_status as \" \"\n  FROM supervision_saagie as ss\n  LEFT OUTER JOIN supervision_saagie_predict as ssp\n      ON (ss.orchestration_type = ssp.orchestration_type\n          AND ss.project_name = ssp.project_name\n          AND ss.orchestration_name = ssp.orchestration_name\n          AND ssp.next_orchestration_id = 1)\n  WHERE\n    $__timeFilter(instance_end_time)\n    and ss.orchestration_type in (${Orchestration_type})\n    and ss.project_name in (${Project})\n    AND (CASE WHEN '${Only_scheduled}'='All' THEN True\n      ELSE (CASE WHEN ssp.next_orchestration_id IS NOT NULL THEN True END)\n      END) = True\n  UNION ALL\n  SELECT\n    ss.instance_end_time AS \"time\",\n    ss.orchestration_type || ' - '|| ss.project_name || ' - '|| ss.orchestration_name  as metric,\n    null as \" \"\n  FROM supervision_saagie as ss\n  LEFT OUTER JOIN supervision_saagie_predict as ssp\n      ON (ss.orchestration_type = ssp.orchestration_type\n          AND ss.project_name = ssp.project_name\n          AND ss.orchestration_name = ssp.orchestration_name\n          AND ssp.next_orchestration_id = 1)\n  WHERE\n    $__timeFilter(instance_end_time)\n    and ss.orchestration_type in (${Orchestration_type})\n    and ss.project_name in (${Project})\n    AND (CASE WHEN '${Only_scheduled}'='All' THEN True\n      ELSE (CASE WHEN ssp.next_orchestration_id IS NOT NULL THEN True END)\n      END) = True\n  UNION ALL\n  SELECT \n    next_instance_start AS \"time\",\n    orchestration_type || ' - '|| project_name || ' - '|| orchestration_name  as metric,\n    'NEXT_SCHEDULE' as \" \"\n  FROM supervision_saagie_predict\n  WHERE \n    $__timeFilter(next_instance_start)\n    and orchestration_type in (${Orchestration_type})\n    and project_name in (${Project})\n  UNION ALL \n  SELECT \n    next_instance_end AS \"time\",\n    orchestration_type || ' - '|| project_name || ' - '|| orchestration_name  as metric,\n    null as \" \"\n  FROM supervision_saagie_predict\n  WHERE\n    $__timeFilter(next_instance_end)\n    and orchestration_type in (${Orchestration_type})\n    and project_name in (${Project})) t \nORDER BY 2,3",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Jobs Timeline",
+      "transformations": [
+        {
+          "id": "partitionByValues",
+          "options": {
+            "fields": [
+              "metric"
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "state-timeline"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "my_unique_uid"
+        },
+        "definition": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
+        "description": "Project",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Project",
+        "multi": true,
+        "name": "Project",
+        "options": [],
+        "query": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "SELECT 'job' \nUNION ALL\nSELECT 'pipeline' ",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Orchestration type",
+        "multi": true,
+        "name": "Orchestration_type",
+        "options": [],
+        "query": "SELECT 'job' \nUNION ALL\nSELECT 'pipeline' ",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "All"
+        },
+        "definition": "SELECT 'All'\nUNION ALL \nSELECT 'Only scheduled'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Only scheduled",
+        "multi": false,
+        "name": "Only_scheduled",
+        "options": [],
+        "query": "SELECT 'All'\nUNION ALL \nSELECT 'Only scheduled'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-48h",
+    "to": "now+48h"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Saagie - Next scheduling",
+  "uid": "e87690ef-5207-42fd-ad79-449d83c2e237",
+  "version": 12,
+  "weekStart": ""
+}
