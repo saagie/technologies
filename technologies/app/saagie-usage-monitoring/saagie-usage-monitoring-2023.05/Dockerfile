@@ -67,7 +67,7 @@ RUN chmod +x /update_sqlite.sh
 ADD code /app
 ADD infra.sql infra.sql
 
-RUN grafana-cli --pluginsDir "/opt/plugins" plugins install marcusolsson-treemap-panel
+RUN grafana cli --pluginsDir "/opt/plugins" plugins install marcusolsson-treemap-panel
 
 EXPOSE 80 92
 ADD entrypoint.sh /entrypoint.sh

@@ -161,10 +161,10 @@ def get_saagie_jobs_metrics(database_utils):
                     
                     #Get average duration 
                     avg = database_utils.supervision_saagie_avg_duration(pipeline["id"], 'pipeline')
-                    next_run = datetime.now()
+                    next_run = datetime.now(tz=pytz.timezone("Europe/Paris"))
                     i = 0
-                    while (next_run < datetime.today()+ relativedelta(months=1)):
-                        next_run = cron.get_next(datetime).astimezone(pytz.utc)
+                    while (next_run < (datetime.now(tz=pytz.timezone("Europe/Paris"))+ relativedelta(months=1))):
+                        next_run = cron.get_next(datetime).astimezone(pytz.timezone("Europe/Paris"))
                         i = i + 1
                         all_pipelines.append({
                             'project_id': project["id"],
@@ -187,10 +187,10 @@ def get_saagie_jobs_metrics(database_utils):
                     
                     #Get average duration 
                     avg = database_utils.supervision_saagie_avg_duration(job["id"], 'job')
-                    next_run = datetime.now().astimezone(pytz.utc)
+                    next_run = datetime.now(tz=pytz.timezone("Europe/Paris"))
                     i = 0
-                    while (next_run < datetime.today()+ relativedelta(months=1)):
-                        next_run = cron.get_next(datetime)
+                    while (next_run < (datetime.now(tz=pytz.timezone("Europe/Paris"))+ relativedelta(months=1))):
+                        next_run = cron.get_next(datetime).astimezone(pytz.timezone("Europe/Paris"))
                         i = i + 1
                         all_jobs.append({
                             'project_id': project["id"],
