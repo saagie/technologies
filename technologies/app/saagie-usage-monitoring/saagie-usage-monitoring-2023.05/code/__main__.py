@@ -153,7 +153,7 @@ def get_saagie_jobs_metrics(database_utils):
                                      project['name'])
 
             #Predict for pipeline
-            now = datetime.now()
+            now = datetime.now(tz=pytz.timezone("Europe/Paris"))
             all_pipelines = []
             for pipeline in pipeline_list:
                 if (pipeline["isScheduled"] and pipeline["pipelineInstanceCount"] > 0):
@@ -179,7 +179,7 @@ def get_saagie_jobs_metrics(database_utils):
             database_utils.supervision_saagie_predict_to_pg(all_pipelines)
 
             #Predict for job
-            now = datetime.now()
+            now = datetime.now(tz=pytz.timezone("Europe/Paris"))
             all_jobs = []
             for job in job_list:
                 if (job["isScheduled"] and job["countJobInstance"] > 0):
