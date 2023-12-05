@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from hdfs import InsecureClient
 import utils
 import croniter
+import pytz
 
 monitoring_type = os.environ["MONITORING_OPT"]
 
@@ -163,7 +164,7 @@ def get_saagie_jobs_metrics(database_utils):
                     next_run = datetime.now()
                     i = 0
                     while (next_run < datetime.today()+ relativedelta(months=1)):
-                        next_run = cron.get_next(datetime)
+                        next_run = cron.get_next(datetime).astimezone(pytz.utc)
                         i = i + 1
                         all_pipelines.append({
                             'project_id': project["id"],
@@ -186,7 +187,7 @@ def get_saagie_jobs_metrics(database_utils):
                     
                     #Get average duration 
                     avg = database_utils.supervision_saagie_avg_duration(job["id"], 'job')
-                    next_run = datetime.now()
+                    next_run = datetime.now().astimezone(pytz.utc)
                     i = 0
                     while (next_run < datetime.today()+ relativedelta(months=1)):
                         next_run = cron.get_next(datetime)
