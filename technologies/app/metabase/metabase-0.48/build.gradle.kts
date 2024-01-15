@@ -26,6 +26,6 @@ apply<SaagieTechnologiesGradlePlugin>()
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
      this.buildArgs.put(
         "METABASE_VERSION",
-        "0.44.6.1"
+        "0.48.3"
     )
 }
