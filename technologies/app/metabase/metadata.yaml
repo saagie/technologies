@@ -47,9 +47,9 @@ contexts:
       image: "saagie/metabase"
       baseTag: "0.44.6"
       version: "0.44.6-1.170.0"
-  - id: metabase-0.47
-    label: "0.47"
-    releaseNotes: First version of Metabase 0.47 into Saagie.
+  - id: metabase-0.48
+    label: "0.48"
+    releaseNotes: Metabase 0.48.3
     available: true
     trustLevel: stable
     ports:
