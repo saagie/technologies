@@ -47,3 +47,18 @@ contexts:
       image: "saagie/metabase"
       baseTag: "0.44.6"
       version: "0.44.6-1.170.0"
+  - id: metabase-0.48
+    label: "0.48"
+    releaseNotes: Metabase 0.48.3
+    available: true
+    trustLevel: stable
+    ports:
+        - port: 80
+          name: Metabase
+          rewriteUrl: false
+          basePath: SAAGIE_BASE_PATH
+    volumes: ["/metabase-data"]
+    dockerInfo:
+      image: "saagie/metabase"
+      baseTag: "0.48.3"
+      version: "0.48.3-1.176.0_SDKTECHNO-253"
