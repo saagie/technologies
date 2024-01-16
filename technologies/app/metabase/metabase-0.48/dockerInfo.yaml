@@ -1,4 +1,4 @@
 image: saagie/metabase
 baseTag: 0.48.3
 dynamicVersion: 1.176.0_SDKTECHNO-253
-version: 0.48.3-1.176.0_SDKTECHNO-253
+version: 0.48.3-1.176.0
