@@ -30,3 +30,18 @@ contexts:
       image: "saagie/superset"
       baseTag: "2.0.0"
       version: "2.0.0-1.174.0"
+  - id: apache-superset-2.0
+    label: "2.0"
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Apache Superset
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/app/superset_home"]
+    dockerInfo:
+      image: "saagie/superset"
+      baseTag: "3.0.2"
+      version: "3.0.2-1.177.0_SDKTECHNO-254"
