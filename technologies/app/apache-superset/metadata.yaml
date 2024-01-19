@@ -30,8 +30,8 @@ contexts:
       image: "saagie/superset"
       baseTag: "2.0.0"
       version: "2.0.0-1.174.0"
-  - id: apache-superset-2.0
-    label: "2.0"
+  - id: apache-superset-3.0
+    label: "3.0"
     releaseNotes: ""
     available: true
     trustLevel: experimental
