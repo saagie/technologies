@@ -44,4 +44,4 @@ contexts:
     dockerInfo:
       image: "saagie/superset"
       baseTag: "3.0.2"
-      version: "3.0.2-1.177.0_SDKTECHNO-254"
+      version: "3.0.2-1.177.0"
