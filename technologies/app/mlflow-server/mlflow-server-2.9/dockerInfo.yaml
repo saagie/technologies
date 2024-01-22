@@ -1,0 +1,4 @@
+image: saagie/mlflow-server
+baseTag: 2.9.2
+dynamicVersion:
+version: 2.9.2
