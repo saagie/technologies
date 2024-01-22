@@ -1,0 +1,12 @@
+id: mlflow-server-2.9
+label: "2.9"
+releaseNotes: First version of MLFlow Server 2.9 into Saagie.
+available: true
+trustLevel: stable
+recommended: true
+ports:
+  - port: 5000
+    name: Mlflow Server
+    rewriteUrl: true
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/sqlite_directory"]
