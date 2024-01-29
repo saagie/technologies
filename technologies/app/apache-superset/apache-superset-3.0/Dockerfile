@@ -18,7 +18,8 @@ RUN pip install mysqlclient \
     "PyAthenaJDBC>1.0.9" \
     "PyAthena>1.2.0" \
     trino \
-    pymssql
+    pymssql \
+    sqlalchemy-bigquery
 
 #To be deleted
 RUN apt-get update \
