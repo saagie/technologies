@@ -4,6 +4,11 @@ available: true
 trustLevel: "stable"
 job:
   features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch the job.
+      defaultValue: python {file} arg1 arg2
     - type: DOCKER_INFO
       label: Docker image
       mandatory: true
