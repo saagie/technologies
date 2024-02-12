@@ -17,6 +17,15 @@ contexts:
     trustLevel: "stable"
     job:
       features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: false
+          comment: Linux shell command to launch the job.
+          defaultValue: echo "Hello Saagie"
+        - type: ARTIFACT
+          label: Package
+          mandatory: false
+          comment: "All files are accepted."
         - type: DOCKER_INFO
           label: Docker image
           mandatory: true
