@@ -1,6 +1,5 @@
 # Saagie Technologies
 
-
 [![GitHub release](https://img.shields.io/github/release/saagie/technologies?style=for-the-badge)][releases] 
 [![GitHub release date](https://img.shields.io/github/release-date/saagie/technologies?style=for-the-badge&color=blue)][releases]  
 
@@ -19,68 +18,80 @@
 [build_promote]: https://github.com/saagie/technologies/actions?query=workflow%3APROMOTE
 [build_modified]: https://github.com/saagie/technologies/actions?query=workflow%3A%22BUILD+ONLY+MODIFIED%22
 
-This repository contains all certified technologies used in Saagie.
-It also contains some experimental technologies before being certified.
+This repository contains all the certified technologies used in Saagie.
+It also includes some technologies that are still in the experimental phase.
 
-For information about using these technologies with your Saagie platform, refer to [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
+For more information on how to use these technologies with your Saagie platform, see the <a href="https://docs.saagie.io/user/latest/developer/sdk/" target="_blank">official Saagie documentation</a>.
 
-## CONTRIBUTING
+## How to contribute to this repository?
 
-All contributions are made via Github Pull Requests.
+All contributions are made with Github pull requests.
 
-### Build
+## About the build
 
-The build is using [Gradle](https://gradle.org/)
+The build uses <a href="https://gradle.org/" target="_blank">Gradle</a>. 
 
-Launch the Gradle task `localBuildModifiedJobs` or `localBuildModifiedApps` to build locally the technology modified locally:
+Launch the Gradle task `localBuildModifiedJobs` or `localBuildModifiedApps` to build the modified technology locally:
 
     ./gradlew localBuildModifiedJobs
     ./gradlew localBuildModifiedApps
 
-### CI
+### Continuous Integration (CI)
 
-The build is running using a Github Action workflow (build only modified). It builds only technologies modified and generate a pre release containing assets. The name of the pre release = current version + name of the branch.
+The build is executed using a Github Action workflow called <a href="https://github.com/saagie/technologies/blob/a32ff207775fb3c53bb3874e384b7b90323e78e5/.github/workflows/buildOnlyModified.yml" target="_blank">`BUILD ONLY MODIFIED`</a>. It builds only the modified technologies and generates a pre-release containing the assets. The name of the pre-release is `the current version + the branch name`.
 
 ### Structure
 
-The build is using the [Gradle plugin for Saagie technologies repository](https://github.com/saagie/technologies-plugin). It expects a specific directory structure:
-- `technologies`: the required base directory. It contains sub directories for each type of technology metadata: 
--- `app`: contains folders of each app technology
--- `job`: contains folders of each job technology
--- `connectiontype`: contains folders of each connection type
--- `scripts` is a sub directory dedicated to external technologies which share the same javascript files
+The build is based on our <a href="https://github.com/saagie/technologies-plugin" target="_blank">Gradle plugin for the Saagie technology repository</a>. It expects to see a specific directory structure, which includes:
 
-Each metadata folder must then contain a `metadata.yaml` file. For `job` and `app` technology metadata, the build is automatically generating them from the `technology.yaml` file and each `context.yaml` found in the sub folders.
+- The `technologies` directory: This is the base directory required. It contains subdirectories for each type of technology metadata.
+  - The `app` subdirectory: It contains folders for each app technology.
+  - The `job` subdirectory: It contains folders for each job technology.
+  - The `connectiontype` subdirectory: It contains folders for each connection type.
+  - The `scripts` subdirectory: It is dedicated to external technologies that share the same JavaScript files.
+- A `metadata.yaml` file for each metadata folder. For `job` and `app` technology metadata, the build automatically generates them from the `technology.yaml` file and from each `context.yaml` found in the subfolders.
 
-NOTE: Generated files (metadata.yaml, js files, etc..) need to be checked in git, since the build is trying to avoid rebuilding technologies which didn't change.
+> [!NOTE]
+> Generated files, such as `metadata.yaml`, `.js` files, and others, must be checked in Git, as the build tries to avoid rebuilding technologies that have not been modified.
 
-#### Docker based technologies
+#### Docker-based technologies
 
-For each context of a job (non external, based on an Docker image) or of an app technology, the folder dedicated to the context must then contain:
-- `build.gradle.kts` which apply the `SaagieTechnologiesGradlePlugin` and the `DockerRemoteApiPlugin`. 
-- `Dockerfile` which declares how to build the Docker image
-- `image_test.yml`: if present, the generated Docker image will be tested with the [GoogleContainerTools/container-structure-test](https://github.com/GoogleContainerTools/container-structure-test)
+> [!NOTE] 
+> These technologies are not external. They are based on a Docker image and embedded in Saagie.
+
+For each job or app technology context, there must be a context-specific folder that includes:
+- A `build.gradle.kts` file, which is mandatory. It applies the `SaagieTechnologiesGradlePlugin` and the `DockerRemoteApiPlugin` Gradle tasks. 
+- A `Dockerfile` file, which is mandatory. It declares how to build the Docker image.
+- A `image_test.yml` file, which is optional. If present, the generated Docker image will be tested with the <a href="https://github.com/GoogleContainerTools/container-structure-test" target="_blank">GoogleContainerTools/container-structure-test</a> project.
 
 #### External technologies
 
-For contexts of an external job technology, the `context.yaml` file will reference javascript files, relatively to its location. The referenced javascript files should be generated by a dedicated javascript build.
+> [!NOTE] 
+> These technologies are external. They are not part of Saagie.
 
-The build of such javascript files can be setup anywhere in the directory structure, as long as the relative path is proprely filled in the `context.yaml` file.
+Each context of an external job technology has its dedicated `context.yaml` file, in which JavaScript files are referenced. The JavaScript files can be placed anywhere in the directory structure, as long as the relative path is proprely filled in the `context.yaml` file. These referenced `.js` files must be generated by a dedicated JavaScript build.
 
-The Saagie Gradle plugin can be used to trigger the build of the javascript file in the CI. It needs:
-- a `build.gradle.kts` which apply the `SaagieTechnologiesGradlePlugin` and the `NodePlugin`.
-- a `package.json` with a `build` and `test` scripts.
+Saagie’s Gradle plugin can be used to trigger the build of these JavaScript files in the CI. For that, your external technology context folder must include:
+- A `build.gradle.kts` file, which is mandatory. It applies the `SaagieTechnologiesGradlePlugin` and the `NodePlugin` Gradle tasks.
+- A `package.json` file, which is mandatory. This file includes a `build` script and a `test` script.
 
-The Saagie Gradle plugin will launch [Yarn](https://yarnpkg.com/) to install depednencies and run the scripts to build and test the javascript files.
+Saagie’s Gradle plugin will launch <a href="https://yarnpkg.com/" target="_blank">Yarn</a> to install dependencies and run the scripts to build and test JavaScript files.
 
-### Developping an External Job Technology
+#### Build an external job technology
 
-It is highly recommended to use the [Saagie SDK](https://github.com/saagie/sdk) when developping an external job technology.
+> [!IMPORTANT] 
+> We strongly recommend that you use the <a href="https://github.com/saagie/sdk" target="_blank">Saagie SDK</a> repository to develop your external job technologies. The Saagie SDK will help you to create your own technologies and integrate them into your Saagie platform. For more information, see our documentation on <a href="https://docs.saagie.io/user/latest/developer/sdk/" target="_blank"> Saagie SDK</a>.
 
-In technologies which doesn't share scripts with other technologies, it should be already setup. For instance, in the technology folder of `dataiku`, just run `yarn dev` and the build of the javascript files will be running with the watch mode, and the SDK webapp will start.
+For technologies that do not share the same scripts with other technologies, it should already be setup. 
+<br>For example, in the <a href="https://github.com/saagie/technologies/tree/master/technologies/job/dataiku" target="_blank">`dataiku` folder</a>, run `yarn dev` to build the JavaScript files with the watch mode and start the SDK webapp.
+> [!NOTE] 
+> What is _watch mode_? 
+> <br>After the task is completed, the tool enters a loop where it watches the file system for changes to your source files. Whenever a change is detected, the task runs again to update its output.
 
-For technologies which share javascript files, like `aws`, `gcp` or `azure`, the setup is split in two parts. In the folder dedicated to the shared scripts, run `yarn dev` to run the build with the watch mode. Then in the folder dedicated to the technology to develop, like `aws-lambda`, run `npx @saagie/sdk start` to start the SDK webapp.
+For technologies that share `.js` scripts with other technologies, such as `aws`, `gcp`, or `azure`, the setup is split into two parts. 
+1. In the folder dedicated to the shared scripts, run `yarn dev` to execute the build with the watch mode. 
+2. In the folder dedicated to the technology to be developed, such as `aws-lambda`, run `npx @saagie/sdk start` to start the SDK webapp.
 
 ### Promotion
 
-When the pull-request is merged in master, another Github action (running a gradle task) starts. It will retag docker images with branch name into a "production" name and generate a real release (and delete the pre release)
+When the pull-request is merged into `master`, another GitHub action starts. This action will run a Gradle task to re-tag the Docker images with the branch name to a “production” name. It will then generate a real release, deleting the pre-release.

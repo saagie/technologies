@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: cloudbeaver
 label: CloudBeaver
-baseline: Free Universal Database Tool
-description: CloudBeaver is free and open source product that already supports the most popular open source databases, such us PostgreSQL, MySQL, MariaDB, SQLite and Firebird.
+baseline: "CloudBeaver is an open-source technology designed to manage and administer databases."
+description: "Designed for comprehensive data management, CloudBeaver simplifies interaction with multiple databases, including SQL, NoSQL and cloud-based databases. All from a single interface. It also provides an easy-to-use graphical interface to run queries, view and edit data, and perform other database administration tasks."
 available: true
 icon: cloudbeaver
 defaultResources: 
