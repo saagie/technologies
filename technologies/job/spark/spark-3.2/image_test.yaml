@@ -1,0 +1,48 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/local/openjdk-11"
+    - key: SPARK_HOME
+      value: "/opt/spark"
+
+fileExistenceTests:
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+
+commandTests:
+  - name: "java installation"
+    command: "which"
+    args: ["java"]
+    expectedOutput: ["/usr/local/openjdk-11/bin/java"]
+
+  - name: "java version"
+    command: "java"
+    args: ["-version"]
+    expectedError: ['openjdk version "11.0*']
+
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
+
+  - name: "Spark version"
+    command: "/opt/spark/bin/spark-submit"
+    args: ["--version"]
+    expectedError: ["version 3.2.*"]
+
+  - name: "spark-submit on path"
+    command: "which"
+    args: ["spark-submit"]
+    expectedOutput: ["/opt/spark/bin/spark-submit"]
+
+  - name: "unzip"
+    command: "which"
+    args: ["unzip"]
+    expectedOutput: ["/usr/bin/unzip"]
