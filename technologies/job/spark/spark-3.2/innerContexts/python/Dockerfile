@@ -17,7 +17,7 @@ ENV SPARK_HOME /opt/spark
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 RUN pip --no-cache-dir install --upgrade pip \
-    && pip --no-cache-dir install pyspark==3.2.1 \
+    && pip --no-cache-dir install pyspark==3.2.4 \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip
