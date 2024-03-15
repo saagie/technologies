@@ -1,5 +1,5 @@
-id: 3.2
-label: 3.2
+id: "3.2"
+label: "3.2"
 available: true
 recommended: true
 trustLevel: stable
