@@ -29,7 +29,7 @@ contexts:
     dockerInfo:
       image: "saagie/grafana"
       baseTag: "8.2.1"
-      version: "8.2.1-1.121.0"
+      version: "8.2.1-1.181.0_SDKTECHNO-259"
   - id: grafana-9.0
     label: "9.0"
     releaseNotes: First version of Grafana 9.0 into Saagie.
