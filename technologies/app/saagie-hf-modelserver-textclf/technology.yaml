@@ -2,8 +2,8 @@ version: v2
 type: APP
 id: saagie-hf-modelserver-textclf
 label: Saagie HF ModelServer TextCLF
-baseline: "Saagie HuggingFace Model Server for Text Classification"
-description: "Saagie-HF-ModelServer-TextCLF: Custom app based on Dash/Flask that deploys the deep learning models from HuggingFace and makes predictions for text classification via the GUI or API"
+baseline: "Saagie HF ModelServer TextCLF is a custom app to deploy and predict Hugging Face deep learning models for text classification."
+description: "The Saagie HF ModelServer TextCLF app is based on Dash and Flask. You can use its user-friendly interface to facilitate the deployment and prediction of Hugging Face deep learning models for text classification. You can also use it directly in your code using our API."
 available: true
 icon: datascience
 backgroundColor: "#253c5b"

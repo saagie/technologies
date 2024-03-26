@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: saagie-usage-monitoring
 label: Saagie Usage Monitoring 
-baseline: "Saagie Usage Monitoring lets you monitor your Saagie platform"
-description: "Saagie Usage Monitoring lets you monitor your Saagie platform including jobs, apps and pipelines stats."
+baseline: "Saagie Usage Monitoring lets you monitor your Saagie platform with dashboards."
+description: "The Saagie Usage Monitoring (SUM) app is based on Grafana. It comes with defaults dashboards that can be used to monitor job, app, and pipeline metrics for your projects."
 available: true
 icon: project-activity
 defaultResources: 

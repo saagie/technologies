@@ -1,52 +1,41 @@
-# Environment Variables
+## How to launch RStudio?
 
-There are 2 mandatory environment variables: 
-- $RSTUDIO_ADMIN_PASSWORD: Password for the user `admin`, with root permissions
-- $RSTUDIO_PASSWORD: Password for the user `rstudio`
+To make RStudio work on your platform, you must meet the following requirements.
 
+1. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variables</a>:
 
-# Create new RStudio users
+    | Name                      | Value                                                               | 
+    |---------------------------|---------------------------------------------------------------------|
+    | `$RSTUDIO_ADMIN_PASSWORD` | This is the password of the `admin` user, who has root permissions. |
+    | `$RSTUDIO_PASSWORD`       | This is the password of the `rstudio` user.                         |
 
-If you want to create new RStudio users, you'll need to log in to RStudio as: `admin` (password: `${RSTUDIO_ADMIN_PASSWORD}`).
-Then go to '*Tools > Shell*' and run `sudo adduser my_new_user`.
-You'll be prompted to enter admin's password, and then to choose your new user's password. No need to fill in the other fields.
-If you want to allow this new user to install libraries, you need to add him to the *staff* group using the following command: `sudo adduser my_new_user staff`.
+***
+> _For more information on creating new RStudio user, see Saagie’s documentation on how to <a href="https://docs.saagie.io/user/latest/how-to/notebooks/rstudio-user-accounts-creation" target="_blank">create RStudio user accounts</a>._
 
-**Important note:** After you created a new user, remember to run `./backupusers`. This will backup users info in a tarball. If you add mounted a volume to `/home`, every user will be recreated on next container startup.
+<!-- ## How to build the image in local?
 
+### Using the Gradle Build
 
-# How to install on Saagie
+This Gradle build is based on our [technology plugin](https://github.com/saagie/technologies-plugin). To build the image in local with it, follow the steps below.
 
-Create a custom app with the following options: 
-- Image: saagie/rstudio
-- Port: 80
-- Basepath: SAAGIE_BASE_PATH
-- Rewrite: No
-- Persistant Storage: 128Mo
-- Path: /home
+1. Build the project. 
+   1. Navigate to the root of the project.
+   2. Run the following line of code:
+      ```
+      ./gradlew :rstudio-4.1:buildImage
+      ```
+2. **OPTIONAL**: Test the image by running the following line of code:
+    ```
+    ./gradlew :rstudio-4.1:testImage
+    ```
 
-## Build the image
+### Using Docker Commands
 
-### Using gradle build 
+To build the image in local with Docker commands, follow the steps below.
 
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin). 
-
-To build the project, go to the root of this project.
-Then run:
-
-```
-./gradlew :rstudio-4.1:buildImage
-```
-
-If you want to test the image, you can run:
-```
-./gradlew :rstudio-4.1:testImage
-```
-
-### Using docker commands
-
-First go to context/version sub-directory:
-
-```
-cd rstudio-4.1
-```
+1. Navigate to the `rstudio-x.y` folder corresponding to your version, `technologies/app/rstudio/rstudio-4.1`. Use the `cd` command.
+2. Run the following command:
+    ```bash
+    docker build -t saagie/rstudio-4.1 .
+    ```
+-->

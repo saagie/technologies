@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: kibana
 label: Kibana
-baseline: Your window into the Elastic Stack.
-description: Kibana is a free and open user interface that lets you visualize your Elasticsearch data and navigate the Elastic Stack.
+baseline: "Kibana is your window into the Elastic Stack."
+description: "Kibana is an open-source tool. It is a browser-based analytics and search dashboard for Elasticsearch. It lets you visualize your Elasticsearch data and navigate the Elastic Stack."
 available: true
 icon: kibana
 defaultResources: 

@@ -1,62 +1,65 @@
-# Kibana - customized by Saagie
+> [!NOTE] 
+> This Docker image is designed to run on Saagie’s V2 platform. It is available on <a href="https://hub.docker.com/r/saagie/kibana" target="_blank">Saagie’s DockerHub</a> and is based on the official Kibana Docker image, <a href="https://www.elastic.co/guide/en/kibana/current/docker.html" target="_blank">docker.elastic.co/kibana/kibana:7.6.2</a>.
 
-This Docker image is available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/kibana) and is based on the official [docker.elastic.co/kibana/kibana:7.6.2](https://www.elastic.co/guide/en/kibana/current/docker.html) image.
+## How to launch Kibana?
 
-It is designed to run on Saagie's V2 platform.
+To make Kibana work on your platform, you must meet the following requirements.
 
+1. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variable</a>:
 
-## Build the image
+    | Name                  | Value                                                                                   | 
+    |-----------------------|-----------------------------------------------------------------------------------------|
+    | `ELASTICSEARCH_HOSTS` | This is the Elasticsearch host.<br/>For example, `http://my_elasticsearch_server:9200`. |
 
-### Using gradle build 
+    Note that some versions have a different value for the `rewriteUrl` parameter in their `context.yaml` file. It can be set to `rewriteUrl : true`. In this case, you must replace the `ELASTICSEARCH_HOSTS` environment variable with `ELASTICSEARCH_URL`.
+   
+***
+> _For more information on Kibana, see the <a href="https://www.elastic.co/guide/en/kibana/index.html" target="_blank">official documentation</a>_
 
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin). 
+<!-- ## How to build the image in local?
 
-To build the project, go to the root of this project.
-Then run:
+### Using the Gradle Build 
 
-```
-./gradlew :kibana-7.6.2:buildImage
-```
+This Gradle build is based on our [technology plugin](https://github.com/saagie/technologies-plugin). To build the image in local with it, follow the steps below.
 
-If you want to test the image, you can run:
-```
-./gradlew :kibana-7.6.2:testImage
-```
+1. Build the project. 
+   1. Navigate to the root of the project.
+   2. Run the following line of code:
+      ```
+      ./gradlew :kibana-7.6.2:buildImage
+      ```
+2. **OPTIONAL**: Test the image by running the following line of code:
+    ```
+    ./gradlew :kibana-7.6.2:testImage
+    ```
 
-### Using docker commands
+### Using Docker Commands
 
-First go to context/version sub-directory:
+To build the image in local with Docker commands, follow the steps below.
 
-```
-cd kibana-7.6.2
-```
-
-Then run the following command:
-```
-docker build -t saagie/kibana-7.6.2 .
-```
+1. Navigate to the `kibana-x.y` folder corresponding to your version, `technologies/app/kibana/kibana-7.6.2`. Use the `cd` command.
+2. Run the following command:
+    ```bash
+    docker build -t saagie/kibana-7.6.2 .
+    ```
      
-## Run RStudio container
+## How to run the image?
 
 ### On Saagie's Platform
 
-This container is designed to run on Saagie's platform.
+This container is designed to run on Saagie’s platform. For more information, see our [SDK documentation](https://docs.saagie.io/user/latest/developer/sdk/).
 
-The official documentation is available here: [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
+### On Your Local Machine
 
-### On premise / your local server
+You can also run this image outside Saagie. This use case can be useful mainly for development and testing. However, please note that we are unable to provide support for images that are run outside of your Saagie platform.
 
-It is possible (mainly for development and testing) to run this image outside of a Saagie platform.
-Please note that Saagie cannot provide any support for images launched outside of its platform.
-
-As kibana need to connects to an elasticsearch server matching it's version you must provide the following environment variables :
- - `ELASTICSEARCH_HOSTS` 
- - `SERVER_BASEPATH` 
+1. Kibana needs to connect to an elasticsearch server that matches its version. Therefore, you must set the following environment variables:
+   - `ELASTICSEARCH_HOSTS` 
+   - `SERVER_BASEPATH` 
  
-Run: 
-```
-docker run --rm -it -p 5601:5601 --name kibana -e SERVER_BASEPATH=/kibana -e ELASTICSEARCH_HOSTS="https://w.x.y.z:port/" saagie/kibana:7.6.2
-```
-where w.x.y.z must be replaced by the elasticsearch server IP adress (or an array of adresses in case of a cluster)
-
-Then go to http://localhost:5601/kibana.
+2. Run the following command. It will launch a Docker container with the Kibana version and configurations that you want to use.
+    ```bash
+    docker run --rm -it -p 5601:5601 --name kibana -e SERVER_BASEPATH=/kibana -e ELASTICSEARCH_HOSTS="https://w.x.y.z:port/" saagie/kibana:7.6.2
+    ```
+   Where `https://w.x.y.z:port/` must be replaced with the actual URL of your Elasticsearch server. Or an array of addresses in the case of a cluster.
+3. Access your local image at `http://localhost:5601/kibana`. -->
