@@ -1,17 +1,26 @@
-# Spark History Server
+## How to launch Spark History Server?
 
-## Description
-This directory contains version of Spark History Server contenairized and customized for Saagie Platform.
-See History Server official documentation for more information https://spark.apache.org/docs/latest/monitoring.html#viewing-after-the-fact
+To make Spark History Server work on your platform, you must meet the following requirements.
 
-## How to build in local
+1. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variable</a>:
 
-Inside the `spark-history-server` folder, run :
-```
-docker build -t saagie/spark-history-server:<tag> .
-docker push saagie/spark-history-server-<tag>
-```
+    | Name                          | Value                                                                                                                                                              | 
+    |-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | `SPARK_HISTORY_EVENT_LOG_DIR` | This is the directory where event log information is saved. The default location is `hdfs://cluster/tmp/spark-events`. You can specify it according to your needs. |
 
-## Job/App specific information
+***
+> _For more information on Spark History Server, see the <a href="https://spark.apache.org/docs/latest/monitoring.html" target="_blank">official documentation</a>._
 
-Set the **SPARK_HISTORY_EVENT_LOG_DIR** environment varaible to customize the Spark logs directory (default value = `hdfs://cluster/tmp/spark-events`)
+<!-- ## How to build the image in local?
+
+### Using Docker Commands
+
+To build the image in local with Docker commands, follow the steps below.
+
+1. Navigate to the `spark-history-server-x.y` folder corresponding to your version, `technologies/app/spark-history-server/<version>`. Use the `cd` command.
+2. Run the following command lines:
+    ```bash
+    docker build -t saagie/spark-history-server:<tag> .
+    docker push saagie/spark-history-server-<tag>
+    ```
+    Where `<tag>` must be replaced with the version number or identifier you want to use for your image. -->

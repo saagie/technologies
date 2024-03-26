@@ -1,77 +1,76 @@
-# Dash - customized by Saagie
+> [!NOTE] 
+> This Docker image is designed to run on Saagie’s V2 platform. It is available on <a href="https://hub.docker.com/r/saagie/dash" target="_blank">Saagie’s DockerHub</a> and is based on the official Python Docker image, <a href="https://hub.docker.com/_/python" target="_blank">python:3.8-slim</a>.
 
-This Docker image is available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/dash) is based on the official [python:3.8-slim](https://hub.docker.com/_/python) image.
+## How to launch Dash?
 
-It is specially designed to run on Saagie's V2 platform.
+To make Dash work on your platform, you must meet the following requirements.
 
-It adds a few features, such as:
-* Automatically checkout a git project located at : **${DASH_GIT_URL_REPOSITORY}**
-* By default checkout the **master** branch
-* If provided checkout branch : **${DASH_GIT_BRANCH}**
-* Then install files in app **requirements.txt** files 
-* And finally launches **app.py**
+1. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variables</a>:
+
+   | Name                      | Value                                                                    | 
+   |---------------------------|--------------------------------------------------------------------------|
+   | `DASH_GIT_URL_REPOSITORY` | This is the URL of the Git repository from which Dash is to be deployed. |
+   | `DASH_GIT_BRANCH`         | This is the Git branch to checkout.<br/>For example, `master`.           |
+
+   This will automatically checkout the Git project and Git branch specified in the environment variables when installing the app.
+2. Verify that the `app.py` file of your Dash app have the `host` parameter set to `0.0.0.0`. This tells your operating system to listen on all network interfaces, including your LAN.
+    ```
+    if __name__ == "__main__":
+        app.run_server(debug=True, host='0.0.0.0')
+    ```
+***
+> _For more information on Dash, see the <a href="https://www.dash.org/documentation/" target="_blank">official documentation</a>._
 
 
-## Build the image
+<!-- ## How to build the image in local?
 
-### Using gradle build
+### Using the Gradle Build 
 
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin).
+This Gradle build is based on our [technology plugin](https://github.com/saagie/technologies-plugin). To build the image in local with it, follow the steps below.
 
-To build the project, go to the root of this project.
-Then run:
+1. Build the project. 
+   1. Navigate to the root of the project.
+   2. Run the following line of code:
+      ```
+      ./gradlew :dash:buildImage
+      ```
+2. **OPTIONAL**: Test the image by running the following line of code:
+    ```
+    ./gradlew :dash:testImage
+    ```
 
-```
-./gradlew :dash:buildImage
-```
+### Using Docker Commands
 
-If you want to test the image, you can run:
-```
-./gradlew :dash:testImage
-```
+To build the image in local with Docker commands, follow the steps below.
 
-### Using docker commands
+1. Navigate to the `dash-x.y` folder corresponding to your version, `technologies/app/dash/<version>`:
+    ```bash
+    cd dash-2.0
+    ```
+2. Run the following command:
+    ```bash
+    docker build -t saagie/dash:2.0.0 .
+    ```
 
-First go to context/version sub-directory:
-
-```
-cd dash
-```
-
-Then run the following command:
-```
-docker build -t saagie/dash:2.0.0 .
-```
-
-## Run Dash container
+## How to run the image?
 
 ### On Saagie's Platform
 
-This container is designed to run on Saagie's platform.
+This container is designed to run on Saagie’s platform. For more information, see our [SDK documentation](https://docs.saagie.io/user/latest/developer/sdk/).
 
-The official documentation is available here: [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html).
+### On Your Local Machine
 
-### On premise / your local server
+You can also run this image outside Saagie. This use case can be useful mainly for development and testing. However, please note that we are unable to provide support for images that are run outside of your Saagie platform.
 
-It is possible (mainly for development and testing) to run this image outside of a Saagie platform.
-Please note that Saagie cannot provide any support for images launched outside of its platform.
-
-Run:
-```
-docker run --rm -it -p 18050:8050 --name dash -e SAAGIE_BASE_PATH=/ -e DASH_GIT_URL_REPOSITORY=git@github.com:user/repo.git saagie/dash:2.0.0
-```
-
-- Port `8050` should be mapped to the one you will be using on host side (here `18050`).
-- `SAAGIE_BASE_PATH` variable is **mandatory** and should be equal to / . It's used to customize the path to the application when behind a reverse proxy.
-- `DASH_GIT_URL_REPOSITORY` variable is also **mandatory** and should be set to the name of the git repository continning your dash app source code.
-- `DASH_GIT_BRANCH` is optional and defaulted to master, it indicates a specific branch to checkout.
-
-# IMPORTANT NOTE
-
-Your Dash App should expose itself to the world, so please check that app.py in Dash app should have host set to 0.0.0.0
-
-e.g.:
-```
-if __name__ == "__main__":
-    app.run_server(debug=True, host='0.0.0.0')
-```
+1. Run the following command. It will launch a Docker container with the Dash version and configurations that you want to use.
+    ```bash
+    docker run --rm -it -p 18050:8050 --name dash \
+    -e SAAGIE_BASE_PATH=/ \
+    -e DASH_GIT_URL_REPOSITORY=git@github.com:user/repo.git \
+    saagie/dash:2.0.0
+    ```
+   Where:
+   - Port `8050` must be mapped to the port you will use on the host side. Here, `18050`.
+   - The `SAAGIE_BASE_PATH` environment variable is **mandatory**. It must be set to `/`. It is used to customize the access path to the app when it is behind a reverse proxy.
+   - The `DASH_GIT_URL_REPOSITORY` environment variable is **mandatory**. It must be set to the name of the Git repository that contains the source code for your Dash app.
+   - The `DASH_GIT_BRANCH` environment variable is **optional** and defaults to `master`. You can add it to specify a branch to checkout. -->

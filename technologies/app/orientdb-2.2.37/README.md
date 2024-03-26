@@ -1,6 +1,2 @@
-# OrientDB - customized by Saagie
-
-See latest 'version/context' documentation and replace tag by 3.1.7
-
-[Latest documentation](../orientdb-3.1.7/README.md)
+See the [latest version of the OrientDB documentation](../orientdb-3.1.7/README.md) and replace the tag by `2.2.37`.
 

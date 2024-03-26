@@ -1,28 +1,40 @@
-# Saagie-HF-ModelServer-TextCLF
+## How to launch Saagie HF ModelServer TextCLF?
 
+To make Saagie HF ModelServer TextCLF work on your platform, there are no special steps to take.
 
-## Description
-Saagie-HF-ModelServer-TextCLF: Custom app based on Dash/Flask that deploys the deep learning models from HuggingFace and makes predictions via the GUI or API. 
+The Saagie HF ModelServer TextCLF app can be used both as an app and via the API.
 
+### Using Saagie Hugging Face Model Server as an app
 
-## How to use
-To deploy the app: you need to create the app with port `8080` exposed, `Base path variable:SAAGIE_BASE_PATH`, don't select `Use rewrite url` and set the port access as `PROJECT`. 
+1. Click **Install** to install your app.
+2. Open your app interface by clicking **Open** on your app card. 
+<br>The Saagie HF ModelServer TextCLF app opens in a new tab.
+3. Fill in the fields according to your needs.
+   1. In the `Model Name` field, enter the repository name of the Hugging Face model you want to deploy. You can select it from the <a href="https://huggingface.co/models?pipeline_tag=text-classification&sort=trending" target="_blank">Text Classification</a> list.
+   2. In the `Label` field, specify the output labels of the model.
+   3. Click **\[Deploy]** and wait for loading to finish.
+   4. Enter your text in the `Text Classification` field to predict it. Each line break indicates the beginning of a new sentence, and thus a new prediction.
+   5. Click **\[Predict]** to get the prediction results.
 
-Once the app is up, you can open the page of port 8080, enter a model for text classification on Hugging Face in `Model Name` on the left, then enter the corresponding `Label` and click `Deploy`.
+***
+> _For more information, see our documentation on how to <a href="https://docs.saagie.io/user/latest/data-team/add-on-module/saagie-hugging-face/saagie-hugging-face-use-app" target="_blank">use Saagie Hugging Face Model Server as an app</a>._
 
-When the model is successfully deployed, you can enter the sentences to be predicted in `Text Classification` on the right side, the sentences will be split with line breaks. Then click `Predict` to get the predicted results.
+### Using Saagie Hugging Face Model Server via API
 
-> An example is: 
-> 
-> Model Name:j-hartmann/emotion-english-distilroberta-base
-> 
-> Label: anger 🤬 | disgust 🤢 | fear 😨 | joy 😀 | neutral 😐 | sadness 😭 | surprise 😲 
+1. Click **Install** to install your app.
+2. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variable</a>:
 
+   | Name       | Value                                                                                                                                                        | 
+   |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | `$SHF_API` | This is the URL of the Saagie model deployer, `http://app-<YOUR_APP_ID>:8080`. Where the value for `<YOUR_APP_ID>` can be found in the URL of your app page. |
+3. Create a new job in Bash, for example, and make a `curl` query to deploy and predict your text. Your code must include the environment variable created earlier.
+<br> _Here is an example of a `curl` query to deploy and predict a text:_
+   ```bash
+   MODEL='j-hartmann/emotion-english-distilroberta-base:main'
+   LABEL='anger|disgust|fear|joy|neutral|sadness|surprise'
+   curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d\'{"model_dir":"'$MODEL'", "label":"'$LABEL'"}' $SHF_API"/deploy"
+   curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d\'{"inputs":["Good Movie, best of the year", "Highly recommended","very bad", "worst movie"]}' $SHF_API"/predict"
+   ```
 
-
-You can also use the app via API:
-> By replacing 'app-...' with your app url, the examples for the deployment and prediction are: 
-> 
-> curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"model_dir":"j-hartmann/emotion-english-distilroberta-base:main", "label":"anger|disgust|fear|joy|neutral|sadness|surprise"}' "http://app-...:8080/deploy"
-> 
-> curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"inputs":["Good Movie, best of the year", "Highly recommended","very bad", "worst movie"]}' "http://app-...:8080/predict"
+***
+> _For more information, see our documentation on how to <a href="https://docs.saagie.io/user/latest/data-team/add-on-module/saagie-hugging-face/saagie-hugging-face-use-api" target="_blank">use Saagie Hugging Face Model Server via API</a>._

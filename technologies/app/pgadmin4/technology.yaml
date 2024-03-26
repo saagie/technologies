@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: pgadmin4
 label: PGAdmin 4
-baseline: "pgAdmin4"
-description: "pgAdmin4 is a postgresql browser. \nCreate an environment variable named 'PGADMIN_DEFAULT_EMAIL' to set a user mail and PGADMIN_DEFAULT_PASSWORD for his password."
+baseline: "pgAdmin is an open-source administration and management platform for PostgreSQL databases."
+description: "pgAdmin is the community client for using PostgreSQL, an open-source RDBMS. While psql is a simple command-line tool, pgAdmin is a graphical user interface. It provides pretty much the same functionality, simplifying the creation, maintenance, and use of database objects."
 available: true
 icon: pgadmin4
 defaultResources: 

@@ -1,23 +1,28 @@
-# Metabase
+> [!NOTE] 
+> This version of Metabase is bundled with Impala and Athena drivers.
+> 
+> It comes with a local H2 table to store Metabase’s internal data. You can configure environment variables to use it with an external MySQL or PostgreSQL table. For more information on how to configure Metabase, see the <a href="https://www.metabase.com/docs/latest/configuring-metabase/environment-variables" target="_blank">documentation on environment variables</a>.
 
-## Description
-This directory contains version of Metabase contenairized and customized for Saagie Platform.
-See Metabase official documentation for more information https://www.metabase.com/docs/latest/
+## How to launch Metabase?
 
-## How to build in local
+To make Metabase work on your platform, you must meet the following requirements.
 
-Inside the `metabase-x.y` folder corresponding to your version, run :
-```
-docker build --build-arg METABASE_VERSION=<version> -t saagie/metabase:<version> .
-docker push saagie/metabase:<version>
-```
+1. Create the default admin credentials the first time you log in.
+2. **OPTIONAL**: If you want to use Athena, add the following connection string when configuring Athena in Metabase: `UseResultsetStreaming=0`.
 
-## Job/App specific information
-Default admin credentials are to be created during first login.
+***
+> _For more information on Metabase, see the <a href="https://www.metabase.com/docs/latest/" target="_blank">official documentation</a>._
 
-## Configuration
-This version comes with a local H2 table to store Metabase internal data. You can choose to use an external MySQL / PostgreSQL table to do so. This can be configured (among other parameters) through environment variables. Follow this [documentation](https://www.metabase.com/docs/latest/operations-guide/environment-variables.html) for more information.
+<!-- ## How to build the image in local?
 
-## Configure Athena
-When configuring Athena in Metabase, you'll need to add the following connection string:
-UseResultsetStreaming=0
+### Using Docker Commands
+
+To build the image in local with Docker commands, follow the steps below.
+
+1. Navigate to the `metabase-x.y` folder corresponding to your version, `technologies/app/metabase/<version>`. Use the `cd` command.
+2. Run the following command lines:
+    ```
+    docker build --build-arg METABASE_VERSION=<version> -t saagie/metabase:<version> .
+    docker push saagie/metabase:<version>
+    ```
+    Where `<version>` must be replaced with the version number. -->

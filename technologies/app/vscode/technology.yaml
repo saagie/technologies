@@ -2,10 +2,8 @@ version: v1
 type: APP
 id: vscode
 label: VS Code
-baseline: "VS Code server"
-description: "VS Code server is an IDE that supports several languages. \n
-  Create an environment variable named 'VSCODE_PASSWORD' to set a password for the interface,
-  and VSCODE_SUDO_PASSWORD to get sudo access inside the container."
+baseline: "VS Code Server is a version of VS Code running on a remote machine, accessible through the browser."
+description: "VS Code is a code editor that provides just the tools a developer needs for a code-build-debug cycle. It has a set of built-in extensions for many languages and runtimes, including VS Code Server. VS Code Server is a component of the Remote Development extensions. By deploying a server on the remote environment, these extensions enable local VS Code to smoothly interact with remote source code and runtimes. You can then work on projects hosted on remote machines, virtual machines, or containers. In other words, VS Code Server is an IDE that lets you run VS Code on any machine, anywhere, and access it in the browser."
 available: true
 icon: vscode
 defaultResources: 

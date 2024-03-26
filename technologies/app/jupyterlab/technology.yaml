@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: jupyterlab
 label: JupyterLab Notebook
-baseline: Data Science Notebook.
-description: JupyterLab is a web-based interactive development environment for Jupyter notebooks, code, and data.
+baseline: "JupyterLab Notebook is a web-based notebook environment for interactive computing."
+description: "As Jupyter Notebook, it is an open-source web application to create and share documents that contain live code, equations, visualization and narrative text. However, JupyterLab Notebook provides a more integrated and extensible environment for working with Jupyter Notebooks and other Jupyter components."
 available: false
 icon: jupyter
 backgroundColor: "#E87A35"
