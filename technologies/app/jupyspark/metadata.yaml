@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: jupyspark
 label: Jupyter Notebook with Spark
-baseline: Data Science Notebook.
-description: The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualization and narrative text.
+baseline: "Jupyter Notebook is a web-based notebook environment for interactive computing. This technology integrates Spark into Jupyter Notebooks."
+description: "Jupyter Notebook with Spark is a notebook authoring application that integrates Apache Spark. It is an open-source web application to create and share documents that contain live code, equations, visualization and narrative text."
 available: false
 icon: jupyter
 backgroundColor: "#E87A35"

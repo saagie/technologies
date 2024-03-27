@@ -1,22 +1,30 @@
-# Apache Superset
+## How to launch Apache Superset?
 
-## Description
-This directory contains version of Apache Superset contenairized and customized for Saagie Platform.
-See Apache Superset official documentation for more information https://superset.apache.org/docs/intro
+To make Apache Superset work on your platform, you must meet the following requirements.
 
-## How to build in local
+1. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variable</a>:
 
-Inside the `apache-superset-x.y` folder corresponding to your version, run :
-```
-docker build -t saagie/apache-superset-<version> .
-docker push saagie/apache-superset-<version>
-```
+    | Name                       | Value                                                                                                                                                         | 
+    |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | `SUPERSET_ADMIN_PASSWORD`  | This is the password of the Superset admin user.<br/>**<u>NOTE</u>**: The default admin user login is `admin`. You can change it after your first connection. |
 
-## Job/App specific information
-You have to set the following environment variables:
-- `SUPERSET_ADMIN_PASSWORD`: the password of admin user for Superset
+> [!NOTE]
+> Apache Superset does not support basic URL configuration. The app relies on `nginx` sub-filters that rewrite hard-coded URLs to HTML, such as assets. This solution works, but is not optimal, as it requires disabling GZip compression. Hard-coded URLs in JavaScript are directly replaced in the Python lib folder on startup. For more information, see the `assets/entrypoint.sh` file.
 
-Default admin user login is `admin`. You can change them after your first connection.
+***
+> _For more information on Apache Superset, see the <a href="https://superset.apache.org/docs/intro/" target="_blank">official documentation</a>._
 
-## Improvements
-Apache Superset does not support the configuration of a base url so currently this app relies on nginx subfilters that rewrites hardcoded urls (such as assets for instance) in html. This works but is not optimal and requires to disable gzip compression. Hardcoded urls in javascript are replaced during startup direclty in the python lib folder (see `entrypoint.sh`).
+
+<!-- ## How to build the image in local?
+
+### Using Docker Commands
+
+To build the image in local with Docker commands, follow the steps below.
+
+1. Navigate to the `apache-superset-x.y` folder corresponding to your version, `technologies/app/apache-superset/<version>`. Use the `cd` command.
+2. Run the following command lines:
+    ```bash
+    docker build -t saagie/apache-superset-<version> .
+    docker push saagie/apache-superset-<version>
+    ```
+    Where `<version>` must be replaced with the version number. -->

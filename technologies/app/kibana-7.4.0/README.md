@@ -1,5 +1,1 @@
-# Kibana - customized by Saagie
-
-See latest 'version/context' documentation and replace tag by 7.6.2
-
-[Latest documentation](../kibana-7.6.2/README.md)
+See the [latest version of the Kibana documentation](../kibana-7.6.2/README.md) and replace the tag by `7.4.0`.
