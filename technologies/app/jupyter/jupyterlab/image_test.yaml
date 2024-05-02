@@ -125,7 +125,6 @@ commandTests:
                                               from sqlalchemy import create_engine;
                                               import ibis;
                                               import pymongo;
-                                              import mlflow;
                                               import mysql.connector;
                                               import cython;
                                               import psycopg2;
