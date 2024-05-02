@@ -1,6 +1,13 @@
+ARG PYTHON38_IMG
+ARG PYTHON39_IMG
+ARG PYTHON310_IMG
 ARG PYTHON311_IMG
+
 ARG BASE_CONTAINER
 
+FROM $PYTHON38_IMG AS PYTHON38
+FROM $PYTHON39_IMG AS PYTHON39
+FROM $PYTHON310_IMG AS PYTHON310
 FROM $PYTHON311_IMG AS PYTHON311
 FROM $BASE_CONTAINER
 
@@ -35,16 +42,20 @@ ADD resources/kernel-*.sh /
 # Uninstall default python3 kernel
 RUN jupyter kernelspec remove -f python3
 SHELL ["/bin/bash", "-c"]
-COPY --from=PYTHON311 /tmp/requirements.txt /home/$NB_USER/requirements.txt
+COPY --from=PYTHON38 /tmp/requirements.txt /home/$NB_USER/py38/requirements.txt
+COPY --from=PYTHON39 /tmp/requirements.txt /home/$NB_USER/py39/requirements.txt
+COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/py310/requirements.txt
+COPY --from=PYTHON311 /tmp/requirements.txt /home/$NB_USER/py311/requirements.txt
+
 
 RUN sh -x \
     && pip install jupyter_ai==2.1.0 \
     && for env in py38 py39 py310 py311;  \
        do \
           . activate $env \
-          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
+          && python -m pip install --no-cache-dir -r /home/$NB_USER/$env/requirements.txt \
           && python -m pip uninstall matplotlib -y \
-          && grep matplotlib* /home/$NB_USER/requirements.txt | xargs python -m pip install --no-cache \
+          && grep matplotlib* /home/$NB_USER/$env/requirements.txt | xargs python -m pip install --no-cache \
           && pip install jupyter_ai==2.1.0 \
           && conda deactivate; \
        done \
