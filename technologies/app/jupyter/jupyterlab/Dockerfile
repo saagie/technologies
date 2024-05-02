@@ -37,6 +37,7 @@ ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/k
 ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
 ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
 ADD resources/kernel-3.11.json /home/$NB_USER/.local/share/jupyter/kernels/py311/kernel.json
+RUN rm -Rf /home/jovyan/.local/share/jupyter/kernels/python3
 ADD resources/kernel-*.sh /
 
 # Uninstall default python3 kernel
@@ -49,7 +50,6 @@ COPY --from=PYTHON311 /tmp/requirements.txt /home/$NB_USER/py311/requirements.tx
 
 
 RUN sh -x \
-    && pip install jupyter_ai==2.1.0 \
     && for env in py38 py39 py310 py311;  \
        do \
           . activate $env \
