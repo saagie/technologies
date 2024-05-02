@@ -93,7 +93,7 @@ contexts:
     dockerInfo:
       image: "saagie/python"
       baseTag: "3.11"
-      version: "3.11-1.153.0"
+      version: "3.11-1.181.0_SDKTECHNO-235"
   - id: "3.7"
     label: "3.7"
     available: true
