@@ -111,4 +111,25 @@ commandTests:
                                               from requests_kerberos import *;
                                               from pyarrow import *;
                                               '"]
+  - name: check Python 3.11 libs
+    command: "bash"
+    args: ["-c", ". activate py311; python -c 'import numpy;
+                                              import pandas;
+                                              import matplotlib;
+                                              import scipy;
+                                              from sklearn import datasets;
+                                              import pyodbc;
+                                              from impala.dbapi import connect;
+                                              import hdfs;
+                                              import thrift_sasl;
+                                              from sqlalchemy import create_engine;
+                                              import ibis;
+                                              import pymongo;
+                                              import mysql.connector;
+                                              import cython;
+                                              import psycopg2;
+                                              from fastparquet import ParquetFile;
+                                              from requests_kerberos import *;
+                                              from pyarrow import *;
+                                              '"]
     exitCode: 0

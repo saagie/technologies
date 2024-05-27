@@ -1,7 +1,14 @@
+ARG PYTHON38_IMG
+ARG PYTHON39_IMG
 ARG PYTHON310_IMG
+ARG PYTHON311_IMG
+
 ARG BASE_CONTAINER
 
+FROM $PYTHON38_IMG AS PYTHON38
+FROM $PYTHON39_IMG AS PYTHON39
 FROM $PYTHON310_IMG AS PYTHON310
+FROM $PYTHON311_IMG AS PYTHON311
 FROM $BASE_CONTAINER
 
 LABEL Maintainer="Saagie"
@@ -20,6 +27,8 @@ RUN conda create -n py38 python=3.8.12 \
     && bash -c "source activate py39 && conda install notebook ipykernel -y && ipython kernel install --user --name py39  --display-name 'Python 3.9'" \
     && conda create -n py310 python=3.10.2 \
     && bash -c "source activate py310 && conda install notebook ipykernel -y && ipython kernel install --user --name py310  --display-name 'Python 3.10'" \
+    && conda create -n py311 python=3.11.2 \
+    && bash -c "source activate py311 && conda install notebook ipykernel -y && ipython kernel install --user --name py311  --display-name 'Python 3.11'" \
     && conda clean -ay \
     && rm -rf ~/.cache/pip
 
@@ -27,21 +36,26 @@ RUN conda create -n py38 python=3.8.12 \
 ADD resources/kernel-3.8.json /home/$NB_USER/.local/share/jupyter/kernels/py38/kernel.json
 ADD resources/kernel-3.9.json /home/$NB_USER/.local/share/jupyter/kernels/py39/kernel.json
 ADD resources/kernel-3.10.json /home/$NB_USER/.local/share/jupyter/kernels/py310/kernel.json
+ADD resources/kernel-3.11.json /home/$NB_USER/.local/share/jupyter/kernels/py311/kernel.json
+RUN rm -Rf /home/jovyan/.local/share/jupyter/kernels/python3
 ADD resources/kernel-*.sh /
 
 # Uninstall default python3 kernel
 RUN jupyter kernelspec remove -f python3
 SHELL ["/bin/bash", "-c"]
-COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/requirements.txt
+COPY --from=PYTHON38 /tmp/requirements.txt /home/$NB_USER/py38/requirements.txt
+COPY --from=PYTHON39 /tmp/requirements.txt /home/$NB_USER/py39/requirements.txt
+COPY --from=PYTHON310 /tmp/requirements.txt /home/$NB_USER/py310/requirements.txt
+COPY --from=PYTHON311 /tmp/requirements.txt /home/$NB_USER/py311/requirements.txt
+
 
 RUN sh -x \
-    && pip install jupyter_ai==2.1.0 \
-    && for env in py38 py39 py310;  \
+    && for env in py38 py39 py310 py311;  \
        do \
           . activate $env \
-          && python -m pip install --no-cache-dir -r /home/$NB_USER/requirements.txt \
+          && python -m pip install --no-cache-dir -r /home/$NB_USER/$env/requirements.txt \
           && python -m pip uninstall matplotlib -y \
-          && grep matplotlib* /home/$NB_USER/requirements.txt | xargs python -m pip install --no-cache \
+          && grep matplotlib* /home/$NB_USER/$env/requirements.txt | xargs python -m pip install --no-cache \
           && pip install jupyter_ai==2.1.0 \
           && conda deactivate; \
        done \

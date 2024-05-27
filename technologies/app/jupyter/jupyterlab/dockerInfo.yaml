@@ -1,4 +1,4 @@
 image: saagie/jupyterlab-python-nbk
 baseTag: 4.0.5-python3
-dynamicVersion: 1.0.0_SDKTECHNO-236
-version: 4.0.5-python3-1.0.0
+dynamicVersion: 1.181.0_SDKTECHNO-235
+version: 4.0.5-python3-1.181.0_SDKTECHNO-235
