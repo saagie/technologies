@@ -1,36 +1,43 @@
-# Saagie Usage Monitoring
+## How to launch Saagie Usage Monitoring (SUM)?
 
-## Description
+To make SUM work on your platform, you must meet the following requirements.
 
-This directory contains Saagie Usage Monitoring based on Grafana dashboards.
+1. Verify that your user has at least the viewer rights on all projects.
+2. On your Saagie platform, create the following <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variables</a>:
 
-## How to launch it
+    | Name                                                                                                | Value                                                                                                                                                                                                                                                                                                                                                    | 
+    |-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | `SAAGIE_SUPERVISION_LOGIN`                                                                          | This is your username.                                                                                                                                                                                                                                                                                                                                   |
+    | `SAAGIE_SUPERVISION_PASSWORD`                                                                       | This is your password.                                                                                                                                                                                                                                                                                                                                   |
+    | `SAAGIE_URL`                                                                                        | This is the URL of the Saagie platform.<br/>For example, `https://saagie-workspace.prod.saagie.io`.                                                                                                                                                                                                                                                      |
+    | `SAAGIE_PLATFORM_ID`                                                                                | This is the ID of your plateform.<br/>→ The default value is `1`.                                                                                                                                                                                                                                                                                        |
+    | `MONITORING_OPT`                                                                                    | This is to define what you want to monitor. The possible values are:<br/>- `SAAGIE` if you only want to monitor your Saagie jobs, apps, and pipelines.<br/>- `SAAGIE_AND_DATALAKE` if you want to monitor Saagie and your HDFS data lake.<br/>- `SAAGIE_AND_S3` if you want to monitor Saagie and your S3 buckets.<br/>→ The default value is  `SAAGIE`. |
+    | `IP_HDFS`                                                                                           | This is the IP of the namenode. This environment variable is required if you set the `MONITORING_OPT` environment variable to `SAAGIE_AND_DATALAKE`.                                                                                                                                                                                                     |
+    | - `AWS_ACCESS_KEY_ID`<br/>- `AWS_SECRET_ACCESS_KEY`<br/>- `AWS_S3_ENDPOINT`<br/>- `AWS_REGION_NAME` | These four environment variables are required if you set the `MONITORING_OPT` environment variable to `SAAGIE_AND_S3`.                                                                                                                                                                                                                                   |
+3. **OPTIONAL**: Create the following environment variable to allow Cron to collect data from Saagie on the API:
 
-To deploy Saagie Usage Monitoring on your platform, you need to create a user with viewer rights on all projects at least, and then set the following environment variables in Saagie :
+    | Name              | Value                                                                                                 | 
+    |-------------------|-------------------------------------------------------------------------------------------------------|  
+    | `SAAGIE_SUM_CRON` | It allows Cron to collect information from Saagie on the API.<br/>→ The default value is `0 * * * *`. |
+4. **OPTIONAL**: By default, alerts are sent via emails. If you want to enable SMTP alerts, you must have an SMTP server that will receive these alerts and you must set the following environment variables in Saagie:
 
-- SAAGIE_SUPERVISION_LOGIN : Application user's username
-- SAAGIE_SUPERVISION_PASSWORD : Application user's password
-- SAAGIE_URL : URL of the Saagie plateform (i.e. : `https://saagie-workspace.prod.saagie.io`)
-- SAAGIE_PLATFORM_ID : ID of your plateform  (Default value : `1`)
-- MONITORING_OPT (default value : `SAAGIE`): 
-  - `SAAGIE` if you want to monitor only Saagie jobs, apps and pipelines 
-  - `SAAGIE_AND_DATALAKE` if you want to monitor Saagie and your HDFS Datalake
-  - `SAAGIE_AND_S3` if you want to monitor Saagie and S3 buckets
-- IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
-- AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT and AWS_REGION_NAME (Required if MONITORING_OPT=`SAAGIE_AND_S3`)
-- SAAGIE_SUM_CRON : Cron to collect Saagie informations on API (Optionnal, Default value : `0 * * * *`)
+    | Name                   | Value                                                                     | 
+    |------------------------|---------------------------------------------------------------------------|
+    | `GF_SMTP_ENABLED`      | This is to enable SMTP alerts.<br/>→ The default value is  `false`.       |
+    | `GF_SMTP_HOST`         | This is the SMTP host and port.                                           |
+    | `GF_SMTP_USER`         | This is the your SMTP user.                                               |
+    | `GF_SMTP_PASSWORD`     | This is the your SMTP password.                                           |
+    | `GF_SMTP_FROM_ADDRESS` | This is the email address of the alert sender.                            |
+    | `GF_SMTP_SKIP_VERIFY`  | This is to skip SSL for SMTP server.<br/>→ The default value is  `false`. |
+5. **OPTIONAL**: If you want to use an external PostgreSQL database, you must define the connection parameters via the corresponding environment variables in Saagie:
 
-For an external Postgres database : 
-- SAAGIE_PG_HOST : Postgresql host (Default value : `localhost`)
-- SAAGIE_PG_PORT : Postgresql port (Default value : `5432`)
-- SAAGIE_PG_USER : Postgresql user (Default value : `supervision_pg_user`)
-- SAAGIE_PG_PASSWORD : Postgresql password (Default value : ``)
-- SAAGIE_PG_DATABASE : Postgresql database (Default value : `supervision_pg_db`)
+    | Name                 | Value                                                                              | 
+    |----------------------|------------------------------------------------------------------------------------|
+    | `SAAGIE_PG_HOST`     | This is your PostgreSQL host.<br/>→ The default value is  `localhost`.             |
+    | `SAAGIE_PG_PORT`     | This is your PostgreSQL port.<br/>→ The default value is  `5432`.                  |
+    | `SAAGIE_PG_USER`     | This is your PostgreSQL user.<br/>→ The default value is  `supervision_pg_user`.   |
+    | `SAAGIE_PG_PASSWORD` | This is your PostgreSQL password.<br/>→ The default value is  ` `.                 |
+    | `SAAGIE_PG_DATABASE` | This is your PostgreSQL database.<br/>→ The default value is  `supervision_pg_db`. |
 
-To enable SMTP alerts : 
-- GF_SMTP_ENABLED : To enable SMTP alerts (Default value : `false`)
-- GF_SMTP_HOST : SMTP host and port
-- GF_SMTP_USER : SMTP user
-- GF_SMTP_PASSWORD : SMTP password
-- GF_SMTP_FROM_ADDRESS : Mail sender of alerts
-- GF_SMTP_SKIP_VERIFY : Skip SSL for SMTP server (Default value : `false`)
+***
+> _For more information, see our documentation on <a href="https://docs.saagie.io/user/latest/data-team/add-on-module/saagie-usage-monitoring/" target="_blank">Saagie Usage Monitoring</a>._

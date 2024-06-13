@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: orientdb
 label: OrientDB
-baseline: The first multi-model open source NoSQL database management system.
-description: OrientDB is an open source NoSQL database management system supporting graph, document, key/value, and object models,...
+baseline: "OrientDB is an open-source, multi-model NoSQL database management system."
+description: "OrientDB is a multi-model database. It combines the power of graphs and the flexibility of documents to store, manage and query data in a highly scalable and flexible manner."
 available: true
 icon: orientdb
 backgroundColor: "#3374BA"

@@ -1,227 +1,208 @@
-# Jupyter Datascience Notebook for Python - customized by Saagie
+> [!NOTE] 
+> This Docker image is designed to run on Saagie’s V2 platform. It is available on <a href="https://hub.docker.com/r/saagie/jupyter-python-nbk" target="_blank">Saagie’s DockerHub</a> and is based on the official Jupyter Docker Stacks image, <a href="https://hub.docker.com/r/jupyter/minimal-notebook/" target="_blank">FROM jupyter/minimal-notebook:f9e77e3ddd6f</a>. The chosen tag is the latest with a CDH5-compatible version of the Ubuntu OS.
+> 
+> This Docker image relies on a first minimal image based on the official Jupyter image, plus some features required by the Saagie platform. It then provides the Saagie base image of Jupyter using the minimal image and includes all the Python libraries of the Saagie Python image.
 
-This Docker image is officially available on [Saagie's DockerHub](https://hub.docker.com/r/saagie/jupyter-python-nbk) and is based on the official [FROM jupyter/minimal-notebook:f9e77e3ddd6f](https://hub.docker.com/r/jupyter/minimal-notebook/) image.
-(Note: the chosen tag is latest with an Ubuntu OS version compatible with CDH5)
+## How to launch Jupyter Notebook?
 
-It is specially designed to run on Saagie's platform v2.
+To make Jupyter Notebook work on your platform, there are no special steps to take.
 
-It relies upon a first minimal image based on Jupyter official one plus some features required by Saagie's platform.
-Then it provides the Saagie base image of Jupyter using the minimal image and includes all the Python libraries from Saagie's Python image [saagie/python:3.6-1.46.0](https://hub.docker.com/r/saagie/python).
+You can directly click **Install** to install your app.
 
-## How to use jupyter_ai plugin
+## How to use the `jupyter_ai` plugin?
 
-In order to use the `jupyter_ai` plugin available for the context `JupyterLab+GenAI 4.0 Python 3.10`,
-based on the model that you want to use, you have to create a new environment
-variable in your Saagie project and set it to `your_credential`.
+> [!IMPORTANT] 
+> You can use the `jupyter_ai` plugin only with the `JupyterLab+GenAI 4.0 Python 3.10` context.
 
-For example, if you want to use the GPT model of OpenAI, you have to create a new environment variable named `OPENAI_API_KEY`.
-For all the models, you can find the name of the environment variable in this [documentation](https://jupyter-ai.readthedocs.io/en/latest/users/index.html#model-providers).
+1. On your Saagie platform, create an <a href="https://docs.saagie.io/user/latest/data-team/projects-module/projects/managing-environment-variables#creating-environment-variables" target="_blank">environment variable</a> that is based on the model provider you want to use:
+
+    | Name           | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 
+    |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | `PROVIDER_KEY` | This is your API key for the model provider you want to use. Where `PROVIDER_KEY` must be replaced with the environment variable name of the desired provider. You can find all the models in the <a href="https://jupyter-ai.readthedocs.io/en/latest/users/index.html#model-providers" target="_blank">Jupyter AI documentation</a>.<br/>For example, if you want to use OpenAI's ChatGPT model, you must create an environment variable named `OPENAI_API_KEY`. For more information, see how to <a href="https://docs.saagie.io/user/latest/how-to/notebooks/python-with-gen-ai" target="_blank">use Generative AI in Jupyter Notebook</a>. |
 
 
+## How to install libraries?
 
-## Build the image
+The Jupyter app provided by Saagie already includes many libraries. They are listed below. 
 
-You can build the image with either Gradle or Docker.
-
-Gradle builds take place in the root of the project as a whole.
-Docker builds take place in the directory for the individual technology.
-
-### Using gradle build 
-
-This gradle build is based on [Saagie's technology plugin](https://github.com/saagie/technologies-plugin).
-
-To build the project, go to the root of this project.
-Then run:
+However, if you need other libraries, install them by running the following command line:
 
 ```
-./gradlew :jupyter-base:buildImage
+!pip install libraryName
 ```
+Where `libraryName` must be replaced with the name of the desired library. 
 
-If you want to test the image, you can run:
-```
-./gradlew :jupyter-base:testImage
-```
+<details>
 
-### Using Docker commands
+<summary>Jupyter’s Main Libraries</summary>
 
-First go to context/version sub-directory for the minimal image of the technology:
+| Category            | Library Name                                                                     |
+|---------------------|----------------------------------------------------------------------------------|
+| Data Processing     | - `numpy`<br/>- `scipy`<br/>- `pandas`                                                 |
+| Machine Learning    | - `sklearn`<br/>- `keras`<br/>- `statsmodel`<br/>- `networkx` |
+| Data Visualisation  | - `skimage`<br/>- `matplotlib`<br/>- `bokeh`<br/>- `mpld3`<br/>- `folium`                  |
+| Database connection | - `pyodbc`<br/>- `hdfs`<br/>- `impyla`<br/>- `ibis-framework`<br/>- `SQLAlchemy`<br/>- `pymongo` |
+| Utils               | - `ipywidgets`<br/>- `fiona`<br/>- `shapely`                                           |
+</details>
 
-```
-cd technologies/app/jupyter/jupyter-minimal
-```
+<details>
 
-Then run the following command:
-```
-docker build -t saagie/jupyter-python-nbk:v2-minimal .
-```
-It builds the intermediate minimal image.
+<summary>Saagie Python Image Libraries</summary>
 
-Then go to the base folder 
-```
-cd ../jupyter-base
-```
+- `addok`
+- `apiclient`
+- `automl` / `auto-sklearn`
+- `beautifulsoup4`
+- `bokeh`
+- `bs4`
+- `confluent-kafka`
+- `crypto`
+- `cython`
+- `django`
+- `dryscrape`
+- `elasticsearch`
+- `excel`
+- `fastparquet`
+- `fiona`
+- `folium`
+- `gensim`
+- `geopandas`
+- `geopy`
+- `graphviz`
+- `h5py`
+- `hdfs[avro,dataframe,kerberos]`
+- `ibis-framework`
+- `imbalanced-learn`
+- `impyla`
+- `ipywidgets`
+- `jellyfish`
+- `joblib`
+- `kafka-python`
+- `keras`
+- `lime`
+- `llvmlite`
+- `lxml`
+- `matplotlib`
+- `mpld3`
+- `mysql-connector`
+- `neo4j-driver`
+- `networkx`
+- `nltk`
+- `numba`
+- `numpy`
+- `opencv-python`
+- `openpyxl`
+- `pandas`
+- `pdfminer.six`
+- `psycopg2`
+- `pybrain`
+- `pycrypto`
+- `pycurl`
+- `pydotplus`
+- `pymongo`
+- `pyodbc`
+- `pyshp`
+- `pytesseract`
+- `python-levenshtein`
+- `requests-kerberos`
+- `scikit-image`
+- `scikit-learn`
+- `scipy`
+- `scrapy`
+- `seaborn`
+- `setuptools`
+- `shap`
+- `shapely`
+- `simplejson`
+- `six`
+- `spacy`
+- `SQLAlchemy`
+- `statsmodels`
+- `tabula-py`
+- `tensorflow`
+- `tensorflow-gpu`
+- `textract`
+- `Theano`
+- `thrift-sasl`
+- `tika`
+- `tokenizer`
+- `torch`
+- `torchvision`
+- `tpot`
+- `umap-learn`
+- `wand`
+- `xgboost`
+- `xlwt`
 
-And run:
-```
-docker build --build-arg BASE_CONTAINER=saagie/jupyter-python-nbk:v2-minimal -t saagie/jupyter-python-nbk:v2-app .
-```
+</details>
 
-     
-## Run Jupyter container
+***
+> _For more information on Jupyter, see the <a href="https://docs.jupyter.org/en/latest/" target="_blank">official documentation</a>_
+
+
+<!-- ## How to build the image in local?
+
+You can build the image with Gradle or Docker.
+- Gradle builds take place at the root of the project.
+- Docker builds take place in the technology specific directory.
+
+### Using the Gradle Build
+
+This Gradle build is based on our [technology plugin](https://github.com/saagie/technologies-plugin). To build the image in local with it, follow the steps below.
+
+1. Build the project. 
+   1. Navigate to the root of the project.
+   2. Run the following line of code:
+      ```
+      ./gradlew :jupyter-base:buildImage
+      ```
+2. **OPTIONAL**: Test the image by running the following line of code:
+    ```
+    ./gradlew :jupyter-base:testImage
+    ```
+
+### Using Docker Commands
+
+To build the image in local with Docker commands, follow the steps below.
+
+1. Navigate to the technology version subdirectory `technologies/app/jupyter/jupyter-minimal`:
+    ```bash
+    cd technologies/app/jupyter/jupyter-minimal
+    ```
+2. Run the following command:
+    ```bash
+    docker build -t saagie/jupyter-python-nbk:v2-minimal .
+    ```
+   It builds your intermediate minimal image.
+3. Navigate to the technology version subdirectory `technologies/app/jupyter/jupyter-base`:
+    ```bash
+    cd ../jupyter-base
+    ```
+4. Run the following command:
+    ```bash
+    docker build --build-arg BASE_CONTAINER=saagie/jupyter-python-nbk:v2-minimal -t saagie/jupyter-python-nbk:v2-app .
+    ```
+
+## How to run the image?
 
 ### On Saagie's Platform 
 
-This container is designed to run on Saagie's platform.
+This container is designed to run on Saagie’s platform. For more information, see our [SDK documentation](https://docs.saagie.io/user/latest/developer/sdk/).
 
-The official documentation is available here: [Saagie's official documentation](https://docs.saagie.io/product/latest/sdk/index.html)
+### On Your Local Machine
 
-### On premise / your local server
+You can also run this image outside Saagie. This use case can be useful mainly for development and testing. However, please note that we are unable to provide support for images that are run outside of your Saagie platform.
 
-It is possible (mainly for development and testing) to run this image outside of a Saagie platform.
-Please note that Saagie cannot provide any support for images launched outside of its platform.
-
-Run: 
-
-```
-docker run --rm --name jupyter -p 18888:8888 -v /path/to/persisten/folder/jupyter-workdir:/notebooks-dir saagie/jupyter-python-nbk:v2-app	
-```
-
- * Port `8888` should be mapped to the one you will be using on host side (example: `18888`).
- * SAAGIE_BASE_PATH variable is optional when run manually.
- * Mounting volume is optional (-v /path/to/persisten/folder/jupyter-workdir:/notebooks-dir) but if you need it:
- * create your local directory with: `mkdir -p /path/to/persisten/folder/jupyter-workdir`
- * make Jovyan (Jupyter notebook default user) the owner of this directory with: `chown -R 1000:1000 /path/to/persisten/folder/jupyter-workdir`
-
-Then you'll be able to access Jupyter at (http://localhost:18888).
-
-
-## Libraries
-
-### List of main libraries
-
-	* Data Processing
-		* numpy
-    	* scipy
-		* pandas
-
-	* Machine Learning
-    	* sklearn
-		* keras
-    	* pybrain (python 2 only)
-    	* statsmodel
-		* networkx
-
-	* Data Visualisation
-		* skimage
-		* matplotlib
-    	* bokeh
-    	* mpld3
-    	* folium
-
-	* Database connection
-		* pyodbc
-    	* hdfs **
-		* impyla
-		* ibis-framework
-		* SQLAlchemy
-		* pymongo
-
-	* Utils
-    	* ipywidgets
-		* fiona
- 		* shapely
-
-### List of librairies from Saagie's python image
-
-    addok
-    apiclient
-    automl / auto-sklearn
-    beautifulsoup4
-    bokeh
-    bs4
-    confluent-kafka
-    crypto
-    cython
-    django
-    dryscrape
-    elasticsearch
-    excel
-    fastparquet
-    fiona
-    folium
-    gensim
-    geopandas
-    geopy
-    graphviz
-    h5py
-    hdfs[avro,dataframe,kerberos]
-    ibis-framework
-    imbalanced-learn
-    impyla
-    ipywidgets
-    jellyfish
-    joblib
-    kafka-python
-    keras
-    lime
-    llvmlite
-    lxml
-    matplotlib
-    mpld3
-    mysql-connector
-    neo4j-driver
-    networkx
-    nltk
-    numba
-    numpy
-    opencv-python
-    openpyxl
-    pandas
-    pdfminer.six
-    psycopg2
-    pybrain
-    pycrypto
-    pycurl
-    pydotplus
-    pymongo
-    pyodbc
-    pyshp
-    pytesseract
-    python-levenshtein
-    requests-kerberos
-    scikit-image
-    scikit-learn
-    scipy
-    scrapy
-    seaborn
-    setuptools
-    shap
-    shapely
-    simplejson
-    six
-    spacy
-    SQLAlchemy
-    statsmodels
-    tabula-py
-    tensorflow
-    tensorflow-gpu
-    textract
-    Theano
-    thrift-sasl
-    tika
-    tokenizer
-    torch
-    torchvision
-    tpot
-    umap-learn
-    wand
-    xgboost
-    xlwt
-
-
-## Install libraries with
-### For python 3
-	!pip install libraryName
-
-### For python 2
-	!pip2 install libraryName
+1. Run the following command. It will launch a Docker container with the Jupyter version and configurations that you want to use.
+    ```bash
+    docker run --rm -p 18888:8888 --name jupyter \
+    -v /path/to/persistent/folder/jupyter-workdir:/notebooks-dir \
+    saagie/jupyter-python-nbk:v2-app
+    ```
+   Where:
+   - Port `8888` must be mapped to the port you will use on the host side. For example, `18888`.
+   - The `SAAGIE_BASE_PATH` environment variable is **optional** when you run the app manually.
+   - The `-v /path/to/persistent/folder/jupyter-workdir:/notebooks-dir` parameter is **optional**. It mounts the local directory `/path/to/persistent/folder/jupyter-workdir` on the host into the directory `/notebooks-dir` inside the container. This allows you to keep data between container runs, such as Jupyter notebooks and files. If you need to use this parameter, you must:
+     - Create your local directory with `mkdir -p /path/to/persistent/folder/jupyter-workdir`.
+     - Make Jovyan, the default Jupyter Notebook user, the owner of this directory with `chown -R 1000:1000 /path/to/persistent/folder/jupyter-workdir`.
+2. Access your local image at `http://localhost:18888`. -->

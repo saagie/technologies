@@ -2,8 +2,8 @@ version: v1
 type: APP
 id: spark-history-server
 label: Spark History Server
-baseline: "The Spark history server is a monitoring tool that displays information about completed Spark applications"
-description: "The Spark history server is a monitoring tool that displays information about completed Spark applications"
+baseline: "Spark History Server is a monitoring tool that displays information on completed Spark applications."
+description: "There are several ways to monitor Spark applications. Spark History Server is one of them. It is used to monitor and display the metrics and performance of completed Spark applications in a web interface. With the history server, you can keep track of all completed applications. This is useful when you are trying to improve application performance, and can compare metrics from previous runs with those from the most recent run."
 available: true
 icon: spark
 defaultResources: 

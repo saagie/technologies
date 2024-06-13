@@ -3,8 +3,8 @@ type: APP
 id: metabase
 label: Metabase
 available: true
-baseline: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
-description: "Metabase is an open source business intelligence tool. This version is bundled with Impala and Athena drivers"
+baseline: "Metabase is an open-source business intelligence and analytics tool."
+description: "Metabase is a tool that simplifies business intelligence, from embeddable charts and interactive dashboards, to GUI and SQL editors, to auditing and data sandboxing, and more. It allows you to query, explore, and visualize data from a variety of data destinations and sources."
 icon: metabase
 defaultResources: 
   cpu: 

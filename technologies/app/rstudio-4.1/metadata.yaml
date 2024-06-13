@@ -3,7 +3,7 @@ type: APP
 id: rstudio
 label: RStudio 4.1
 baseline: "RStudio is an integrated development environment (IDE) for R."
-description: "It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management."
+description: "RStudio includes a console, syntax-highlighting editor that supports direct code execution. It also features tools for plotting, viewing history, debugging, and managing your workspace."
 available: false
 icon: rstudio
 backgroundColor: "#75aadb"
