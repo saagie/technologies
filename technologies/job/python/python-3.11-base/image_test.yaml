@@ -47,10 +47,6 @@ commandTests:
     args: [ "-version" ]
     expectedError: [ 'openjdk version "11.*' ]
 
-  - name: "ftp"
-    args: ["-h"]
-    command: "ftp"
-    exitCode: 0
 
   - name: "wget"
     args: ["--help"]

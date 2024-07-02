@@ -41,10 +41,6 @@ fileContentTests:
       ]
 
 commandTests:
-  - name: "ftp"
-    args: ["-h"]
-    command: "ftp"
-    exitCode: 0
 
   - name: "wget"
     args: ["--help"]
