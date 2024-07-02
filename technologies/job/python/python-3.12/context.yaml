@@ -1,0 +1,23 @@
+id: "3.12"
+label: "3.12"
+available: true
+recommended: true
+trustLevel: stable
+job:
+  features:
+    - type: COMMAND_LINE
+      label: Command line
+      mandatory: true
+      comment: Linux shell command to launch the job.
+      defaultValue: python {file} arg1 arg2
+    - type: ARTIFACT
+      label: Package
+      mandatory: true
+      comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+    - type: SCHEDULER
+      label: Scheduled
+      mandatory: true
+    - type: AI_DESCRIPTION_GENERATOR
+      label: AI description generator enabled
+      mandatory: true
+      comment: Activation of the AI-based automatic description generation function.
