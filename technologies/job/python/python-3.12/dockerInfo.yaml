@@ -1,4 +1,0 @@
-image: saagie/python
-baseTag: 3.12
-dynamicVersion: 1.181.0_SDKTECHNO-235
-version: 3.12-1.181.0_SDKTECHNO-235
