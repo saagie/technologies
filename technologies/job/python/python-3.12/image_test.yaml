@@ -1,0 +1,235 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "en_US.UTF-8"
+    - key: LC_ALL
+      value: "en_US.UTF-8"
+    - key: LD_RUN_PATH
+      value: "/usr/local/lib"
+    - key: PATH
+      value: "/app/hadoop-2.6.5/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "unzip"
+    path: "/usr/bin/unzip"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents:
+      [
+        "unzip -q \\*.zip",
+        "pip install -r requirements.txt",
+        "sh ./main_script",
+        "export CLASSPATH=`hadoop classpath --glob`"
+      ]
+
+commandTests:
+  - name: "ftp"
+    args: ["-h"]
+    command: "ftp"
+    exitCode: 0
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "telnet"
+    command: "which"
+    args: ["telnet"]
+    expectedOutput: ["/usr/bin/telnet"]
+    exitCode: 0
+
+  - name: "scp"
+    command: "which"
+    args: ["scp"]
+    expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "python installation"
+    command: "which"
+    args: ["python"]
+    expectedOutput: ["/usr/local/bin/python"]
+
+  - name: "python version"
+    command: "python"
+    args: ["-V"]
+    expectedOutput: ["Python 3.12*"]
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Program lacks support for encryption type while getting initial credentials']
+    exitCode: 1
+
+  - name: import_numpy
+    command: "python"
+    args: [
+        "-c",
+        "import numpy;"]
+    exitCode: 0
+
+  - name: import_pandas
+    command: "python"
+    args: [
+        "-c",
+        "import pandas;"]
+    exitCode: 0
+
+  - name: import_matplotlib
+    command: "python"
+    args: [
+        "-c",
+        "import matplotlib;"]
+    exitCode: 0
+
+  - name: import_scipy
+    command: "python"
+    args: [
+        "-c",
+        "import scipy;"]
+    exitCode: 0
+
+  - name: import_scikit-learn
+    command: "python"
+    args: [
+        "-c",
+        "from sklearn import datasets;"]
+    exitCode: 0
+
+  - name: import_pyodbc
+    command: "python"
+    args: [
+        "-c",
+        "import pyodbc;"]
+    exitCode: 0
+
+  - name: import_impyla
+    command: "python"
+    args: [
+        "-c",
+        "from impala.dbapi import connect;"]
+    exitCode: 0
+
+  - name: import_hdfs
+    command: "python"
+    args: [
+        "-c",
+        "import hdfs;"]
+    exitCode: 0
+
+  - name: import_thrift_sasl
+    command: "python"
+    args: [
+        "-c",
+        "import thrift_sasl;"]
+    exitCode: 0
+
+  - name: thrift_sasl version
+    command: "bash"
+    args: [
+        "-c",
+        "pip freeze | grep thrift-sasl"]
+    expectedOutput: ["thrift-sasl==0.4.3"]
+    exitCode: 0
+
+  - name: import_sqlalchemy.create_engine
+    command: "python"
+    args: [
+        "-c",
+        "from sqlalchemy import create_engine;"]
+    exitCode: 0
+
+  - name: import_ibis
+    command: "python"
+    args: [
+        "-c",
+        "import ibis;"]
+    exitCode: 0
+
+  - name: import_pymongo
+    command: "python"
+    args: [
+        "-c",
+        "import pymongo;"]
+    exitCode: 0
+
+  - name: import_mysql.connector
+    command: "python"
+    args: [
+        "-c",
+        "import mysql.connector;"]
+    exitCode: 0
+
+  - name: import_cython
+    command: "python"
+    args: [
+        "-c",
+        "import cython;"]
+    exitCode: 0
+
+  - name: import_psycopg2
+    command: "python"
+    args: [
+        "-c",
+        "import psycopg2;"]
+    exitCode: 0
+
+  - name: import_fastparquet.ParquetFile
+    command: "python"
+    args: [
+        "-c",
+        "from fastparquet import ParquetFile;"]
+    exitCode: 0
+
+  - name: import_request_kerberos
+    command: "python"
+    args: [
+        "-c",
+        "from requests_kerberos import *;"]
+    exitCode: 0
+
+  - name: import_pyarrow
+    command: "python"
+    args: [
+        "-c",
+        "from pyarrow import *;" ]
+    exitCode: 0
+
+  - name: import_saagieapi
+    command: "python"
+    args: [
+      "-c",
+      "import saagieapi;" ]
+    exitCode: 0
