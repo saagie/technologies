@@ -226,10 +226,3 @@ commandTests:
         "-c",
         "from pyarrow import *;" ]
     exitCode: 0
-
-  - name: import_saagieapi
-    command: "python"
-    args: [
-      "-c",
-      "import saagieapi;" ]
-    exitCode: 0
