@@ -9,7 +9,7 @@ SQLAlchemy==2.0.22
 fastparquet==2023.10.1
 boto3==1.28.74
 ibis-framework[impala]==7.0.0
-#trino==0.328.0
+trino==0.328.0
 
 #Datamart libraries
 pymongo==4.5.0
