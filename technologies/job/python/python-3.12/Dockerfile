@@ -22,6 +22,7 @@ RUN apt update -qq && apt install -qqy --no-install-recommends \
       swig \
       python3-matplotlib \
       python3-lxml \
+      cmake \
     && rm -rf /var/lib/apt/lists/*;
 # LIBS PART END
 
