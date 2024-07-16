@@ -108,7 +108,7 @@ contexts:
           defaultValue: python {file} arg1 arg2
         - type: ARTIFACT
           label: Package
-          mandatory: true
+          mandatory: false
           comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
         - type: SCHEDULER
           label: Scheduled
