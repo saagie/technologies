@@ -27,7 +27,7 @@ apply<SaagieTechnologiesGradlePlugin>()
 val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn("saagie/python:3.12-base-1.183.0_SDKTECHNO-264")
+    dependsOn(":${this.project.name}-base:testImage")
     this.buildArgs.put(
             "base_img",
             "${dockerInfo?.image}:${dockerInfo?.baseTag}-base-${this.project.getVersionForDocker()}"
