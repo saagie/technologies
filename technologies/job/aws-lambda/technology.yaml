@@ -1,7 +1,0 @@
-version: v2
-id: aws-lambda
-label: AWS Lambda
-description: "Run code without thinking about servers. Pay only for the compute time you consume"
-available: true
-type: EXTERNAL_JOB
-icon: aws-lambda
