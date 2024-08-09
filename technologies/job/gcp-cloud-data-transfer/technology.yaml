@@ -1,7 +1,0 @@
-version: v2
-id: gcp-cloud-data-transfer
-label: Google Cloud Data Transfer
-description: "Google Cloud Data Transfer service"
-available: true
-type: EXTERNAL_JOB
-iconPath: ./gcp-cloud-data-transfer.png
