@@ -1,0 +1,4 @@
+image: saagie/java-scala
+baseTag: 21
+dynamicVersion: 1.132.0
+version: 21-1.132.0

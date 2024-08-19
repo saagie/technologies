@@ -1,0 +1,83 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+    - key: JAVA_HOME
+      value: "/usr/local/openjdk-21"
+    - key: "HADOOP_CONF_DIR"
+      value: "/etc/hadoop/conf"
+
+fileExistenceTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+fileContentTests:
+  - name: "entrypoint"
+    path: "/entrypoint"
+    expectedContents: ["sh ./main_script"]
+
+commandTests:
+  - name: "ftp"
+    args: ["-h"]
+    command: "ftp"
+    expectedError: ["ftp: invalid option -- 'h'"]
+    exitCode: 1
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "telnet"
+    command: "which"
+    args: ["telnet"]
+    expectedOutput: ["/usr/bin/telnet"]
+    exitCode: 0
+
+  - name: "scp"
+    command: "which"
+    args: ["scp"]
+    expectedOutput: ["/usr/bin/scp"]
+    exitCode: 0
+
+  - name: "java installation"
+    command: "which"
+    args: ["java"]
+    expectedOutput: ["/usr/local/openjdk-21/bin/java"]
+
+  - name: "java version"
+    command: "java"
+    args: ["-version"]
+    expectedError: ['openjdk version "21']
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ['kinit: Configuration file does not specify default realm when parsing name root']
+    exitCode: 1
+
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/sandbox"]
