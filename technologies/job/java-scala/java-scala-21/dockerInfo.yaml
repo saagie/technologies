@@ -1,4 +1,4 @@
 image: saagie/java-scala
 baseTag: 21
 dynamicVersion: 1.185.0_java-21
-version: 21-1.185.0_java-21
+version: 21-1.185.0
