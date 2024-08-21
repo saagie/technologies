@@ -2,4 +2,5 @@ id: "2.4"
 label: "2.4"
 available: true
 recommended: false
-trustLevel: stable
+trustLevel: deprecated
+deprecationDate: "2024-09-01T00:00:00Z"

@@ -1,5 +1,6 @@
 id: "3.1"
 label: "3.1"
 available: true
-recommended: true
-trustLevel: stable
+recommended: false
+trustLevel: deprecated
+deprecationDate: "2024-09-01T00:00:00Z"
