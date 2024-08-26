@@ -19,6 +19,7 @@ To deploy Saagie Usage Monitoring on your platform, you need to create a user wi
 - IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
 - AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT and AWS_REGION_NAME (Required if MONITORING_OPT=`SAAGIE_AND_S3`)
 - SAAGIE_SUM_CRON : Cron to collect Saagie informations on API (Optionnal, Default value : `0 * * * *`)
+- SUM_MAX_INSTANCES_FETCHED : Optionnal, Number of instances recovered, valid for both job instances and pipeline instances, Default value: 1000 instances
 
 For an external Postgres database : 
 - SAAGIE_PG_HOST : Postgresql host (Default value : `localhost`)
