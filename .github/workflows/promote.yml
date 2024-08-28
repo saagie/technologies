@@ -32,22 +32,22 @@ jobs:
           ./gradlew promote --stacktrace
       - name: Delete PreRelease
         id: delete_prerelease
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.TOKEN_GITHUB }}
           script: |
-            const result = await github.repos.listReleases(context.repo);
+            const result = await github.rest.repos.listReleases(context.repo);
             result.data
               .filter(release => release.tag_name == "${{ steps.extract_pr_version.outputs.v }}")
               .forEach(function(release){
                   const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
-                  github.repos.deleteRelease(releaseObj)
+                  github.rest.repos.deleteRelease(releaseObj)
                 });
       - name: Delete PreRelease Tag
         run: |
           git config --local user.email "github-action@saagie.com"
           git config --local user.name "GitHub Action Bot"
-          remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}.git"
+          remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.rest.repository }}.git"
           git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
       - name: Remove buildMeta version
         run: |

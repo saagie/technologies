@@ -55,16 +55,16 @@ jobs:
         id: extract_version
         run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
       - name: List all releases
-        uses: actions/github-script@0.3.0
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.TOKEN_GITHUB }}
           script: |
-            const result = await github.repos.listReleases(context.repo);
+            const result = await github.rest.repos.listReleases(context.repo);
             result.data
               .filter(release => release.tag_name == "${{ steps.extract_version.outputs.v }}")
               .forEach(function(release){
                   const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
-                  github.repos.deleteRelease(releaseObj)
+                  github.rest.repos.deleteRelease(releaseObj)
                 });
       - name: Create Release
         id: create_release
