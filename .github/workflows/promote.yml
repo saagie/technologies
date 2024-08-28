@@ -8,6 +8,11 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: [self-hosted, technologies]
     steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
