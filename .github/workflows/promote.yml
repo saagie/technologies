@@ -47,7 +47,7 @@ jobs:
         run: |
           git config --local user.email "github-action@saagie.com"
           git config --local user.name "GitHub Action Bot"
-          remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.rest.repository }}.git"
+          remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}.git"
           git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
       - name: Remove buildMeta version
         run: |
