@@ -27,6 +27,7 @@ saagie_url = os.environ["SAAGIE_URL"] + "/" if not os.environ["SAAGIE_URL"].ends
 saagie_realm = os.environ["SAAGIE_REALM"]
 saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
 
+timeout = os.environ["REQUEST_TIMEOUT"]
 
 # Workaround for platforms with too many instances
 MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
@@ -39,7 +40,8 @@ class SaagieUtils(object):
                    id_platform=saagie_platform,
                    user=saagie_login,
                    password=saagie_password,
-                   realm=saagie_realm)
+                   realm=saagie_realm,
+                   timeout=timeout)
     def __enter__(self):
         return self
 
