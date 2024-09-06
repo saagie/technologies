@@ -87,7 +87,7 @@ contexts:
     dockerInfo:
       image: "saagie/saagie-usage-monitoring"
       baseTag: "2023.05-0.1"
-      version: "2023.05-0.1-1.175.0"
+      version: "2023.05-0.1-1.188.1_SDKTECHNO-269"
   - id: saagie-usage-monitoring-3.0
     label: For Saagie 3.x
     releaseNotes: ""
