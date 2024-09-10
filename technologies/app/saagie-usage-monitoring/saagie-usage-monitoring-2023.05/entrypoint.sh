@@ -8,6 +8,11 @@ if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z 
   exit 1
 fi
 
+if [[ -z ${REQUEST_TIMEOUT} ]]; then
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] REQUEST_TIMEOUT not set, default timeout is 10 seconds"
+  export REQUEST_TIMEOUT=10
+fi
+
 if [[ -z ${MONITORING_OPT} ]]; then
   echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] MONITORING_OPT not set, Saagie Usage Monitoring will only monitor Saagie"
   export MONITORING_OPT="SAAGIE"
@@ -48,6 +53,7 @@ echo \#!/bin/bash
   echo export SAAGIE_URL="$SAAGIE_URL"
   echo export SAAGIE_REALM="$SAAGIE_REALM"
   echo export SAAGIE_PLATFORM_ID="$SAAGIE_PLATFORM_ID"
+  echo export REQUEST_TIMEOUT=$REQUEST_TIMEOUT
   echo export MONITORING_OPT=$MONITORING_OPT
   echo export IP_HDFS="$IP_HDFS"
   echo export HADOOP_HOME=/hadoop/hadoop-2.6.5
