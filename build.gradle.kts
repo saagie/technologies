@@ -24,7 +24,7 @@ plugins {
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("com.bmuschko.docker-remote-api") version "6.1.1"
     id("org.kordamp.gradle.project") version "0.54.0"
-    id("com.saagie.technologies") version "1.3.17"
+    id("com.saagie.technologies") version "1.3.18"
 }
 
 apply<SaagieTechnologiesPackageGradlePlugin>()
