@@ -30,7 +30,7 @@ saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
 timeout = int(os.environ["REQUEST_TIMEOUT"])
 
 # Workaround for platforms with too many instances
-MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
+MAX_INSTANCES_FETCHED = os.environ.get("SUM_MAX_INSTANCES_FETCHED", 1000)
 
 
 class SaagieUtils(object):
