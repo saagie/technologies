@@ -1,1 +1,0 @@
-FROM saagie/r-image:4.0-1.77.0

@@ -1,1 +1,0 @@
-FROM saagie/mlflow-server:1.16-1.142.0
