@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.5-py-3.12
 dynamicVersion: 1.190.0_spark-3.5
-version: 3.5-py-3.12-1.190.0_spark-3.5
+version: 3.5-py-3.12-1.190.0

@@ -273,7 +273,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.5-jre-11"
-              version: "3.5-jre-11-1.190.0_spark-3.5"
+              version: "3.5-jre-11-1.190.0"
           - id: "17"
             label: "17"
             available: true
@@ -282,7 +282,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.5-jre-17"
-              version: "3.5-jre-17-1.190.0_spark-3.5"
+              version: "3.5-jre-17-1.190.0"
       - id: python
         label: Python
         available: true
@@ -314,7 +314,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.5-py-3.12"
-              version: "3.5-py-3.12-1.190.0_spark-3.5"
+              version: "3.5-py-3.12-1.190.0"
   - id: 3.1-aws
     label: 3.1 AWS
     available: true
