@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.5-jre-17
-dynamicVersion: 1.125.0
-version: 3.5-jre-11-1.125.0
+dynamicVersion: 1.190.0_spark-3.5
+version: 3.5-jre-17-1.190.0_spark-3.5
