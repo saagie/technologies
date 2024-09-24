@@ -1,0 +1,67 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: LANG
+      value: "C.UTF-8"
+    - key: JAVA_HOME
+      value: "/opt/java/openjdk"
+    - key: SPARK_HOME
+      value: "/opt/spark"
+
+fileExistenceTests:
+  - name: "entrypoint.sh"
+    path: "/opt/entrypoint.sh"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+  - name: "kinit"
+    path: "/usr/bin/kinit"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: "Workdir"
+    command: "pwd"
+    expectedOutput: ["/opt/spark/work-dir"]
+
+  - name: "Spark version"
+    command: "/opt/spark/bin/spark-submit"
+    args: ["--version"]
+    expectedError: ["version 3.5.*"]
+
+  - name: "python installation"
+    command: "which"
+    args: ["python"]
+    expectedOutput: ["/usr/local/bin/python"]
+
+  - name: "krb5-user installation"
+    command: "kinit"
+    expectedError: ["kinit: Program lacks support for encryption type while getting initial credentials"]
+    exitCode: 1
+
+  - name: "wget"
+    args: ["--help"]
+    command: "wget"
+    exitCode: 0
+
+  - name: "curl"
+    args: ["--help"]
+    command: "curl"
+    exitCode: 0
+
+  - name: "unzip"
+    args: ["--help"]
+    command: "unzip"
+    exitCode: 0
+
+  - name: "tar"
+    args: ["--help"]
+    command: "tar"
+    exitCode: 0
+
+  - name: "tini"
+    command: "/usr/bin/tini"
+    args: ["--version"]
+    expectedOutput: ["tini version 0.19.0.*"]
+    exitCode: 0

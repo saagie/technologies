@@ -17,7 +17,8 @@ contexts:
     label: "2.4"
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2024-09-01T00:00:00Z"
     dockerInfo:
       image: "saagie/spark"
       baseTag: "2.4"
@@ -85,7 +86,8 @@ contexts:
     label: "3.0"
     available: true
     recommended: false
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2024-09-01T00:00:00Z"
     dockerInfo:
       image: "saagie/spark"
       baseTag: "3.0"
@@ -152,8 +154,9 @@ contexts:
   - id: "3.1"
     label: "3.1"
     available: true
-    recommended: true
-    trustLevel: stable
+    recommended: false
+    trustLevel: deprecated
+    deprecationDate: "2024-09-01T00:00:00Z"
     dockerInfo:
       image: "saagie/spark"
       baseTag: "3.1"
@@ -237,11 +240,87 @@ contexts:
               image: "saagie/spark"
               baseTag: "3.1-py-3.9"
               version: "3.1-py-3.9-1.139.0"
+  - id: "3.5"
+    label: "3.5"
+    available: true
+    recommended: true
+    trustLevel: stable
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--class=Main {file} arg1 arg2"
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: "11"
+            label: "11"
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: "saagie/spark"
+              baseTag: "3.5-jre-11"
+              version: "3.5-jre-11-1.190.0_spark-3.5"
+          - id: "17"
+            label: "17"
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: "saagie/spark"
+              baseTag: "3.5-jre-17"
+              version: "3.5-jre-17-1.190.0_spark-3.5"
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: "spark-submit \\\n--conf spark.executor.memory=1G \\\n--conf spark.executor.cores=1 \\\n--conf spark.kubernetes.executor.limit.cores=1 \\\n--conf spark.executor.instances=2 \\\n--py-files={file} local://__main__.py"
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+            - type: AI_DESCRIPTION_GENERATOR
+              label: AI description generator enabled
+              mandatory: true
+              comment: Activation of the AI-based automatic description generation function.
+        innerContexts:
+          - id: "3.12"
+            label: "3.12"
+            available: true
+            trustLevel: stable
+            recommended: true
+            dockerInfo:
+              image: "saagie/spark"
+              baseTag: "3.5-py-3.12"
+              version: "3.5-py-3.12-1.190.0_spark-3.5"
   - id: 3.1-aws
     label: 3.1 AWS
     available: true
     recommended: true
-    trustLevel: stable
+    trustLevel: deprecated
+    deprecationDate: "2024-09-01T00:00:00Z"
     dockerInfo:
       image: "saagie/spark"
       baseTag: "3.1-aws"
