@@ -1,4 +1,0 @@
-image: saagie/mlflow-server
-baseTag: "1.20"
-dynamicVersion: 1.91.0_SDKTECHNO-120
-version: 1.20-1.91.0

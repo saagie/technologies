@@ -1,4 +1,0 @@
-image: saagie/cloudbeaver
-baseTag: 1.2.0
-dynamicVersion: 1.75.0_cloudbeaver-2
-version: 1.2.0-1.75.0

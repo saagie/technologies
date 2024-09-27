@@ -1,1 +1,0 @@
-FROM saagie/python:3.7-1.46.0_SDKTECHNO-63

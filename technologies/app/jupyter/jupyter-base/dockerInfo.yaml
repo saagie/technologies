@@ -1,4 +1,0 @@
-image: saagie/jupyter-python-nbk
-baseTag: v2
-dynamicVersion: 1.95.0_SDKTECHNO-117
-version: v2-1.95.0
