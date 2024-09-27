@@ -38,35 +38,6 @@ contexts:
       image: "saagie/python"
       baseTag: "3.10"
       version: "3.10-1.155.0"
-  - id: "3.1"
-    label: "3.10 deprecated"
-    desciption: "This technology is deprecated for a technical reason. Please switch to the other Python 3.10 version"
-    available: false
-    recommended: false
-    trustLevel: deprecated
-    deprecationDate: "2023-05-09T00:00:00Z"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command to launch the job.
-          defaultValue: python {file} arg1 arg2
-        - type: ARTIFACT
-          label: Package
-          mandatory: true
-          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
-        - type: SCHEDULER
-          label: Scheduled
-          mandatory: true
-        - type: AI_DESCRIPTION_GENERATOR
-          label: AI description generator enabled
-          mandatory: true
-          comment: Activation of the AI-based automatic description generation function.
-    dockerInfo:
-      image: "saagie/python"
-      baseTag: "3.10"
-      version: "3.10-1.155.0"
   - id: "3.11"
     label: "3.11"
     available: true
@@ -121,34 +92,6 @@ contexts:
       image: "saagie/python"
       baseTag: "3.12"
       version: "3.12-1.183.0_SDKTECHNO-264"
-  - id: "3.7"
-    label: "3.7"
-    available: true
-    recommended: false
-    trustLevel: stable
-    deprecationDate: "2023-06-27T00:00:00Z"
-    job:
-      features:
-        - type: COMMAND_LINE
-          label: Command line
-          mandatory: true
-          comment: Linux shell command to launch the job.
-          defaultValue: python {file} arg1 arg2
-        - type: ARTIFACT
-          label: Package
-          mandatory: true
-          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
-        - type: SCHEDULER
-          label: Scheduled
-          mandatory: true
-        - type: AI_DESCRIPTION_GENERATOR
-          label: AI description generator enabled
-          mandatory: true
-          comment: Activation of the AI-based automatic description generation function.
-    dockerInfo:
-      image: "saagie/python"
-      baseTag: "3.7"
-      version: "3.7-1.156.0"
   - id: "3.8"
     label: "3.8"
     available: true
