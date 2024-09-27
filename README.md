@@ -47,8 +47,8 @@ The build is using the [Gradle plugin for Saagie technologies repository](https:
 - `technologies`: the required base directory. It contains sub directories for each type of technology metadata: 
 -- `app`: contains folders of each app technology
 -- `job`: contains folders of each job technology
--- `connectiontype`: contains folders of each connection type
--- `scripts` is a sub directory dedicated to external technologies which share the same javascript files
+-- `connectiontype`: contains folders of each connection type (deprecated)
+-- `scripts` is a sub directory dedicated to external technologies which share the same javascript files (deprecated)
 
 Each metadata folder must then contain a `metadata.yaml` file. For `job` and `app` technology metadata, the build is automatically generating them from the `technology.yaml` file and each `context.yaml` found in the sub folders.
 
