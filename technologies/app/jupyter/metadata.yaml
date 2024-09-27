@@ -15,44 +15,6 @@ backgroundColor: "#E87A35"
 customFlags: []
 readme: /technologies/app/jupyter
 contexts:
-  - id: jupyter-notebook-v2
-    label: Python 3.6
-    releaseNotes: First version of Jupyter Notebook into Saagie.
-    available: true
-    trustLevel: stable
-    deprecationDate: "2022-02-01T00:00:00Z"
-    recommended: false
-    ports:
-      - port: 8888
-        name: Notebook
-        rewriteUrl: false
-        basePath: SAAGIE_BASE_PATH
-    volumes: ["/notebooks-dir"]
-    dockerInfo:
-      image: "saagie/jupyter-python-nbk"
-      baseTag: "v2"
-      version: "v2-1.95.0"
-  - id: jupyter-spark-2.4.5_python-3.6
-    label: Spark 2.4
-    releaseNotes: First version of Jupyter Notebook with Spark 2.4.5 & Python 3.6 into Saagie.
-    available: true
-    trustLevel: stable
-    deprecationDate: "2022-03-01T00:00:00Z"
-    recommended: false
-    ports:
-      - port: 8888
-        name: Notebook
-        rewriteUrl: false
-        basePath: SAAGIE_BASE_PATH
-      - port: 8080
-        name: SparkUI
-        rewriteUrl: false
-        basePath: SPARK_UI_PATH
-    volumes: ["/notebooks-dir"]
-    dockerInfo:
-      image: "saagie/jupyter-python-nbk"
-      baseTag: "pyspark"
-      version: "pyspark-1.111.0"
   - id: jupyter-spark-3.1
     label: JupyterLab Spark 3.1
     releaseNotes: First version of Jupyter Notebook with Spark 3.1 into Saagie.
