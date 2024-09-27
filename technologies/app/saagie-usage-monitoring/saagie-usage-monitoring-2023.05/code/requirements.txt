@@ -1,5 +1,5 @@
 boto3==1.28.54
-urllib3==1.26.5
+urllib3==1.26.19
 psycopg2==2.9.2
 pyarrow==7.0
 numpy>=1.22,<1.23
