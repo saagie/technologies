@@ -1,0 +1,7 @@
+FROM postgres:16.4-bullseye
+
+ENV POSTGRES_USER=root
+ENV POSTGRES_PASSWORD=toor
+ENV POSTGRES_DB=saagie
+
+EXPOSE 5432

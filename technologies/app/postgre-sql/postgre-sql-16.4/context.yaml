@@ -1,0 +1,11 @@
+id: postgre-sql-16.4
+releaseNotes: PostgreSQL into Saagie.
+label: "16.4"
+available: true
+trustLevel: stable
+ports:
+  - port: 5432
+    name: postgre-sql
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
+volumes: ["/var/lib/postgresql"]
