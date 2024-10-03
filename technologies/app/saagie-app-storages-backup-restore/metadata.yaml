@@ -1,0 +1,32 @@
+version: v1
+type: APP
+id: saagie-app-storages-backup-restore
+label: Saagie App Storages Backup Restore 
+baseline: "Saagie App Storages Backup Restore is a Saagie application that allows you to backup and restore your Saagie platform storages."
+description: "Saagie App Storages Backup Restore is a Saagie application that allows you to backup and restore your Saagie platform storages."
+available: true
+icon: project-activity
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 2 GiB
+backgroundColor: "#253c5b"
+customFlags: []
+readme: /technologies/app/saagie-app-storages-backup-restore/README.md
+
+contexts:
+  - id: saagie-app-storages-backup-restore-2024.04
+    label: For Saagie 2024.04
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8050
+        name: saagie-app-storages-backup-restore
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: "saagie/saagie-app-storages-backup-restore"
+      baseTag: "2024.04-0.1"
+      version: "2024.04-0.1-1.191.0_SDKTECHNO-271"

@@ -1,0 +1,6 @@
+.idea
+*.ignore.*
+.envrc
+*.zip
+__pycache__
+*.csv
