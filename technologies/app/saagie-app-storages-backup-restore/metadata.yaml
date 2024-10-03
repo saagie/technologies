@@ -13,10 +13,10 @@ defaultResources:
     limit: 2 GiB
 backgroundColor: "#253c5b"
 customFlags: []
-readme: /technologies/app/saagie-app-storages-backup-restore/
+readme: /technologies/app/saagie-app-storages-backup-restore
 
 contexts:
-  - id: saagie-app-storages-backup-restore-2024.04
+  - id: saagie-app-storages-backup-restore-2024-04
     label: For Saagie 2024.04
     releaseNotes: ""
     available: true
@@ -29,4 +29,4 @@ contexts:
     dockerInfo:
       image: "saagie/saagie-app-storages-backup-restore"
       baseTag: "2024.04-0.1"
-      version: "2024.04-0.1-1.191.0_SDKTECHNO-271"
+      version: "2024.04-0.1-1.192.0_SDKTECHNO-271"
