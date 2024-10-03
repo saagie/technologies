@@ -1,0 +1,10 @@
+id: saagie-app-storages-backup-restore-2024-04
+label: For Saagie 2024.04
+releaseNotes: ""
+available: true
+trustLevel: stable
+ports:
+  - port: 8050
+    name: saagie-app-storages-backup-restore
+    rewriteUrl: false
+    basePath: SAAGIE_BASE_PATH
