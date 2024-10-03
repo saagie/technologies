@@ -1,0 +1,32 @@
+version: v1
+type: APP
+id: postgre-sql
+label: PostgreSQL
+baseline: "PostgreSQL"
+description: "PostgreSQL is an open source object-relational database system."
+available: true
+icon: postgre-sql
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 16 GiB
+backgroundColor: "#326690"
+customFlags: []
+readme: /technologies/app/postgre-sql
+contexts:
+  - id: postgre-sql-16.4
+    releaseNotes: PostgreSQL into Saagie.
+    label: "16.4"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 5432
+        name: postgre-sql
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/var/lib/postgresql"]
+    dockerInfo:
+      image: "saagie/postgre-sql"
+      baseTag: "16.4"
+      version: "16.4-1.192.0_SDKTECHNO-272"

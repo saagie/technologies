@@ -1,4 +1,4 @@
 image: saagie/postgre-sql
 baseTag: 16.4
-dynamicVersion:
-version: 16.4
+dynamicVersion: 1.192.0_SDKTECHNO-272
+version: 16.4-1.192.0_SDKTECHNO-272
