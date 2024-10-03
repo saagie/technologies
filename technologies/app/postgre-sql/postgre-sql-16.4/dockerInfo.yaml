@@ -1,0 +1,4 @@
+image: saagie/postgre-sql
+baseTag: 16.4
+dynamicVersion:
+version: 16.4

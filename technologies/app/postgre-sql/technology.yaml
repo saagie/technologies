@@ -1,0 +1,16 @@
+version: v1
+type: APP
+id: postgre-sql
+label: PostgreSQL
+baseline: "PostgreSQL"
+description: "PostgreSQL is an open source object-relational database system."
+available: true
+icon: postgre-sql
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 16 GiB
+backgroundColor: "#326690"
+customFlags: []
+readme: /technologies/app/postgre-sql
