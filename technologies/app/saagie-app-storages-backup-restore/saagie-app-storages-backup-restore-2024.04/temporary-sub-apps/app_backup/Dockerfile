@@ -9,8 +9,9 @@ RUN apt-get update \
 
 RUN mkdir code
 ADD code code
-ADD entrypoint.sh entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 RUN pip install -r code/requirements.txt
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

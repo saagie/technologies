@@ -111,7 +111,7 @@ def list_projects(saagie, list_max_dates_backup, url, pf):
             if app["id"] in list_max_dates_backup.keys():
                 last_backup = list_max_dates_backup[app["id"]]
             else:
-                last_backup = "Nope"
+                last_backup = "None"
             # logging.info(f"----- last_backup : {last_backup}")
 
             # on ne liste que les apps qui ont un volume lié
@@ -206,26 +206,30 @@ def get_select_data(saagie, projects_dict):
 
         # print(f"apps_list : {apps_list}")
         # récupération de la liste des infos des apps du projet du dictionnaire des backups sur la pf
-        project_list_infos_app = saagie.apps.list_for_project(project_id=project_id)['project']['apps']
-        # print(f"project_list_infos_app : {project_list_infos_app}")
+        project_list_infos = saagie.apps.list_for_project(project_id=project_id)
+        # print(f"project_list_infos : {project_list_infos}")
+        project_list_infos_app = []
+        if (project_list_infos is not None) & (project_list_infos['project'] is not None):
+            project_list_infos_app = project_list_infos['project']['apps']
+            # print(f"project_list_infos_app : found")
 
-        list_apps_select = []
-        # on parcourt la liste des apps du  dictionnaire des backups
-        for app_id in apps_list.keys():
-            # print(f"app_id : {app_id}")
-            # Pour chaque app du projet du dictionnaire des backups on parcourt la liste des infos app du projet en cours
-            for app in project_list_infos_app:
-                # quand on trouve l'id de l app dans la liste, on recupère le nom dans les infos
-                if app_id == app["id"]:
-                    # print(f"app['id'] : {app['id']}")
-                    list_apps_select.append({"value": app["id"], "label": project_name + " | " + app["name"]})
-        # print(f"list_apps_select : {list_apps_select}")
+            list_apps_select = []
+            # on parcourt la liste des apps du  dictionnaire des backups
+            for app_id in apps_list.keys():
+                # print(f"app_id : {app_id}")
+                # Pour chaque app du projet du dictionnaire des backups on parcourt la liste des infos app du projet en cours
+                for app in project_list_infos_app:
+                    # quand on trouve l'id de l app dans la liste, on recupère le nom dans les infos
+                    if app_id == app["id"]:
+                        # print(f"app['id'] : {app['id']}")
+                        list_apps_select.append({"value": app["id"], "label": project_name + " | " + app["name"]})
+            # print(f"list_apps_select : {list_apps_select}")
 
-        retour.append(
-            {
-                "group": project_name,
-                "items": list_apps_select
-            }
-        )
+            retour.append(
+                {
+                    "group": project_name,
+                    "items": list_apps_select
+                }
+            )
     # print(f"retour : {retour}")
     return retour

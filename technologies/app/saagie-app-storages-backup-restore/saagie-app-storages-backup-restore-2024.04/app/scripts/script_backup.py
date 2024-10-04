@@ -8,27 +8,29 @@ from datetime import datetime
 
 def script_backup():
     ##############################################################################################
-    # liste des apps à sauvegarder BACKUP_LIST_APP_ID
+    # liste des apps à sauvegarder SAAGIE_APP_BACKUP_LIST_APP_ID
 
-    if os.environ.get('BACKUP_LIST_APP_ID'):
-        list_app = os.environ['BACKUP_LIST_APP_ID'].split(',')
+    if os.environ.get('SAAGIE_APP_BACKUP_LIST_APP_ID'):
+        list_app = os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID'].split(',')
     else:
-        logging.warning("==> BACKUP_LIST_APP_ID à paramétrer")
+        logging.warning("==> SAAGIE_APP_BACKUP_LIST_APP_ID à paramétrer")
         return False
 
     # TODO: define a timeout
     init_timeout = 600
     timeout = 600
-    project_id = os.environ["BACKUP_APP_PROJECT_ID"]
+    project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]
     finished_status = ["STOPPED", "FAILED", "UNKNOWN"]
 
     # Get information to connect to Saagie
     logging.info(f"Connect to Saagie ")
-    url = os.getenv('BACKUP_URL', 'https://saagie-tech.saagie.io')
-    platform_login = os.getenv('BACKUP_USER', 'tech_user')
-    platform_pwd = os.getenv('BACKUP_PWD', 'tech_user')
+    url = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_URL', 'https://saagie-tech.saagie.io')
+    platform_login = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_USER', 'tech_user')
+    platform_pwd = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_PWD', 'tech_user')
     realm = get_realm_from_url(url)
-    pf = os.getenv('BACKUP_PF_ID', '1')
+    pf = os.getenv('SAAGIE_APP_BACKUP_PF_ID', '1')
+
+    APP_BACKUP_VERSION = os.environ.get("APP_BACKUP_VERSION", '2024.04-0.1-1.192.0_SDKTECHNO-271')
 
     logging.info(f"---- {url=}")
     logging.info(f"---- {platform_login=}")
@@ -150,9 +152,11 @@ def script_backup():
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
+            backup_tmp_app_prefix = os.environ['SAAGIE_APP_BACKUP_TMP_APP_PREFIX']
+
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="BACKUP_STORAGE_FOLDER",
+                name="SAAGIE_APP_BACKUP_STORAGE_FOLDER",
                 value=volume,
                 description="Path directory on image",
                 project_id=project_id
@@ -160,18 +164,28 @@ def script_backup():
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="BACKUP_S3_PREFIX",
+                name="SAAGIE_APP_BACKUP_S3_PREFIX",
                 value=s3_file_prefix,
                 project_id=project_id
             )
-            app_name = f"{os.environ['BACKUP_TMP_APP_PREFIX']} {datetime.timestamp(d)}"
+            client_saagie.env_vars.create_or_update(
+                scope="PROJECT",
+                name="SAAGIE_APP_BACKUP_TMP_APP_PREFIX",
+                value=backup_tmp_app_prefix,
+                project_id=project_id
+            )
+            app_name = f"{backup_tmp_app_prefix} {datetime.timestamp(d)}"
+
+            app_backup_baseName = 'saagie/saagie-app-storages-sub-app-backup'
+            app_backup_name = f'{app_backup_baseName}:{APP_BACKUP_VERSION}'
+            print(f"app_backup_name: {app_backup_name}")
 
             # Create the tmp app
             logging.info(f"----- Creating the tmp app [{app_name}] ...")
             create_app_info = client_saagie.apps.create_from_scratch(
                 project_id=project_id,
                 app_name=app_name,
-                image="qiwei1000/app_tmp:1.4", # TODO: change this value when you have push the image in saagie's docker hub
+                image=app_backup_name,
                 exposed_ports=[
                     {
                         "basePathVariableName": "SAAGIE_BASE_PATH",

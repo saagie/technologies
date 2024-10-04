@@ -10,11 +10,11 @@ from pathlib import Path
 
 def script_restore():
     ##############################################################################################
-    # liste des apps à restored RESTORE_LIST_APP_ID
-    if os.environ.get('RESTORE_LIST_APP_ID'):
-        list_app = os.environ['RESTORE_LIST_APP_ID'].split(',')
+    # liste des apps à restored SAAGIE_APP_RESTORE_LIST_APP_ID
+    if os.environ.get('SAAGIE_APP_RESTORE_LIST_APP_ID'):
+        list_app = os.environ['SAAGIE_APP_RESTORE_LIST_APP_ID'].split(',')
     else:
-        logging.warning("==> RESTORE_LIST_APP_ID à paramétrer")
+        logging.warning("==> SAAGIE_APP_RESTORE_LIST_APP_ID à paramétrer")
         return False
 
     # date du backup
@@ -34,11 +34,13 @@ def script_restore():
 
     # Get information to connect to Saagie
     logging.info(f"Connect to Saagie ")
-    url = os.getenv('BACKUP_URL', 'https://saagie-tech.saagie.io')
-    platform_login = os.getenv('BACKUP_USER', 'tech_user')
-    platform_pwd = os.getenv('BACKUP_PWD', 'tech_user')
+    url = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_URL', 'https://saagie-tech.saagie.io')
+    platform_login = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_USER', 'tech_user')
+    platform_pwd = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_PWD', 'tech_user')
     realm = get_realm_from_url(url)
-    pf = os.getenv('BACKUP_PF_ID', '1')
+    pf = os.getenv('SAAGIE_APP_BACKUP_PF_ID', '1')
+
+    APP_RESTORE_VERSION = os.environ.get("APP_RESTORE_VERSION", '2024.04-0.1-1.192.0_SDKTECHNO-271')
 
     logging.info(f"---- {url=}")
     logging.info(f"---- {platform_login=}")
@@ -53,11 +55,11 @@ def script_restore():
                               realm=realm)
 
     s3_client = boto3.client("s3",
-                             endpoint_url=os.environ["BACKUP_S3_ENDPOINT"],
-                             region_name=os.environ["BACKUP_REGION_NAME"],
-                             aws_access_key_id=os.environ["BACKUP_S3_ACCESS_KEY_ID"],
-                             aws_secret_access_key=os.environ["BACKUP_S3_SECRET_ACCESS_KEY"])
-    s3_bucket_name = os.environ["BACKUP_S3_BUCKET_NAME"]
+                             endpoint_url=os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"],
+                             region_name=os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"],
+                             aws_access_key_id=os.environ["SAAGIE_APP_BACKUP_S3_ACCESS_KEY_ID"],
+                             aws_secret_access_key=os.environ["SAAGIE_APP_BACKUP_S3_SECRET_ACCESS_KEY"])
+    s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]
 
 
     for app_id in list_app:
@@ -67,7 +69,7 @@ def script_restore():
         project_id = app_info['project']['id']
         client_saagie.env_vars.create_or_update(
             scope="PROJECT",
-            name="BACKUP_APP_PROJECT_ID",
+            name="SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID",
             value=project_id,
             project_id=project_id
         )
@@ -129,9 +131,11 @@ def script_restore():
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
+            restore_tmp_app_prefix = os.environ['SAAGIE_APP_RESTORE_TMP_APP_PREFIX']
+
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="RESTORE_STORAGE_FOLDER",
+                name="SAAGIE_APP_RESTORE_STORAGE_FOLDER",
                 value="/"+path,
                 description="Path directory on image",
                 project_id=project_id
@@ -139,29 +143,33 @@ def script_restore():
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="RESTORE_S3_PREFIX",
+                name="SAAGIE_APP_RESTORE_S3_PREFIX",
                 value=s3_file_prefix,
                 project_id=project_id
             )
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="RESTORE_TMP_APP_PREFIX",
-                value=os.environ["RESTORE_TMP_APP_PREFIX"],
+                name="SAAGIE_APP_RESTORE_TMP_APP_PREFIX",
+                value=restore_tmp_app_prefix,
                 project_id=project_id
             )
 
 
             # Create a temporary app to restore the backup
             #d = datetime.now()
-            app_name = f"{os.environ['RESTORE_TMP_APP_PREFIX']} {datetime.timestamp(d)}"
+            app_name = f"{restore_tmp_app_prefix} {datetime.timestamp(d)}"
+
+            app_restore_baseName = 'saagie/saagie-app-storages-sub-app-restore'
+            app_restore_name = f'{app_restore_baseName}:{APP_RESTORE_VERSION}'
+            print(f"app_restore_name: {app_restore_name}")
 
             # Create the tmp app
             logging.info(f"----- Creating the tmp app for restore [{app_name}] ...")
             create_app_info = client_saagie.apps.create_from_scratch(
                 project_id=project_id,
                 app_name=app_name,
-                image="annelhomme/restore:1.1", # TODO: change this value when you have push the image in saagie's docker hub
+                image=app_restore_name,
                 exposed_ports=[
                     {
                         "basePathVariableName": "SAAGIE_BASE_PATH",
