@@ -57,7 +57,7 @@ def list_objects_with_prefix(s3_client, bucket_name, prefix):
     return object_keys
 
 
-def split_info(list_path):
+def split_info(list_path, path_volume):
     """
 
     :param list_path:
@@ -68,20 +68,34 @@ def split_info(list_path):
 
     # Boucle sur chaque chemin
     for chemin in list_path:
+        logging.info(f"chemin: {chemin}")
         # Utilisation de l'expression régulière pour extraire les informations
-        match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)/', chemin)
-        if match:
-            date = match.group(1)
-            chemin_complet = match.group(2)
+        
+        for volume in path_volume:
+            escaped_pattern = re.escape(volume[1:])
+            logging.info(f"escaped_pattern: {escaped_pattern}")
 
-            # Séparation du chemin complet pour obtenir le path
-            path = chemin_complet.split('/')[0]
+            regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/({escaped_pattern})/.*'
+            logging.info(f"regex: {regex}")
+            match = re.match(regex, chemin)
 
-            # Création de la structure de données si elle n'existe pas encore
-            if date not in informations:
-                informations[date] = []
-            if path not in informations[date]:
-                informations[date].append(path)
+            # match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)/', chemin)
+
+            logging.info(f"match: {match}")
+            if match:
+                date = match.group(1)
+                chemin_complet = match.group(2)
+                logging.info(f"chemin_complet: {chemin_complet}")
+
+                # Séparation du chemin complet pour obtenir le path
+                # path = chemin_complet.split('/')[0]
+                # logging.info(f"path: {path}")
+
+                # Création de la structure de données si elle n'existe pas encore
+                if date not in informations:
+                    informations[date] = []
+                if chemin_complet not in informations[date]:
+                    informations[date].append(chemin_complet)
 
     # Affichage des informations
 
@@ -106,12 +120,13 @@ def list_projects(saagie, list_max_dates_backup, url, pf):
     retour = []
     for project in saagie.projects.list()['projects']:
         project_list_infos_app = saagie.apps.list_for_project(project_id=project["id"])['project']['apps']
+
         for app in project_list_infos_app:
-            url_app = url + "/projects/platform/" + pf + "/project/" + project["id"] + "/app/" + app["id"]
+            url_app = url + "/projects/platform/" + str(pf) + "/project/" + project["id"] + "/app/" + app["id"]
             if app["id"] in list_max_dates_backup.keys():
                 last_backup = list_max_dates_backup[app["id"]]
             else:
-                last_backup = "Nope"
+                last_backup = "None"
             # logging.info(f"----- last_backup : {last_backup}")
 
             # on ne liste que les apps qui ont un volume lié
@@ -139,6 +154,8 @@ def list_path_to_dict(list_path):
     # Initialisation du dictionnaire pour stocker les informations
     projects_dict = {}
     apps_list = {}
+
+    # print(f"list_path_tools.py : {list_path}")
 
     # Boucle sur chaque chemin
     for chemin in list_path:
@@ -195,6 +212,8 @@ def get_select_data(saagie, projects_dict):
     # récupération de la liste des projets de la pf
     projects_list = saagie.projects.list()['projects']
 
+    # print(f"projects_dict : {projects_dict}")
+
     for project_id, apps_list in projects_dict.items():
         # print(f"project_id : {project_id}")
 
@@ -202,30 +221,35 @@ def get_select_data(saagie, projects_dict):
         for project in projects_list:
             if project_id == project["id"]:
                 # print(f"project['name'] : {project['name']}")
+                # print(f"apps_list : {apps_list}")
                 project_name = project['name']
 
         # print(f"apps_list : {apps_list}")
         # récupération de la liste des infos des apps du projet du dictionnaire des backups sur la pf
-        project_list_infos_app = saagie.apps.list_for_project(project_id=project_id)['project']['apps']
-        # print(f"project_list_infos_app : {project_list_infos_app}")
+        project_list_infos = saagie.apps.list_for_project(project_id=project_id)
+        # print(f"project_list_infos : {project_list_infos}")
+        project_list_infos_app = []
+        if (project_list_infos is not None) & (project_list_infos['project'] is not None):
+            project_list_infos_app = project_list_infos['project']['apps']
+            # print(f"project_list_infos_app : found")
 
-        list_apps_select = []
-        # on parcourt la liste des apps du  dictionnaire des backups
-        for app_id in apps_list.keys():
-            # print(f"app_id : {app_id}")
-            # Pour chaque app du projet du dictionnaire des backups on parcourt la liste des infos app du projet en cours
-            for app in project_list_infos_app:
-                # quand on trouve l'id de l app dans la liste, on recupère le nom dans les infos
-                if app_id == app["id"]:
-                    # print(f"app['id'] : {app['id']}")
-                    list_apps_select.append({"value": app["id"], "label": project_name + " | " + app["name"]})
-        # print(f"list_apps_select : {list_apps_select}")
+            list_apps_select = []
+            # on parcourt la liste des apps du  dictionnaire des backups
+            for app_id in apps_list.keys():
+                # print(f"app_id : {app_id}")
+                # Pour chaque app du projet du dictionnaire des backups on parcourt la liste des infos app du projet en cours
+                for app in project_list_infos_app:
+                    # quand on trouve l'id de l app dans la liste, on recupère le nom dans les infos
+                    if app_id == app["id"]:
+                        # print(f"app['id'] : {app['id']}")
+                        list_apps_select.append({"value": app["id"], "label": project_name + " | " + app["name"]})
+            # print(f"list_apps_select : {list_apps_select}")
 
-        retour.append(
-            {
-                "group": project_name,
-                "items": list_apps_select
-            }
-        )
+            retour.append(
+                {
+                    "group": project_name,
+                    "items": list_apps_select
+                }
+            )
     # print(f"retour : {retour}")
     return retour

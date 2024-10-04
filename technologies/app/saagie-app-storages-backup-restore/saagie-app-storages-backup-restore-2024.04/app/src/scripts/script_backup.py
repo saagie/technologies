@@ -8,27 +8,32 @@ from datetime import datetime
 
 def script_backup():
     ##############################################################################################
-    # liste des apps à sauvegarder BACKUP_LIST_APP_ID
+    # liste des apps à sauvegarder SAAGIE_APP_BACKUP_LIST_APP_ID
 
-    if os.environ.get('BACKUP_LIST_APP_ID'):
-        list_app = os.environ['BACKUP_LIST_APP_ID'].split(',')
+    if os.environ.get('SAAGIE_APP_BACKUP_LIST_APP_ID'):
+        list_app = os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID'].split(',')
     else:
-        logging.warning("==> BACKUP_LIST_APP_ID à paramétrer")
+        logging.warning("==> SAAGIE_APP_BACKUP_LIST_APP_ID à paramétrer")
         return False
 
-    # TODO: define a timeout
-    init_timeout = 600
-    timeout = 600
-    project_id = os.environ["BACKUP_APP_PROJECT_ID"]
+    init_timeout = int(os.environ.get("SAAGIE_APP_BACKUP_TIMEOUT_BACKUP", 600))
+    timeout = init_timeout
+    backup_app_project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]
     finished_status = ["STOPPED", "FAILED", "UNKNOWN"]
+
+    APP_BACKUP_VERSION = os.environ.get("APP_BACKUP_VERSION", '2024.04-0.1-1.192.0_SDKTECHNO-271')
+
+    app_backup_baseName = 'saagie/saagie-app-storages-sub-app-backup'
+    app_backup_name = f'{app_backup_baseName}:{APP_BACKUP_VERSION}'
+    print(f"app_backup_name: {app_backup_name}")
 
     # Get information to connect to Saagie
     logging.info(f"Connect to Saagie ")
-    url = os.getenv('BACKUP_URL', 'https://saagie-tech.saagie.io')
-    platform_login = os.getenv('BACKUP_USER', 'tech_user')
-    platform_pwd = os.getenv('BACKUP_PWD', 'tech_user')
+    url = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_URL', 'https://saagie-tech.saagie.io')
+    platform_login = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_USER', 'tech_user')
+    platform_pwd = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_PWD', 'tech_user')
     realm = get_realm_from_url(url)
-    pf = os.getenv('BACKUP_PF_ID', '1')
+    pf = os.getenv('SAAGIE_APP_BACKUP_PF_ID', '1')
 
     logging.info(f"---- {url=}")
     logging.info(f"---- {platform_login=}")
@@ -42,11 +47,12 @@ def script_backup():
                               password=platform_pwd,
                               realm=realm)
 
+    logging.info(f"App ids to backup: {list_app}")
 
     for app_id in list_app:
-        logging.info("======================")
+        logging.info("=========================================================================================")
         logging.info(f"App to backup: [{app_id}]")
-        # DeprecatedWarning: get_info is deprecated as of 2.10.0. This function is deprecated and will be removed in a future version. Please use :func:`get()` instead.
+        # Deprecated Warning: get_info is deprecated as of 2.10.0. This function is deprecated and will be removed in a future version. Please use :func:`get()` instead.
         app_info = client_saagie.apps.get_info(app_id)['app']
         if not app_info:
             logging.warning(f"App [{app_id}] not found")
@@ -82,8 +88,8 @@ def script_backup():
         dict_volume = {}
         # Duplicates all volume of the app
         for volume in app_info["currentVersion"]["volumesWithPath"]:
-            logging.info("========================================")
             volume_name = volume['volume']['name']
+            logging.info(f"======================================== DUPLICATE VOLUME {volume_name} of app {app_id}")
             volume_path = volume['path']
             volume_id = volume['volume']['id']
             volume_size = volume['volume']['size']
@@ -114,9 +120,9 @@ def script_backup():
             # Reset timeout
             timeout = init_timeout
             # Vérifier si l'app est dans le même projet que l'addOn, déplacer les volumes duppliqués pour les monter sur lapp_tempo sinon
-            if not app_to_backup_project_id == project_id : 
+            if not app_to_backup_project_id == backup_app_project_id :
                 logging.info(f"====> Déplacement du volume vers le projet où se trouve l'addOn ...")
-                move_to = client_saagie.storages.move(storage_id=duplicate_volume_id, target_platform_id=pf, target_project_id=project_id)
+                move_to = client_saagie.storages.move(storage_id=duplicate_volume_id, target_platform_id=pf, target_project_id=backup_app_project_id)
                 logging.info(f"retour move new id:{move_to['moveVolume']}")
                 duplicate_volume_id = move_to['moveVolume']
             else : 
@@ -131,9 +137,9 @@ def script_backup():
             logging.info(f"Restart the app [{app_info['id']}]")
             client_saagie.apps.run(app_id=app_info['id'])
 
-
         # Create a new app with the duplicated storage and store it on S3
         for volume in dict_volume:
+            logging.info(f"======================================== BACKUP VOLUME {volume_name} of app {app_id}")
             logging.info(f"Backup of the volume")
             duplicate_volume_id = dict_volume[volume]["id"]
             logging.info(f"----- The path of the volume is {volume}")
@@ -143,35 +149,41 @@ def script_backup():
             # Create the backup folder
             d = datetime.now()
             date_backup = d.strftime('%Y-%m-%d')
-            # modif à faire => dans le chemin sur le S3, le project_id doit etre celui de l app à backuper
-            # s3_file_prefix = project_id + '/' + app_id + '/' + date_backup
             s3_file_prefix = app_to_backup_project_id + '/' + app_id + '/' + date_backup
             logging.info(f"----- The path prefix of the backup will be: {s3_file_prefix}")
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
+            backup_tmp_app_prefix = os.environ['SAAGIE_APP_BACKUP_TMP_APP_PREFIX']
+
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="BACKUP_STORAGE_FOLDER",
+                name="SAAGIE_APP_BACKUP_STORAGE_FOLDER",
                 value=volume,
                 description="Path directory on image",
-                project_id=project_id
+                project_id=backup_app_project_id
             )
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="BACKUP_S3_PREFIX",
+                name="SAAGIE_APP_BACKUP_S3_PREFIX",
                 value=s3_file_prefix,
-                project_id=project_id
+                project_id=backup_app_project_id
             )
-            app_name = f"{os.environ['BACKUP_TMP_APP_PREFIX']} {datetime.timestamp(d)}"
+            client_saagie.env_vars.create_or_update(
+                scope="PROJECT",
+                name="SAAGIE_APP_BACKUP_TMP_APP_PREFIX",
+                value=backup_tmp_app_prefix,
+                project_id=backup_app_project_id
+            )
+            app_name = f"{backup_tmp_app_prefix} {datetime.timestamp(d)}"
 
             # Create the tmp app
-            logging.info(f"----- Creating the tmp app [{app_name}] ...")
+            logging.info(f"----- Creating the tmp app [{app_name}] in project {backup_app_project_id}...")
             create_app_info = client_saagie.apps.create_from_scratch(
-                project_id=project_id,
+                project_id=backup_app_project_id,
                 app_name=app_name,
-                image="qiwei1000/app_tmp:1.4", # TODO: change this value when you have push the image in saagie's docker hub
+                image=app_backup_name,
                 exposed_ports=[
                     {
                         "basePathVariableName": "SAAGIE_BASE_PATH",
@@ -212,10 +224,10 @@ def script_backup():
             
             logging.info(f"Getting temporary APP logs: [{app_name}] with ID [{app_tmp_id} and currentExecutionId {current_execution_id}]")
             app_logs = get_app_logs(client_saagie,app_tmp_id,current_execution_id)['appLogs']['content']
-            logging.info(f"*********** {app_name} logs *************")
+            logging.info(f"*********** {app_name} logs *************>>>>>")
             for logs in app_logs : 
                 logging.info(f"{logs['value']}")
-            logging.info("***************************")
+            logging.info(f"<<<<<*********** {app_name} logs *************")
 
 
             logging.info(f"Deleting the temporary APP: [{app_name}] with ID [{app_tmp_id}]")
@@ -223,7 +235,7 @@ def script_backup():
 
             # Delete the duplicated storage
             logging.info(f"Deleting the duplicated storage {duplicate_volume_id}")
-            client_saagie.storages.delete(storage_id=duplicate_volume_id, project_id=project_id)
+            client_saagie.storages.delete(storage_id=duplicate_volume_id, project_id=backup_app_project_id)
 
-            return True
+    return True
 

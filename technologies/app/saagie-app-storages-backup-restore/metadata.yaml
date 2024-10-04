@@ -5,7 +5,7 @@ label: Saagie App Storages Backup Restore
 baseline: "Saagie App Storages Backup Restore is a Saagie application that allows you to backup and restore your Saagie platform storages."
 description: "Saagie App Storages Backup Restore is a Saagie application that allows you to backup and restore your Saagie platform storages."
 available: true
-icon: project-activity
+icon: transfer
 defaultResources: 
   cpu: 
     limit: 1
@@ -13,7 +13,7 @@ defaultResources:
     limit: 2 GiB
 backgroundColor: "#253c5b"
 customFlags: []
-readme: /technologies/app/saagie-app-storages-backup-restore/README.md
+readme: /technologies/app/saagie-app-storages-backup-restore/
 
 contexts:
   - id: saagie-app-storages-backup-restore-2024.04

@@ -61,20 +61,20 @@ def get_realm_from_url(url):
 def main():
 
     # Get env vars
-    storage_folder = os.environ["BACKUP_STORAGE_FOLDER"]  # Path directory on image, e.g. /notebooks-dir
-    s3_bucket_name = os.environ["BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
-    s3_prefix = os.environ["BACKUP_S3_PREFIX"]  # Prefix of the file, e.g. date/id-projet/id-app
-    project_id = os.environ["BACKUP_APP_PROJECT_ID"]  # Project ID of this app
-    app_prefix = os.environ["BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
+    storage_folder = os.environ["SAAGIE_APP_BACKUP_STORAGE_FOLDER"]  # Path directory on image, e.g. /notebooks-dir
+    s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
+    s3_prefix = os.environ["SAAGIE_APP_BACKUP_S3_PREFIX"]  # Prefix of the file, e.g. date/id-projet/id-app
+    project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]  # Project ID of this app
+    app_prefix = os.environ["SAAGIE_APP_BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
 
     logging.info("Start backup")
 
     # Connect to S3
     s3_client = boto3.client("s3",
-                             endpoint_url=os.environ["BACKUP_S3_ENDPOINT"],
-                             region_name=os.environ["BACKUP_REGION_NAME"],
-                             aws_access_key_id=os.environ["BACKUP_S3_ACCESS_KEY_ID"],
-                             aws_secret_access_key=os.environ["BACKUP_S3_SECRET_ACCESS_KEY"])
+                             endpoint_url=os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"],
+                             region_name=os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"],
+                             aws_access_key_id=os.environ["SAAGIE_APP_BACKUP_S3_ACCESS_KEY_ID"],
+                             aws_secret_access_key=os.environ["SAAGIE_APP_BACKUP_S3_SECRET_ACCESS_KEY"])
 
     # Check if the bucket exist, if not create it
     bucket_exist = [True for bucket in s3_client.list_buckets()["Buckets"] if bucket["Name"] == s3_bucket_name]
@@ -99,14 +99,14 @@ def main():
 
     # Get information to connect to Saagie
     logging.info(f"Connect to Saagie ")
-    url = os.getenv('BACKUP_URL', 'https://saagie-tech.saagie.io')
+    url = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_URL', 'https://saagie-tech.saagie.io')
     logging.info(f"---- url : {url}")
-    platform_login = os.getenv('BACKUP_USER', 'tech_user')
-    platform_pwd = os.getenv('BACKUP_PWD', 'tech_user')
+    platform_login = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_USER', 'tech_user')
+    platform_pwd = os.getenv('SAAGIE_APP_BACKUP_SAAGIE_PWD', 'tech_user')
     logging.info(f"---- platformLogin : {platform_login}")
 
     realm = get_realm_from_url(url)
-    pf = os.getenv('BACKUP_PF_ID', '1')
+    pf = os.getenv('SAAGIE_APP_BACKUP_PF_ID', '1')
     logging.info(f"{realm=}")
     logging.info(f"{pf=}")
 
