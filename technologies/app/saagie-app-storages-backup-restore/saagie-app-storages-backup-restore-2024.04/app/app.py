@@ -14,32 +14,32 @@ import boto3
 columnDefsBackUp = [
     {
         "field": "projet",
-        "headerName": "Nom du projet",
+        "headerName": "Project Name",
         "checkboxSelection": True,
         "headerCheckboxSelection": True,
         "headerCheckboxSelectionFilteredOnly": True,
     },
     {
         "field": "project_id",
-        "headerName": "ID du projet",
+        "headerName": "Project ID",
     },
     {
         "field": "app_name",
-        "headerName": "Nom de l'app",
+        "headerName": "App Name",
         # stockLink function is defined in the dashAgGridComponentFunctions.js in assets folder
         # "cellRenderer": "StockLink",       
     },
     {
         "field": "app_id",
-        "headerName": "ID de l'app",
+        "headerName": "App ID",
     },
     {
         "field": "last_backup",
-        "headerName": "Date du dernier backup",
+        "headerName": "Date of last backup",
     },
     {
         "field": "app_url",
-        "headerName": "url de l'app",
+        "headerName": "App url",
         # stockLink function is defined in the dashAgGridComponentFunctions.js in assets folder
         "cellRenderer": "StockLink",
         # "hide": True
@@ -49,16 +49,16 @@ columnDefsBackUp = [
 
 
 
-url = os.environ['BACKUP_URL']
-pf = os.environ['BACKUP_PF_ID']
-platformLogin = os.environ['BACKUP_USER']
-platformPwd = os.environ['BACKUP_PWD']
+url = os.environ['SAAGIE_APP_BACKUP_SAAGIE_URL']
+pf = os.environ['SAAGIE_APP_BACKUP_PF_ID']
+platformLogin = os.environ['SAAGIE_APP_BACKUP_SAAGIE_USER']
+platformPwd = os.environ['SAAGIE_APP_BACKUP_SAAGIE_PWD']
 realm = get_realm_from_url(url)
-endpoint_url = os.environ["BACKUP_S3_ENDPOINT"]
-region_name = os.environ["BACKUP_REGION_NAME"]
-s3_bucket_name = os.environ["BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
-app_prefix = os.environ["BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
-backup_project_id = os.environ["BACKUP_APP_PROJECT_ID"]  # id du projet où est hébergé l'addOn
+endpoint_url = os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"]
+region_name = os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"]
+s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
+app_prefix = os.environ["SAAGIE_APP_BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
+backup_project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]  # id du projet où est hébergé l'addOn
 
 saagie = SaagieApi(url_saagie=url, id_platform=pf, user=platformLogin, password=platformPwd, realm=realm)
 # récupération des infos du projet où se trouve l'app backup
@@ -83,10 +83,10 @@ if info_projet_backup == None:
 
 # Connect to S3
 s3_client = boto3.client("s3",
-                         endpoint_url=os.environ["BACKUP_S3_ENDPOINT"],
-                         region_name=os.environ["BACKUP_REGION_NAME"],
-                         aws_access_key_id=os.environ["BACKUP_S3_ACCESS_KEY_ID"],
-                         aws_secret_access_key=os.environ["BACKUP_S3_SECRET_ACCESS_KEY"])
+                         endpoint_url=os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"],
+                         region_name=os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"],
+                         aws_access_key_id=os.environ["SAAGIE_APP_BACKUP_S3_ACCESS_KEY_ID"],
+                         aws_secret_access_key=os.environ["SAAGIE_APP_BACKUP_S3_SECRET_ACCESS_KEY"])
 
 # Check if the bucket exist, if not create it
 bucket_exist = [True for bucket in s3_client.list_buckets()["Buckets"] if bucket["Name"] == s3_bucket_name]
@@ -114,7 +114,7 @@ app = Dash("AddOn Backup/Restore",
 # to run locally
 # app = Dash(__name__)
 
-
+app.title = "Saagie Backup/Restore apps storages"
 app.layout = dmc.MantineProvider(
     children=[
         html.Div(id="sui-root", children=[
@@ -133,7 +133,7 @@ app.layout = dmc.MantineProvider(
                         id="header-text",
                         className="sui-g-grid__item as--auto",
                         children=[
-                            html.Span("- AddOn Backup/Restore", className="sui-h-text-lg sui-h-text-white")
+                            html.Span("AddOn Backup/Restore", className="sui-h-text-lg sui-h-text-white")
                         ],
                     ),
 
@@ -179,8 +179,8 @@ app.layout = dmc.MantineProvider(
                                         children=[
                                             html.Div(id='action-return'),
                                             # dcc.Link(id='app-link', target="_blank", href="", title="Voir l'application restaurée"),
-                                            html.A(id='app-link', target="_blank", title="Voir l'application",
-                                                   children="Voir l'application"),
+                                            html.A(id='app-link', target="_blank", title="See app",
+                                                   children="Go to the app"),
                                             html.Button(id='btn-close-notification', className="sui-o-notification__clear")
                                         ]
                                     )
@@ -231,7 +231,7 @@ def render_content(tab):
                                              children=[
                                                  html.Span(className="sui-m-search-bar__icon",
                                                            children=[html.I(className="sui-a-icon as--fa-search")]),
-                                                 dcc.Input(id="input-filter", placeholder="Filtrez par nom...",
+                                                 dcc.Input(id="input-filter", placeholder="Filter by name, id, ...",
                                                            className="sui-a-form-control"),
                                              ]
                                              ),
@@ -308,7 +308,7 @@ def render_content(tab):
                                                     data=get_select_data(saagie, list_path_to_dict(list_paths_backup)),
                                                     searchable=True,
                                                     clearable=True,
-                                                    label="Liste des backups disponibles",
+                                                    label="Available backups",
                                                     placeholder="Select an app to backup",
                                                     id="app-select",
                                                     w=400,
@@ -324,7 +324,7 @@ def render_content(tab):
                                                     data=[],
                                                     searchable=True,
                                                     # clearable=True,
-                                                    label="Dates des backups",
+                                                    label="Backup dates",
                                                     placeholder="Select a date",
                                                     id="date-select",
                                                     w=400,
@@ -426,10 +426,10 @@ def prepare_restore(value_app, value_date, n_clicks):
         if value_app and len(value_app) > 0:
             #########################################################
             # maj de l'envvar en local
-            print(f"local RESTORE_LIST_APP_ID avant maj : {os.environ.get('RESTORE_LIST_APP_ID')}")
-            os.environ['RESTORE_LIST_APP_ID'] = value_app
-            test = os.environ['RESTORE_LIST_APP_ID']
-            print(f"local RESTORE_LIST_APP_ID après maj : {test}")
+            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID avant maj : {os.environ.get('SAAGIE_APP_RESTORE_LIST_APP_ID')}")
+            os.environ['SAAGIE_APP_RESTORE_LIST_APP_ID'] = value_app
+            test = os.environ['SAAGIE_APP_RESTORE_LIST_APP_ID']
+            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID après maj : {test}")
 
             print(f"local RESTORE_DATE avant maj : {os.environ.get('RESTORE_DATE')}")
             os.environ['RESTORE_DATE'] = value_date
@@ -438,16 +438,16 @@ def prepare_restore(value_app, value_date, n_clicks):
 
             #########################################################
             # maj de l'envvar projet
-            logging.info(f"----- Updating environment variables RESTORE_LIST_APP_ID...")
+            logging.info(f"----- Updating environment variables SAAGIE_APP_RESTORE_LIST_APP_ID...")
             logging.info(f"pf_id : {pf}")
             saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="RESTORE_LIST_APP_ID",
+                name="SAAGIE_APP_RESTORE_LIST_APP_ID",
                 value=value_app,
                 description="List of apps to backup",
                 project_id=backup_project_id
             )
-            logging.info(f"----- Fin Updating environment variables RESTORE_LIST_APP_ID")
+            logging.info(f"----- End updating environment variables SAAGIE_APP_RESTORE_LIST_APP_ID")
 
             logging.info(f"----- Updating environment variables RESTORE_DATE...")
             logging.info(f"pf_id : {pf}")
@@ -458,14 +458,14 @@ def prepare_restore(value_app, value_date, n_clicks):
                 description="Date of selected backup to restore",
                 project_id=backup_project_id
             )
-            logging.info(f"----- Fin Updating environment variables RESTORE_DATE")
+            logging.info(f"----- End of updating environment variables RESTORE_DATE")
 
             url_app = url + "/projects/platform/" + pf + "/project/" + backup_project_id + "/app/" + value_app
             print(f"url_app :{url_app}")
 
             launch_restore()
             # time.sleep(2)
-            message = f"app {value_app} restaurée à la date du {value_date}"
+            message = f"App {value_app} restored to date of {value_date}"
             return message, message, {'display': 'block'}, url_app
     return "", "", {'display': 'none'}, ""
 
@@ -535,7 +535,7 @@ def prepare_backup(selectedRows, rowData, n_clicks):
         # do something with values
         # return something 
         # - afficher la liste des apps qui seront backupées dans la div 'selected-app'
-        # - mettre à jour la variable d'env BACKUP_LIST_APP_ID => comment trouver l'id du projet de l app courrante ?
+        # - mettre à jour la variable d'env SAAGIE_APP_BACKUP_LIST_APP_ID => comment trouver l'id du projet de l app courrante ?
         # - lancer le script script_backup/__main__.py
         # print(selectedRows)
         # print(rowData)
@@ -546,24 +546,24 @@ def prepare_backup(selectedRows, rowData, n_clicks):
         if len(backup_list_app_id) > 0:
             #########################################################
             # maj de l'envvar en local
-            print(f"local BACKUP_LIST_APP_ID avant maj : {os.environ['BACKUP_LIST_APP_ID']}")
-            os.environ['BACKUP_LIST_APP_ID'] = backup_list_app_id
-            test = os.environ['BACKUP_LIST_APP_ID']
-            print(f"local BACKUP_LIST_APP_ID après maj : {test}")
+            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID avant maj : {os.environ.get('SAAGIE_APP_BACKUP_LIST_APP_ID', '')}")
+            os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID'] = backup_list_app_id
+            test = os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID']
+            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID après maj : {test}")
 
             #########################################################
             # maj de l'envvar projet
-            logging.info(f"----- Updating environment variables BACKUP_LIST_APP_ID...")
+            logging.info(f"----- Updating environment variables SAAGIE_APP_BACKUP_LIST_APP_ID...")
             logging.info(f"pf_id : {pf}")
             saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="BACKUP_LIST_APP_ID",
+                name="SAAGIE_APP_BACKUP_LIST_APP_ID",
                 value=backup_list_app_id,
                 description="List of apps to backup",
                 # project_id=project_id
                 project_id=backup_project_id
             )
-            logging.info(f"----- Fin Updating environment variables BACKUP_LIST_APP_ID")
+            logging.info(f"----- End updating environment variables SAAGIE_APP_BACKUP_LIST_APP_ID")
 
             launch_backup()
             # time.sleep(2)
@@ -576,9 +576,9 @@ def prepare_backup(selectedRows, rowData, n_clicks):
 
 
 def launch_backup():
-    logging.info(f"----- Lancement du script_backup ...")
+    logging.info(f"----- Launch of backup script ...")
     script_backup.script_backup()
-    logging.info(f"----- Fin du script_backup ...")
+    logging.info(f"----- End du script_backup ...")
     # return ""
 
 
@@ -654,7 +654,7 @@ def get_settings():
                                         children=[
                                             html.Div(
                                                 className="sui-a-label-value__label",
-                                                children=["App Tempo Prefix"],
+                                                children=["Sub-apps prefix"],
                                             ),
                                             html.Div(
                                                 className="sui-a-label-value__value",
@@ -672,7 +672,7 @@ def get_settings():
                                         children=[
                                             html.Div(
                                                 className="sui-a-label-value__label",
-                                                children=["ID projet backup"],
+                                                children=["Project ID app backup"],
                                             ),
                                             html.Div(
                                                 className="sui-a-label-value__value",
@@ -690,7 +690,7 @@ def get_settings():
                                         children=[
                                             html.Div(
                                                 className="sui-a-label-value__label",
-                                                children=["Nom projet backup"],
+                                                children=["Project's name backup"],
                                             ),
                                             html.Div(
                                                 className="sui-a-label-value__value",
@@ -708,7 +708,7 @@ def get_settings():
                                         children=[
                                             html.Div(
                                                 className="sui-a-label-value__label",
-                                                children=["url plateforme"],
+                                                children=["Platform URL"],
                                             ),
                                             html.Div(
                                                 className="sui-a-label-value__value",
@@ -726,7 +726,7 @@ def get_settings():
                                         children=[
                                             html.Div(
                                                 className="sui-a-label-value__label",
-                                                children=["ID plateforme"],
+                                                children=["Platform ID"],
                                             ),
                                             html.Div(
                                                 className="sui-a-label-value__value",
@@ -764,9 +764,9 @@ def get_settings():
 
 
 def launch_restore():
-    logging.info(f"----- Lancement du script_restore ...")
+    logging.info(f"----- Launch of restore script ...")
     script_restore.script_restore()
-    logging.info(f"----- Fin du script_restore ...")
+    logging.info(f"----- End of restore script ...")
 
 
 if __name__ == "__main__":
