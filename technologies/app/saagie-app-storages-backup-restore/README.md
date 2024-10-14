@@ -34,6 +34,8 @@ Once the app is up, you can open the page of port 8050 and find two tabs :
 - `SAAGIE_APP_RESTORE_LIST_APP_ID`: List of application IDs to restore
 - `SAAGIE_APP_BACKUP_TMP_APP_PREFIX`: Temporary backup app name prefix
 - `SAAGIE_APP_RESTORE_TMP_APP_PREFIX`: Temporary restore app name prefix
+- `SAAGIE_APP_BACKUP_TIMEOUT_RESTORE`: Timeout (in seconds) for restore a storage from S3 (default: 600)
+- `SAAGIE_APP_BACKUP_TIMEOUT_BACKUP`: Timeout (in seconds) for backup a storage from S3 (default: 600)
 
 
 **Useless to config**

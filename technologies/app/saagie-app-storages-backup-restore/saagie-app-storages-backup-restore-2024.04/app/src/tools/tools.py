@@ -120,8 +120,9 @@ def list_projects(saagie, list_max_dates_backup, url, pf):
     retour = []
     for project in saagie.projects.list()['projects']:
         project_list_infos_app = saagie.apps.list_for_project(project_id=project["id"])['project']['apps']
+
         for app in project_list_infos_app:
-            url_app = url + "/projects/platform/" + pf + "/project/" + project["id"] + "/app/" + app["id"]
+            url_app = url + "/projects/platform/" + str(pf) + "/project/" + project["id"] + "/app/" + app["id"]
             if app["id"] in list_max_dates_backup.keys():
                 last_backup = list_max_dates_backup[app["id"]]
             else:
@@ -211,7 +212,7 @@ def get_select_data(saagie, projects_dict):
     # récupération de la liste des projets de la pf
     projects_list = saagie.projects.list()['projects']
 
-    print(f"projects_dict : {projects_dict}")
+    # print(f"projects_dict : {projects_dict}")
 
     for project_id, apps_list in projects_dict.items():
         # print(f"project_id : {project_id}")
@@ -219,8 +220,8 @@ def get_select_data(saagie, projects_dict):
         # on parcourt la liste des projets de la pf pour trouver le nom
         for project in projects_list:
             if project_id == project["id"]:
-                print(f"project['name'] : {project['name']}")
-                print(f"apps_list : {apps_list}")
+                # print(f"project['name'] : {project['name']}")
+                # print(f"apps_list : {apps_list}")
                 project_name = project['name']
 
         # print(f"apps_list : {apps_list}")

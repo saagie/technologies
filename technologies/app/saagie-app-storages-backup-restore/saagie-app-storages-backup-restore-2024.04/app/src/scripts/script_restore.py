@@ -55,14 +55,10 @@ def script_restore():
         logging.warning("==> RESTORE_DATE à paramétrer")
         return False
 
-
-    # TODO: define a timeout
-    init_timeout = 600
-    timeout = 600
+    init_timeout = int(os.environ.get("SAAGIE_APP_BACKUP_TIMEOUT_RESTORE", 600))
+    timeout = init_timeout
     backup_app_project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]
     finished_status = ["STOPPED", "FAILED", "UNKNOWN"]
-    d = datetime.now()
-    date_backup = d.strftime('%Y-%m-%d')
 
     APP_RESTORE_VERSION = os.environ.get("APP_RESTORE_VERSION", '2024.04-0.1-1.192.0_SDKTECHNO-271')
 
@@ -158,30 +154,9 @@ def script_restore():
             logging.info(f"===>path : {path}")
             logging.info(f"===>path_info : {path_info}")
 
+            now = datetime.now()
+            date_backup = now.strftime('%Y-%m-%d')
             id_volume = createStorageForRestoring(client_saagie, backup_app_project_id, date_backup, restore_date, path, path_info)
-
-            # for volume in path_info:
-
-            #     logging.info(f"==========================================================>volume : {volume}")
-
-            #     volume_size=volume['volume']['size']
-            #     volume_name=volume['volume']['name']
-            #     # logging.info(f"Volume path: {path} - Volume size: {app_dict[path]}")
-            #     logging.info(f"===>volume_size : {volume_size}")
-            #     logging.info(f"===>volume_name : {volume_name}")
-
-            #     logging.info(f'********* Creating volume {volume_name}  *********')
-            #     storage_name = f'{volume_name} restored volume {date_backup} from backup {restore_date} at {datetime.now()}'
-            #     response_create_storage = client_saagie.storages.create(
-            #         project_id=project_id,
-            #         storage_name= storage_name,
-            #         storage_size=volume_size,
-            #         storage_description= storage_name
-            #     )
-            #     createdVolumeId = response_create_storage['createVolume']['id']
-            #     logging.info(f"===>restored_storage_id : {createdVolumeId}")
-            #     id_volume=createdVolumeId
-
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
@@ -211,8 +186,7 @@ def script_restore():
 
 
             # Create a temporary app to restore the backup
-            #d = datetime.now()
-            app_name = f"{restore_tmp_app_prefix} {datetime.timestamp(d)}"
+            app_name = f"{restore_tmp_app_prefix} {datetime.timestamp(now)}"
 
             # Create the tmp app
             logging.info(f"----- Creating the tmp app for restore [{app_name}] in project {backup_app_project_id} ...")

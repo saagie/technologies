@@ -17,5 +17,5 @@ RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends curl
 
 EXPOSE 8050
-WORKDIR /
+WORKDIR /src
 CMD ["python", "./app.py"]

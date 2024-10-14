@@ -16,9 +16,8 @@ def script_backup():
         logging.warning("==> SAAGIE_APP_BACKUP_LIST_APP_ID à paramétrer")
         return False
 
-    # TODO: define a timeout
-    init_timeout = 600
-    timeout = 600
+    init_timeout = int(os.environ.get("SAAGIE_APP_BACKUP_TIMEOUT_BACKUP", 600))
+    timeout = init_timeout
     backup_app_project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]
     finished_status = ["STOPPED", "FAILED", "UNKNOWN"]
 
@@ -53,7 +52,7 @@ def script_backup():
     for app_id in list_app:
         logging.info("=========================================================================================")
         logging.info(f"App to backup: [{app_id}]")
-        # DeprecatedWarning: get_info is deprecated as of 2.10.0. This function is deprecated and will be removed in a future version. Please use :func:`get()` instead.
+        # Deprecated Warning: get_info is deprecated as of 2.10.0. This function is deprecated and will be removed in a future version. Please use :func:`get()` instead.
         app_info = client_saagie.apps.get_info(app_id)['app']
         if not app_info:
             logging.warning(f"App [{app_id}] not found")
@@ -150,8 +149,6 @@ def script_backup():
             # Create the backup folder
             d = datetime.now()
             date_backup = d.strftime('%Y-%m-%d')
-            # modif à faire => dans le chemin sur le S3, le project_id doit etre celui de l app à backuper
-            # s3_file_prefix = project_id + '/' + app_id + '/' + date_backup
             s3_file_prefix = app_to_backup_project_id + '/' + app_id + '/' + date_backup
             logging.info(f"----- The path prefix of the backup will be: {s3_file_prefix}")
 
@@ -227,10 +224,10 @@ def script_backup():
             
             logging.info(f"Getting temporary APP logs: [{app_name}] with ID [{app_tmp_id} and currentExecutionId {current_execution_id}]")
             app_logs = get_app_logs(client_saagie,app_tmp_id,current_execution_id)['appLogs']['content']
-            logging.info(f"*********** {app_name} logs *************")
+            logging.info(f"*********** {app_name} logs *************>>>>>")
             for logs in app_logs : 
                 logging.info(f"{logs['value']}")
-            logging.info("***************************")
+            logging.info(f"<<<<<*********** {app_name} logs *************")
 
 
             logging.info(f"Deleting the temporary APP: [{app_name}] with ID [{app_tmp_id}]")
