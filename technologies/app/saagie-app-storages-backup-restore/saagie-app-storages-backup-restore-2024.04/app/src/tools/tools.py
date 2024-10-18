@@ -63,13 +63,10 @@ def split_info(list_path, path_volume):
     :param list_path:
     :return:
     """
-    # Initialisation du dictionnaire pour stocker les informations
     informations = {}
 
-    # Boucle sur chaque chemin
     for chemin in list_path:
         logging.info(f"chemin: {chemin}")
-        # Utilisation de l'expression régulière pour extraire les informations
         
         for volume in path_volume:
             escaped_pattern = re.escape(volume[1:])
@@ -79,17 +76,11 @@ def split_info(list_path, path_volume):
             logging.info(f"regex: {regex}")
             match = re.match(regex, chemin)
 
-            # match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)/', chemin)
-
             logging.info(f"match: {match}")
             if match:
                 date = match.group(1)
                 chemin_complet = match.group(2)
                 logging.info(f"chemin_complet: {chemin_complet}")
-
-                # Séparation du chemin complet pour obtenir le path
-                # path = chemin_complet.split('/')[0]
-                # logging.info(f"path: {path}")
 
                 # Création de la structure de données si elle n'existe pas encore
                 if date not in informations:
@@ -98,7 +89,6 @@ def split_info(list_path, path_volume):
                     informations[date].append(chemin_complet)
 
     # Affichage des informations
-
     for date, paths in informations.items():
         logging.info(f"Date: {date}")
         for path in paths:
@@ -117,7 +107,7 @@ def list_projects(saagie, list_max_dates_backup, url, pf):
     :return: pd.Dataframe
     """
 
-    retour = []
+    result = []
     for project in saagie.projects.list()['projects']:
         project_list_infos_app = saagie.apps.list_for_project(project_id=project["id"])['project']['apps']
 
@@ -127,22 +117,19 @@ def list_projects(saagie, list_max_dates_backup, url, pf):
                 last_backup = list_max_dates_backup[app["id"]]
             else:
                 last_backup = "None"
-            # logging.info(f"----- last_backup : {last_backup}")
 
             # on ne liste que les apps qui ont un volume lié
             if app["linkedVolumes"]:
                 if len(app["linkedVolumes"]) > 0:
-                    retour.append({"projet": project["name"],
+                    result.append({"projet": project["name"],
                                    "project_id": project["id"],
                                    "app_name": app["name"],
                                    "app_url": url_app,
-                                   # html pas interprété...
-                                   # "app_name": "<a href='"+url_app+"' target='_blank'>"+app["name"]+"</a>",
                                    "app_id": app["id"],
                                    "last_backup": last_backup
                                    }
                                   )
-    return pd.DataFrame(retour)
+    return pd.DataFrame(result)
 
 
 def list_path_to_dict(list_path):
@@ -155,18 +142,14 @@ def list_path_to_dict(list_path):
     projects_dict = {}
     apps_list = {}
 
-    # print(f"list_path_tools.py : {list_path}")
-
     # Boucle sur chaque chemin
     for chemin in list_path:
         # Utilisation de l'expression régulière pour extraire les informations
         match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)/', chemin)
         if match:
             date = match.group(1)
-            # print(f"Date: {date}")
             chemin_complet = match.group(2)
             split_chemin = chemin.split(date)
-            # print(split_chemin)
 
             project_id = split_chemin[0].split('/')[0]
             app_id = split_chemin[0].split('/')[1]
@@ -181,14 +164,6 @@ def list_path_to_dict(list_path):
             if date not in projects_dict[project_id][app_id]:
                 projects_dict[project_id][app_id].append(date)
 
-    # for project_id, apps_list in projects_dict.items():
-    #     logging.info(f"project_id: {project_id}")
-    #     for app_id, dates in apps_list.items():
-    #         logging.info(f"   app_id: {app_id}")
-    #         for date in dates:
-    #             logging.info(f"      date: {date}")
-
-    # print(projects_dict)
     return projects_dict
 
 
@@ -198,7 +173,6 @@ def get_max_date_list(projects_dict):
         for app_id, dates in apps_list.items():
             max_date = max([datetime.strptime(date, "%Y-%m-%d") for date in dates])
             max_date_str = max_date.strftime("%Y-%m-%d")
-            # logging.info(f"   max_date_str: {max_date_str}")
 
             # Création de la structure de données si elle n'existe pas encore
             if app_id not in list_max_dates_backup:
@@ -208,48 +182,35 @@ def get_max_date_list(projects_dict):
 
 
 def get_select_data(saagie, projects_dict):
-    retour = []
+    result = []
     # récupération de la liste des projets de la pf
     projects_list = saagie.projects.list()['projects']
 
-    # print(f"projects_dict : {projects_dict}")
-
     for project_id, apps_list in projects_dict.items():
-        # print(f"project_id : {project_id}")
-
         # on parcourt la liste des projets de la pf pour trouver le nom
         for project in projects_list:
             if project_id == project["id"]:
-                # print(f"project['name'] : {project['name']}")
-                # print(f"apps_list : {apps_list}")
                 project_name = project['name']
 
-        # print(f"apps_list : {apps_list}")
         # récupération de la liste des infos des apps du projet du dictionnaire des backups sur la pf
         project_list_infos = saagie.apps.list_for_project(project_id=project_id)
-        # print(f"project_list_infos : {project_list_infos}")
         project_list_infos_app = []
         if (project_list_infos is not None) & (project_list_infos['project'] is not None):
             project_list_infos_app = project_list_infos['project']['apps']
-            # print(f"project_list_infos_app : found")
 
             list_apps_select = []
             # on parcourt la liste des apps du  dictionnaire des backups
             for app_id in apps_list.keys():
-                # print(f"app_id : {app_id}")
                 # Pour chaque app du projet du dictionnaire des backups on parcourt la liste des infos app du projet en cours
                 for app in project_list_infos_app:
                     # quand on trouve l'id de l app dans la liste, on recupère le nom dans les infos
                     if app_id == app["id"]:
-                        # print(f"app['id'] : {app['id']}")
                         list_apps_select.append({"value": app["id"], "label": project_name + " | " + app["name"]})
-            # print(f"list_apps_select : {list_apps_select}")
 
-            retour.append(
+            result.append(
                 {
                     "group": project_name,
                     "items": list_apps_select
                 }
             )
-    # print(f"retour : {retour}")
-    return retour
+    return result

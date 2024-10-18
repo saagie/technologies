@@ -12,7 +12,7 @@ def get_body_app():
             html.Div(id="sui-root", children=[
                 html.Div(
                     id="header",
-                    style={'background-color': '#1F3046'},
+                    style={'backgroundColor': '#1F3046'},
                     className="sui-g-grid as--middle sui-h-pv-md sui-h-ph-lg",
                     children=[
                         html.Div(
@@ -53,13 +53,9 @@ def get_body_app():
                             color='#134681',
                             speed_multiplier=1.5,
                             width=50,
-                            # type="default",
-                            fullscreen=True,
                             children=[
                                 # div contenu des onglets
                                 html.Div(id='tabs-content', className="sui-l-layout__page"),
-                                # div retour click bouton
-                                # html.Div(id='selected-app', children=[],style={'color': 'green'}),
                                 # intégration de la notification
                                 html.Div(
                                     id='notification',
@@ -70,7 +66,6 @@ def get_body_app():
                                             className="sui-o-notification__item as--success",
                                             children=[
                                                 html.Div(id='action-return'),
-                                                # dcc.Link(id='app-link', target="_blank", href="", title="Voir l'application restaurée"),
                                                 html.A(id='app-link', target="_blank", title="See app",
                                                     children="Go to the app"),
                                                 html.Button(id='btn-close-notification', className="sui-o-notification__clear")
@@ -108,9 +103,7 @@ columnDefsBackUp = [
     },
     {
         "field": "app_name",
-        "headerName": "App Name",
-        # stockLink function is defined in the dashAgGridComponentFunctions.js in assets folder
-        # "cellRenderer": "StockLink",       
+        "headerName": "App Name",     
     },
     {
         "field": "app_id",
@@ -123,9 +116,7 @@ columnDefsBackUp = [
     {
         "field": "app_url",
         "headerName": "App url",
-        # stockLink function is defined in the dashAgGridComponentFunctions.js in assets folder
         "cellRenderer": "StockLink",
-        # "hide": True
     }
 ]
 
@@ -159,8 +150,10 @@ def tab_backup(list_max_dates_backup):
                                 html.Div(className="sui-m-search-bar",
                                             children=[
                                                 html.Span(className="sui-m-search-bar__icon",
-                                                        children=[html.I(className="sui-a-icon as--fa-search")]),
-                                                dcc.Input(id="input-filter", placeholder="Filter by name, id, ...",
+                                                        children=[html.I(className="sui-a-icon as--fa-search")]), 
+                                                dcc.Input(id="input-filter", value="", 
+                                                        placeholder="Filter by name, id... and press Enter",
+                                                        debounce=True,
                                                         className="sui-a-form-control"),
                                             ]
                                             ),
@@ -175,25 +168,20 @@ def tab_backup(list_max_dates_backup):
                     html.Div(children=[
                         dag.AgGrid(
                             id="apps_table",
-                            # rowClass="sui-o-datalist__row",
                             columnDefs=columnDefsBackUp,
                             rowData=dataProjects,
                             columnSize="sizeToFit",
                             selectedRows=[],
                             defaultColDef={
-                                "filter": True,
-                                # "filterParams": {"buttons": ["reset", "apply"],},
-                                "sortable": True,
-                                # "resizable": True,
+                                "sortable": False,
                             },
                             dashGridOptions={
                                 "rowMultiSelectWithClick": True,
                                 "rowSelection": "multiple",
-                                # "suppressRowClickSelection": True,
                                 "animateRows": False,
                                 'pagination': True,
                                 'paginationPageSize': 10,
-                                # "paginationAutoPageSize": True,
+                                'quickFilterText': "",
                                 "paginationPageSizeSelector": False
                             },
                         ),
@@ -257,7 +245,6 @@ def tab_restore(list_paths_backup):
                                             dmc.Select(
                                                 data=[],
                                                 searchable=True,
-                                                # clearable=True,
                                                 label="Backup dates",
                                                 placeholder="Select a date",
                                                 id="date-select",
@@ -275,8 +262,6 @@ def tab_restore(list_paths_backup):
                                 ],
                             ),
 
-                            # dmc.Text(id="selected-app-to-restore"),
-                            # dmc.Text(id="selected-date-to-restore"),
                             dmc.Text(id="info-restore"),
                         ]
                     ),

@@ -25,7 +25,7 @@ def script_backup():
 
     app_backup_baseName = 'saagie/saagie-app-storages-sub-app-backup'
     app_backup_name = f'{app_backup_baseName}:{APP_BACKUP_VERSION}'
-    print(f"app_backup_name: {app_backup_name}")
+    logging.info(f"app_backup_name: {app_backup_name}")
 
     # Get information to connect to Saagie
     logging.info(f"Connect to Saagie ")

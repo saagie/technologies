@@ -22,7 +22,6 @@ def createStorageForRestoring(
 
     volume_size=volume['size']
     volume_name=volume['name']
-    # logging.info(f"Volume path: {path} - Volume size: {app_dict[path]}")
     logging.info(f"===>volume_size : {volume_size}")
     logging.info(f"===>volume_name : {volume_name}")
 
@@ -135,11 +134,9 @@ def script_restore():
 
         storage_paths = []
 
-        # for path in backup_infos[max_date_str]:
         for path in backup_infos[restore_date]:
             logging.info(f"Restoring {path} for app [{app_id}]")
             logging.info(f"path before if: {path}")
-            # s3_file_prefix = str(Path(f"{project_id}/{app_id}/{max_date_str}/{path}"))
             s3_file_prefix = str(Path(f"{app_to_restore_project_id}/{app_id}/{restore_date}/{path}"))
             if "/"+path not in app_dict:
                 logging.warning(f"Volume path: {path} not found in the app")
@@ -147,10 +144,7 @@ def script_restore():
             logging.info(f"Volume path: {path} - Volume size: {app_dict['/'+path]}")
 
             id_volume = ""
-            # Create the volume (Anne)
-            # Harmoniser la variable d = datetime.now()
-            #d = datetime.now()
-            # volumesWithPath=client_saagie.apps.get_info(app_id)['app']['currentVersion']['volumesWithPath']
+            
             logging.info(f"===>path : {path}")
             logging.info(f"===>path_info : {path_info}")
 

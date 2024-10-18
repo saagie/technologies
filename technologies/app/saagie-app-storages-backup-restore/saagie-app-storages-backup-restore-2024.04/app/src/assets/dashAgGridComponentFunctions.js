@@ -1,10 +1,10 @@
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
-
+console.log('dagcomponentfuncs = ', dagcomponentfuncs);
 dagcomponentfuncs.StockLink = function (props) {
+    console.log('props = ', props);
     return React.createElement(
         'a',
         {
-            //href: 'https://finance.yahoo.com/quote/' + props.value,
             href: props.value,
             target : '_blank'
         },

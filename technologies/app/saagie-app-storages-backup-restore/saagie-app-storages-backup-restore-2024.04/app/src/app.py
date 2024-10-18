@@ -19,7 +19,6 @@ s3_client = boto3.client("s3",
 # Check if the bucket exist, if not create it
 bucket_exist = [True for bucket in s3_client.list_buckets()["Buckets"] if bucket["Name"] == s3_bucket_name]
 if not bucket_exist:
-    # raise Exception(f"The bucket [{s3_bucket_name}] does not exist")
     logging.info(f"Bucket [{s3_bucket_name}] does not exist, creating it")
     s3_client.create_bucket(Bucket=s3_bucket_name)
 
@@ -28,8 +27,6 @@ if not bucket_exist:
 app = Dash("AddOn Backup/Restore",
            url_base_pathname=os.environ["SAAGIE_BASE_PATH"] + "/",
            suppress_callback_exceptions=True)
-# to run locally
-# app = Dash(__name__)
 
 app.title = "Saagie Backup/Restore apps storages"
 app.layout = get_body_app()
@@ -52,11 +49,9 @@ def launch_restore():
 #### selection de l'app à restaurer ####
 @callback(
     Output("date-select", "data"),
-    # Output("date-select", "value"),
     Output("submit-restore", "disabled", allow_duplicate=True),
     Output("date-select", "disabled"),
     Input("app-select", "value"),
-    # Input("date-select", "value")
     prevent_initial_call=True
 )
 def select_value(value_app):
@@ -68,23 +63,18 @@ def select_value(value_app):
 
     dates = []
     if not value_app == None:
-        print("a")
         for project_id, apps_list in list_dates_backup.items():
             for app_id in apps_list.keys():
                 if value_app == app_id:
-                    # print(f"date =  {apps_list[app_id]}")
                     dates = apps_list[app_id]
         disabled = False
     else:
-        print("b")
         dates = []
         disabled = True
 
     print("-----------")
     print(f"disabled=  {disabled}")
     print(f"dates=  {dates}")
-    # print(f"value_date=  {value_date}")
-    # return dates, value_date, disabled
     return dates, disabled, disabled
 
 
@@ -92,14 +82,7 @@ def select_value(value_app):
     Output("submit-restore", "disabled"),
     Input("date-select", "value"))
 def select_value(value):
-    # print(f"value date backup=  {value}")
-    retour = True
-    if not value == None:
-        # lancer la restauration de l'app avec la date de backup choisie
-        # time.sleep(5)
-        # retour  "Restaurer à partir du backup du " + value
-        retour = False
-    return retour
+    return value == None
 
 
 #### BOUTON RESTORE ####
@@ -115,14 +98,12 @@ def select_value(value):
     prevent_initial_call=True
 )
 def prepare_restore(value_app, value_date, n_clicks):
-    # print("prepare_restore")
     patched_children = Patch()
-    # if n_clicks:
     if ctx.triggered_id == "submit-restore":
         # recupération de l'app_id à restaurer
-        print(f"value_app=  {value_app}")
+        logging.info(f"value_app=  {value_app}")
         # recupération de la date du backup à restaurer
-        print(f"value_date=  {value_date}")
+        logging.info(f"value_date=  {value_date}")
         # mise à jour des envvar
         message = ""
 
@@ -214,7 +195,6 @@ def show_selected_app(selectedRows):
 )
 def prepare_backup(selectedRows, rowData, n_clicks):
     message_notification = ""
-    # if n_clicks:
     if ctx.triggered_id == "submit-val":
         # The button has been clicked, values is a list containing the active checklist values
         # do something with values
@@ -222,8 +202,7 @@ def prepare_backup(selectedRows, rowData, n_clicks):
         # - afficher la liste des apps qui seront backupées dans la div 'selected-app'
         # - mettre à jour la variable d'env SAAGIE_APP_BACKUP_LIST_APP_ID => comment trouver l'id du projet de l app courrante ?
         # - lancer le script script_backup/__main__.py
-        # print(selectedRows)
-        # print(rowData)
+
         list_selected_apps = []
         for row in selectedRows:
             list_selected_apps.append(row["app_id"])
@@ -250,7 +229,6 @@ def prepare_backup(selectedRows, rowData, n_clicks):
             logging.info(f"----- End updating environment variables SAAGIE_APP_BACKUP_LIST_APP_ID")
 
             launch_backup()
-            # time.sleep(2)
             message_notification = 'The selected app(s) "{}" has(ve) been backuped '.format(backup_list_app_id)
 
             return [], message_notification, {'display': 'block'}
