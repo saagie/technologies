@@ -2,7 +2,6 @@ FROM python:3.9-slim
 
 USER root
 
-# TODO: variabiliser avec version de ../metadata.yaml ?
 ENV APP_BACKUP_VERSION='2024.04-0.1-1.192.0_SDKTECHNO-271'
 ENV APP_RESTORE_VERSION='2024.04-0.1-1.192.0_SDKTECHNO-271'
 

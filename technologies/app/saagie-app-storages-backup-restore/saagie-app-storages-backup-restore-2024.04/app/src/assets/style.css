@@ -48,6 +48,12 @@
   border: none !important;
 }
 
+div.ag-overlay {
+  position: relative;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
 .ag-row {
     position: relative !important;
     display: flex;
@@ -91,7 +97,6 @@
     flex-wrap: nowrap;
     border-bottom: .0625rem solid #d9dbe3;
     transition: background .2s;
-    width: auto !important;
 }
 
 .ag-header-row {

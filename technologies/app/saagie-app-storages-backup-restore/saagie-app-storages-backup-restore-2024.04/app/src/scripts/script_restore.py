@@ -4,13 +4,32 @@ import os
 import logging
 import time
 from datetime import datetime
-import boto3
 from pathlib import Path
+import json
+
+def get_metadata_storage_from_s3(s3_client, s3_bucket, s3_file_path):
+    try :
+        logging.info(f"Getting metadata of volumes from S3 ...")
+        s3_response = s3_client.get_object(
+            Bucket=s3_bucket,
+            Key=s3_file_path+'/metadata.json',
+        )
+        
+        data = s3_response.get('Body').read()
+
+        logging.info(f"data: {data}")
+        
+        volumes = json.loads(data)
+        logging.info(f"volumes: {volumes}")
+
+        return volumes
+
+    except Exception as e:
+        raise Exception(f"Unsuccessful get_object response. {e}")
 
 def createStorageForRestoring(
         client_saagie, 
         project_id, 
-        date_backup,
         restore_date,
         path,
         path_info
@@ -26,19 +45,24 @@ def createStorageForRestoring(
     logging.info(f"===>volume_name : {volume_name}")
 
     logging.info(f'********* Creating volume {volume_name}  *********')
-    storage_name = f'{volume_name} restored volume {date_backup} from backup {restore_date} at {datetime.now()}'
+    storage_name = f'{volume_name} restored from {restore_date} at {datetime.timestamp(datetime.now())}'
     response_create_storage = client_saagie.storages.create(
         project_id=project_id,
         storage_name= storage_name,
         storage_size=volume_size,
         storage_description= storage_name
     )
+
+    if response_create_storage is None:
+        logging.error(f"Error creating volume {volume_name}")
+        return ""
+
     createdVolumeId = response_create_storage['createVolume']['id']
     logging.info(f"===>restored_storage_id : {createdVolumeId}")
 
     return createdVolumeId
 
-def script_restore():
+def script_restore(s3_client):
     ##############################################################################################
     # liste des apps à restored SAAGIE_APP_RESTORE_LIST_APP_ID
     if os.environ.get('SAAGIE_APP_RESTORE_LIST_APP_ID'):
@@ -84,14 +108,7 @@ def script_restore():
                               user=platform_login,
                               password=platform_pwd,
                               realm=realm)
-
-    s3_client = boto3.client("s3",
-                             endpoint_url=os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"],
-                             region_name=os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"],
-                             aws_access_key_id=os.environ["SAAGIE_APP_BACKUP_S3_ACCESS_KEY_ID"],
-                             aws_secret_access_key=os.environ["SAAGIE_APP_BACKUP_S3_SECRET_ACCESS_KEY"])
     s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]
-
 
     for app_id in list_app:
         logging.info("======================")
@@ -112,9 +129,16 @@ def script_restore():
         if not list_paths_backup:
             logging.info(f"No backup found for the app [{app_id}]")
             continue
+        logging.info(f"list_paths_backup: {list_paths_backup}")
 
         # Get the path of the volumes
-        path_info = app_info['currentVersion']['volumesWithPath']
+        path_info = get_metadata_storage_from_s3(s3_client, s3_bucket_name, f"{app_to_restore_project_id}/{app_id}/{restore_date}")
+        logging.info(f"path_info: {path_info}")
+
+        if not path_info:
+            logging.info(f"No volume found for the app [{app_id}]")
+            continue
+
         app_dict = {}
         for path in path_info:
             volume_size = path['volume']['size']
@@ -122,14 +146,11 @@ def script_restore():
             app_dict[volume_path] = volume_size
 
         logging.info(f"app_dict: {app_dict}")
-        logging.info(f"list_paths_backup: {list_paths_backup}")
         # Split the information
         backup_infos= split_info(list_paths_backup, app_dict)
 
-        logging.info(f"backup_infos[restore_date]: {backup_infos[restore_date]}")
         logging.info(f"backup_infos: {backup_infos}")
-        logging.info(f"path_info: {path_info}")
-
+        logging.info(f"backup_infos[{restore_date}]: {backup_infos[restore_date]}")
         logging.info(f"backup date: {restore_date}")
 
         storage_paths = []
@@ -137,7 +158,7 @@ def script_restore():
         for path in backup_infos[restore_date]:
             logging.info(f"Restoring {path} for app [{app_id}]")
             logging.info(f"path before if: {path}")
-            s3_file_prefix = str(Path(f"{app_to_restore_project_id}/{app_id}/{restore_date}/{path}"))
+            s3_file_prefix = str(Path(f"{app_to_restore_project_id}/{app_id}/{restore_date}/data_storage/{path}"))
             if "/"+path not in app_dict:
                 logging.warning(f"Volume path: {path} not found in the app")
                 continue
@@ -146,11 +167,13 @@ def script_restore():
             id_volume = ""
             
             logging.info(f"===>path : {path}")
-            logging.info(f"===>path_info : {path_info}")
 
             now = datetime.now()
-            date_backup = now.strftime('%Y-%m-%d')
-            id_volume = createStorageForRestoring(client_saagie, backup_app_project_id, date_backup, restore_date, path, path_info)
+            id_volume = createStorageForRestoring(client_saagie, backup_app_project_id, restore_date, path, path_info)
+
+            if id_volume == "":
+                logging.error(f"Volume {path} not created for app {app_id}")
+                return False
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")

@@ -4,9 +4,24 @@ import os
 import logging
 import time
 from datetime import datetime
+import json
 
+def write_metadata_storage_to_s3(s3_client, s3_bucket, s3_file_path, volumes):
+    try :
+        logging.info(f"Writing metadata to S3 ...")
+        logging.info(f"volumes: {volumes}")
+        json_str = json.dumps(volumes)
+        logging.info(f"json_str: {json_str}")
 
-def script_backup():
+        s3_client.put_object(
+            Bucket=s3_bucket,
+            Key=s3_file_path+'/metadata.json',
+            Body=json_str,
+        )
+    except Exception as e:
+        raise Exception(f"Unsuccessful put_object response. {e}")
+
+def script_backup(s3_client):
     ##############################################################################################
     # liste des apps à sauvegarder SAAGIE_APP_BACKUP_LIST_APP_ID
 
@@ -87,7 +102,8 @@ def script_backup():
 
         dict_volume = {}
         # Duplicates all volume of the app
-        for volume in app_info["currentVersion"]["volumesWithPath"]:
+        volumes = app_info["currentVersion"]["volumesWithPath"]
+        for volume in volumes:
             volume_name = volume['volume']['name']
             logging.info(f"======================================== DUPLICATE VOLUME {volume_name} of app {app_id}")
             volume_path = volume['path']
@@ -137,6 +153,18 @@ def script_backup():
             logging.info(f"Restart the app [{app_info['id']}]")
             client_saagie.apps.run(app_id=app_info['id'])
 
+        # Create the backup folder
+        d = datetime.now()
+        date_backup = d.strftime('%Y-%m-%d')
+        s3_file_prefix = app_to_backup_project_id + '/' + app_id + '/' + date_backup + '/data_storage'
+        logging.info(f"----- The path prefix of the backup will be: {s3_file_prefix}")
+
+        # Write metadata to S3
+        logging.info(f"----- Writing metadata to S3 ...")
+        s3_metadata_prefix = app_to_backup_project_id + '/' + app_id + '/' + date_backup
+        s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]
+        write_metadata_storage_to_s3(s3_client, s3_bucket_name, s3_metadata_prefix, volumes)
+
         # Create a new app with the duplicated storage and store it on S3
         for volume in dict_volume:
             logging.info(f"======================================== BACKUP VOLUME {volume_name} of app {app_id}")
@@ -145,12 +173,6 @@ def script_backup():
             logging.info(f"----- The path of the volume is {volume}")
             logging.info(f"----- The size of the volume is {dict_volume[volume]['size']}")
             logging.info(f"----- The id of the volume is {dict_volume[volume]['id']}")
-
-            # Create the backup folder
-            d = datetime.now()
-            date_backup = d.strftime('%Y-%m-%d')
-            s3_file_prefix = app_to_backup_project_id + '/' + app_id + '/' + date_backup
-            logging.info(f"----- The path prefix of the backup will be: {s3_file_prefix}")
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
@@ -194,7 +216,8 @@ def script_backup():
                     }
                 ],
                 storage_paths=[
-                    {"path": volume,
+                    {
+                     "path": volume,
                      "volumeId": duplicate_volume_id
                      }
                 ]

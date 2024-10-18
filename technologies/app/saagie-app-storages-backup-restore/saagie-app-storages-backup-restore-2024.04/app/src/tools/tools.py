@@ -72,7 +72,7 @@ def split_info(list_path, path_volume):
             escaped_pattern = re.escape(volume[1:])
             logging.info(f"escaped_pattern: {escaped_pattern}")
 
-            regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/({escaped_pattern})/.*'
+            regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/data_storage/({escaped_pattern})/.*'
             logging.info(f"regex: {regex}")
             match = re.match(regex, chemin)
 

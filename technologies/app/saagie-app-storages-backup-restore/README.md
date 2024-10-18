@@ -17,6 +17,8 @@ Once the app is up, you can open the page of port 8050 and find two tabs :
 
 ### Environment Variables
 
+NOTE: Set environment variables at the project level.
+
 #### Mandatories
 - `SAAGIE_APP_BACKUP_S3_ENDPOINT`: Endpoint of the S3 provider of storage object
 - `SAAGIE_APP_BACKUP_S3_REGION_NAME`: Name of the S3 region of the storage object
@@ -25,7 +27,7 @@ Once the app is up, you can open the page of port 8050 and find two tabs :
 - `SAAGIE_APP_BACKUP_S3_BUCKET_NAME`: Name of the bucket of the storage object where to back up the apps
 - `SAAGIE_APP_BACKUP_SAAGIE_URL`: URL of the Saagie environment
 - `SAAGIE_APP_BACKUP_PF_ID`: ID of the current Saagie platform
-- `SAAGIE_APP_BACKUP_SAAGIE_USER`: Login of a Saagie user (required to use the Saagie API for access to your apps)
+- `SAAGIE_APP_BACKUP_SAAGIE_USER`: Login of a Saagie user. Required to use the Saagie API for access to your apps. This user needs necessary roles on all projects which you want allow backup & restore.
 - `SAAGIE_APP_BACKUP_SAAGIE_PWD`: Password of the Saagie user
 - `SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID`: Project ID of the backup-restore application
 

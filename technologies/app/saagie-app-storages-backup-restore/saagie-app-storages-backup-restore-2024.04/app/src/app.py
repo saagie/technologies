@@ -43,20 +43,18 @@ def render_content(tab):
 ########################################## Callbacks RESTORE ##########################################
 def launch_restore():
     logging.info(f"----- Launch of restore script ...")
-    script_restore.script_restore()
+    restore_result = script_restore.script_restore(s3_client)
     logging.info(f"----- End of restore script ...")
+    return restore_result
 
 #### selection de l'app à restaurer ####
 @callback(
     Output("date-select", "data"),
-    Output("submit-restore", "disabled", allow_duplicate=True),
     Output("date-select", "disabled"),
     Input("app-select", "value"),
     prevent_initial_call=True
 )
 def select_value(value_app):
-    print(f"value app to restore=  {value_app}")
-
     # construction d'un dictionnaire contenant toutes les dates de backup pour chaque app_id
     list_paths_backup = get_list_paths_backup(s3_client)
     list_dates_backup = list_path_to_dict(list_paths_backup)
@@ -72,10 +70,7 @@ def select_value(value_app):
         dates = []
         disabled = True
 
-    print("-----------")
-    print(f"disabled=  {disabled}")
-    print(f"dates=  {dates}")
-    return dates, disabled, disabled
+    return dates, disabled
 
 
 @callback(
@@ -110,15 +105,15 @@ def prepare_restore(value_app, value_date, n_clicks):
         if value_app and len(value_app) > 0:
             #########################################################
             # maj de l'envvar en local
-            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID avant maj : {os.environ.get('SAAGIE_APP_RESTORE_LIST_APP_ID')}")
+            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID before update: {os.environ.get('SAAGIE_APP_RESTORE_LIST_APP_ID')}")
             os.environ['SAAGIE_APP_RESTORE_LIST_APP_ID'] = value_app
             test = os.environ['SAAGIE_APP_RESTORE_LIST_APP_ID']
-            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID après maj : {test}")
+            print(f"local SAAGIE_APP_RESTORE_LIST_APP_ID after update: {test}")
 
-            print(f"local RESTORE_DATE avant maj : {os.environ.get('RESTORE_DATE')}")
+            print(f"local RESTORE_DATE before update: {os.environ.get('RESTORE_DATE')}")
             os.environ['RESTORE_DATE'] = value_date
             test = os.environ['RESTORE_DATE']
-            print(f"local RESTORE_DATE après maj : {test}")
+            print(f"local RESTORE_DATE after update: {test}")
 
             #########################################################
             # maj de l'envvar projet
@@ -144,12 +139,16 @@ def prepare_restore(value_app, value_date, n_clicks):
             )
             logging.info(f"----- End of updating environment variables RESTORE_DATE")
 
-            url_app = url + "/projects/platform/" + pf + "/project/" + backup_project_id + "/app/" + value_app
+            url_app = url + "/projects/platform/" + str(pf) + "/project/" + backup_project_id + "/app/" + value_app
             print(f"url_app :{url_app}")
 
-            launch_restore()
+            result = launch_restore()
+            message = "An error occurred during the restore process"
+            if result:
+                message = f"App {value_app} restored to date of {value_date}"
+            else:
+                message = f"An error occurred during the restore process for app {value_app} to date of {value_date}: see logs of backup-restore app for more details"
 
-            message = f"App {value_app} restored to date of {value_date}"
             return message, message, {'display': 'block'}, url_app
     return "", "", {'display': 'none'}, ""
 
@@ -158,7 +157,7 @@ def prepare_restore(value_app, value_date, n_clicks):
 ########################################## Callbacks BACKUP ##########################################
 def launch_backup():
     logging.info(f"----- Launch of backup script ...")
-    script_backup.script_backup()
+    script_backup.script_backup(s3_client)
     logging.info(f"----- End du script_backup ...")
 
 #### filtre checkbox ####
@@ -210,10 +209,10 @@ def prepare_backup(selectedRows, rowData, n_clicks):
         if len(backup_list_app_id) > 0:
             #########################################################
             # maj de l'envvar en local
-            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID avant maj : {os.environ.get('SAAGIE_APP_BACKUP_LIST_APP_ID', '')}")
+            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID before update: {os.environ.get('SAAGIE_APP_BACKUP_LIST_APP_ID', '')}")
             os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID'] = backup_list_app_id
             test = os.environ['SAAGIE_APP_BACKUP_LIST_APP_ID']
-            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID après maj : {test}")
+            print(f"local SAAGIE_APP_BACKUP_LIST_APP_ID after update: {test}")
 
             #########################################################
             # maj de l'envvar projet
@@ -253,6 +252,6 @@ def hide_notification(n_clicks):
 
 if __name__ == "__main__":
     # PROD
-    # app.run_server(host="0.0.0.0", debug=False, port=8050)
+    app.run_server(host="0.0.0.0", debug=False, port=8050)
     # DEV
-    app.run_server(host="0.0.0.0", debug=True, port=8050)
+    # app.run_server(host="0.0.0.0", debug=True, port=8050)
