@@ -252,6 +252,6 @@ def hide_notification(n_clicks):
 
 if __name__ == "__main__":
     # PROD
-    app.run_server(host="0.0.0.0", debug=False, port=8050)
+    # app.run_server(host="0.0.0.0", debug=False, port=8050)
     # DEV
-    # app.run_server(host="0.0.0.0", debug=True, port=8050)
+    app.run_server(host="0.0.0.0", debug=True, port=8050)
