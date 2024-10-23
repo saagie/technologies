@@ -23,7 +23,6 @@ realm = get_realm_from_url(url)
 endpoint_url = os.environ["SAAGIE_APP_BACKUP_S3_ENDPOINT"]
 region_name = os.environ["SAAGIE_APP_BACKUP_S3_REGION_NAME"]
 s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
-app_prefix = os.environ["SAAGIE_APP_BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
 backup_project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]  # id du projet où est hébergé l'addOn
 
 saagie = SaagieApi(url_saagie=url, id_platform=pf, user=platformLogin, password=platformPwd, realm=realm)

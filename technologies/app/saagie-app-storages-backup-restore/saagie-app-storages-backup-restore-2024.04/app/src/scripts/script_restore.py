@@ -177,7 +177,10 @@ def script_restore(s3_client):
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
-            restore_tmp_app_prefix = os.environ['SAAGIE_APP_RESTORE_TMP_APP_PREFIX']
+            restore_tmp_app_prefix = os.environ['SAAGIE_APP_RESTORE_SUB_APP_PREFIX']
+
+            # Create a temporary app to restore the backup
+            app_name = f"{restore_tmp_app_prefix} {datetime.timestamp(now)}"
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
@@ -196,14 +199,10 @@ def script_restore(s3_client):
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="SAAGIE_APP_RESTORE_TMP_APP_PREFIX",
-                value=restore_tmp_app_prefix,
+                name="SAAGIE_APP_RESTORE_TMP_APP_NAME",
+                value=app_name,
                 project_id=backup_app_project_id
             )
-
-
-            # Create a temporary app to restore the backup
-            app_name = f"{restore_tmp_app_prefix} {datetime.timestamp(now)}"
 
             # Create the tmp app
             logging.info(f"----- Creating the tmp app for restore [{app_name}] in project {backup_app_project_id} ...")

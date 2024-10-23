@@ -176,7 +176,9 @@ def script_backup(s3_client):
 
             # Create env vars
             logging.info(f"----- Creating necessary environment variables ...")
-            backup_tmp_app_prefix = os.environ['SAAGIE_APP_BACKUP_TMP_APP_PREFIX']
+            backup_tmp_app_prefix = os.environ['SAAGIE_APP_BACKUP_SUB_APP_PREFIX']
+
+            app_name = f"{backup_tmp_app_prefix} {datetime.timestamp(d)}"
 
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
@@ -194,11 +196,10 @@ def script_backup(s3_client):
             )
             client_saagie.env_vars.create_or_update(
                 scope="PROJECT",
-                name="SAAGIE_APP_BACKUP_TMP_APP_PREFIX",
-                value=backup_tmp_app_prefix,
+                name="SAAGIE_APP_BACKUP_TMP_APP_NAME",
+                value=app_name,
                 project_id=backup_app_project_id
             )
-            app_name = f"{backup_tmp_app_prefix} {datetime.timestamp(d)}"
 
             # Create the tmp app
             logging.info(f"----- Creating the tmp app [{app_name}] in project {backup_app_project_id}...")

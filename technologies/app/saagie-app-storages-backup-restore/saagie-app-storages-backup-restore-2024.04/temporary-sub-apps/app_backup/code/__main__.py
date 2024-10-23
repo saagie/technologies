@@ -65,7 +65,7 @@ def main():
     s3_bucket_name = os.environ["SAAGIE_APP_BACKUP_S3_BUCKET_NAME"]  # Bucket name on S3, e.g. saagie-backup
     s3_prefix = os.environ["SAAGIE_APP_BACKUP_S3_PREFIX"]  # Prefix of the file, e.g. date/id-projet/id-app
     project_id = os.environ["SAAGIE_APP_BACKUP_CURRENT_APP_PROJECT_ID"]  # Project ID of this app
-    app_prefix = os.environ["SAAGIE_APP_BACKUP_TMP_APP_PREFIX"]  # Prefix of this app name
+    app_name = os.environ["SAAGIE_APP_BACKUP_TMP_APP_NAME"]  # Prefix of this app name
 
     logging.info("Start backup")
 
@@ -119,7 +119,7 @@ def main():
 
     # Get current app ID
     project_apps = client_saagie.apps.list_for_project_minimal(project_id)["project"]["apps"]
-    app_id = [app["id"] for app in project_apps if app["name"].startswith(app_prefix)][0]
+    app_id = [app["id"] for app in project_apps if app["name"].startswith(app_name)][0]
     logging.info(f"Get the current app ID: {app_id}")
 
     # Stop the app
