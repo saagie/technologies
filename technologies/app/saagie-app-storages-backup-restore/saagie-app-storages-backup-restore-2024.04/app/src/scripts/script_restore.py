@@ -16,8 +16,6 @@ def get_metadata_storage_from_s3(s3_client, s3_bucket, s3_file_path):
         )
         
         data = s3_response.get('Body').read()
-
-        logging.info(f"data: {data}")
         
         volumes = json.loads(data)
         logging.info(f"volumes: {volumes}")
@@ -220,9 +218,10 @@ def script_restore(s3_client):
                     }
                 ],
                 storage_paths=[
-                    {"path": "/"+path,
+                    {
+                     "path": "/"+path,
                      "volumeId": id_volume
-                     }
+                    }
                 ]
             )
             # Get ID of tmp app

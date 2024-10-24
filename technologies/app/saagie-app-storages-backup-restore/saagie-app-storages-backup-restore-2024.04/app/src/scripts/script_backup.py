@@ -11,7 +11,6 @@ def write_metadata_storage_to_s3(s3_client, s3_bucket, s3_file_path, volumes):
         logging.info(f"Writing metadata to S3 ...")
         logging.info(f"volumes: {volumes}")
         json_str = json.dumps(volumes)
-        logging.info(f"json_str: {json_str}")
 
         s3_client.put_object(
             Bucket=s3_bucket,

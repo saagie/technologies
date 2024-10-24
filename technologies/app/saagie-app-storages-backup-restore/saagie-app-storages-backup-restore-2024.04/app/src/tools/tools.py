@@ -65,28 +65,45 @@ def split_info(list_path, path_volume):
     """
     informations = {}
 
-    for chemin in list_path:
-        logging.info(f"chemin: {chemin}")
-        
-        for volume in path_volume:
-            escaped_pattern = re.escape(volume[1:])
-            logging.info(f"escaped_pattern: {escaped_pattern}")
+    if len(list_path) == 1:
+        logging.info("No files found in the backuped volume.")
 
-            regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/data_storage/({escaped_pattern})/.*'
-            logging.info(f"regex: {regex}")
-            match = re.match(regex, chemin)
-
-            logging.info(f"match: {match}")
-            if match:
+        regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/metadata.json'
+        logging.info(f"regex: {regex}")
+        match = re.match(regex, list_path[0])
+        if match:
+            for volume in path_volume:
                 date = match.group(1)
-                chemin_complet = match.group(2)
-                logging.info(f"chemin_complet: {chemin_complet}")
+                logging.info(f"Volume's name: {volume}")
 
                 # Création de la structure de données si elle n'existe pas encore
                 if date not in informations:
                     informations[date] = []
-                if chemin_complet not in informations[date]:
-                    informations[date].append(chemin_complet)
+                if volume not in informations[date]:
+                    informations[date].append(volume[1:])
+    else:
+        for chemin in list_path:
+            logging.info(f"chemin: {chemin}")
+            
+            for volume in path_volume:
+                escaped_pattern = re.escape(volume[1:])
+                logging.info(f"escaped_pattern: {escaped_pattern}")
+
+                regex = rf'.*/(\d{{4}}-\d{{2}}-\d{{2}})/data_storage/({escaped_pattern})/.*'
+                logging.info(f"regex: {regex}")
+                match = re.match(regex, chemin)
+
+                logging.info(f"match: {match}")
+                if match:
+                    date = match.group(1)
+                    chemin_complet = match.group(2)
+                    logging.info(f"chemin_complet: {chemin_complet}")
+
+                    # Création de la structure de données si elle n'existe pas encore
+                    if date not in informations:
+                        informations[date] = []
+                    if chemin_complet not in informations[date]:
+                        informations[date].append(chemin_complet)
 
     # Affichage des informations
     for date, paths in informations.items():
@@ -145,7 +162,7 @@ def list_path_to_dict(list_path):
     # Boucle sur chaque chemin
     for chemin in list_path:
         # Utilisation de l'expression régulière pour extraire les informations
-        match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)/', chemin)
+        match = re.match(r'.*/(\d{4}-\d{2}-\d{2})/(.+?)', chemin)
         if match:
             date = match.group(1)
             chemin_complet = match.group(2)
