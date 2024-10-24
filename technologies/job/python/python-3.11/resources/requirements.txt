@@ -13,7 +13,7 @@ trino==0.328.0
 
 #Datamart libraries
 pymongo==4.5.0
-mysql-connector-python==8.2.0
+mysql-connector-python==9.1.0
 psycopg2-binary==2.9.9
 
 #Data Science commmon libraries
