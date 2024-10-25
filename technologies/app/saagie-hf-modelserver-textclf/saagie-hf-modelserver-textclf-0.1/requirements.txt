@@ -6,4 +6,4 @@ transformers==4.16.2
 plotly
 dash==1.13.3
 dash-bootstrap-components==0.13.1
-Werkzeug==2.0.3
+Werkzeug==3.0.6
