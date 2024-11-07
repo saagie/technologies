@@ -21,7 +21,8 @@ replacementsEverywhere: list = [
     ("csvtodatabaseview", prefix),  # menu Data
     ("exceltodatabaseview", prefix),  # menu Data
     ("savedqueryview", prefix),  # menu SQL Lab
-    ("csstemplateasyncmodelview", prefix)  # when creating a new dashboard
+    ("csstemplateasyncmodelview", prefix),  # when creating a new dashboard
+    ("explore", prefix)  # when creating a new dashboard
 ]
 
 
@@ -58,7 +59,8 @@ simpleReplacementsInJavascript: list = [
     ('window.location.pathname.split("/")[3]', 'window.location.pathname.split("/")[4]'),
     ('${window.location.origin}/superset/', '${window.location.origin}/' + prefix + '/superset/'),
     ('api/v1/explore', prefix + '/api/v1/explore'),
-    ('`api/v1/dashboard', '`' + prefix + 'api/v1/dashboard')
+    ('`api/v1/dashboard', '`' + prefix + '/api/v1/dashboard'),
+    ('/explore/?form_data_key', prefix + '/explore/?form_data_key')
 ]
 
 simpleReplacementsInCss: list = [
@@ -68,6 +70,10 @@ simpleReplacementsInCss: list = [
 simpleReplacementsInHtml: list = [
     ('{{ assets_prefix }}', "/" + prefix),
     ('href="/"','href="/' + prefix + '/"')
+]
+
+simpleReplacementsInCssMap: list = [
+    ('/explore/?form_data_key', prefix + '/explore/?form_data_key')
 ]
 
 BASE_DIR = "/app/superset/"
@@ -86,6 +92,8 @@ print('smart_replace - replacementsEverywhere - ASSET_DIR - .js.map')
 urlFixer.smart_replace(replacementsEverywhere, ASSET_DIR, ".js.map")
 print('smart_replace - replacementsInJavascript - ASSET_DIR - .js.map')
 urlFixer.smart_replace(replacementsInJavascript, ASSET_DIR, ".js.map")
+print('simple_replace - simpleReplacementsInCssMap - ASSET_DIR - .js.map')
+urlFixer.simple_replace(simpleReplacementsInCssMap, ASSET_DIR, ".js.map")
 
 print('smart_replace - replacementsEverywhere - ASSET_DIR - .css')
 urlFixer.smart_replace(replacementsEverywhere, ASSET_DIR, ".css")
