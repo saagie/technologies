@@ -1,4 +1,4 @@
 image: saagie/superset
 baseTag: 3.0.2
-dynamicVersion: 1.179.0_SDKTECHNO-256
-version: 3.0.2-1.179.0
+dynamicVersion: 1.192.0_SDKTECHNO-274
+version: 3.0.2-1.192.0_SDKTECHNO-274
