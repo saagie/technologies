@@ -1,4 +1,4 @@
 image: saagie/python
 baseTag: 3.12-lite
 dynamicVersion: 1.193.0_SDKTECHNO-273
-version: 3.12-lite-1.193.0_SDKTECHNO-273
+version: 3.12-lite-1.193.0
