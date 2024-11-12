@@ -1,0 +1,24 @@
+#Datalake libraries
+cython==3.0.10
+pyarrow==16.1.0
+hdfs[avro,dataframe,kerberos]==2.7.3
+kerberos==1.3.1
+requests-kerberos==0.15.0
+pyodbc==5.1.0
+SQLAlchemy==2.0.31
+fastparquet==2024.5.0
+boto3==1.34.144
+ibis-framework[impala]==9.1.0
+trino==0.329.0
+
+#Datamart libraries
+pymongo==4.8.0
+mysql-connector-python==9.0.0
+psycopg2-binary==2.9.9
+
+#Data Science commmon libraries
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.9.1
+scikit-learn==1.5.1
+#saagieapi==2.12.1
