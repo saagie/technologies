@@ -18,6 +18,7 @@
 #
 # Prevent any errors from being silently ignored
 set -eo pipefail
+set -x
 
 attempt_setup_fake_passwd_entry() {
   # Check whether there is a passwd entry for the container UID
@@ -48,39 +49,16 @@ fi
 
 # BEGIN SAAGIE SPECIFIC CODE
 cd /sandbox
- # parse content and if pyfiles extract minio url and inject it
-if [ -f main_script ] && grep -q "\--py-files" main_script;
+if [ -f *.zip ]
 then
-  PYSPARK_FILES="`grep -Po '.*--py-files=\K[^ ]+' main_script`"
-fi;
-
-if [ -n "$PYSPARK_FILES" ]; then
-    PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
-    #Copy and unzip pyfiles
-    if [[ $PYSPARK_FILES == *[,]* ]];then
-      echo "PYSPARK_FILES contains comma"
-      pyfiles=$(echo $PYSPARK_FILES | tr "," "\n")
-
-      for file in $pyfiles
-      do
-          echo ">>> [$file]"
-          wget -nv $file
-      done
-    else
-      echo ">>> [$PYSPARK_FILES]"
-      wget -nv $PYSPARK_FILES
-    fi
-    if [ -f *.zip ]
-    then
-      unzip -q *.zip
-    fi
-    if [ -f "requirements.txt" ]
-    then
-      pip install -r requirements.txt
-    fi
-    rm -Rf /opt/spark/work-dir
-    ln -s /sandbox/ /opt/spark/work-dir
+  unzip -q *.zip
 fi
+if [ -f "requirements.txt" ]
+then
+  pip install -r requirements.txt
+fi
+rm -Rf /opt/spark/work-dir
+ln -s /sandbox/ /opt/spark/work-dir
 # END SAAGIE SPECIFIC CODE
 
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"

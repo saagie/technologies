@@ -28,7 +28,6 @@ fileContentTests:
     expectedContents:
       [
         'exec /sbin/tini -s -- ',
-        'wget -nv \$PYSPARK_FILES',
         'unzip -q \*\.zip',
         'ln -s /sandbox/ /opt/spark/work-dir',
         '--py-files=/sandbox/\*'
