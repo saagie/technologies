@@ -81,7 +81,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "2.4-py-3.7"
-              version: "2.4-py-3.7-1.194.0_sparkWithoutMinio"
+              version: "2.4-py-3.7-1.194.0"
   - id: "3.0"
     label: "3.0"
     available: true
@@ -150,7 +150,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.0-py-3.7"
-              version: "3.0-py-3.7-1.194.0_sparkWithoutMinio"
+              version: "3.0-py-3.7-1.194.0"
   - id: "3.1"
     label: "3.1"
     available: true
@@ -221,7 +221,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-py-3.7"
-              version: "3.1-py-3.7-1.194.0_sparkWithoutMinio"
+              version: "3.1-py-3.7-1.194.0"
           - id: "3.8"
             label: "3.8"
             available: true
@@ -230,7 +230,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-py-3.8"
-              version: "3.1-py-3.8-1.194.0_sparkWithoutMinio"
+              version: "3.1-py-3.8-1.194.0"
           - id: "3.9"
             label: "3.9"
             available: true
@@ -239,7 +239,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-py-3.9"
-              version: "3.1-py-3.9-1.194.0_sparkWithoutMinio"
+              version: "3.1-py-3.9-1.194.0"
   - id: "3.5"
     label: "3.5"
     available: true
@@ -314,7 +314,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.5-py-3.12"
-              version: "3.5-py-3.12-1.194.0_sparkWithoutMinio"
+              version: "3.5-py-3.12-1.194.0"
   - id: 3.1-aws
     label: 3.1 AWS
     available: true
@@ -385,7 +385,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-aws-py-3.7"
-              version: "3.1-aws-py-3.7-1.194.0_sparkWithoutMinio"
+              version: "3.1-aws-py-3.7-1.194.0"
           - id: "3.8"
             label: "3.8"
             available: true
@@ -394,7 +394,7 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-aws-py-3.8"
-              version: "3.1-aws-py-3.8-1.194.0_sparkWithoutMinio"
+              version: "3.1-aws-py-3.8-1.194.0"
           - id: "3.9"
             label: "3.9"
             available: true
@@ -403,4 +403,4 @@ contexts:
             dockerInfo:
               image: "saagie/spark"
               baseTag: "3.1-aws-py-3.9"
-              version: "3.1-aws-py-3.9-1.194.0_sparkWithoutMinio"
+              version: "3.1-aws-py-3.9-1.194.0"

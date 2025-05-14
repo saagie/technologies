@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.1-py-3.9
 dynamicVersion: 1.194.0_sparkWithoutMinio
-version: 3.1-py-3.9-1.194.0_sparkWithoutMinio
+version: 3.1-py-3.9-1.194.0
